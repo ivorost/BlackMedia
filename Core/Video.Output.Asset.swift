@@ -55,9 +55,9 @@ class VideoAssetOutputPositioned : VideoAssetOutput {
         // But not sure about efficient video size in this case.
         // Maybe it's better to try combing input stream buffers and write them at a time.
         
-        if let positionedPixelBuffer = position(pixelBuffer: pixelBuffer) {
-            pixelBuffer = positionedPixelBuffer
-        }
+//        if let positionedPixelBuffer = position(pixelBuffer: pixelBuffer) {
+//            pixelBuffer = positionedPixelBuffer
+//        }
 
         adaptor.append(pixelBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
     }
