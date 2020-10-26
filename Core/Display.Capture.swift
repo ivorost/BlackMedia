@@ -7,13 +7,15 @@
 //
 
 import AVFoundation
+import AppKit
 
 extension Capture {
     
     func display(config: (file: AVFileType, displays: [DisplayConfig], video: VideoConfig),
                  preview layer: AVCaptureVideoPreviewLayer,
                  output url: URL,
-                 progress: inout CaptureProgress?) throws -> SessionProtocol {
+                 progress: inout CaptureProgress?,
+                 fps: FuncWithDouble?) throws -> SessionProtocol {
 
         var sessions = [SessionProtocol]()
         let videoSettings = CaptureSettings.video(config: config.video)
@@ -43,10 +45,16 @@ extension Capture {
                                                          settings: videoSettings,
                                                          videoSize: config.video.dimensions.size,
                                                          assetRect: displayConfig.rect)
+            var output: VideoOutputProtocol = assetOutput
+            
+            if let fps = fps {
+                output = VideoFPS(callback: fps, target: output)
+            }
+            
             let videoOutput = VideoOutput(session: captureSession,
                                           queue: Capture.shared.queue,
-                                          output: assetOutput)
-
+                                          output: output)
+            
             displayInputs.append(input)
             displayAssetOutputs.append(assetOutput)
             displayOutputs.append(videoOutput)

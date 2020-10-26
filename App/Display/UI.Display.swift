@@ -23,6 +23,7 @@ class DisplayCaptureController : CaptureController {
     }
     
     @IBOutlet private var screenPreviewTemplate: DisplayPreviewView!
+    @IBOutlet private var fpsLabel: NSTextField!
     private var DisplayPreviewsController: DisplayPreviewsController?
     private var privacyController: PrivacyViewController?
 
@@ -62,12 +63,18 @@ class DisplayCaptureController : CaptureController {
                                       fps: CMTime.video(fps: 60),
                                       dimensions: CMVideoDimensions(width: Int32(videoRect.width),
                                                                     height: Int32(videoRect.height)))
+        let fps: FuncWithDouble = { fps in
+            dispatchMainAsync {
+                self.fpsLabel.stringValue = "\(Int(fps))"
+            }
+        }
 
         var progress: CaptureProgress?
         let session = try Capture.shared.display(config: (file: .mov, displays: displaysConfigs, video: videoConfig),
                                                  preview: previewView.captureLayer,
                                                  output: url,
-                                                 progress: &progress)
+                                                 progress: &progress,
+                                                 fps: fps)
         
         return (session: session, progress: progress)
     }

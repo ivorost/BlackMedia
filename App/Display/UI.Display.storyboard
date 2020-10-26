@@ -10,20 +10,20 @@
             <objects>
                 <viewController id="XNb-RB-w34" customClass="DisplayCaptureController" customModule="Capture" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="p0u-dM-0Pc" userLabel="Video">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="550"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="590"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="BP6-W3-hHL" customClass="CaptureVideoPreviewView" customModule="Capture" customModuleProvider="target">
-                                <rect key="frame" x="20" y="316" width="410" height="214"/>
+                                <rect key="frame" x="20" y="345" width="410" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="hXc-ul-MIF"/>
                                 </constraints>
                             </customView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="751" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="huM-xh-EAx">
-                                <rect key="frame" x="20" y="61" width="410" height="235"/>
+                                <rect key="frame" x="20" y="61" width="410" height="264"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="sQD-ln-BrR">
-                                        <rect key="frame" x="0.0" y="214" width="410" height="21"/>
+                                        <rect key="frame" x="0.0" y="243" width="410" height="21"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="alL-lo-Iye">
                                                 <rect key="frame" x="-2" y="3" width="79" height="16"/>
@@ -62,6 +62,32 @@
                                             <constraint firstItem="X2u-4X-ROg" firstAttribute="centerY" secondItem="sQD-ln-BrR" secondAttribute="centerY" constant="1" id="xvE-Rz-jws"/>
                                         </constraints>
                                     </customView>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="YbE-zG-4ru">
+                                        <rect key="frame" x="0.0" y="214" width="410" height="21"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0My-SZ-DKi">
+                                                <rect key="frame" x="-2" y="3" width="36" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="FPS: " id="Lf6-Ci-qZi">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AuH-Fn-Wg7">
+                                                <rect key="frame" x="38" y="3" width="50" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" id="0kn-W6-gO9">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="ieX-Ly-3ea"/>
+                                        </constraints>
+                                    </customView>
                                     <containerView translatesAutoresizingMaskIntoConstraints="NO" id="EpS-Lr-rTS">
                                         <rect key="frame" x="0.0" y="56" width="410" height="150"/>
                                         <constraints>
@@ -92,7 +118,9 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4xh-1W-YUC" secondAttribute="trailing" id="6YS-pE-gs0"/>
                                     <constraint firstAttribute="trailing" secondItem="bGQ-vg-okz" secondAttribute="trailing" id="7Zj-tM-xtN"/>
+                                    <constraint firstAttribute="trailing" secondItem="YbE-zG-4ru" secondAttribute="trailing" id="O0X-V0-Dpz"/>
                                     <constraint firstItem="4xh-1W-YUC" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="iQI-4o-Xnh"/>
+                                    <constraint firstItem="YbE-zG-4ru" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="nxS-0V-Ip4"/>
                                     <constraint firstItem="bGQ-vg-okz" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="wRa-oP-gc5"/>
                                 </constraints>
                                 <visibilityPriorities>
@@ -100,8 +128,10 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -168,6 +198,7 @@
                     </view>
                     <connections>
                         <outlet property="errorLabel" destination="4xh-1W-YUC" id="dmD-ho-zJe"/>
+                        <outlet property="fpsLabel" destination="AuH-Fn-Wg7" id="ifL-ce-i7Z"/>
                         <outlet property="previewView" destination="BP6-W3-hHL" id="NOu-kv-mEG"/>
                         <outlet property="progressView" destination="X2u-4X-ROg" id="6V7-Gt-YHV"/>
                         <outlet property="revealInFinderButton" destination="W8t-xO-NAT" id="b8o-3F-2Md"/>
