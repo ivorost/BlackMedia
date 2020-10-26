@@ -66,18 +66,36 @@
                                         <rect key="frame" x="0.0" y="214" width="410" height="21"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0My-SZ-DKi">
-                                                <rect key="frame" x="-2" y="3" width="36" height="16"/>
+                                                <rect key="frame" x="-2" y="3" width="70" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" lineBreakMode="clipping" title="FPS: " id="Lf6-Ci-qZi">
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Input FPS: " id="Lf6-Ci-qZi">
                                                     <font key="font" usesAppearanceFont="YES"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AuH-Fn-Wg7">
-                                                <rect key="frame" x="38" y="3" width="50" height="16"/>
+                                                <rect key="frame" x="72" y="3" width="50" height="16"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" id="0kn-W6-gO9">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfH-0Y-Hio">
+                                                <rect key="frame" x="170" y="3" width="81" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Output FPS: " id="ErZ-tM-7Lx">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rBs-dU-hgD">
+                                                <rect key="frame" x="255" y="3" width="50" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" id="tKV-0F-asK">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -198,7 +216,8 @@
                     </view>
                     <connections>
                         <outlet property="errorLabel" destination="4xh-1W-YUC" id="dmD-ho-zJe"/>
-                        <outlet property="fpsLabel" destination="AuH-Fn-Wg7" id="ifL-ce-i7Z"/>
+                        <outlet property="inputFPSLabel" destination="AuH-Fn-Wg7" id="Q8U-fN-0ci"/>
+                        <outlet property="outputFPSLabel" destination="rBs-dU-hgD" id="FkD-K2-ny6"/>
                         <outlet property="previewView" destination="BP6-W3-hHL" id="NOu-kv-mEG"/>
                         <outlet property="progressView" destination="X2u-4X-ROg" id="6V7-Gt-YHV"/>
                         <outlet property="revealInFinderButton" destination="W8t-xO-NAT" id="b8o-3F-2Md"/>

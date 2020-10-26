@@ -23,7 +23,8 @@ class DisplayCaptureController : CaptureController {
     }
     
     @IBOutlet private var screenPreviewTemplate: DisplayPreviewView!
-    @IBOutlet private var fpsLabel: NSTextField!
+    @IBOutlet private var inputFPSLabel: NSTextField!
+    @IBOutlet private var outputFPSLabel: NSTextField!
     private var DisplayPreviewsController: DisplayPreviewsController?
     private var privacyController: PrivacyViewController?
 
@@ -63,9 +64,15 @@ class DisplayCaptureController : CaptureController {
                                       fps: CMTime.video(fps: 60),
                                       dimensions: CMVideoDimensions(width: Int32(videoRect.width),
                                                                     height: Int32(videoRect.height)))
-        let fps: FuncWithDouble = { fps in
+        let inputFPS: FuncWithDouble = { fps in
             dispatchMainAsync {
-                self.fpsLabel.stringValue = "\(Int(fps))"
+                self.inputFPSLabel.stringValue = "\(Int(fps))"
+            }
+        }
+
+        let outputFPS: FuncWithDouble = { fps in
+            dispatchMainAsync {
+                self.outputFPSLabel.stringValue = "\(Int(fps))"
             }
         }
 
@@ -74,7 +81,8 @@ class DisplayCaptureController : CaptureController {
                                                  preview: previewView.captureLayer,
                                                  output: url,
                                                  progress: &progress,
-                                                 fps: fps)
+                                                 inputFPS: inputFPS,
+                                                 outputFPS: outputFPS)
         
         return (session: session, progress: progress)
     }

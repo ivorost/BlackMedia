@@ -15,7 +15,8 @@ extension Capture {
                  preview layer: AVCaptureVideoPreviewLayer,
                  output url: URL,
                  progress: inout CaptureProgress?,
-                 fps: FuncWithDouble?) throws -> SessionProtocol {
+                 inputFPS: FuncWithDouble?,
+                 outputFPS: FuncWithDouble?) throws -> SessionProtocol {
 
         var sessions = [SessionProtocol]()
         let videoSettings = CaptureSettings.video(config: config.video)
@@ -47,10 +48,16 @@ extension Capture {
                                                          assetRect: displayConfig.rect)
             var output: VideoOutputProtocol = assetOutput
             
-            if let fps = fps {
+            if let fps = outputFPS {
                 output = VideoFPS(callback: fps, target: output)
             }
-            
+
+            output = VideoRemoveDuplicateFrames(output)
+                        
+            if let fps = inputFPS {
+                output = VideoFPS(callback: fps, target: output)
+            }
+
             let videoOutput = VideoOutput(session: captureSession,
                                           queue: Capture.shared.queue,
                                           output: output)

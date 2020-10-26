@@ -61,6 +61,7 @@
 		82C950892546FD6B0025663F /* Common.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C950862546FD6B0025663F /* Common.URL.swift */; };
 		82C9508B25473F550025663F /* Video.FPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9508A25473F540025663F /* Video.FPS.swift */; };
 		82C9508D254746160025663F /* Swift.Func.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9508C254746160025663F /* Swift.Func.swift */; };
+		82C9508F25474AB80025663F /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9508E25474AB80025663F /* Video.Duplicates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,7 @@
 		82C950862546FD6B0025663F /* Common.URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.URL.swift; sourceTree = "<group>"; };
 		82C9508A25473F540025663F /* Video.FPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.FPS.swift; sourceTree = "<group>"; };
 		82C9508C254746160025663F /* Swift.Func.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Func.swift; sourceTree = "<group>"; };
+		82C9508E25474AB80025663F /* Video.Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Duplicates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 				82C9501D2546F6830025663F /* Video.Output.Preview.swift */,
 				82C9501E2546F6830025663F /* Video.Output.swift */,
 				82C9508A25473F540025663F /* Video.FPS.swift */,
+				82C9508E25474AB80025663F /* Video.Duplicates.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				82C950872546FD6B0025663F /* Common.Date.swift in Sources */,
 				82C9503D2546F7210025663F /* UI.Display.Privacy.swift in Sources */,
 				82C9502A2546F6830025663F /* Audio.Input.swift in Sources */,
+				82C9508F25474AB80025663F /* Video.Duplicates.swift in Sources */,
 				82C950802546FD100025663F /* Foundation.Thread.Exec.swift in Sources */,
 				82C950662546F8F30025663F /* Swift.String.swift in Sources */,
 				82C950602546F8F30025663F /* CoreMedia.swift in Sources */,
