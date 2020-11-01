@@ -11,29 +11,26 @@ import AppKit
 
 
 fileprivate extension TimeInterval {
-    static let blockDuration: TimeInterval = 1.5 // 1.5 second
+    static let blockDuration: TimeInterval = 1 // 1.5 second
 }
 
 
 fileprivate extension Int {
-    static let maxBlockCount: Int = 5
+    static let maxBlockCount: Int = 3
 }
 
 
-class VideoFPS : VideoOutputProxy {
-    private var data = [(framesCount: Double, startDate: Date)]()
+class MeasureCPS {
+    private var data = [(count: Int, startDate: Date)]()
     private var callback: FuncWithDouble?
     
-    init(callback: @escaping FuncWithDouble, target: VideoOutputProtocol? = nil) {
+    init(callback: @escaping FuncWithDouble) {
         self.callback = callback
-        super.init(target)
     }
     
-    override func process(video: CMSampleBuffer) {
-        super.process(video: video)
-
-        if let fps = calcFPS() {
-            process(fps: fps)
+    func measure(count: Int) {
+        if let cps = calcCPS() {
+            process(cps: cps)
         }
         
         if data.count >= .maxBlockCount {
@@ -50,23 +47,23 @@ class VideoFPS : VideoOutputProxy {
             return
         }
 
-        data[data.count-1].framesCount += 1
+        data[data.count-1].count += count
     }
     
-    open func process(fps: Double) {
-        callback?(fps)
+    open func process(cps: Double) {
+        callback?(cps)
     }
     
     private func startNewBlock() {
-        data.append((framesCount: 1, startDate: Date()))
+        data.append((count: 1, startDate: Date()))
     }
     
-    private func calcFPS() -> Double? {
+    private func calcCPS() -> Double? {
         guard let firstData = data.first else { return nil }
         
         let startDate = firstData.startDate
-        let framesCount = data.map{ $0.framesCount }.reduce(0, +)
+        let count = data.map{ $0.count }.reduce(0, +)
         
-        return framesCount / Date().timeIntervalSince(startDate)
+        return Double(count) / Date().timeIntervalSince(startDate)
     }
 }

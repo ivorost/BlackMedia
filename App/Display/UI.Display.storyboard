@@ -13,7 +13,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="590"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="BP6-W3-hHL" customClass="CaptureVideoPreviewView" customModule="Capture" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="BP6-W3-hHL" customClass="SampleBufferDisplayView" customModule="Capture" customModuleProvider="target">
                                 <rect key="frame" x="20" y="345" width="410" height="225"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="hXc-ul-MIF"/>

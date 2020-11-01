@@ -40,16 +40,26 @@ protocol VideoOutputProtocol {
 }
 
 
-class VideoOutputProxy : VideoOutputProtocol {
+class VideoOutputImpl : VideoOutputProtocol {
     
-    var target: VideoOutputProtocol?
+    var next: VideoOutputProtocol?
+    var measure: MeasureProtocol?
     
-    init(_ target: VideoOutputProtocol? = nil) {
-        self.target = target
+    init(next: VideoOutputProtocol? = nil, measure: MeasureProtocol? = nil) {
+        self.next = next
+        self.measure = measure
     }
     
     func process(video: CMSampleBuffer) {
-        target?.process(video: video)
+        measure?.begin()
+        let processNext = processSelf(video: video)
+        measure?.end()
+        if processNext { next?.process(video: video) }
+    }
+    
+    func processSelf(video: CMSampleBuffer) -> Bool {
+        // to override
+        return true
     }
 }
 

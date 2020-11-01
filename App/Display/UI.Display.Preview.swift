@@ -21,6 +21,5 @@ class DisplayPreviewView : NSView {
     static func instantiate(storyboard: NSStoryboard?) -> DisplayPreviewView? {
         let controller = storyboard?.instantiateController(withIdentifier: .identifier) as? NSViewController
         return controller?.view as? DisplayPreviewView
-        
     }
 }

@@ -78,7 +78,7 @@ class DisplayCaptureController : CaptureController {
 
         var progress: CaptureProgress?
         let session = try Capture.shared.display(config: (file: .mov, displays: displaysConfigs, video: videoConfig),
-                                                 preview: previewView.captureLayer,
+                                                 preview: previewView.sampleLayer,
                                                  output: url,
                                                  progress: &progress,
                                                  inputFPS: inputFPS,

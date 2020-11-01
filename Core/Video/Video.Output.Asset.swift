@@ -47,7 +47,7 @@ class VideoAssetOutputPositioned : VideoAssetOutput {
 
     override func append(sampleBuffer: CMSampleBuffer) {
         guard
-            var pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) as CVPixelBuffer?
+            let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) as CVPixelBuffer?
             else { assert(false); return }
         
         // Now it's only one stream in the resulting video, and on place of second one just gray area.

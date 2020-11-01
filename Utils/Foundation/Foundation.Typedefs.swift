@@ -26,6 +26,5 @@ import Foundation
 public typealias Func = () -> Void
 public typealias FuncThrows = () throws -> Void
 public typealias FuncReturningBool = () -> Bool
-public typealias FuncVVT = () throws -> Void
-public typealias FuncDV = (Double) -> Void
-public typealias FuncDDV = (Double, Double) -> Void
+public typealias FuncReturningInt = () -> Int
+public typealias FuncWithDouble = (Double) -> Void

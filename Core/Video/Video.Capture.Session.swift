@@ -8,7 +8,7 @@
 
 import AVFoundation
 
-class VideoOutput : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, SessionProtocol {
+class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, SessionProtocol {
     
     private let session: AVCaptureSession
     private let queue: DispatchQueue

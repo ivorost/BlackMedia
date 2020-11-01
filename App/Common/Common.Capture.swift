@@ -14,7 +14,7 @@ class CaptureController : NSViewController {
         case unimplemented
     }
 
-    @IBOutlet private(set) var previewView: CaptureVideoPreviewView!
+    @IBOutlet private(set) var previewView: SampleBufferDisplayView!
     @IBOutlet private var startButton: NSButton!
     @IBOutlet private var stopButton: NSButton!
     @IBOutlet private var revealInFinderButton: NSButton!

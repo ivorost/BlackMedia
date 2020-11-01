@@ -15,5 +15,6 @@ class Capture {
     }
 
     static let shared = Capture()
-    let queue = DispatchQueue.CreateCheckable("capture_queue")
+    let captureQueue = DispatchQueue.CreateCheckable("capture_queue")
+    let outputQueue = DispatchQueue.CreateCheckable("output_queue")
 }

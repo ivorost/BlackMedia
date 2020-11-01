@@ -12,7 +12,7 @@ import AppKit
 extension Capture {
     
     func display(config: (file: AVFileType, displays: [DisplayConfig], video: VideoConfig),
-                 preview layer: AVCaptureVideoPreviewLayer,
+                 preview layer: AVSampleBufferDisplayLayer,
                  output url: URL,
                  progress: inout CaptureProgress?,
                  inputFPS: FuncWithDouble?,
@@ -35,7 +35,7 @@ extension Capture {
 
         var displayInputs = [DisplayInput]()
         var displayAssetOutputs = [VideoAssetOutput]()
-        var displayOutputs = [VideoOutput]()
+        var displayOutputs = [VideoCaptureSession]()
 
         for displayConfig in config.displays {
             let input = DisplayInput(session: captureSession,
@@ -46,34 +46,42 @@ extension Capture {
                                                          settings: videoSettings,
                                                          videoSize: config.video.dimensions.size,
                                                          assetRect: displayConfig.rect)
-            var output: VideoOutputProtocol = assetOutput
+
+            let preview = VideoOutputLayer(layer)
+            var output: VideoOutputProtocol = preview
+
+//            output = VideoH264Serializer(next: nil)
+//            
+//            let dimensions = CMVideoDimensions(width: 1920, height: 1080)
+//            let encoderH264 = VideoEncoderSessionH264(inputDimension: dimensions, outputDimentions: dimensions, next: output)
+//            
+//            sessions.append(encoderH264)
+//            output = encoderH264
             
             if let fps = outputFPS {
-                output = VideoFPS(callback: fps, target: output)
+                output = VideoFPS(next: output, measure: MeasureFPSPrint(title: "fps (duplicates)", callback: fps))
             }
-
-            output = VideoRemoveDuplicateFrames(output)
-                        
+            
+            output = VideoRemoveDuplicateFrames(next: output,
+                                                measure: MeasureDurationAveragePrint(title: "duration (duplicates)"))
+            
             if let fps = inputFPS {
-                output = VideoFPS(callback: fps, target: output)
+                output = VideoFPS(next: output, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
             }
 
-            let videoOutput = VideoOutput(session: captureSession,
-                                          queue: Capture.shared.queue,
-                                          output: output)
+            let videoOutput = VideoCaptureSession(session: captureSession,
+                                                  queue: Capture.shared.captureQueue,
+                                                  output: output)
             
             displayInputs.append(input)
             displayAssetOutputs.append(assetOutput)
             displayOutputs.append(videoOutput)
+            sessions.append(preview)
         }
 
         let displayInput = broadcast(displayInputs)
         let displayOutput = broadcast(displayOutputs)
         let displayAssetOutput = broadcast(displayAssetOutputs)
-
-        // Output
-
-        let preview = VideoPreview(layer, captureSession)
 
         // Size monitoring
         
@@ -85,13 +93,12 @@ extension Capture {
         if let displayOutput = displayOutput { sessions.append(displayOutput) }
         if let displayAssetOutput = displayAssetOutput { sessions.append(displayAssetOutput) }
         sessions.append(assetWriterSession)
-        sessions.append(preview)
         if let displayInput = displayInput { sessions.append(displayInput) }
         sessions.append(sizeMonitorSession)
         sessions.append(captureSession)
 
         progress = sizeMonitorSession
-        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.queue)
+        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)
     }
 
 }

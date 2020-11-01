@@ -29,7 +29,7 @@ extension Capture {
         let audioInput =
             AudioInput(session: captureSession,
                        device: config.audioDevice,
-                       queue: Capture.shared.queue,
+                       queue: Capture.shared.captureQueue,
                        output: audioOutputProxy)
 
         // Video Input
@@ -54,9 +54,9 @@ extension Capture {
         let videoAssetOutput = VideoAssetOutput(asset: assetWriter,
                                                 assetSession: assetWriterSession,
                                                 settings: videoSettings)
-        let videoOutput = VideoOutput(session: captureSession,
-                                      queue: Capture.shared.queue,
-                                      output: videoAssetOutput)
+        let videoOutput = VideoCaptureSession(session: captureSession,
+                                              queue: Capture.shared.captureQueue,
+                                              output: videoAssetOutput)
 
         audioOutputProxy.target = audioAssetOutput
 
@@ -78,6 +78,6 @@ extension Capture {
         sessions.append(captureSession)
 
         progress = sizeMonitorSession
-        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.queue)
+        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)
     }
 }
