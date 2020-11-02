@@ -2,6 +2,10 @@
 import AVFoundation
 import VideoToolbox
 
+enum VideoError {
+    case generic(string: String)
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Session
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +38,7 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         self.next = next
         self.callback = callback
     }
-
+    
     private var sessionCallback: VTCompressionOutputCallback = {(
         outputCallbackRefCon:UnsafeMutableRawPointer?,
         sourceFrameRefCon:UnsafeMutableRawPointer?,
@@ -42,26 +46,21 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         infoFlags:VTEncodeInfoFlags,
         sampleBuffer_:CMSampleBuffer?
         ) in
-
+        
         let SELF: VideoEncoderSessionH264 = unsafeBitCast(outputCallbackRefCon, to: VideoEncoderSessionH264.self)
         guard let sampleBuffer = sampleBuffer_ else { logError("VideoEncoderSessionH264 nil buffer"); return }
         
-        do {
-            if status != 0 {
-                assert(false)
-//                throw "VTCompressionSession to H264 failed"
-            }
-            
-            Capture.shared.captureQueue.async {
-                SELF.callback?(SELF)
-                SELF.next?.process(video: sampleBuffer)
-            }
-        }
-        catch {
-            logError(error)
+        if status != 0 {
+            logAVError("VTCompressionSession to H264 failed")
+            return
         }
         
-    } as VTCompressionOutputCallback
+        Capture.shared.captureQueue.async {
+            SELF.callback?(SELF)
+            SELF.next?.process(video: sampleBuffer)
+        }
+        
+        } as VTCompressionOutputCallback
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IOSessionProtocol

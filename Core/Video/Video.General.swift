@@ -64,6 +64,43 @@ class VideoOutputImpl : VideoOutputProtocol {
 }
 
 
+class VideoOutputDispatch : VideoOutputProtocol {
+    let next: VideoOutputProtocol?
+    let queue: DispatchQueue
+    
+    init(next: VideoOutputProtocol?, queue: DispatchQueue) {
+        self.next = next
+        self.queue = queue
+    }
+    
+    func process(video: CMSampleBuffer) {
+        if let next = next {
+            queue.async {
+                next.process(video: video)
+            }
+        }
+    }
+}
+
+
+class VideoOutputBroadcast : VideoOutputProtocol {
+    private let array: [VideoOutputProtocol?]
+    
+    init(_ array: [VideoOutputProtocol?]) {
+        self.array = array
+    }
+
+    func process(video: CMSampleBuffer) {
+        for i in array { i?.process(video: video) }
+    }
+}
+
+
+func broadcast(_ x: [VideoOutputProtocol]) -> VideoOutputProtocol? {
+    return broadcast(x, create: { VideoOutputBroadcast(x) })
+}
+
+
 protocol VideoSessionProtocol : SessionProtocol {
     
     func update(_ outputFormat: VideoConfig) throws
@@ -95,14 +132,7 @@ class VideoSessionBroadcast : SessionBroadcast, VideoSessionProtocol {
 
 
 func broadcast(_ x: [VideoSessionProtocol]) -> VideoSessionProtocol? {
-    if (x.count == 0) {
-        return nil
-    }
-    if (x.count == 1) {
-        return x.first
-    }
-    
-    return VideoSessionBroadcast(x)
+    return broadcast(x, create: { VideoSessionBroadcast(x) })
 }
 
 

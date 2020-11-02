@@ -1,6 +1,9 @@
 
 import AVFoundation
 
+protocol DataProcessor {
+    func process(data: NSData)
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Session
@@ -75,14 +78,7 @@ extension AVCaptureSession : SessionProtocol {
 
 
 func broadcast(_ x: [SessionProtocol]) -> SessionProtocol? {
-    if (x.count == 0) {
-        return nil
-    }
-    if (x.count == 1) {
-        return x.first
-    }
-    
-    return SessionBroadcast(x)
+    broadcast(x, create: { SessionBroadcast(x) })
 }
 
 
@@ -140,4 +136,33 @@ func logAVError(_ error: Error) {
 
 func logAVError(_ error: String) {
     logError("IO", error)
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Broadcast
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func broadcast<T>(_ x: [T?], create: () -> T?) -> T? {
+    if (x.count == 0) {
+        return nil
+    }
+    if (x.count == 1) {
+        return x[0]
+    }
+    
+    return create()
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Broadcast
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+enum CaptureError : Error {
+    case status(code: OSStatus, message: String)
+}
+
+func checkStatus(_ status: OSStatus, _ message: String) throws {
+    guard status == 0 else {
+        throw CaptureError.status(code: status, message: message)
+    }
 }

@@ -155,9 +155,9 @@ class VideoRemoveDuplicateFrames : VideoOutputImpl {
         let imageBuffer = CMSampleBufferGetImageBuffer(video)
         var process = true
 
-        if process && lastImageBuffer == imageBuffer {
-            process = false
-        }
+//        if process && lastImageBuffer == imageBuffer {
+//            process = false
+//        }
 
         if process,
             let lastImageBuffer = lastImageBuffer,

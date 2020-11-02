@@ -13,91 +13,91 @@ extension Capture {
     
     func display(config: (file: AVFileType, displays: [DisplayConfig], video: VideoConfig),
                  preview layer: AVSampleBufferDisplayLayer,
-                 output url: URL,
-                 progress: inout CaptureProgress?,
                  inputFPS: FuncWithDouble?,
                  outputFPS: FuncWithDouble?) throws -> SessionProtocol {
 
         var sessions = [SessionProtocol]()
-        let videoSettings = CaptureSettings.video(config: config.video)
 
-        // Input
+        // Capture
         
-        let captureSession = AVCaptureSession()
-        captureSession.sessionPreset = .high
-
-        // Asset writer
-        
-        let assetWriter = try AVAssetWriter(url: url, fileType: config.file)
-        let assetWriterSession = AssetWriterSession(asset: assetWriter)
+        let avCaptureSession = AVCaptureSession()
+        avCaptureSession.sessionPreset = .high
 
         // Displays
 
         var displayInputs = [DisplayInput]()
-        var displayAssetOutputs = [VideoAssetOutput]()
         var displayOutputs = [VideoCaptureSession]()
 
         for displayConfig in config.displays {
-            let input = DisplayInput(session: captureSession,
-                                     display: displayConfig,
-                                     video: config.video)
-            let assetOutput = VideoAssetOutputPositioned(asset: assetWriter,
-                                                         assetSession: assetWriterSession,
-                                                         settings: videoSettings,
-                                                         videoSize: config.video.dimensions.size,
-                                                         assetRect: displayConfig.rect)
+            let dimensions = CMVideoDimensions(width: Int32(displayConfig.rect.width),
+                                               height: Int32(displayConfig.rect.height))
+
+            // Output
+            
+            var output = [VideoOutputProtocol]()
 
             let preview = VideoOutputLayer(layer)
-            var output: VideoOutputProtocol = preview
 
-//            output = VideoH264Serializer(next: nil)
-//            
-//            let dimensions = CMVideoDimensions(width: 1920, height: 1080)
-//            let encoderH264 = VideoEncoderSessionH264(inputDimension: dimensions, outputDimentions: dimensions, next: output)
-//            
-//            sessions.append(encoderH264)
-//            output = encoderH264
+            let h264deserializer = VideoH264Deserializer(preview)
             
+            let h264serializer = VideoH264Serializer(h264deserializer)
+
+            let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
+                                                      outputDimentions: dimensions,
+                                                      next: h264serializer)
+
+            output.append(h264encoder)
+
+            #if DEBUG
             if let fps = outputFPS {
-                output = VideoFPS(next: output, measure: MeasureFPSPrint(title: "fps (duplicates)", callback: fps))
+//                output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
+                output.append(VideoFPS(MeasureFPS(callback: fps)))
             }
+            #endif
             
-            output = VideoRemoveDuplicateFrames(next: output,
-                                                measure: MeasureDurationAveragePrint(title: "duration (duplicates)"))
+            // Capture
             
-            if let fps = inputFPS {
-                output = VideoFPS(next: output, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
-            }
+            var removeDuplicatesMeasure: MeasureProtocol?
+            
+            #if DEBUG
+//            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
+            #endif
 
-            let videoOutput = VideoCaptureSession(session: captureSession,
-                                                  queue: Capture.shared.captureQueue,
-                                                  output: output)
+            var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
+                                                                          measure: removeDuplicatesMeasure)
+            
+            #if DEBUG
+            if let fps = inputFPS {
+//                capture = VideoFPS(next: capture, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
+                capture = VideoFPS(next: capture, measure: MeasureFPS(callback: fps))
+            }
+            #endif
+
+            let captureSession = VideoCaptureSession(session: avCaptureSession,
+                                                     queue: Capture.shared.captureQueue,
+                                                     output: capture)
+            
+            let input = DisplayInput(session: avCaptureSession,
+                                     display: displayConfig,
+                                     video: config.video)
+
+            // Setup
             
             displayInputs.append(input)
-            displayAssetOutputs.append(assetOutput)
-            displayOutputs.append(videoOutput)
+            displayOutputs.append(captureSession)
             sessions.append(preview)
+            sessions.append(h264encoder)
         }
 
         let displayInput = broadcast(displayInputs)
         let displayOutput = broadcast(displayOutputs)
-        let displayAssetOutput = broadcast(displayAssetOutputs)
 
         // Size monitoring
         
-        let sizeMonitorSession = SizeMonitorSession(url: url, interval: 1)
-        
-        // flush each 10 second
-        assetWriter.movieFragmentInterval = CMTime(seconds: 10, preferredTimescale: .prefferedVideoTimescale)
-
         if let displayOutput = displayOutput { sessions.append(displayOutput) }
-        if let displayAssetOutput = displayAssetOutput { sessions.append(displayAssetOutput) }
-        sessions.append(assetWriterSession)
         if let displayInput = displayInput { sessions.append(displayInput) }
-        sessions.append(sizeMonitorSession)
-        sessions.append(captureSession)
+        sessions.append(avCaptureSession)
 
-        progress = sizeMonitorSession
         return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)
     }
 

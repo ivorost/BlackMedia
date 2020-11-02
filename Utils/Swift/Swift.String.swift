@@ -8,6 +8,9 @@
 
 import Foundation
 
+extension String : Error {
+}
+
 public extension String {
     static let empty = ""
     static let whitespace = " "

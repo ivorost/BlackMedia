@@ -13,8 +13,13 @@
 		822764C225495D0D00C2E46D /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 822764C125495D0D00C2E46D /* Video.Duplicates.metal */; };
 		822D397B254F07D8003B1861 /* Measure.Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D397A254F07D8003B1861 /* Measure.Duration.swift */; };
 		822D397D254F0B9A003B1861 /* Measure.Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D397C254F0B9A003B1861 /* Measure.Base.swift */; };
+		822D397F25503AD7003B1861 /* Video.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D397E25503AD7003B1861 /* Video.Time.swift */; };
+		822D398125503B06003B1861 /* AV.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D398025503B06003B1861 /* AV.Time.swift */; };
+		822D39842550400B003B1861 /* Network.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D39832550400B003B1861 /* Network.Packet.swift */; };
+		822D398625505783003B1861 /* Swift.Struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D398525505783003B1861 /* Swift.Struct.swift */; };
 		82312117254EF13E007D5B1B /* Video.Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82312116254EF13E007D5B1B /* Video.Measure.swift */; };
 		82312119254EF2B8007D5B1B /* Video.Output.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82312118254EF2B7007D5B1B /* Video.Output.Layer.swift */; };
+		823D0F3825507D6100F8C852 /* MetalKit.CVMetalTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */; };
 		82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FE92546F58D0025663F /* AppDelegate.swift */; };
 		82C94FEC2546F58D0025663F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FEB2546F58D0025663F /* ViewController.swift */; };
 		82C94FEE2546F5930025663F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82C94FED2546F5930025663F /* Assets.xcassets */; };
@@ -95,8 +100,13 @@
 		822764C125495D0D00C2E46D /* Video.Duplicates.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Video.Duplicates.metal; sourceTree = "<group>"; };
 		822D397A254F07D8003B1861 /* Measure.Duration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measure.Duration.swift; sourceTree = "<group>"; };
 		822D397C254F0B9A003B1861 /* Measure.Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measure.Base.swift; sourceTree = "<group>"; };
+		822D397E25503AD7003B1861 /* Video.Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Time.swift; sourceTree = "<group>"; };
+		822D398025503B06003B1861 /* AV.Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AV.Time.swift; sourceTree = "<group>"; };
+		822D39832550400B003B1861 /* Network.Packet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.Packet.swift; sourceTree = "<group>"; };
+		822D398525505783003B1861 /* Swift.Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Struct.swift; sourceTree = "<group>"; };
 		82312116254EF13E007D5B1B /* Video.Measure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Measure.swift; sourceTree = "<group>"; };
 		82312118254EF2B7007D5B1B /* Video.Output.Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Output.Layer.swift; sourceTree = "<group>"; };
+		823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalKit.CVMetalTexture.swift; sourceTree = "<group>"; };
 		82C94FE62546F58D0025663F /* Capture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C94FE92546F58D0025663F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82C94FEB2546F58D0025663F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +195,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		822D398225503FEF003B1861 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				822D39832550400B003B1861 /* Network.Packet.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		82312111254EF063007D5B1B /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				82C950172546F6820025663F /* Video.General.swift */,
+				822D397E25503AD7003B1861 /* Video.Time.swift */,
 				82C9501A2546F6820025663F /* Video.Capture.swift */,
 				82C9501E2546F6830025663F /* Video.Capture.Session.swift */,
 				82C950182546F6820025663F /* Video.Input.swift */,
@@ -218,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				82C950202546F6830025663F /* AV.General.swift */,
+				822D398025503B06003B1861 /* AV.Time.swift */,
 				82C950192546F6820025663F /* AV.Input.swift */,
 				82C950242546F6830025663F /* AV.Output.swift */,
 				82C950222546F6830025663F /* AV.swift */,
@@ -243,6 +263,14 @@
 				822D397A254F07D8003B1861 /* Measure.Duration.swift */,
 			);
 			path = Measure;
+			sourceTree = "<group>";
+		};
+		823D0F3625507D2E00F8C852 /* MetalKit */ = {
+			isa = PBXGroup;
+			children = (
+				823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */,
+			);
+			path = MetalKit;
 			sourceTree = "<group>";
 		};
 		82C94FDD2546F58D0025663F = {
@@ -304,6 +332,7 @@
 		82C950152546F6350025663F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				822D398225503FEF003B1861 /* Network */,
 				82312113254EF07A007D5B1B /* Capture */,
 				82312115254EF119007D5B1B /* Measure */,
 				82312111254EF063007D5B1B /* Audio */,
@@ -336,6 +365,7 @@
 				82C9504C2546F8F30025663F /* CoreMedia */,
 				82C9504E2546F8F30025663F /* Foundation */,
 				82C950532546F8F30025663F /* QuartzCore */,
+				823D0F3625507D2E00F8C852 /* MetalKit */,
 				82C950552546F8F30025663F /* Swift */,
 				82C950572546F8F30025663F /* UI */,
 			);
@@ -404,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				82C950562546F8F30025663F /* Swift.String.swift */,
+				822D398525505783003B1861 /* Swift.Struct.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -578,14 +609,17 @@
 				82C9503C2546F7210025663F /* UI.Display.Previews.swift in Sources */,
 				82C950612546F8F30025663F /* Foundation.Dispatch.swift in Sources */,
 				82C950322546F6830025663F /* Audio.Output.Asset.swift in Sources */,
+				822D398125503B06003B1861 /* AV.Time.swift in Sources */,
 				82C9507E2546FCCE0025663F /* Foundation.Thread.Wait.swift in Sources */,
 				82C9503E2546F7210025663F /* UI.Display.swift in Sources */,
 				82C950622546F8F30025663F /* Foundation.System.swift in Sources */,
 				82C94FEC2546F58D0025663F /* ViewController.swift in Sources */,
 				82C950282546F6830025663F /* AV.Input.swift in Sources */,
 				822D397B254F07D8003B1861 /* Measure.Duration.swift in Sources */,
+				822D398625505783003B1861 /* Swift.Struct.swift in Sources */,
 				82C9507A2546FADC0025663F /* Common.Capture.Privacy.swift in Sources */,
 				82C950302546F6830025663F /* Display.Capture.swift in Sources */,
+				823D0F3825507D6100F8C852 /* MetalKit.CVMetalTexture.swift in Sources */,
 				82C9502E2546F6830025663F /* Audio.General.swift in Sources */,
 				82C9502C2546F6830025663F /* Video.Output.Preview.swift in Sources */,
 				822764C225495D0D00C2E46D /* Video.Duplicates.metal in Sources */,
@@ -601,6 +635,7 @@
 				82C9505B2546F8F30025663F /* AppKit.View.swift in Sources */,
 				82C950262546F6830025663F /* Video.General.swift in Sources */,
 				82C9505F2546F8F30025663F /* CoreGraphics.Display.swift in Sources */,
+				822D39842550400B003B1861 /* Network.Packet.swift in Sources */,
 				82C950312546F6830025663F /* AV.swift in Sources */,
 				82C9507B2546FADC0025663F /* Common.Capture.swift in Sources */,
 				822764A225492D5F00C2E46D /* Video.H264.Encoder.swift in Sources */,
@@ -620,6 +655,7 @@
 				82312119254EF2B8007D5B1B /* Video.Output.Layer.swift in Sources */,
 				82C950252546F6830025663F /* Display.Input.swift in Sources */,
 				82C950632546F8F30025663F /* Foundation.Typedefs.swift in Sources */,
+				822D397F25503AD7003B1861 /* Video.Time.swift in Sources */,
 				82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */,
 				82C950892546FD6B0025663F /* Common.URL.swift in Sources */,
 				82C950692546F93B0025663F /* Dispatch.swift in Sources */,

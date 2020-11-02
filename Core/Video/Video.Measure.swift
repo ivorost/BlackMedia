@@ -11,6 +11,11 @@ import AVFoundation
 
 typealias VideoFPS = VideoOutputImpl
 
+extension VideoFPS {
+    convenience init(_ measure: MeasureProtocol) {
+        self.init(next: nil, measure: measure)
+    }
+}
 
 class MeasureFPS : MeasureCPS, MeasureProtocol {
     func begin() {

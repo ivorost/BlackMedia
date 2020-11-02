@@ -52,6 +52,7 @@ class Byterate {
     
     open func process(rate: Int) {
         if self.log {
+            print("data \(rate)")
         }
     }
     
