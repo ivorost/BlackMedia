@@ -33,9 +33,11 @@ extension Capture {
         
         // Output
         
+        let qualityTuner = DataProcessorImpl()
+        
         var output = [VideoOutputProtocol]()
         
-        let webSocketOutput = WebSocketOutput()
+        let webSocketOutput = WebSocketOutput(input: qualityTuner)
   
         let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
 //        let preview = VideoOutputLayer(layer)
@@ -72,6 +74,10 @@ extension Capture {
         }
         
 //        capture = MeasureVideo(measure: MeasureDurationPrint(title: "--- total"), next: capture)
+        
+        let videoQuality = VideoQualityTuner(next: capture)
+        capture = videoQuality
+        qualityTuner.nextWeak = videoQuality
         
         let captureSession = VideoCaptureSession(session: avCaptureSession,
                                                  queue: Capture.shared.captureQueue,

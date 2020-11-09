@@ -1,8 +1,22 @@
 
 import AVFoundation
 
-protocol DataProcessor {
+protocol DataProcessor : class {
     func process(data: Data)
+}
+
+class DataProcessorImpl : DataProcessor {
+    private let next: DataProcessor?
+    weak var nextWeak: DataProcessor?
+
+    init(_ next: DataProcessor? = nil) {
+        self.next = next
+        self.nextWeak = next
+    }
+    
+    func process(data: Data) {
+        nextWeak?.process(data: data)
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -24,6 +24,7 @@
 		82A1422325512D8100FBABE9 /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1422225512D8100FBABE9 /* Network.WebSocket.swift */; };
 		82AFA61E25595C5D00CCA044 /* Foundation.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA61D25595C5D00CCA044 /* Foundation.Data.swift */; };
 		82AFA62A25596ADD00CCA044 /* AV.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA62925596ADD00CCA044 /* AV.Time.swift */; };
+		82BFBE392559959900E4E5D3 /* Video.Quality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BFBE382559959900E4E5D3 /* Video.Quality.swift */; };
 		82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FE92546F58D0025663F /* AppDelegate.swift */; };
 		82C94FEC2546F58D0025663F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FEB2546F58D0025663F /* ViewController.swift */; };
 		82C94FEE2546F5930025663F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82C94FED2546F5930025663F /* Assets.xcassets */; };
@@ -128,6 +129,7 @@
 		82A1422225512D8100FBABE9 /* Network.WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.WebSocket.swift; sourceTree = "<group>"; };
 		82AFA61D25595C5D00CCA044 /* Foundation.Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.Data.swift; sourceTree = "<group>"; };
 		82AFA62925596ADD00CCA044 /* AV.Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Time.swift; sourceTree = "<group>"; };
+		82BFBE382559959900E4E5D3 /* Video.Quality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Quality.swift; sourceTree = "<group>"; };
 		82C94FE62546F58D0025663F /* Capture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C94FE92546F58D0025663F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82C94FEB2546F58D0025663F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */,
 				822764A925492D7000C2E46D /* Video.H264.Data.swift */,
 				82312116254EF13E007D5B1B /* Video.Measure.swift */,
+				82BFBE382559959900E4E5D3 /* Video.Quality.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -668,6 +671,7 @@
 				82C950822546FD2F0025663F /* Foundation.Thread.Background.swift in Sources */,
 				82A1422325512D8100FBABE9 /* Network.WebSocket.swift in Sources */,
 				82C9505B2546F8F30025663F /* AppKit.View.swift in Sources */,
+				82BFBE392559959900E4E5D3 /* Video.Quality.swift in Sources */,
 				82C950262546F6830025663F /* Video.General.swift in Sources */,
 				82C9505F2546F8F30025663F /* CoreGraphics.Display.swift in Sources */,
 				822D39842550400B003B1861 /* Network.Packet.swift in Sources */,
@@ -862,8 +866,8 @@
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = NH8U964PWR;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -888,8 +892,8 @@
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = NH8U964PWR;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

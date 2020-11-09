@@ -21,12 +21,14 @@ fileprivate extension String {
     """
 }
 
-class WebSocketSession : SessionProtocol, WebSocketDelegate {
+class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
+    private let next: DataProcessor?
     private let urlString: String
     private(set) var socket: WebSocket?
-    
-    init(urlString: String) {
+
+    init(urlString: String, next: DataProcessor?) {
         self.urlString = urlString
+        self.next = next
     }
     
     func start() throws {
@@ -42,42 +44,30 @@ class WebSocketSession : SessionProtocol, WebSocketDelegate {
         socket?.disconnect()
     }
     
+    func process(data: Data) {
+        socket?.write(data: data)
+    }
+
     func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
-        case .error(let error):
-            print("websocket error \(String(describing: error))")
+        case .binary(let data):
+            next?.process(data: data)
         default:
             break
         }
     }
 }
 
-class WebSocketOutput : WebSocketSession, DataProcessor {
-    
-    init() {
-        super.init(urlString: .wsSender)
+
+class WebSocketOutput : WebSocketSession {
+    init(input: DataProcessor? = nil) {
+        super.init(urlString: .wsSender, next: input)
     }
-    
-    func process(data: Data) {
-        socket?.write(data: data)
-    }
-    
 }
 
+
 class WebSocketInput : WebSocketSession {
-    let next: DataProcessor?
-    
-    init(_ next: DataProcessor?) {
-        self.next = next
-        super.init(urlString: .wsReceiver)
-    }
-    
-    override func didReceive(event: WebSocketEvent, client: WebSocket) {
-        switch event {
-        case .binary(let data):
-            next?.process(data: data)
-        default:
-            super.didReceive(event: event, client: client)
-        }
+    init(_ next: DataProcessor? = nil) {
+        super.init(urlString: .wsReceiver, next: next)
     }
 }

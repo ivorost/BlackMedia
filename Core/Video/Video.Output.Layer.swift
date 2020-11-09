@@ -40,7 +40,7 @@ class VideoOutputLayer : VideoOutputProtocol, SessionProtocol {
     }
     
     func process(video: CMSampleBuffer) {
-        logAV("video output \(video.seconds())")
+        logAV("video output \(video.presentationSeconds)")
 
         let dataFormat = CMSampleBufferGetFormatDescription(video)
         

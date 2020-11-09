@@ -42,6 +42,7 @@ class MeasureFPSPrint : MeasureFPS {
     }
 }
 
+
 class MeasureVideo : VideoOutputProtocol {
     private let measure: MeasureProtocol
     private let next: VideoOutputProtocol

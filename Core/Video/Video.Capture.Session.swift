@@ -66,7 +66,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
-        logAV("video input \(sampleBuffer.seconds())")
+        logAV("video input \(sampleBuffer.presentationSeconds)")
         self.output?.process(video: sampleBuffer)
     }
     

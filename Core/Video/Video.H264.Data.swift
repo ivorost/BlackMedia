@@ -113,7 +113,7 @@ class VideoH264Serializer : VideoOutputProtocol {
         
         let serializer = PacketSerializer()
         
-        serializer.push(data: VideoTime(timingInfo).data)
+        serializer.push(data: videoTime.data)
         serializer.push(data: Data(bytes: sps!, count: spsLength))
         serializer.push(data: Data(bytes: pps!, count: ppsLength))
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
@@ -170,7 +170,10 @@ class VideoH264Deserializer : DataProcessor {
             
             var blockBuffer: CMBlockBuffer?
             let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: h264Data.count)
-//            blockBufferData.assign(from: h264Data.bytes.assumingMemoryBound(to: Int8.self), count: h264Data.count)
+            
+            h264Data.bytes {
+                blockBufferData.assign(from: $0.assumingMemoryBound(to: Int8.self), count: h264Data.count)
+            }
             
             try checkStatus(CMBlockBufferCreateWithMemoryBlock(allocator: kCFAllocatorDefault,
                                                                memoryBlock: blockBufferData,
