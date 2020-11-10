@@ -64,21 +64,21 @@ extension Capture {
         //            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
         #endif
 
-//        var capture = broadcast(output)
-        var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
-                                                                      measure: removeDuplicatesMeasure)
-        
+        var capture = broadcast(output)
+//        var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
+//                                                                      measure: removeDuplicatesMeasure)
+
+        let videoQuality = VideoACKHost(next: capture)
+        capture = videoQuality
+        qualityTuner.nextWeak = videoQuality
+
         if let fps = inputFPS {
             //                capture = VideoFPS(next: capture, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
             capture = VideoFPS(next: capture, measure: MeasureFPS(callback: fps))
         }
         
 //        capture = MeasureVideo(measure: MeasureDurationPrint(title: "--- total"), next: capture)
-        
-        let videoQuality = VideoQualityTuner(next: capture)
-        capture = videoQuality
-        qualityTuner.nextWeak = videoQuality
-        
+                
         let captureSession = VideoCaptureSession(session: avCaptureSession,
                                                  queue: Capture.shared.captureQueue,
                                                  output: capture)

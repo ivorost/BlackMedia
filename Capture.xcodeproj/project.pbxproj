@@ -79,6 +79,7 @@
 		82C950892546FD6B0025663F /* Common.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C950862546FD6B0025663F /* Common.URL.swift */; };
 		82C9508B25473F550025663F /* Measure.CPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9508A25473F540025663F /* Measure.CPS.swift */; };
 		82C9508F25474AB80025663F /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9508E25474AB80025663F /* Video.Duplicates.swift */; };
+		82F0C29E255A7D4F009CB5AE /* Video.ACK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F0C29D255A7D4F009CB5AE /* Video.ACK.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -191,6 +192,7 @@
 		82C950862546FD6B0025663F /* Common.URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.URL.swift; sourceTree = "<group>"; };
 		82C9508A25473F540025663F /* Measure.CPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measure.CPS.swift; sourceTree = "<group>"; };
 		82C9508E25474AB80025663F /* Video.Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Duplicates.swift; sourceTree = "<group>"; };
+		82F0C29D255A7D4F009CB5AE /* Video.ACK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.ACK.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +257,7 @@
 				822764A925492D7000C2E46D /* Video.H264.Data.swift */,
 				82312116254EF13E007D5B1B /* Video.Measure.swift */,
 				82BFBE382559959900E4E5D3 /* Video.Quality.swift */,
+				82F0C29D255A7D4F009CB5AE /* Video.ACK.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				82C950312546F6830025663F /* AV.swift in Sources */,
 				82C9507B2546FADC0025663F /* Common.Capture.swift in Sources */,
 				822764A225492D5F00C2E46D /* Video.H264.Encoder.swift in Sources */,
+				82F0C29E255A7D4F009CB5AE /* Video.ACK.swift in Sources */,
 				82C950872546FD6B0025663F /* Common.Date.swift in Sources */,
 				82C9503D2546F7210025663F /* UI.Display.Privacy.swift in Sources */,
 				82C9502A2546F6830025663F /* Audio.Input.swift in Sources */,
@@ -866,7 +870,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -892,7 +896,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
