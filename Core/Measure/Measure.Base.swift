@@ -12,3 +12,33 @@ protocol MeasureProtocol {
     func begin()
     func end()
 }
+
+class MeasureBegin : MeasureProtocol {
+    let next: MeasureProtocol
+    
+    init(_ next: MeasureProtocol) {
+        self.next = next
+    }
+    
+    func begin() {
+        next.begin()
+    }
+    
+    func end() {
+    }
+}
+
+class MeasureEnd : MeasureProtocol {
+    let next: MeasureProtocol
+    
+    init(_ next: MeasureProtocol) {
+        self.next = next
+    }
+    
+    func begin() {
+    }
+    
+    func end() {
+        next.end()
+    }
+}

@@ -9,6 +9,7 @@
 import AVFoundation
 import AppKit
 
+
 extension MTLTexture {
  
     func threadGroupCount() -> MTLSize {
@@ -22,15 +23,44 @@ extension MTLTexture {
 }
 
 
-class VideoRemoveDuplicateFrames : VideoOutputImpl {
+class VideoRemoveDuplicateFramesBase : VideoOutputImpl {
     private var lastImageBuffer: CVImageBuffer?
+
+    fileprivate func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+        return nil
+    }
+
+    override func processSelf(video: CMSampleBuffer) -> Bool {
+        let imageBuffer = CMSampleBufferGetImageBuffer(video)
+        var process = true
+        
+        //        if process && lastImageBuffer == imageBuffer {
+        //            process = false
+        //        }
+        
+        if process,
+            let lastImageBuffer = lastImageBuffer,
+            let imageBuffer = imageBuffer,
+            isEqual(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
+            process = false
+        }
+        
+        lastImageBuffer = imageBuffer
+        
+        return process
+    }
+
+}
+
+
+class VideoRemoveDuplicateFrames1 : VideoRemoveDuplicateFramesBase {
     private var textureCache: CVMetalTextureCache?
     private var commandQueue: MTLCommandQueue?
     private var computePipelineState: MTLComputePipelineState?
     private let metalDevice = MTLCreateSystemDefaultDevice()
     private var context = CIContext(mtlDevice: MTLCreateSystemDefaultDevice()!)
 
-    func compare(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+    override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
         guard
             let computePipelineState = computePipelineState,
             let metalDevice = metalDevice,
@@ -139,24 +169,38 @@ class VideoRemoveDuplicateFrames : VideoOutputImpl {
 
         super.init(next: next, measure: measure)
     }
+}
+
+
+class VideoRemoveDuplicateFrames2 : VideoRemoveDuplicateFramesBase {
     
-    override func processSelf(video: CMSampleBuffer) -> Bool {
-        let imageBuffer = CMSampleBufferGetImageBuffer(video)
-        var process = true
-
-//        if process && lastImageBuffer == imageBuffer {
-//            process = false
-//        }
-
-        if process,
-            let lastImageBuffer = lastImageBuffer,
-            let imageBuffer = imageBuffer,
-            compare(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
-            process = false
+    override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+        guard
+            let surface1 = CVPixelBufferGetIOSurface(pixelBuffer1)?.takeUnretainedValue(),
+            let surface2 = CVPixelBufferGetIOSurface(pixelBuffer2)?.takeUnretainedValue()
+            else {
+                return nil
         }
+
+        CVPixelBufferLockBaseAddress(pixelBuffer1, [])
+        CVPixelBufferLockBaseAddress(pixelBuffer2, [])
+        IOSurfaceLock(surface1, [], nil)
+        IOSurfaceLock(surface2, [], nil)
         
-        lastImageBuffer = imageBuffer
+        let baseAddress1 = IOSurfaceGetBaseAddress(surface1)
+        let baseAddress2 = IOSurfaceGetBaseAddress(surface2)
+        let size1 = IOSurfaceGetAllocSize(surface1)
+        let size2 = IOSurfaceGetAllocSize(surface2)
+
+        let isEqual = (size1 == size2) && memcmp(baseAddress1, baseAddress2, size1) == 0
+
+        IOSurfaceUnlock(surface1, [], nil)
+        IOSurfaceUnlock(surface2, [], nil)
+        CVPixelBufferUnlockBaseAddress(pixelBuffer1, [])
+        CVPixelBufferUnlockBaseAddress(pixelBuffer2, [])
         
-        return process
+        return isEqual;
     }
 }
+
+

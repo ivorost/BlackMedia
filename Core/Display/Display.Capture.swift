@@ -17,6 +17,7 @@ extension Capture {
                  layer: AVSampleBufferDisplayLayer) throws -> SessionProtocol {
 
         var sessions = [SessionProtocol]()
+        let duration = MeasureDurationAveragePrint(title: "duration")
 
         // Capture
         
@@ -43,16 +44,18 @@ extension Capture {
 //        let preview = VideoOutputLayer(layer)
 //        let h264deserializer = VideoH264Deserializer(preview)
 
-        let h264serializer = VideoH264Serializer(measureByterate)
+        let h264serializer = VideoH264Serializer(webSocketOutput)
+        
+        let durationEnd = VideoOutputImpl(next: h264serializer, measure: MeasureEnd(duration))
         
         let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
                                                   outputDimentions: dimensions,
-                                                  next: h264serializer)
+                                                  next: durationEnd)
         
         output.append(h264encoder)
         
         if let fps = outputFPS {
-            //                output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
+//            output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
             output.append(VideoFPS(MeasureFPS(callback: fps)))
         }
         
@@ -64,9 +67,9 @@ extension Capture {
         //            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
         #endif
 
-        var capture = broadcast(output)
-//        var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
-//                                                                      measure: removeDuplicatesMeasure)
+//        var capture = broadcast(output)
+        var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames2(next: broadcast(output),
+                                                                       measure: removeDuplicatesMeasure)
 
         let videoQuality = VideoACKHost(next: capture)
         capture = videoQuality
@@ -78,7 +81,9 @@ extension Capture {
         }
         
 //        capture = MeasureVideo(measure: MeasureDurationPrint(title: "--- total"), next: capture)
-                
+        
+        capture = VideoOutputImpl(next: capture, measure: MeasureBegin(duration))
+        
         let captureSession = VideoCaptureSession(session: avCaptureSession,
                                                  queue: Capture.shared.captureQueue,
                                                  output: capture)
