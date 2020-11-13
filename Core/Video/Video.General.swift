@@ -110,9 +110,20 @@ protocol VideoSessionProtocol : SessionProtocol {
 class VideoSession : Session, VideoSessionProtocol {
 
     private let next: VideoSessionProtocol?
-    override init() { next = nil; super.init() }
-    init(_ next: VideoSessionProtocol?) { self.next = next; super.init(next) }
-    func update(_ outputFormat: VideoConfig) throws { try next?.update(outputFormat) }
+   
+    override init() {
+        next = nil;
+        super.init()
+    }
+
+    init(_ next: VideoSessionProtocol?, start: FuncThrows = {}, stop: Func = {}) {
+        self.next = next;
+        super.init(next)
+    }
+
+    func update(_ outputFormat: VideoConfig) throws {
+        try next?.update(outputFormat)
+    }
 }
 
 

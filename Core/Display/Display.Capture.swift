@@ -14,7 +14,7 @@ extension Capture {
     func display(config: (display: DisplayConfig, video: VideoConfig),
                  inputFPS: FuncWithDouble?,
                  outputFPS: FuncWithDouble?,
-                 layer: AVSampleBufferDisplayLayer) throws -> SessionProtocol {
+                 layer: AVSampleBufferDisplayLayer?) throws -> SessionProtocol {
 
         var sessions = [SessionProtocol]()
         let duration = MeasureDurationAveragePrint(title: "duration")
@@ -36,27 +36,39 @@ extension Capture {
         
         let qualityTuner = DataProcessorImpl()
         
+        var dataOutput = [DataProcessor]()
+        
         var output = [VideoOutputProtocol]()
         
         let webSocketOutput = WebSocketOutput(input: qualityTuner)
   
         let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
-//        let preview = VideoOutputLayer(layer)
-//        let h264deserializer = VideoH264Deserializer(preview)
 
-        let h264serializer = VideoH264Serializer(webSocketOutput)
+        dataOutput.append(webSocketOutput)
         
+        if let layer = layer {
+            let preview = VideoOutputLayer(layer)
+            let h264deserializer = VideoH264Deserializer(preview)
+            
+            dataOutput.append(h264deserializer)
+        }
+        
+        let h264serializer = VideoH264Serializer(broadcast(dataOutput))
+
         let durationEnd = VideoOutputImpl(next: h264serializer, measure: MeasureEnd(duration))
-        
+
         let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
                                                   outputDimentions: dimensions,
                                                   next: durationEnd)
         
-        output.append(h264encoder)
+        let h264encoderSync = VideoOutputDispatch(next: h264encoder,
+                                                  queue: Capture.shared.outputQueue)
+        
+        output.append(h264encoderSync)
         
         if let fps = outputFPS {
-//            output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
-            output.append(VideoFPS(MeasureFPS(callback: fps)))
+            output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
+//            output.append(VideoFPS(MeasureFPS(callback: fps)))
         }
         
         // Capture
@@ -64,14 +76,15 @@ extension Capture {
         var removeDuplicatesMeasure: MeasureProtocol?
         
         #if DEBUG
-        //            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
+        removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
         #endif
+        
+        var capture: VideoOutputProtocol = broadcast(output) ?? VideoOutputImpl()
+        
+        capture = VideoRemoveDuplicateFrames1(next: capture,
+                                              measure: removeDuplicatesMeasure)
 
-//        var capture = broadcast(output)
-        var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames2(next: broadcast(output),
-                                                                       measure: removeDuplicatesMeasure)
-
-        let videoQuality = VideoACKHost(next: capture)
+        let videoQuality = VideoACKHost/*VideoQualityTuner*/(next: capture)
         capture = videoQuality
         qualityTuner.nextWeak = videoQuality
 

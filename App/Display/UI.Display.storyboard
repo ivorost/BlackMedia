@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XNb-RB-w34">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,15 +11,9 @@
             <objects>
                 <viewController id="XNb-RB-w34" customClass="DisplayCaptureController" customModule="Capture" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="p0u-dM-0Pc" userLabel="Video">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="590"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="158"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="BP6-W3-hHL" customClass="SampleBufferDisplayView" customModule="Capture" customModuleProvider="target">
-                                <rect key="frame" x="20" y="158" width="410" height="412"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="hXc-ul-MIF"/>
-                                </constraints>
-                            </customView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="751" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="huM-xh-EAx">
                                 <rect key="frame" x="20" y="61" width="410" height="77"/>
                                 <subviews>
@@ -95,8 +90,10 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4xh-1W-YUC" secondAttribute="trailing" id="6YS-pE-gs0"/>
+                                    <constraint firstAttribute="width" priority="750" constant="410" id="6eY-Lp-jmj"/>
                                     <constraint firstAttribute="trailing" secondItem="bGQ-vg-okz" secondAttribute="trailing" id="7Zj-tM-xtN"/>
                                     <constraint firstAttribute="trailing" secondItem="YbE-zG-4ru" secondAttribute="trailing" id="O0X-V0-Dpz"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="410" id="ZEa-qd-6CW"/>
                                     <constraint firstItem="4xh-1W-YUC" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="iQI-4o-Xnh"/>
                                     <constraint firstItem="YbE-zG-4ru" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="nxS-0V-Ip4"/>
                                     <constraint firstItem="bGQ-vg-okz" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="wRa-oP-gc5"/>
@@ -127,16 +124,6 @@
                                             <action selector="captureButtonAction:" target="XNb-RB-w34" id="nZ5-9U-gew"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EK-8k-b68">
-                                        <rect key="frame" x="347" y="-7" width="69" height="32"/>
-                                        <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LrM-RA-TQP">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="stopButtonAction:" target="XNb-RB-w34" id="sZI-VQ-dt2"/>
-                                        </connections>
-                                    </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W8t-xO-NAT">
                                         <rect key="frame" x="83" y="-7" width="77" height="32"/>
                                         <buttonCell key="cell" type="push" title="Listen" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KPo-Wq-2Il">
@@ -147,29 +134,49 @@
                                             <action selector="listenButtonAction:" target="XNb-RB-w34" id="atM-26-Imn"/>
                                         </connections>
                                     </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kxj-cY-CWQ">
+                                        <rect key="frame" x="328" y="-7" width="88" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Preview" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="feb-Hq-dKg">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <segue destination="TQ4-Av-mZf" kind="show" identifier="DisplayMirrorWindowController" id="gPr-C3-tcz"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EK-8k-b68">
+                                        <rect key="frame" x="160" y="-7" width="69" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LrM-RA-TQP">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <color key="contentTintColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                        <connections>
+                                            <action selector="stopButtonAction:" target="XNb-RB-w34" id="sZI-VQ-dt2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="6EK-8k-b68" secondAttribute="trailing" id="1xr-zZ-jM4"/>
                                     <constraint firstItem="6EK-8k-b68" firstAttribute="top" secondItem="6Ie-5u-Laf" secondAttribute="top" id="310-fg-kzb"/>
+                                    <constraint firstAttribute="trailing" secondItem="Kxj-cY-CWQ" secondAttribute="trailing" id="CUf-he-8gD"/>
                                     <constraint firstAttribute="height" constant="21" id="I1O-Hz-0lG"/>
                                     <constraint firstItem="W8t-xO-NAT" firstAttribute="leading" secondItem="89k-hB-Dkm" secondAttribute="trailing" constant="12" id="WCn-tP-joz"/>
+                                    <constraint firstItem="6EK-8k-b68" firstAttribute="leading" secondItem="W8t-xO-NAT" secondAttribute="trailing" constant="12" id="YNj-pk-gbZ"/>
                                     <constraint firstItem="89k-hB-Dkm" firstAttribute="top" secondItem="6Ie-5u-Laf" secondAttribute="top" id="li0-5d-T2f"/>
+                                    <constraint firstItem="Kxj-cY-CWQ" firstAttribute="top" secondItem="6Ie-5u-Laf" secondAttribute="top" id="rkB-W6-UAN"/>
                                     <constraint firstItem="89k-hB-Dkm" firstAttribute="leading" secondItem="6Ie-5u-Laf" secondAttribute="leading" id="weX-5u-IOD"/>
                                     <constraint firstItem="W8t-xO-NAT" firstAttribute="top" secondItem="6Ie-5u-Laf" secondAttribute="top" id="z1m-UK-UNI"/>
                                 </constraints>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="BP6-W3-hHL" secondAttribute="trailing" constant="20" id="BBE-DD-Bj4"/>
-                            <constraint firstItem="BP6-W3-hHL" firstAttribute="leading" secondItem="p0u-dM-0Pc" secondAttribute="leading" constant="20" id="Bvm-hj-OCY"/>
+                            <constraint firstItem="huM-xh-EAx" firstAttribute="top" secondItem="p0u-dM-0Pc" secondAttribute="top" constant="20" id="9OP-yJ-QBS"/>
                             <constraint firstAttribute="bottom" secondItem="6Ie-5u-Laf" secondAttribute="bottom" constant="20" id="MAx-2e-ota"/>
                             <constraint firstItem="huM-xh-EAx" firstAttribute="leading" secondItem="p0u-dM-0Pc" secondAttribute="leading" constant="20" id="SCp-Hm-k6Q"/>
                             <constraint firstAttribute="trailing" secondItem="huM-xh-EAx" secondAttribute="trailing" constant="20" id="UQu-8z-cxa"/>
                             <constraint firstItem="6Ie-5u-Laf" firstAttribute="top" secondItem="huM-xh-EAx" secondAttribute="bottom" constant="20" id="cl4-NS-4fI"/>
                             <constraint firstAttribute="trailing" secondItem="6Ie-5u-Laf" secondAttribute="trailing" constant="20" id="d6i-zy-3ad"/>
                             <constraint firstItem="6Ie-5u-Laf" firstAttribute="leading" secondItem="p0u-dM-0Pc" secondAttribute="leading" constant="20" id="mwj-gP-NGL"/>
-                            <constraint firstItem="huM-xh-EAx" firstAttribute="top" secondItem="BP6-W3-hHL" secondAttribute="bottom" constant="20" id="psD-1G-4aO"/>
-                            <constraint firstItem="BP6-W3-hHL" firstAttribute="top" secondItem="p0u-dM-0Pc" secondAttribute="top" constant="20" id="x1w-Wn-0R7"/>
                         </constraints>
                     </view>
                     <connections>
@@ -178,13 +185,49 @@
                         <outlet property="inputFPSLabel" destination="AuH-Fn-Wg7" id="Q8U-fN-0ci"/>
                         <outlet property="listenButton" destination="W8t-xO-NAT" id="ZWx-7U-NHQ"/>
                         <outlet property="outputFPSLabel" destination="rBs-dU-hgD" id="FkD-K2-ny6"/>
-                        <outlet property="previewView" destination="BP6-W3-hHL" id="NOu-kv-mEG"/>
                         <outlet property="stopButton" destination="6EK-8k-b68" id="Cem-jS-pz5"/>
                     </connections>
                 </viewController>
                 <customObject id="ErS-9C-vgQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="529" y="1899"/>
+            <point key="canvasLocation" x="529" y="1693.5"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="pas-Sa-K1W">
+            <objects>
+                <windowController id="TQ4-Av-mZf" customClass="DisplayMirrorWindowController" customModule="Capture" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="fol-Lp-3Yx">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="163" y="199" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+                        <connections>
+                            <outlet property="delegate" destination="TQ4-Av-mZf" id="shQ-Ij-4Cf"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="AYf-Hr-W2i" kind="relationship" relationship="window.shadowedContentViewController" id="qsC-Ou-BpT"/>
+                    </connections>
+                </windowController>
+                <customObject id="jl7-nf-KKk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1223" y="1762"/>
+        </scene>
+        <!--Display Mirror Controller-->
+        <scene sceneID="EBn-9B-ah5">
+            <objects>
+                <viewController id="AYf-Hr-W2i" customClass="DisplayMirrorController" customModule="Capture" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="Vbm-1T-MyN" customClass="SampleBufferDisplayView" customModule="Capture" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                    <connections>
+                        <outlet property="sampleBufferView" destination="Vbm-1T-MyN" id="Lbv-H9-cck"/>
+                    </connections>
+                </viewController>
+                <customObject id="Tzt-Ac-qTe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1223" y="2247"/>
         </scene>
         <!--Privacy View Controller-->
         <scene sceneID="Wzy-4Q-VRS">
@@ -237,7 +280,7 @@
                 </viewController>
                 <customObject id="pO3-XJ-LQc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1099" y="2394"/>
+            <point key="canvasLocation" x="23" y="2398"/>
         </scene>
         <!--Display Previews Controller-->
         <scene sceneID="5nz-Ag-m4a">
@@ -250,7 +293,7 @@
                 </viewController>
                 <customObject id="8BU-ZV-hkD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="529" y="2531"/>
+            <point key="canvasLocation" x="553" y="2535"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="MWh-YW-x4I">
@@ -291,7 +334,7 @@
                 </viewController>
                 <customObject id="jac-D5-nYa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="404" y="2846"/>
+            <point key="canvasLocation" x="148" y="2615"/>
         </scene>
     </scenes>
     <resources>

@@ -44,13 +44,13 @@ class VideoOutputLayer : VideoOutputProtocol, SessionProtocol {
 
         let dataFormat = CMSampleBufferGetFormatDescription(video)
         
-        if CMFormatDescriptionEqual(format, otherFormatDescription: dataFormat) == false {
-            layer.flush()
-        }
-        
-        format = dataFormat
-        
         dispatch_sync_on_main {
+            if CMFormatDescriptionEqual(format, otherFormatDescription: dataFormat) == false {
+                layer.flush()
+            }
+            
+            format = dataFormat
+
             if self.layer.isReadyForMoreMediaData && self.layer.status != .failed {
                 self.layer.enqueue(video)
             }

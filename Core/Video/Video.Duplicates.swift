@@ -25,29 +25,32 @@ extension MTLTexture {
 
 class VideoRemoveDuplicateFramesBase : VideoOutputImpl {
     private var lastImageBuffer: CVImageBuffer?
+    private let lock = NSLock()
 
     fileprivate func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
         return nil
     }
 
     override func processSelf(video: CMSampleBuffer) -> Bool {
-        let imageBuffer = CMSampleBufferGetImageBuffer(video)
-        var process = true
-        
-        //        if process && lastImageBuffer == imageBuffer {
-        //            process = false
-        //        }
-        
-        if process,
-            let lastImageBuffer = lastImageBuffer,
-            let imageBuffer = imageBuffer,
-            isEqual(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
-            process = false
+        lock.locked {
+            let imageBuffer = CMSampleBufferGetImageBuffer(video)
+            var process = true
+            
+            //        if process && lastImageBuffer == imageBuffer {
+            //            process = false
+            //        }
+            
+            if process,
+                let lastImageBuffer = lastImageBuffer,
+                let imageBuffer = imageBuffer,
+                isEqual(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
+                process = false
+            }
+            
+            lastImageBuffer = imageBuffer
+            
+            return process
         }
-        
-        lastImageBuffer = imageBuffer
-        
-        return process
     }
 
 }

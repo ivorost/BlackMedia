@@ -23,31 +23,34 @@ fileprivate extension Int {
 class MeasureCPS {
     private var data = [(count: Int, startDate: Date)]()
     private var callback: FuncWithDouble?
+    private let lock = NSLock()
     
     init(callback: @escaping FuncWithDouble) {
         self.callback = callback
     }
     
     func measure(count: Int) {
-        if let cps = calcCPS() {
-            process(cps: cps)
-        }
-        
-        if data.count >= .maxBlockCount {
-            data.removeFirst()
-        }
-        
-        guard let lastData = data.last else {
-            startNewBlock(count: data.count)
-            return
-        }
+        lock.locked {
+            if let cps = calcCPS() {
+                process(cps: cps)
+            }
+            
+            if data.count >= .maxBlockCount {
+                data.removeFirst()
+            }
+            
+            guard let lastData = data.last else {
+                startNewBlock(count: count)
+                return
+            }
 
-        if Date().timeIntervalSince(lastData.startDate) > .blockDuration {
-            startNewBlock(count: data.count)
-            return
-        }
+            if Date().timeIntervalSince(lastData.startDate) > .blockDuration {
+                startNewBlock(count: count)
+                return
+            }
 
-        data[data.count-1].count += count
+            data[data.count-1].count += count
+        }
     }
     
     open func process(cps: Double) {

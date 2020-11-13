@@ -19,9 +19,19 @@ class CaptureTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testMeasureCPS() throws {
+        var result: Double?
+        let measure = MeasureCPS { result = $0 }
+        
+        measure.measure(count: 1)
+        Thread.sleep(forTimeInterval: 0.1)
+        measure.measure(count: 1)
+        Thread.sleep(forTimeInterval: 0.1)
+        measure.measure(count: 1)
+        Thread.sleep(forTimeInterval: 0.1)
+        measure.measure(count: 1)
+
+        XCTAssert(fabs(result! - 10.0) < 0.25)
     }
 
     func testPerformanceExample() throws {

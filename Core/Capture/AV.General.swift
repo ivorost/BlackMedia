@@ -19,6 +19,22 @@ class DataProcessorImpl : DataProcessor {
     }
 }
 
+class DataProcessorBroadcast : DataProcessor {
+    private var array: [DataProcessor?]
+    
+    init(_ array: [DataProcessor?]) {
+        self.array = array
+    }
+
+    func process(data: Data) {
+        for i in array { i?.process(data: data) }
+    }
+}
+
+func broadcast(_ x: [DataProcessor]) -> DataProcessor? {
+    broadcast(x, create: { DataProcessorBroadcast(x) })
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Session
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,10 +49,30 @@ protocol SessionProtocol {
 
 class Session : SessionProtocol {
     private let next: SessionProtocol?
-    init() { next = nil }
-    init(_ next: SessionProtocol?) { self.next = next }
-    func start() throws { try next?.start() }
-    func stop() { next?.stop() }
+    private let startFunc: FuncThrows
+    private let stopFunc: Func
+    
+    init() {
+        next = nil
+        startFunc = {}
+        stopFunc = {}
+    }
+    
+    init(_ next: SessionProtocol?, start: @escaping FuncThrows = {}, stop: @escaping Func = {}) {
+        self.next = next
+        self.startFunc = start
+        self.stopFunc = stop
+    }
+
+    func start() throws {
+        try startFunc()
+        try next?.start()
+    }
+
+    func stop() {
+        stopFunc()
+        next?.stop()
+    }
 }
 
 class SessionBroadcast : SessionProtocol {

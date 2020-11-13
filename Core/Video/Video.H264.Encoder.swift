@@ -45,13 +45,14 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         
         let SELF: VideoEncoderSessionH264 = unsafeBitCast(outputCallbackRefCon, to: VideoEncoderSessionH264.self)
         guard let sampleBuffer = sampleBuffer_ else { logError("VideoEncoderSessionH264 nil buffer"); return }
-        
+                
         if status != 0 {
             logAVError("VTCompressionSession to H264 failed")
             return
         }
-        
-        Capture.shared.captureQueue.async {
+
+//        Capture.shared.captureQueue.async {
+        DispatchQueue.global().async {
             SELF.callback?(SELF)
             SELF.next?.process(video: sampleBuffer)
         }
@@ -102,7 +103,7 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         guard let imageBuffer:CVImageBuffer = CMSampleBufferGetImageBuffer(video) else { return }
         guard let session = self.session else { logError("VideoEncoderSessionH264 no session"); return }
         var flags:VTEncodeInfoFlags = VTEncodeInfoFlags()
-        
+                
         VTCompressionSessionEncodeFrame(session,
                                         imageBuffer: imageBuffer,
                                         presentationTimeStamp: CMSampleBufferGetPresentationTimeStamp(video),

@@ -14,13 +14,13 @@ class CaptureController : NSViewController {
         case unimplemented
     }
 
-    @IBOutlet private(set) var previewView: SampleBufferDisplayView!
+    @IBOutlet var previewView: SampleBufferDisplayView?
     @IBOutlet private var captureButton: NSButton!
     @IBOutlet private var listenButton: NSButton!
     @IBOutlet private var stopButton: NSButton!
     @IBOutlet private var errorLabel: NSTextField!
     
-    private var activeSession: SessionProtocol?
+    private(set) var activeSession: SessionProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class CaptureController : NSViewController {
         capture()
     }
 
-    @IBAction private func listenButtonAction(_ sender: Any) {
+    @IBAction func listenButtonAction(_ sender: Any) {
         listen()
     }
 
@@ -66,8 +66,8 @@ class CaptureController : NSViewController {
         self.captureButton.isEnabled = false
         self.listenButton.isEnabled = false
 
-        let cancel = {
-            DispatchQueue.main.sync {
+        let stop = {
+            dispatchMainSync {
                 self.stopButton.isEnabled = false
                 self.captureButton.isEnabled = true
                 self.listenButton.isEnabled = true
@@ -79,14 +79,17 @@ class CaptureController : NSViewController {
                 self.requestPermissionsAndWait()
                 
                 if self.authorized() != true {
-                    cancel()
+                    stop()
                     return
                 }
                 
                 var activeSession: SessionProtocol?
                 
-                try DispatchQueue.main.sync {
-                    activeSession = try createSession()
+                try dispatch_sync_on_main {
+                    activeSession = Session(try createSession(), start: {}, stop: {
+                        stop()
+                    })
+                    
                     self.activeSession = activeSession
                 }
 
@@ -94,7 +97,7 @@ class CaptureController : NSViewController {
             }
             catch {
                 logError(error)
-                cancel()
+                stop()
                 self.show(error)
             }
         }

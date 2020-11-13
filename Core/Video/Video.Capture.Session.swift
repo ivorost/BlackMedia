@@ -37,7 +37,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
 
         //kCVPixelFormatType_32BGRA
 //        kCVPixelFormatType_420YpCbCr8Planar
-        dataOutput.setSampleBufferDelegate(self, queue: queue)
+        dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global())
         dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
         dataOutput.alwaysDiscardsLateVideoFrames = true
         
