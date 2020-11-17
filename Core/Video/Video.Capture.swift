@@ -8,6 +8,7 @@
 
 import AVFoundation
 
+
 extension Capture {
     func video(config: CaptureConfig,
                preview layer: AVCaptureVideoPreviewLayer,
@@ -91,8 +92,8 @@ extension Capture {
         let fps = VideoFPS(next: preview, measure: MeasureFPS(callback: inputFPScallback))
 //        let quality = VideoQuality(server: server, next: fps)
         let h264deserializer = VideoH264Deserializer(fps)
-        let ack = VideoACKViewer(server: server, next: h264deserializer)
-        let webSocket = WebSocketInput(ack)
+        let ack = VideoViewerACK(server: server, next: h264deserializer)
+        let webSocket = WebSocketViewer(next: ack)
 
         server.nextWeak = webSocket
         sessions.append(preview)

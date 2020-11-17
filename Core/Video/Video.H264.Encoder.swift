@@ -149,3 +149,34 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         return properties
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Setup
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class VideoSetupEncoder : VideoSetupSlave {
+    private let settings: VideoEncoderConfig
+
+    init(root: VideoSetupProtocol, settings: VideoEncoderConfig) {
+        self.settings = settings
+        super.init(root: root)
+    }
+    
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == .capture {
+            let serializerData = root.data(DataProcessorImpl(), kind: .serializer)
+            let serializer = VideoH264Serializer(serializerData)
+            let serializerVideo = root.video(serializer, kind: .serializer)
+            let encoder = VideoEncoderSessionH264(inputDimension: settings.input,
+                                                  outputDimentions: settings.output,
+                                                  next: serializerVideo)
+
+            result = root.video(encoder, kind: .encoder)
+            root.session(encoder, kind: .encoder)
+        }
+        
+        return super.video(result, kind: kind)
+    }
+}

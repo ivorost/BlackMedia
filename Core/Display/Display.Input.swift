@@ -12,6 +12,7 @@ import AVFoundation
 struct DisplayConfig : Equatable {
     let displayID: CGDirectDisplayID
     let rect: CGRect
+    let fps: CMTime
 }
 
 
@@ -21,18 +22,16 @@ class DisplayInput : CaptureInput {
         case initForDisplay
     }
 
-    private let displayConfig: DisplayConfig
-    private let videoConfig: VideoConfig
+    private let settings: DisplayConfig
     
-    init(session: AVCaptureSession, display: DisplayConfig, video: VideoConfig) {
-        self.displayConfig = display
-        self.videoConfig = video
+    init(session: AVCaptureSession, settings: DisplayConfig) {
+        self.settings = settings
         super.init(session: session)
     }
 
     override func createInput() throws -> AVCaptureInput {
-        if let input = AVCaptureScreenInput(displayID: displayConfig.displayID) {
-            input.minFrameDuration = videoConfig.fps
+        if let input = AVCaptureScreenInput(displayID: settings.displayID) {
+            input.minFrameDuration = settings.fps
             return input
         }
         else {

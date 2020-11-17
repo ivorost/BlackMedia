@@ -207,3 +207,28 @@ class VideoH264Deserializer : DataProcessor {
         }
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Deserializer Setup
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class VideoSetupDeserializerH264 : VideoSetupSlave {
+    private let kind: DataProcessorKind
+    
+    init(root: VideoSetupProtocol, kind: DataProcessorKind) {
+        self.kind = kind
+        super.init(root: root)
+    }
+    
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        var result = data
+        
+        if kind == self.kind {
+            let deserializerVideo = root.video(VideoOutputImpl(), kind: .deserializer)
+            let deserializer = root.data(VideoH264Deserializer(deserializerVideo), kind: .deserializer)
+            result = deserializer
+        }
+        
+        return result
+    }
+}

@@ -1,30 +1,32 @@
 //
-//  Video.ACK.swift
+//  Network.ACK.swift
 //  Capture
 //
-//  Created by Ivan Kh on 10.11.2020.
+//  Created by Ivan Kh on 17.11.2020.
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
+
 import AVFoundation
 
-class VideoACKViewer : DataProcessorImpl {
+
+class VideoViewerACK : DataProcessorImpl {
     
-    let server: DataProcessor
+    private weak var server: DataProcessor?
 
     init(server: DataProcessor, next: DataProcessor? = nil) {
         self.server = server
-        super.init(next)
+        super.init(next: next)
     }
-
     
     override func process(data: Data) {
-        server.process(data: "next".data(using: .utf8)!)
+        server?.process(data: "next".data(using: .utf8)!)
         super.process(data: data)
     }
 }
 
-class VideoACKHost : VideoOutputImpl, DataProcessor {
+
+class VideoSenderACK : VideoOutputWithNext, DataProcessor {
     
     private var ready = true
     private var readyTimestamp: Date?
@@ -47,5 +49,28 @@ class VideoACKHost : VideoOutputImpl, DataProcessor {
         super.process(video: video)
         ready = false
         readyTimestamp = Date()
+    }
+}
+
+
+class VideoSetupSenderACK : VideoSetupSenderQualityControl<VideoSenderACK> {}
+
+
+class VideoSetupViewerACK : VideoSetupSlave {
+    
+    private let server = DataProcessorImpl()
+
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        var result = data
+        
+        if kind == .network {
+            server.nextWeak = data
+        }
+
+        if kind == .networkData {
+            result = VideoViewerACK(server: server, next: result)
+        }
+        
+        return super.data(result, kind: kind)
     }
 }

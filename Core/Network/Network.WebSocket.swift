@@ -59,15 +59,54 @@ class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
 }
 
 
-class WebSocketOutput : WebSocketSession {
-    init(input: DataProcessor? = nil) {
-        super.init(urlString: .wsSender, next: input)
+class WebSocketSender : WebSocketSession {
+    init(next: DataProcessor? = nil) {
+        super.init(urlString: .wsSender, next: next)
     }
 }
 
 
-class WebSocketInput : WebSocketSession {
-    init(_ next: DataProcessor? = nil) {
+class WebSocketViewer : WebSocketSession {
+    init(next: DataProcessor? = nil) {
         super.init(urlString: .wsReceiver, next: next)
+    }
+}
+
+
+class VideoSetupWebSocketSender : VideoSetupSlave {
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        var result = data
+        
+        if kind == .serializer {
+            var webSocketData: DataProcessor = DataProcessorImpl()
+            webSocketData = root.data(webSocketData, kind: .networkData)
+            
+            let webSocket = WebSocketSender(next: webSocketData)
+            root.session(webSocket, kind: .network)
+            result = root.data(webSocket, kind: .network)
+        }
+        
+        return super.data(result, kind: kind)
+    }
+}
+
+
+class VideoSetupWebSocketViewer {
+    
+    private let root: VideoSetupProtocol
+    
+    init(root: VideoSetupProtocol) {
+        self.root = root
+    }
+    
+    func setup() -> SessionProtocol {
+        var webSocketData: DataProcessor = DataProcessorImpl()
+        webSocketData = root.data(webSocketData, kind: .networkData)
+
+        let webSocket = WebSocketViewer(next: webSocketData)
+        _ = root.data(webSocket, kind: .network)
+        root.session(webSocket, kind: .network)
+        
+        return SessionSyncDispatch(session: root.complete() ?? Session(), queue: Capture.shared.outputQueue)
     }
 }

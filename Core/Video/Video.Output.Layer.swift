@@ -61,3 +61,25 @@ class VideoOutputLayer : VideoOutputProtocol, SessionProtocol {
         }
     }
 }
+
+
+class VideoSetupPreview : VideoSetupSlave {
+    let layer: AVSampleBufferDisplayLayer
+    
+    init(root: VideoSetupProtocol, layer: AVSampleBufferDisplayLayer) {
+        self.layer = layer
+        super.init(root: root)
+    }
+        
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == .deserializer {
+            let previous = result
+            result = root.video(VideoOutputLayer(layer), kind: .preview)
+            result = VideoOutputImpl(prev: previous, next: result)
+        }
+        
+        return super.video(result, kind: kind)
+    }
+}

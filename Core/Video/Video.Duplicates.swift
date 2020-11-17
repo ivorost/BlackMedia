@@ -23,7 +23,7 @@ extension MTLTexture {
 }
 
 
-class VideoRemoveDuplicateFramesBase : VideoOutputImpl {
+class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
     private var lastImageBuffer: CVImageBuffer?
     private let lock = NSLock()
 
@@ -56,7 +56,7 @@ class VideoRemoveDuplicateFramesBase : VideoOutputImpl {
 }
 
 
-class VideoRemoveDuplicateFrames1 : VideoRemoveDuplicateFramesBase {
+class VideoRemoveDuplicateFramesUsingMetal : VideoRemoveDuplicateFramesBase {
     private var textureCache: CVMetalTextureCache?
     private var commandQueue: MTLCommandQueue?
     private var computePipelineState: MTLComputePipelineState?
@@ -137,7 +137,7 @@ class VideoRemoveDuplicateFrames1 : VideoRemoveDuplicateFramesBase {
         return nil
     }
     
-    override init(next: VideoOutputProtocol? = nil, measure: MeasureProtocol? = nil) {
+    required init(next: VideoOutputProtocol? = nil) {
         do {
             if let metalDevice = metalDevice {
                 // Create a command queue.
@@ -170,12 +170,12 @@ class VideoRemoveDuplicateFrames1 : VideoRemoveDuplicateFramesBase {
             logAVError(error)
         }
 
-        super.init(next: next, measure: measure)
+        super.init(next: next)
     }
 }
 
 
-class VideoRemoveDuplicateFrames2 : VideoRemoveDuplicateFramesBase {
+class VideoRemoveDuplicateFramesUsingMemcmp : VideoRemoveDuplicateFramesBase {
     
     override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
         guard
@@ -207,3 +207,20 @@ class VideoRemoveDuplicateFrames2 : VideoRemoveDuplicateFramesBase {
 }
 
 
+class VideoSetupDuplicatesTemplate<T> : VideoSetupSlave where T : VideoOutputWithNextProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == .capture {
+            let next = root.video(VideoOutputImpl(next: result), kind: .duplicatesFree)
+            result = T(next: next)
+            result = root.video(result, kind: .duplicates)
+        }
+        
+        return result
+    }
+}
+
+
+typealias VideoSetupDuplicatesMetal = VideoSetupDuplicatesTemplate <VideoRemoveDuplicateFramesUsingMetal>
+typealias VideoSetupDuplicatesMemcmp = VideoSetupDuplicatesTemplate <VideoRemoveDuplicateFramesUsingMemcmp>

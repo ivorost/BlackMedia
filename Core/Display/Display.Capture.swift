@@ -6,11 +6,50 @@
 //  Copyright © 2020 JoJo Systems. All rights reserved.
 //
 
+
 import AVFoundation
-import AppKit
+
+
+class DisplaySetup {
+    private let settings: DisplayConfig
+    private let root: VideoSetupProtocol
+    private let avCaptureSession = AVCaptureSession()
+    
+    init(settings: DisplayConfig, setup: VideoSetupProtocol) {
+        self.settings = settings
+        self.root = setup
+    }
+    
+    func setup() -> SessionProtocol {
+        let video = root.video(VideoOutputImpl(), kind: .capture)
+        
+        setupSession(avCaptureSession)
+        root.session(input(), kind: .input)
+        root.session(capture(next: video), kind: .capture)
+        root.session(avCaptureSession, kind: .avCapture)
+        
+        return SessionSyncDispatch(session: root.complete() ?? Session(), queue: Capture.shared.captureQueue)
+    }
+    
+    func input() -> DisplayInput {
+        return DisplayInput(session: avCaptureSession,
+                            settings: settings)
+    }
+    
+    func capture(next: VideoOutputProtocol) -> VideoCaptureSession {
+        return VideoCaptureSession(session: avCaptureSession,
+                                   queue: Capture.shared.captureQueue,
+                                   output: next)
+    }
+    
+    func setupSession(_ session: AVCaptureSession) {
+        session.sessionPreset = .high
+    }
+}
+
 
 extension Capture {
-    
+
     func display(config: (display: DisplayConfig, video: VideoConfig),
                  inputFPS: FuncWithDouble?,
                  outputFPS: FuncWithDouble?,
@@ -26,9 +65,6 @@ extension Capture {
 
         // Displays
 
-        var displayInputs = [DisplayInput]()
-        var displayOutputs = [VideoCaptureSession]()
-
         let dimensions = CMVideoDimensions(width: Int32(config.display.rect.width),
                                            height: Int32(config.display.rect.height))
         
@@ -40,7 +76,7 @@ extension Capture {
         
         var output = [VideoOutputProtocol]()
         
-        let webSocketOutput = WebSocketOutput(input: qualityTuner)
+        let webSocketOutput = WebSocketSender(next: qualityTuner)
   
         let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
 
@@ -81,10 +117,9 @@ extension Capture {
         
         var capture: VideoOutputProtocol = broadcast(output) ?? VideoOutputImpl()
         
-        capture = VideoRemoveDuplicateFrames1(next: capture,
-                                              measure: removeDuplicatesMeasure)
+        capture = VideoRemoveDuplicateFramesUsingMetal(next: capture)
 
-        let videoQuality = VideoACKHost/*VideoQualityTuner*/(next: capture)
+        let videoQuality = VideoSenderACK/*VideoQualityTuner*/(next: capture)
         capture = videoQuality
         qualityTuner.nextWeak = videoQuality
 
@@ -102,23 +137,14 @@ extension Capture {
                                                  output: capture)
         
         let input = DisplayInput(session: avCaptureSession,
-                                 display: config.display,
-                                 video: config.video)
+                                 settings: config.display)
         
         // Setup
         
-        displayInputs.append(input)
-        displayOutputs.append(captureSession)
         sessions.append(webSocketOutput)
         sessions.append(h264encoder)
-
-        let displayInput = broadcast(displayInputs)
-        let displayOutput = broadcast(displayOutputs)
-
-        // Size monitoring
-        
-        if let displayOutput = displayOutput { sessions.append(displayOutput) }
-        if let displayInput = displayInput { sessions.append(displayInput) }
+        sessions.append(captureSession)
+        sessions.append(input)
         sessions.append(avCaptureSession)
 
         return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)

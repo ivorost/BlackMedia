@@ -1,18 +1,20 @@
 //
-//  Video.Quality.swift
+//  Network.Quality.swift
 //  Capture
 //
-//  Created by Ivan Kh on 09.11.2020.
+//  Created by Ivan Kh on 17.11.2020.
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
 import AVFoundation
 
+
 extension Double {
     static let maxGap = 0.5
 }
 
-class VideoQuality : VideoOutputImpl {
+
+class VideoViewerQuality : VideoOutputImpl {
     var bestSample: Double?
     var localTime: Date?
     var slowing = false
@@ -57,7 +59,7 @@ class VideoQuality : VideoOutputImpl {
 }
 
 
-class VideoQualityTuner : VideoOutputImpl, DataProcessor {
+class VideoSenderQuality : VideoOutputWithNext, DataProcessor {
     
     private var slowing = false
     private var lastFrameSent: Date?
@@ -87,5 +89,61 @@ class VideoQualityTuner : VideoOutputImpl, DataProcessor {
         else if message == "hard" {
             slowing = false
         }
+    }
+}
+
+
+class VideoSetupSenderQualityControl<T> : VideoSetupSlave where T : VideoOutputWithNextProtocol & DataProcessor {
+    private var networkSenderListener: DataProcessorImpl?
+
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == .capture {
+            let control = T(next: result)
+            networkSenderListener?.nextWeak = control
+            result = control
+        }
+        
+        return super.video(result, kind: kind)
+    }
+    
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        var result = data
+        
+        if kind == .networkData {
+            let networkSenderListener = DataProcessorImpl(prev: result)
+            
+            self.networkSenderListener = networkSenderListener
+            result = networkSenderListener
+        }
+        
+        return super.data(result, kind: kind)
+    }
+}
+
+
+class VideoSetupSenderQuality : VideoSetupSenderQualityControl<VideoSenderQuality> {}
+
+
+class VideoSetupViewerQualityControl : VideoSetupSlave {
+    private let server = DataProcessorImpl()
+    
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == .deserializer {
+            result = VideoViewerQuality(server: server, next: result)
+        }
+        
+        return super.video(result, kind: kind)
+    }
+    
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        if kind == .network {
+            server.nextWeak = data
+        }
+        
+        return super.data(data, kind: kind)
     }
 }

@@ -11,14 +11,134 @@
             <objects>
                 <viewController id="XNb-RB-w34" customClass="DisplayCaptureController" customModule="Capture" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="p0u-dM-0Pc" userLabel="Video">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="158"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="371"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalCompressionResistancePriority="751" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="huM-xh-EAx">
-                                <rect key="frame" x="20" y="61" width="410" height="77"/>
+                                <rect key="frame" x="20" y="61" width="410" height="290"/>
                                 <subviews>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="FFC-iF-6T6">
+                                        <rect key="frame" x="0.0" y="108" width="410" height="182"/>
+                                        <subviews>
+                                            <box fixedFrame="YES" title="Networking" translatesAutoresizingMaskIntoConstraints="NO" id="sfS-DC-FVx">
+                                                <rect key="frame" x="228" y="89" width="185" height="83"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <view key="contentView" id="CRj-7W-qrM">
+                                                    <rect key="frame" x="3" y="3" width="179" height="65"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nre-wC-xL8">
+                                                            <rect key="frame" x="19" y="33" width="103" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="radio" title="Acknowledge" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="5d4-Fd-NA9">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="networkButtonsAction:" target="tUD-gx-7Er" id="vsv-Pf-wBR"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cks-5U-uND">
+                                                            <rect key="frame" x="19" y="13" width="66" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="radio" title="Stream" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="9LC-jk-Q2h">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="networkButtonsAction:" target="tUD-gx-7Er" id="uP1-Eb-TjJ"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </view>
+                                            </box>
+                                            <box fixedFrame="YES" title="Settings" translatesAutoresizingMaskIntoConstraints="NO" id="aIT-cf-TAU">
+                                                <rect key="frame" x="-3" y="-4" width="185" height="176"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <view key="contentView" id="WyP-Af-KyX">
+                                                    <rect key="frame" x="3" y="3" width="179" height="158"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kRq-Si-ii1">
+                                                            <rect key="frame" x="18" y="106" width="86" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="check" title="Duplicates" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ULO-Ut-jU0">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yMc-Jv-j49">
+                                                            <rect key="frame" x="18" y="86" width="92" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="check" title="Multithread" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VS5-Rw-pKk">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HqH-h5-gVf">
+                                                            <rect key="frame" x="18" y="126" width="92" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="check" title="Networking" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="z9v-D3-bZ0">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YFk-SA-TbU">
+                                                            <rect key="frame" x="18" y="66" width="70" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="check" title="Preview" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="yAA-VB-p3u">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                        </button>
+                                                    </subviews>
+                                                </view>
+                                            </box>
+                                            <box fixedFrame="YES" title="Duplicates" translatesAutoresizingMaskIntoConstraints="NO" id="dYP-Pt-est">
+                                                <rect key="frame" x="228" y="-4" width="185" height="83"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <view key="contentView" id="E4m-Iv-zXP">
+                                                    <rect key="frame" x="3" y="3" width="179" height="65"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vTE-9e-dha">
+                                                            <rect key="frame" x="19" y="33" width="56" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="radio" title="Metal" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="Rac-20-Ucz">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="duplicatesButtonsAction:" target="tUD-gx-7Er" id="MBZ-vD-V5M"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b0Y-8d-XkS">
+                                                            <rect key="frame" x="19" y="13" width="79" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="radio" title="Memcmp" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="8iN-AZ-zh2">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="duplicatesButtonsAction:" target="tUD-gx-7Er" id="9Ue-cF-E9R"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </view>
+                                            </box>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="182" id="K7i-NP-Dvc"/>
+                                        </constraints>
+                                    </customView>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="yE3-I2-HO1">
+                                        <rect key="frame" x="10" y="78" width="390" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="91t-fN-Euh"/>
+                                        </constraints>
+                                    </box>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="YbE-zG-4ru">
-                                        <rect key="frame" x="0.0" y="56" width="410" height="21"/>
+                                        <rect key="frame" x="0.0" y="51" width="410" height="21"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0My-SZ-DKi">
                                                 <rect key="frame" x="-2" y="3" width="70" height="16"/>
@@ -61,17 +181,14 @@
                                             <constraint firstAttribute="height" constant="21" id="ieX-Ly-3ea"/>
                                         </constraints>
                                     </customView>
-                                    <containerView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EpS-Lr-rTS">
-                                        <rect key="frame" x="0.0" y="-73" width="410" height="150"/>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="1tu-R2-oWd">
+                                        <rect key="frame" x="10" y="21" width="390" height="24"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="wF3-Ky-2wb"/>
+                                            <constraint firstAttribute="height" constant="20" id="Y8R-te-Y13"/>
                                         </constraints>
-                                        <connections>
-                                            <segue destination="IUj-Z5-5GA" kind="embed" id="vUr-tm-VFa"/>
-                                        </connections>
-                                    </containerView>
-                                    <containerView translatesAutoresizingMaskIntoConstraints="NO" id="bGQ-vg-okz">
-                                        <rect key="frame" x="0.0" y="23" width="410" height="25"/>
+                                    </box>
+                                    <containerView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bGQ-vg-okz">
+                                        <rect key="frame" x="0.0" y="265" width="410" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="JP8-Md-U6A"/>
                                         </constraints>
@@ -92,10 +209,16 @@
                                     <constraint firstAttribute="trailing" secondItem="4xh-1W-YUC" secondAttribute="trailing" id="6YS-pE-gs0"/>
                                     <constraint firstAttribute="width" priority="750" constant="410" id="6eY-Lp-jmj"/>
                                     <constraint firstAttribute="trailing" secondItem="bGQ-vg-okz" secondAttribute="trailing" id="7Zj-tM-xtN"/>
+                                    <constraint firstAttribute="trailing" secondItem="yE3-I2-HO1" secondAttribute="trailing" constant="10" id="9dG-s6-vjr"/>
                                     <constraint firstAttribute="trailing" secondItem="YbE-zG-4ru" secondAttribute="trailing" id="O0X-V0-Dpz"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="410" id="ZEa-qd-6CW"/>
+                                    <constraint firstItem="yE3-I2-HO1" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" constant="10" id="c8v-An-uXf"/>
+                                    <constraint firstItem="FFC-iF-6T6" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="dDF-hf-Nm0"/>
                                     <constraint firstItem="4xh-1W-YUC" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="iQI-4o-Xnh"/>
+                                    <constraint firstAttribute="trailing" secondItem="1tu-R2-oWd" secondAttribute="trailing" constant="10" id="n66-Gt-3f7"/>
                                     <constraint firstItem="YbE-zG-4ru" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="nxS-0V-Ip4"/>
+                                    <constraint firstAttribute="trailing" secondItem="FFC-iF-6T6" secondAttribute="trailing" id="pVn-Zi-J9n"/>
+                                    <constraint firstItem="1tu-R2-oWd" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" constant="10" id="u3T-Er-TA1"/>
                                     <constraint firstItem="bGQ-vg-okz" firstAttribute="leading" secondItem="huM-xh-EAx" secondAttribute="leading" id="wRa-oP-gc5"/>
                                 </constraints>
                                 <visibilityPriorities>
@@ -103,8 +226,12 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -181,16 +308,30 @@
                     </view>
                     <connections>
                         <outlet property="captureButton" destination="89k-hB-Dkm" id="mCR-5y-0fs"/>
+                        <outlet property="displayCaptureViews" destination="tUD-gx-7Er" id="CGz-Td-YBK"/>
                         <outlet property="errorLabel" destination="4xh-1W-YUC" id="dmD-ho-zJe"/>
-                        <outlet property="inputFPSLabel" destination="AuH-Fn-Wg7" id="Q8U-fN-0ci"/>
                         <outlet property="listenButton" destination="W8t-xO-NAT" id="ZWx-7U-NHQ"/>
-                        <outlet property="outputFPSLabel" destination="rBs-dU-hgD" id="FkD-K2-ny6"/>
                         <outlet property="stopButton" destination="6EK-8k-b68" id="Cem-jS-pz5"/>
                     </connections>
                 </viewController>
                 <customObject id="ErS-9C-vgQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="Rv7-hZ-abH"/>
+                <customObject id="tUD-gx-7Er" customClass="DisplayCaptureViews" customModule="Capture" customModuleProvider="target">
+                    <connections>
+                        <outlet property="inputFPSLabel" destination="AuH-Fn-Wg7" id="Wlr-fX-1zt"/>
+                        <outlet property="outputFPSLabel" destination="rBs-dU-hgD" id="B8y-ik-7hK"/>
+                        <outlet property="setupSenderDuplicatesButton" destination="kRq-Si-ii1" id="Qmy-Xq-BB9"/>
+                        <outlet property="setupSenderDuplicatesMemcmpButton" destination="b0Y-8d-XkS" id="m3G-tl-Vpg"/>
+                        <outlet property="setupSenderDuplicatesMetalButton" destination="vTE-9e-dha" id="C2l-q8-G6l"/>
+                        <outlet property="setupSenderMultithreadingButton" destination="yMc-Jv-j49" id="qBk-eG-wpG"/>
+                        <outlet property="setupSenderPreviewButton" destination="YFk-SA-TbU" id="3cj-92-y1E"/>
+                        <outlet property="setupSenderWebSocketACKButton" destination="nre-wC-xL8" id="p4f-MZ-8A2"/>
+                        <outlet property="setupSenderWebSocketButton" destination="HqH-h5-gVf" id="VN9-5S-4Jm"/>
+                        <outlet property="setupSenderWebSocketQualityButton" destination="Cks-5U-uND" id="eZp-yk-tOw"/>
+                    </connections>
+                </customObject>
             </objects>
-            <point key="canvasLocation" x="529" y="1693.5"/>
+            <point key="canvasLocation" x="529" y="1693"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="pas-Sa-K1W">
@@ -211,7 +352,7 @@
                 </windowController>
                 <customObject id="jl7-nf-KKk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1223" y="1762"/>
+            <point key="canvasLocation" x="1217" y="1700"/>
         </scene>
         <!--Display Mirror Controller-->
         <scene sceneID="EBn-9B-ah5">
@@ -227,7 +368,7 @@
                 </viewController>
                 <customObject id="Tzt-Ac-qTe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1223" y="2247"/>
+            <point key="canvasLocation" x="1217" y="2247"/>
         </scene>
         <!--Privacy View Controller-->
         <scene sceneID="Wzy-4Q-VRS">
@@ -280,61 +421,7 @@
                 </viewController>
                 <customObject id="pO3-XJ-LQc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="23" y="2398"/>
-        </scene>
-        <!--Display Previews Controller-->
-        <scene sceneID="5nz-Ag-m4a">
-            <objects>
-                <viewController id="IUj-Z5-5GA" customClass="DisplayPreviewsController" customModule="Capture" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" autoresizesSubviews="NO" id="VjI-oR-XZc">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="8BU-ZV-hkD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="553" y="2535"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="MWh-YW-x4I">
-            <objects>
-                <viewController storyboardIdentifier="DisplayPreviewViewController" id="rgO-Rs-uvP" sceneMemberID="viewController">
-                    <customView key="view" id="2Df-Qz-9eM" customClass="DisplayPreviewView" customModule="Capture" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="140"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-Th-CjF">
-                                <rect key="frame" x="10" y="35" width="180" height="95"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="OMz-3e-cP5"/>
-                            </imageView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lgC-HB-y3K" customClass="RadioButton" customModule="Capture" customModuleProvider="target">
-                                <rect key="frame" x="90" y="9" width="22" height="18"/>
-                                <buttonCell key="cell" type="radio" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ALV-W7-nd0">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="eh9-Th-CjF" firstAttribute="leading" secondItem="2Df-Qz-9eM" secondAttribute="leading" constant="10" id="0an-wd-dIl"/>
-                            <constraint firstItem="eh9-Th-CjF" firstAttribute="top" secondItem="2Df-Qz-9eM" secondAttribute="top" constant="10" id="QNK-iJ-bdq"/>
-                            <constraint firstItem="lgC-HB-y3K" firstAttribute="centerX" secondItem="2Df-Qz-9eM" secondAttribute="centerX" id="Qn7-v0-rJl"/>
-                            <constraint firstAttribute="bottom" secondItem="lgC-HB-y3K" secondAttribute="bottom" constant="10" id="RSw-Qo-EwX"/>
-                            <constraint firstAttribute="trailing" secondItem="eh9-Th-CjF" secondAttribute="trailing" constant="10" id="VfU-ql-zoP"/>
-                            <constraint firstAttribute="bottom" secondItem="eh9-Th-CjF" secondAttribute="bottom" constant="35" id="Wg3-9r-3XD"/>
-                            <constraint firstItem="eh9-Th-CjF" firstAttribute="top" secondItem="2Df-Qz-9eM" secondAttribute="top" constant="10" id="fpb-RT-va4"/>
-                            <constraint firstAttribute="trailing" secondItem="eh9-Th-CjF" secondAttribute="trailing" constant="10" id="pjM-o3-b9g"/>
-                            <constraint firstItem="eh9-Th-CjF" firstAttribute="leading" secondItem="2Df-Qz-9eM" secondAttribute="leading" constant="10" id="xhB-07-FJn"/>
-                        </constraints>
-                        <connections>
-                            <outlet property="button" destination="lgC-HB-y3K" id="Y5A-3X-nSs"/>
-                            <outlet property="imageView" destination="eh9-Th-CjF" id="VLn-7L-jjS"/>
-                        </connections>
-                    </customView>
-                </viewController>
-                <customObject id="jac-D5-nYa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="148" y="2615"/>
+            <point key="canvasLocation" x="529" y="2031"/>
         </scene>
     </scenes>
     <resources>

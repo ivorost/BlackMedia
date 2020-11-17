@@ -33,24 +33,55 @@ struct VideoConfig : Equatable {
     }
 }
 
+struct VideoEncoderConfig : Equatable {
+    let codec: AVVideoCodecType
+    let input: CMVideoDimensions
+    let output: CMVideoDimensions
+
+    init(codec: AVVideoCodecType, input: CMVideoDimensions, output: CMVideoDimensions) {
+        self.codec = codec
+        self.input = input
+        self.output = output
+    }
+}
+
 
 protocol VideoOutputProtocol {
-    
     func process(video: CMSampleBuffer)
+}
+
+
+protocol VideoOutputWithNextProtocol : VideoOutputProtocol {
+    init(next: VideoOutputProtocol?)
 }
 
 
 class VideoOutputImpl : VideoOutputProtocol {
     
-    var next: VideoOutputProtocol?
-    var measure: MeasureProtocol?
+    private let next: VideoOutputProtocol?
+    private let prev: VideoOutputProtocol?
+    private let measure: MeasureProtocol?
     
     init(next: VideoOutputProtocol? = nil, measure: MeasureProtocol? = nil) {
+        self.prev = nil
         self.next = next
         self.measure = measure
     }
-    
+
+    init(prev: VideoOutputProtocol, measure: MeasureProtocol? = nil) {
+        self.prev = prev
+        self.next = nil
+        self.measure = measure
+    }
+
+    init(prev: VideoOutputProtocol, next: VideoOutputProtocol? = nil) {
+        self.prev = prev
+        self.next = next
+        self.measure = nil
+    }
+
     func process(video: CMSampleBuffer) {
+        prev?.process(video: video)
         measure?.begin()
         let processNext = processSelf(video: video)
         measure?.end()
@@ -60,6 +91,13 @@ class VideoOutputImpl : VideoOutputProtocol {
     func processSelf(video: CMSampleBuffer) -> Bool {
         // to override
         return true
+    }
+}
+
+
+class VideoOutputWithNext : VideoOutputImpl, VideoOutputWithNextProtocol {
+    required init(next: VideoOutputProtocol?) {
+        super.init(next: next)
     }
 }
 
@@ -97,7 +135,7 @@ class VideoOutputBroadcast : VideoOutputProtocol {
 
 
 func broadcast(_ x: [VideoOutputProtocol]) -> VideoOutputProtocol? {
-    return broadcast(x, create: { VideoOutputBroadcast(x) })
+    return broadcast(x, create: { VideoOutputBroadcast($0) })
 }
 
 
@@ -142,8 +180,8 @@ class VideoSessionBroadcast : SessionBroadcast, VideoSessionProtocol {
 }
 
 
-func broadcast(_ x: [VideoSessionProtocol]) -> VideoSessionProtocol? {
-    return broadcast(x, create: { VideoSessionBroadcast(x) })
+func broadcast(_ x: [VideoSessionProtocol?]) -> VideoSessionProtocol? {
+    return broadcast(x, create: { VideoSessionBroadcast($0) })
 }
 
 

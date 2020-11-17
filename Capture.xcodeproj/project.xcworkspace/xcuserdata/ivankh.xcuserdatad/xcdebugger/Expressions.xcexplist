@@ -3,6 +3,12 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "DisplayCaptureControllerSetup.create():UI.Display.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DisplayCaptureController.createCaptureSession():UI.Display.swift">
+      </ContextState>
+      <ContextState
          contextName = "DisplayCaptureController.prepare(for:sender:):UI.Display.swift">
       </ContextState>
    </ContextStates>

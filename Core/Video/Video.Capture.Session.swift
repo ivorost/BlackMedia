@@ -32,7 +32,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func start() throws {
-        assert(queue.isCurrent == true)
+//        assert(queue.isCurrent == true)
         logAVPrior("video input start")
 
         //kCVPixelFormatType_32BGRA
@@ -56,7 +56,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     }
     
     func stop() {
-        assert(queue.isCurrent == true)
+//        assert(queue.isCurrent == true)
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

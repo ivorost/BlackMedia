@@ -7,7 +7,7 @@
 //
 
 import AVFoundation
-
+import AppKit
 
 typealias VideoFPS = VideoOutputImpl
 
@@ -43,6 +43,23 @@ class MeasureFPSPrint : MeasureFPS {
 }
 
 
+class MeasureFPSLabel : MeasureFPS {
+    let label: NSTextField
+
+    init(label: NSTextField) {
+        self.label = label
+        super.init { _ in }
+    }
+    
+    override func process(cps: Double) {
+        dispatchMainAsync {
+            self.label.stringValue = "\(Int(cps))"
+        }
+        super.process(cps: cps)
+    }
+}
+
+
 class MeasureVideo : VideoOutputProtocol {
     private let measure: MeasureProtocol
     private let next: VideoOutputProtocol
@@ -56,5 +73,26 @@ class MeasureVideo : VideoOutputProtocol {
         measure.begin()
         next.process(video: video)
         measure.end()
+    }
+}
+
+
+class VideoSetupMeasure : VideoSetup {
+    let kind: VideoOutputKind
+    let measure: MeasureProtocol
+    
+    init(kind: VideoOutputKind, measure: MeasureProtocol) {
+        self.kind = kind
+        self.measure = measure
+    }
+    
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == self.kind {
+            result = VideoOutputImpl(prev: result, measure: measure)
+        }
+        
+        return result
     }
 }

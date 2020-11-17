@@ -6,15 +6,24 @@ protocol DataProcessor : class {
 }
 
 class DataProcessorImpl : DataProcessor {
+    private let prev: DataProcessor?
     private let next: DataProcessor?
-    weak var nextWeak: DataProcessor?
+    weak var nextWeak: DataProcessor? = nil
 
-    init(_ next: DataProcessor? = nil) {
+
+    init(next: DataProcessor? = nil) {
+        self.prev = nil
         self.next = next
         self.nextWeak = next
     }
-    
+
+    init(prev: DataProcessor) {
+        self.prev = prev
+        self.next = nil
+    }
+
     func process(data: Data) {
+        prev?.process(data: data)
         nextWeak?.process(data: data)
     }
 }
@@ -31,8 +40,8 @@ class DataProcessorBroadcast : DataProcessor {
     }
 }
 
-func broadcast(_ x: [DataProcessor]) -> DataProcessor? {
-    broadcast(x, create: { DataProcessorBroadcast(x) })
+func broadcast(_ x: [DataProcessor?]) -> DataProcessor? {
+    broadcast(x, create: { DataProcessorBroadcast($0) })
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,8 +137,8 @@ extension AVCaptureSession : SessionProtocol {
 }
 
 
-func broadcast(_ x: [SessionProtocol]) -> SessionProtocol? {
-    broadcast(x, create: { SessionBroadcast(x) })
+func broadcast(_ x: [SessionProtocol?]) -> SessionProtocol? {
+    broadcast(x, create: { SessionBroadcast($0) })
 }
 
 
@@ -193,15 +202,23 @@ func logAVError(_ error: String) {
 // Broadcast
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func broadcast<T>(_ x: [T?], create: () -> T?) -> T? {
-    if (x.count == 0) {
-        return nil
-    }
-    if (x.count == 1) {
-        return x[0]
+func broadcast<T>(_ x: [T?], create: ([T]) -> T) -> T? {
+    var theX = [T]()
+    
+    for i in x {
+        if let i = i {
+            theX.append(i)
+        }
     }
     
-    return create()
+    if (theX.count == 0) {
+        return nil
+    }
+    if (theX.count == 1) {
+        return theX[0]
+    }
+    
+    return create(theX)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
