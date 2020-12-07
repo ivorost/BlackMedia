@@ -167,7 +167,7 @@ class VideoSetupEncoder : VideoSetupSlave {
         
         if kind == .capture {
             let serializerData = root.data(DataProcessor.shared, kind: .serializer)
-            let serializer = VideoH264Serializer(serializerData)
+            let serializer = VideoH264Serializer(next: serializerData)
             let serializerVideo = root.video(serializer, kind: .serializer)
             let encoder = VideoEncoderSessionH264(inputDimension: settings.input,
                                                   outputDimentions: settings.output,

@@ -10,11 +10,10 @@ import AppKit
 
 
 extension DisplayCapture {
-    class InfoCapture : Session {
-        private let network: DataProcessor.Proto
+    class InfoCapture : PacketSerializer.Processor, Session.Proto {
         private let settings: DisplayConfig
         
-        init(network: DataProcessor.Proto, settings: DisplayConfig) {
+        init(next: DataProcessor.Proto, settings: DisplayConfig) {
             var rect = settings.rect
             rect.size.width /= NSScreen.main?.backingScaleFactor ?? 1.0
             rect.size.height /= NSScreen.main?.backingScaleFactor ?? 1.0
@@ -24,31 +23,32 @@ extension DisplayCapture {
                                             fps: settings.fps)
             
 
-            self.network = network
             self.settings = settingsVar
-            super.init()
+            super.init(next: next)
         }
         
-        override func start() throws {
+        func start() throws {
             let packet = PacketSerializer(.display)
             packet.push(value: settings)
             
-            network.process(data: packet.data)
-            try super.start()
+            process(packet: packet)
+        }
+        
+        func stop() {
         }
     }
     
-    class InfoViewer : DataProcessor {
+    class InfoViewer : PacketDeserializer.Processor {
         private(set) var settings: DisplayConfig?
         
-        override func process(data: Data) {
-            super.process(data: data)
+        init() {
+            super.init(type: .display)
+        }
 
+        override func process(packet: PacketDeserializer) {
             guard settings == nil else { return }
-            let packet = PacketDeserializer(data)
             var settings = DisplayConfig.zero
             
-            guard packet.type == .display else { return }
             packet.pop(&settings)
             self.settings = settings
         }
@@ -67,7 +67,7 @@ extension DisplaySetup {
 
         override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
             if kind == .networkData {
-                let session = DisplayCapture.InfoCapture(network: data, settings: settings)
+                let session = DisplayCapture.InfoCapture(next: data, settings: settings)
                 root.session(session, kind: .other)
             }
             

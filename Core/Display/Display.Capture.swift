@@ -93,7 +93,7 @@ extension Capture {
             dataOutput.append(h264deserializer)
         }
         
-        let h264serializer = VideoH264Serializer(broadcast(dataOutput))
+        let h264serializer = VideoH264Serializer(next: broadcast(dataOutput) ?? DataProcessor.shared)
 
         let durationEnd = VideoProcessor(next: h264serializer, measure: MeasureEnd(duration))
 

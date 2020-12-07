@@ -41,6 +41,7 @@
 		823D0F3825507D6100F8C852 /* MetalKit.CVMetalTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */; };
 		823D0F3A25513A7200F8C852 /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82499AC725702B17000B8E61 /* General.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82499AC625702B17000B8E61 /* General.UI.swift */; };
+		8276561D257E3D7D007E193A /* CoreGraphics.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8276561C257E3D7D007E193A /* CoreGraphics.General.swift */; };
 		828A8D79255E7C75004853F4 /* Main.WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A8D78255E7C75004853F4 /* Main.WindowController.swift */; };
 		8294B867256EB78500BD032F /* Event.Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8294B866256EB78500BD032F /* Event.Post.swift */; };
 		8294B8692570222800BD032F /* CoreGraphics.Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8294B8682570222800BD032F /* CoreGraphics.Event.swift */; };
@@ -190,6 +191,7 @@
 		823CD622256F97030015A7D8 /* General.Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Vector.swift; sourceTree = "<group>"; };
 		823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalKit.CVMetalTexture.swift; sourceTree = "<group>"; };
 		82499AC625702B17000B8E61 /* General.UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.UI.swift; sourceTree = "<group>"; };
+		8276561C257E3D7D007E193A /* CoreGraphics.General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphics.General.swift; sourceTree = "<group>"; };
 		828A8D78255E7C75004853F4 /* Main.WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.WindowController.swift; sourceTree = "<group>"; };
 		8294B866256EB78500BD032F /* Event.Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.Post.swift; sourceTree = "<group>"; };
 		8294B8682570222800BD032F /* CoreGraphics.Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphics.Event.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 		82C950492546F8F30025663F /* CoreGraphics */ = {
 			isa = PBXGroup;
 			children = (
+				8276561C257E3D7D007E193A /* CoreGraphics.General.swift */,
 				82C9504A2546F8F30025663F /* CoreGraphics.Array.swift */,
 				8294B8682570222800BD032F /* CoreGraphics.Event.swift */,
 				82C9504B2546F8F30025663F /* CoreGraphics.Display.swift */,
@@ -856,6 +859,7 @@
 				822D397F25503AD7003B1861 /* Video.Time.swift in Sources */,
 				82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */,
 				82C950892546FD6B0025663F /* Common.URL.swift in Sources */,
+				8276561D257E3D7D007E193A /* CoreGraphics.General.swift in Sources */,
 				8294B8692570222800BD032F /* CoreGraphics.Event.swift in Sources */,
 				823C6492256C03AF009BCAF9 /* Event.Capture.swift in Sources */,
 				82C950692546F93B0025663F /* Dispatch.swift in Sources */,

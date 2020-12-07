@@ -9,18 +9,6 @@
 import AppKit
 
 
-extension CGPoint {
-    static func +=(lhs: inout CGPoint, rhs: CGPoint) {
-        lhs.x += rhs.x
-        lhs.y += rhs.y
-    }
-
-    static func -=(lhs: inout CGPoint, rhs: CGPoint) {
-        lhs.x -= rhs.x
-        lhs.y -= rhs.y
-    }
-}
-
 extension EventProcessor {
     class Transform : Base, DataProcessor.Proto {
         fileprivate var next: Proto?

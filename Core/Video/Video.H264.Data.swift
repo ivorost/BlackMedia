@@ -5,14 +5,8 @@ import AVFoundation
 // VideoH264Serializer
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoH264Serializer : VideoOutputProtocol {
-    
-    private var next: DataProcessorProtocol?
+class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
     private var timebase: VideoTime?
-    
-    init(_ next: DataProcessorProtocol?) {
-        self.next = next
-    }
     
     func process(video: CMSampleBuffer) {
         let formatDescription: CMFormatDescription = CMSampleBufferGetFormatDescription(video)!
@@ -118,7 +112,7 @@ class VideoH264Serializer : VideoOutputProtocol {
         serializer.push(data: Data(bytes: pps!, count: ppsLength))
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
 
-        next?.process(data: serializer.data)
+        process(packet: serializer)
     }
 }
 

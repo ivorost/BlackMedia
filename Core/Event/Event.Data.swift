@@ -10,13 +10,7 @@ import AppKit
 
 
 extension EventProcessor {
-    class Serializer : Proto {
-        private let next: DataProcessorProtocol
-        
-        init(next: DataProcessorProtocol) {
-            self.next = next
-        }
-        
+    class Serializer : PacketSerializer.Processor, Proto {
         func process(event: NSEvent) {
             let packet: PacketSerializer
             
@@ -34,7 +28,7 @@ extension EventProcessor {
                 packet.push(data: encoder.encodedData)
             }
             
-            next.process(data: packet.data)
+            process(packet: packet)
         }
     }
 }
@@ -63,30 +57,49 @@ extension EventProcessor.Serializer {
 
 
 extension EventProcessor {
-    class Deserializer : DataProcessorProtocol {
-        private let next: Proto
+    class Deserializer : PacketDeserializer.Processor {
+        fileprivate let next: Proto
         
-        init(next: Proto) {
+        init(type: PacketType, next: Proto) {
             self.next = next
+            super.init(type: type)
+        }
+    }
+
+    
+    class DeserializerCGEvent : Deserializer {
+        init(next: EventProcessor.Proto) {
+            super.init(type: .cgevent, next: next)
         }
         
-        func process(data: Data) {
-            let packet = PacketDeserializer(data)
+        override func process(packet: PacketDeserializer) {
             var event: NSEvent?
             let eventData = packet.popData()
             
-            if packet.type == .nsevent {
-                let decoder = NSKeyedUnarchiver(forReadingWith: eventData)
-                event = NSEvent(coder: decoder)
-                assert(event != nil)
+            if let cgEvent = CGEvent(withDataAllocator: nil, data: eventData as CFData) {
+                event = NSEvent(cgEvent: cgEvent)
             }
             
-            if packet.type == .cgevent {
-                if let cgEvent = CGEvent(withDataAllocator: nil, data: eventData as CFData) {
-                    event = NSEvent(cgEvent: cgEvent)
-                }
-                assert(event != nil)
+            assert(event != nil)
+            
+            if let event = event {
+                next.process(event: event)
             }
+        }
+    }
+
+    
+    class DeserializerNSEvent : Deserializer {
+        init(next: EventProcessor.Proto) {
+            super.init(type: .nsevent, next: next)
+        }
+        
+        override func process(packet: PacketDeserializer) {
+            let eventData = packet.popData()
+            let decoder = NSKeyedUnarchiver(forReadingWith: eventData)
+            let event = NSEvent(coder: decoder)
+            
+            assert(event != nil)
             
             if let event = event {
                 next.process(event: event)
@@ -110,8 +123,12 @@ extension EventProcessorSetup {
             
             if kind == self.target {
                 let event = root.event(EventProcessor.shared, kind: .deserializer)
-                let deserializer = root.data(EventProcessor.Deserializer(next: event), kind: .deserializer)
-                result = deserializer
+                let deserializer = broadcast([EventProcessor.DeserializerCGEvent(next: event),
+                                              EventProcessor.DeserializerNSEvent(next: event) ])
+            
+                if let deserializer = deserializer {
+                    result = root.data(deserializer, kind: .deserializer)
+                }
             }
             
             return super.data(result, kind: kind)

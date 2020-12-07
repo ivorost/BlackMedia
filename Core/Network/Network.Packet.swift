@@ -148,3 +148,39 @@ class PacketDeserializer {
         return self
     }
 }
+
+
+extension PacketSerializer {
+    class Processor {
+        private let next: DataProcessor.Proto
+        
+        init(next: DataProcessor.Proto) {
+            self.next = next
+        }
+        
+        func process(packet: PacketSerializer) {
+            next.process(data: packet.data)
+        }
+    }
+}
+
+
+extension PacketDeserializer {
+    class Processor : DataProcessor.Proto {
+        private let type: PacketType
+
+        init(type: PacketType) {
+            self.type = type
+        }
+        
+        func process(data: Data) {
+            let packet = PacketDeserializer(data)
+            guard packet.type == type else { return }
+            process(packet: packet)
+        }
+        
+        func process(packet: PacketDeserializer) {
+            // to override
+        }
+    }
+}
