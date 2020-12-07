@@ -16,6 +16,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true]
         
+        try? FileManager.default.createDirectory(at: .appSettings,
+                                                 withIntermediateDirectories: true,
+                                                 attributes: nil)
+        
         if !AXIsProcessTrustedWithOptions(options) {
             timer = Timer.scheduledTimer(
                 withTimeInterval: 3.0,

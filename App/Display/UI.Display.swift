@@ -22,6 +22,7 @@ fileprivate extension NSStoryboardSegue.Identifier {
 
 
 class DisplayCaptureViews : NSObject {
+    @IBOutlet private(set) var serverPathTextField: NSTextField!
     @IBOutlet private(set) var inputFPSLabel: NSTextField!
     @IBOutlet private(set) var outputFPSLabel: NSTextField!
 
@@ -45,6 +46,34 @@ class DisplayCaptureViews : NSObject {
 
     @IBAction private func networkButtonsAction(_ sender: AnyObject) {}
     @IBAction private func duplicatesButtonsAction(_ sender: AnyObject) {}
+    
+    func save() {
+        Settings.shared.acknowledge = setupSenderWebSocketACKButton.state == .on
+        Settings.shared.display     = setupDisplayButton.state == .on
+        Settings.shared.duplicates  = setupSenderDuplicatesButton.state == .on
+        Settings.shared.events      = setupEventsButton.state == .on
+        Settings.shared.memcmp      = setupSenderDuplicatesMemcmpButton.state == .on
+        Settings.shared.metal       = setupSenderDuplicatesMetalButton.state == .on
+        Settings.shared.multithread = setupMultithreadingButton.state == .on
+        Settings.shared.networking  = setupSenderWebSocketButton.state == .on
+        Settings.shared.preview     = setupPreviewButton.state == .on
+        Settings.shared.server      = serverPathTextField.stringValue
+        Settings.shared.stream      = setupSenderWebSocketQualityButton.state == .on
+    }
+    
+    func restore() {
+        setupSenderWebSocketACKButton.state     = Settings.shared.acknowledge ? .on : .off
+        setupDisplayButton.state                = Settings.shared.display ? .on : .off
+        setupSenderDuplicatesButton.state       = Settings.shared.duplicates ? .on : .off
+        setupEventsButton.state                 = Settings.shared.events ? .on : .off
+        setupSenderDuplicatesMemcmpButton.state = Settings.shared.memcmp ? .on : .off
+        setupSenderDuplicatesMetalButton.state  = Settings.shared.metal ? .on : .off
+        setupMultithreadingButton.state         = Settings.shared.multithread ? .on : .off
+        setupSenderWebSocketButton.state        = Settings.shared.networking ? .on : .off
+        setupPreviewButton.state                = Settings.shared.preview ? .on : .off
+        serverPathTextField.stringValue         = Settings.shared.server
+        setupSenderWebSocketQualityButton.state = Settings.shared.stream ? .on : .off
+    }
 }
 
 
@@ -357,6 +386,11 @@ class DisplayCaptureController : CaptureController {
     private var privacyController: PrivacyViewController?
     private var previewWindowController: DisplayMirrorWindowController?
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        displayCaptureViews.restore()
+    }
+    
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -397,6 +431,11 @@ class DisplayCaptureController : CaptureController {
         privacyController?.requestPermissionsAndWait()
     }
 
+    override func start(createSession: @escaping FuncReturningSessionThrowing) {
+        displayCaptureViews.save()
+        super.start(createSession: createSession)
+    }
+    
     override func createCaptureSession() throws -> SessionProtocol {
         let displayConfig = try createDisplaysConfigs().first!
         let videoRect = displayConfig.rect

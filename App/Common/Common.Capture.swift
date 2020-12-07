@@ -61,7 +61,7 @@ class CaptureController : NSViewController {
         throw Error.unimplemented
     }
 
-    private func start(createSession: @escaping FuncReturningSessionThrowing) {
+    func start(createSession: @escaping FuncReturningSessionThrowing) {
         self.stopButton.isEnabled = true
         self.captureButton.isEnabled = false
         self.listenButton.isEnabled = false
