@@ -25,8 +25,8 @@ class VideoViewerQuality : VideoProcessor {
         super.init(next: next)
     }
     
-    override func process(video: CMSampleBuffer) {
-        let sampleTime = video.presentationSeconds
+    override func process(video: VideoBuffer) {
+        let sampleTime = video.sampleBuffer.presentationSeconds
         var gap = 0.0
         
         super.process(video: video)
@@ -64,7 +64,7 @@ class VideoSenderQuality : VideoProcessor, DataProcessorProtocol {
     private var slowing = false
     private var lastFrameSent: Date?
     
-    override func process(video: CMSampleBuffer) {
+    override func process(video: VideoBuffer) {
         if slowing {
             if let lastFrameSent = lastFrameSent, Date().timeIntervalSince(lastFrameSent) > 1.0 {
                 super.process(video: video)

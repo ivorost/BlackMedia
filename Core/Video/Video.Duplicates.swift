@@ -31,14 +31,10 @@ class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
         return nil
     }
 
-    override func processSelf(video: CMSampleBuffer) -> Bool {
-        lock.locked {
-            let imageBuffer = CMSampleBufferGetImageBuffer(video)
+    override func process(video: VideoBuffer) {
+        return lock.locked {
+            let imageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer)
             var process = true
-            
-            //        if process && lastImageBuffer == imageBuffer {
-            //            process = false
-            //        }
             
             if process,
                 let lastImageBuffer = lastImageBuffer,
@@ -49,10 +45,14 @@ class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
             
             lastImageBuffer = imageBuffer
             
-            return process
+            if process {
+                super.process(video: video)
+            }
+            else {
+                super.process(video: video.copy(flags: [ .duplicate ]))
+            }
         }
     }
-
 }
 
 

@@ -39,10 +39,10 @@ class VideoOutputLayer : VideoOutputProtocol, SessionProtocol {
         layer.flushAndRemoveImage()
     }
     
-    func process(video: CMSampleBuffer) {
-        logAV("video output \(video.presentationSeconds)")
+    func process(video: VideoBuffer) {
+        logAV("video output \(video.sampleBuffer.presentationSeconds)")
 
-        let dataFormat = CMSampleBufferGetFormatDescription(video)
+        let dataFormat = CMSampleBufferGetFormatDescription(video.sampleBuffer)
         
         dispatch_sync_on_main {
             if CMFormatDescriptionEqual(format, otherFormatDescription: dataFormat) == false {
@@ -52,7 +52,7 @@ class VideoOutputLayer : VideoOutputProtocol, SessionProtocol {
             format = dataFormat
 
             if self.layer.isReadyForMoreMediaData && self.layer.status != .failed {
-                self.layer.enqueue(video)
+                self.layer.enqueue(video.sampleBuffer)
             }
             else {
                 self.printStatus()

@@ -46,8 +46,30 @@ struct VideoEncoderConfig : Equatable {
 }
 
 
+struct VideoBuffer {
+    struct Flags: OptionSet {
+        let rawValue: Int
+        static let duplicate = Flags(rawValue: 1 << 0)
+    }
+
+    let sampleBuffer: CMSampleBuffer
+    let flags: Flags
+}
+
+
+extension VideoBuffer {
+    init(_ sampleBuffer: CMSampleBuffer) {
+        self.init(sampleBuffer: sampleBuffer, flags: [])
+    }
+    
+    func copy(flags: Flags) -> VideoBuffer {
+        return VideoBuffer(sampleBuffer: sampleBuffer, flags: flags)
+    }
+}
+
+
 protocol VideoOutputProtocol {
-    func process(video: CMSampleBuffer)
+    func process(video: VideoBuffer)
 }
 
 
@@ -80,7 +102,7 @@ class VideoProcessor : VideoOutputProtocol {
         self.measure = nil
     }
 
-    func process(video: CMSampleBuffer) {
+    func process(video: VideoBuffer) {
         prev?.process(video: video)
         measure?.begin()
         let processNext = processSelf(video: video)
@@ -88,7 +110,7 @@ class VideoProcessor : VideoOutputProtocol {
         if processNext { next?.process(video: video) }
     }
     
-    func processSelf(video: CMSampleBuffer) -> Bool {
+    func processSelf(video: VideoBuffer) -> Bool {
         // to override
         return true
     }
@@ -120,7 +142,7 @@ class VideoOutputDispatch : VideoOutputProtocol {
         self.queue = queue
     }
     
-    func process(video: CMSampleBuffer) {
+    func process(video: VideoBuffer) {
         if let next = next {
             queue.async {
                 next.process(video: video)
@@ -137,7 +159,7 @@ class VideoOutputBroadcast : VideoOutputProtocol {
         self.array = array
     }
 
-    func process(video: CMSampleBuffer) {
+    func process(video: VideoBuffer) {
         for i in array { i?.process(video: video) }
     }
 }

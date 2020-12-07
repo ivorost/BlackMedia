@@ -37,7 +37,7 @@ class VideoViewerACK : DataProcessor {
 //    func process(data: Data) {
 //    }
 //
-//    override func process(video: CMSampleBuffer) {
+//    override func process(video: VideoBuffer) {
 //        if counter >= 10 {
 //            counter = 0
 //            super.process(video: video)
@@ -61,7 +61,7 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
         super.init(next: next)
     }
     
-    override func process(video: CMSampleBuffer) {
+    override func process(video: VideoBuffer) {
         if let readyTimestamp = readyTimestamp, Date().timeIntervalSince(readyTimestamp) > 3 {
             recover()
         }
@@ -73,7 +73,7 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
             lock.locked { readyTimestamp = Date() }
         }
         else {
-            lock.locked { lastSampleBuffer = video }
+            lock.locked { lastSampleBuffer = video.sampleBuffer }
         }
     }
     
@@ -113,7 +113,7 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
         readyTimestamp = nil
         
         if let sampleBuffer = lastSampleBuffer {
-            process(video: sampleBuffer)
+            process(video: VideoBuffer(sampleBuffer))
         }
     }
 }

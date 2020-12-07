@@ -69,7 +69,7 @@ class MeasureVideo : VideoOutputProtocol {
         self.next = next
     }
     
-    func process(video: CMSampleBuffer) {
+    func process(video: VideoBuffer) {
         measure.begin()
         next.process(video: video)
         measure.end()
@@ -87,14 +87,14 @@ class VideoOutputPresentationTime : VideoOutputProtocol {
         self.timebase = timebase
     }
         
-    func process(video: CMSampleBuffer) {
+    func process(video: VideoBuffer) {
         if startTime == nil {
-            startTime = video.presentationSeconds
+            startTime = video.sampleBuffer.presentationSeconds
         }
         
         if let startTime = startTime {
             let clock = "\(Date().timeIntervalSince(timebase.date))".padding(toLength: 10, withPad: " ", startingAt: 0)
-            let presentation = "\(video.presentationSeconds - startTime)"
+            let presentation = "\(video.sampleBuffer.presentationSeconds - startTime)"
             string.process(string: "\(clock) : \(presentation)")
         }
     }
@@ -134,8 +134,8 @@ class VideoPresentationDelay : VideoH264DeserializerBase, VideoOutputProtocol {
         output[time.timestamp.timeStamp] = originalTime
     }
 
-    func process(video: CMSampleBuffer) {
-        let key = CMSampleBufferGetPresentationTimeStamp(video).value
+    func process(video: VideoBuffer) {
+        let key = CMSampleBufferGetPresentationTimeStamp(video.sampleBuffer).value
         guard let originalTimeSeconds = output[key]?.timestamp.seconds
         else { assert(false); return }
         let currentTimeSeconds = CACurrentMediaTime();

@@ -13,10 +13,10 @@ extension PacketDeserializer {
 class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
     private var timebase: VideoTime?
     
-    func process(video: CMSampleBuffer) {
-        let formatDescription: CMFormatDescription = CMSampleBufferGetFormatDescription(video)!
+    func process(video: VideoBuffer) {
+        let formatDescription: CMFormatDescription = CMSampleBufferGetFormatDescription(video.sampleBuffer)!
         
-        if CMSampleBufferGetNumSamples(video) != 1 {
+        if CMSampleBufferGetNumSamples(video.sampleBuffer) != 1 {
             logAVError("CMSampleBufferGetNumSamples should be equal to one")
             return
         }
@@ -25,7 +25,7 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         
         var timingInfo = CMSampleTimingInfo()
         
-        if CMSampleBufferGetSampleTimingInfo(video,
+        if CMSampleBufferGetSampleTimingInfo(video.sampleBuffer,
                                              at: 0,
                                              timingInfoOut: &timingInfo) != 0 {
             logAVError("CMSampleBufferGetSampleTimingInfo failed")
@@ -77,7 +77,7 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
 
         // H264 data
         
-        let blockBuffer = CMSampleBufferGetDataBuffer(video)
+        let blockBuffer = CMSampleBufferGetDataBuffer(video.sampleBuffer)
         var totalLength = Int()
         var length = Int()
         var dataPointer: UnsafeMutablePointer<Int8>? = nil
@@ -210,7 +210,7 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
             
             // sample buffer
             
-            var sampleBuffer : CMSampleBuffer?
+            var result : CMSampleBuffer?
             try checkStatus(CMSampleBufferCreateReady(allocator: kCFAllocatorDefault,
                                                       dataBuffer: blockBuffer,
                                                       formatDescription: formatDescription,
@@ -219,11 +219,11 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
                                                       sampleTimingArray: &timingInfo,
                                                       sampleSizeEntryCount: 0,
                                                       sampleSizeArray: nil,
-                                                      sampleBufferOut: &sampleBuffer), "CMSampleBufferCreateReady failed")
+                                                      sampleBufferOut: &result), "CMSampleBufferCreateReady failed")
             
             // output
             
-            next?.process(video: sampleBuffer!)
+            next?.process(video: VideoBuffer(result!))
         }
         catch {
             logAVError(error)

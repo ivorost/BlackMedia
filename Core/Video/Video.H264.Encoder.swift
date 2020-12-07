@@ -54,7 +54,7 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
 //        Capture.shared.captureQueue.async {
         DispatchQueue.global().async {
             SELF.callback?(SELF)
-            SELF.next?.process(video: sampleBuffer)
+            SELF.next?.process(video: VideoBuffer(sampleBuffer))
         }
         
         } as VTCompressionOutputCallback
@@ -64,12 +64,17 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func start() throws {
+        let encoderSpecification: [NSString: AnyObject] = [
+            kVTCompressionPropertyKey_UsingHardwareAcceleratedVideoEncoder: kCFBooleanTrue,
+            kVTVideoEncoderSpecification_EnableHardwareAcceleratedVideoEncoder: kCFBooleanTrue,
+            kVTVideoEncoderSpecification_RequireHardwareAcceleratedVideoEncoder: kCFBooleanTrue ]
+        
         VTCompressionSessionCreate(
             allocator: kCFAllocatorDefault,
             width: Int32(outputDimentions.width),
             height: Int32(outputDimentions.height),
             codecType: kCMVideoCodecType_H264,
-            encoderSpecification: nil,
+            encoderSpecification: encoderSpecification as CFDictionary,
             imageBufferAttributes: attributes as CFDictionary,
             compressedDataAllocator: nil,
             outputCallback: sessionCallback,
@@ -99,18 +104,25 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     // VideoOutputProtocol
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    func process(video: CMSampleBuffer) {
-        guard let imageBuffer:CVImageBuffer = CMSampleBufferGetImageBuffer(video) else { return }
+    func process(video: VideoBuffer) {
         guard let session = self.session else { logError("VideoEncoderSessionH264 no session"); return }
-        var flags:VTEncodeInfoFlags = VTEncodeInfoFlags()
-                
-        VTCompressionSessionEncodeFrame(session,
-                                        imageBuffer: imageBuffer,
-                                        presentationTimeStamp: CMSampleBufferGetPresentationTimeStamp(video),
-                                        duration: CMSampleBufferGetDuration(video),
-                                        frameProperties: nil,
-                                        sourceFrameRefcon: nil,
-                                        infoFlagsOut: &flags)
+
+        if video.flags.contains(.duplicate) {
+            VTCompressionSessionCompleteFrames(session, untilPresentationTimeStamp: CMTime.invalid)
+        }
+        else {
+            guard let imageBuffer:CVImageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer) else { return }
+            var flags:VTEncodeInfoFlags = VTEncodeInfoFlags()
+            
+            VTCompressionSessionEncodeFrame(
+                session,
+                imageBuffer: imageBuffer,
+                presentationTimeStamp: CMSampleBufferGetPresentationTimeStamp(video.sampleBuffer),
+                duration: CMSampleBufferGetDuration(video.sampleBuffer),
+                frameProperties: nil,
+                sourceFrameRefcon: nil,
+                infoFlagsOut: &flags)
+        }
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -67,7 +67,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
         logAV("video input \(sampleBuffer.presentationSeconds)")
-        self.output?.process(video: sampleBuffer)
+        self.output?.process(video: VideoBuffer(sampleBuffer))
     }
     
     func failureNotification(notification: Notification) {
