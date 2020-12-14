@@ -74,11 +74,6 @@ protocol VideoOutputProtocol {
 }
 
 
-protocol VideoOutputWithNextProtocol : VideoOutputProtocol {
-    init(next: VideoOutputProtocol?)
-}
-
-
 class VideoProcessor : VideoOutputProtocol {
     
     private let next: VideoOutputProtocol?
@@ -120,16 +115,10 @@ class VideoProcessor : VideoOutputProtocol {
 
 extension VideoProcessor {
     typealias Proto = VideoOutputProtocol
+    typealias Base = VideoProcessor
 
     public struct Kind : Hashable, Equatable, RawRepresentable {
         let rawValue: String
-    }
-}
-
-
-class VideoOutputWithNext : VideoProcessor, VideoOutputWithNextProtocol {
-    required init(next: VideoOutputProtocol?) {
-        super.init(next: next)
     }
 }
 

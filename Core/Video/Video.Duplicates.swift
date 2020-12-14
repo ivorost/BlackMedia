@@ -23,46 +23,40 @@ extension MTLTexture {
 }
 
 
-class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
+class VideoRemoveDuplicateFramesBase : VideoProcessor {
     private var lastImageBuffer: CVImageBuffer?
-    private var duplicatesCount = 0
     private let lock = NSLock()
+    fileprivate let duplicatesFree: VideoOutputProtocol
+
+    required init(next: VideoOutputProtocol, duplicatesFree: VideoOutputProtocol) {
+        self.duplicatesFree = duplicatesFree
+        super.init(next: next)
+    }
 
     fileprivate func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
         return nil
     }
-
+    
     override func process(video: VideoBuffer) {
-        var process = true
+        var duplicate = false
         
         lock.locked {
             let imageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer)
             
-            if process,
-                let lastImageBuffer = lastImageBuffer,
-                let imageBuffer = imageBuffer,
-                isEqual(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
-                process = false
-            }
-            
-            if process {
-                duplicatesCount = 0
-            }
-            else {
-                duplicatesCount += 1
-            }
-            
-            if duplicatesCount == 5 {
-                process = true
-                print("aaa")
+            if let lastImageBuffer = lastImageBuffer,
+               let imageBuffer = imageBuffer,
+               isEqual(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
+                duplicate = true
             }
             
             lastImageBuffer = imageBuffer
         }
 
-        if process {
-            super.process(video: video)
+        if !duplicate {
+            duplicatesFree.process(video: video)
         }
+
+        super.process(video: duplicate ? video.copy(flags: [.duplicate]) : video)
     }
 }
 
@@ -137,8 +131,6 @@ class VideoRemoveDuplicateFramesUsingMetal : VideoRemoveDuplicateFramesBase {
                 if data == 3 {
                     return true
                 }
-                
-//                print("number \(data)")
             }
         }
         catch {
@@ -148,7 +140,7 @@ class VideoRemoveDuplicateFramesUsingMetal : VideoRemoveDuplicateFramesBase {
         return nil
     }
     
-    required init(next: VideoOutputProtocol? = nil) {
+    required init(next: VideoOutputProtocol, duplicatesFree: VideoOutputProtocol) {
         do {
             if let metalDevice = metalDevice {
                 // Create a command queue.
@@ -181,7 +173,7 @@ class VideoRemoveDuplicateFramesUsingMetal : VideoRemoveDuplicateFramesBase {
             logAVError(error)
         }
 
-        super.init(next: next)
+        super.init(next: next, duplicatesFree: duplicatesFree)
     }
 }
 
@@ -218,14 +210,15 @@ class VideoRemoveDuplicateFramesUsingMemcmp : VideoRemoveDuplicateFramesBase {
 }
 
 
-class VideoSetupDuplicatesTemplate<T> : VideoSetupSlave where T : VideoOutputWithNextProtocol {
+class VideoSetupDuplicatesTemplate<T> : VideoSetupSlave where T : VideoRemoveDuplicateFramesBase {
     override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .capture {
-            let next = root.video(VideoProcessor(next: result), kind: .duplicatesFree)
-            result = T(next: next)
-            result = root.video(result, kind: .duplicates)
+            let duplicatesFree = root.video(VideoProcessor(next: result), kind: .duplicatesFree)
+            let duplicatesNext = root.video(VideoProcessor(), kind: .duplicatesNext)
+
+            result = T(next: duplicatesNext, duplicatesFree: duplicatesFree)
         }
         
         return result

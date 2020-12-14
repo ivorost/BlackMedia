@@ -13,8 +13,8 @@ import AppKit
 
 extension VideoProcessor.Kind {
     static let capture = VideoProcessor.Kind(rawValue: "capture")
-    static let duplicates = VideoProcessor.Kind(rawValue: "duplicates")
     static let duplicatesFree = VideoProcessor.Kind(rawValue: "duplicatesFree")
+    static let duplicatesNext = VideoProcessor.Kind(rawValue: "duplicatesNext")
     static let encoder = VideoProcessor.Kind(rawValue: "encoder")
     static let serializer = VideoProcessor.Kind(rawValue: "serializer")
     static let deserializer = VideoProcessor.Kind(rawValue: "deserializer")

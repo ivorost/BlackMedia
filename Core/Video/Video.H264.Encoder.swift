@@ -87,13 +87,6 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
 
     func process(video: VideoBuffer) {
         _process(video: video)
-        
-//        Capture.shared.captureQueue.asyncAfter(deadline: .now() + 0.1) {
-//            if let processedVideoBuffer = self.processedVideoBuffer, processedVideoBuffer.ID < video.ID {
-//                self._process(video: video)
-//                print("aaaa")
-//            }
-//        }
     }
     
     func _process(video: VideoBuffer) {
@@ -114,7 +107,7 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
                 infoFlagsOut: &flags)
         }
     }
-        
+    
     private var sessionCallback: VTCompressionOutputCallback = {(
         outputCallbackRefCon:UnsafeMutableRawPointer?,
         sourceFrameRefCon:UnsafeMutableRawPointer?,
@@ -135,7 +128,6 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
             return
         }
 
-//        Capture.shared.captureQueue.async {
         DispatchQueue.global().async {
             SELF.callback?(SELF)
             SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID, buffer: sampleBuffer))
@@ -183,12 +175,42 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     }
 }
 
+extension VideoEncoderSessionH264 {
+    class Duplicates : VideoProcessor.Base {
+        private let encoder: VideoEncoderSessionH264
+        private var sequenceCount = 0
+        private let lock = NSLock()
+        
+        init(encoder: VideoEncoderSessionH264) {
+            self.encoder = encoder
+            super.init()
+        }
+        
+        override func process(video: VideoBuffer) {
+            var process = false
+            
+            lock.locked {
+                sequenceCount += 1
+                
+                if video.flags.contains(.duplicate), sequenceCount == 5 {
+                    process = true
+                }
+            }
+            
+            if process {
+                encoder.process(video: video)
+            }
+        }
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Setup
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class VideoSetupEncoder : VideoSetupSlave {
     private let settings: VideoEncoderConfig
+    private var encoder: VideoEncoderSessionH264?
 
     init(root: VideoSetupProtocol, settings: VideoEncoderConfig) {
         self.settings = settings
@@ -210,6 +232,17 @@ class VideoSetupEncoder : VideoSetupSlave {
             
             result = VideoProcessor(prev: result, next: encoderVideo)
             root.session(encoder, kind: .encoder)
+            self.encoder = encoder
+        }
+        
+        if kind == .duplicatesNext {
+            if let encoder = encoder {
+                let encoderDuplicates = VideoEncoderSessionH264.Duplicates(encoder: encoder)
+                result = VideoProcessor(prev: result, next: encoderDuplicates)
+            }
+            else {
+                assert(false)
+            }
         }
         
         return super.video(result, kind: kind)
