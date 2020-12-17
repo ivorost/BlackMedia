@@ -74,7 +74,7 @@ protocol VideoOutputProtocol {
 }
 
 
-class VideoProcessor : VideoOutputProtocol {
+class VideoProcessorBase : VideoOutputProtocol {
     
     private let next: VideoOutputProtocol?
     private let prev: VideoOutputProtocol?
@@ -113,9 +113,14 @@ class VideoProcessor : VideoOutputProtocol {
 }
 
 
+class VideoProcessor : VideoProcessorBase {
+    static let shared = VideoProcessor()
+}
+
+
 extension VideoProcessor {
     typealias Proto = VideoOutputProtocol
-    typealias Base = VideoProcessor
+    typealias Base = VideoProcessorBase
 
     public struct Kind : Hashable, Equatable, RawRepresentable {
         let rawValue: String

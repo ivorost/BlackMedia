@@ -93,3 +93,28 @@ extension DataProcessorSetup {
         }
     }
 }
+
+
+extension DataProcessor.Test {
+    class Setup : CaptureSetup.Slave {
+        private let kbits: UInt
+        private let interval: TimeInterval
+        
+        init(root: Capture.Setup, kbits: UInt, interval: TimeInterval) {
+            self.kbits = kbits
+            self.interval = interval
+            super.init(root: root)
+        }
+        
+        override func session(_ session: Session.Proto, kind: Session.Kind) {
+            if kind == .initial {
+                let next = root.data(DataProcessor.shared, kind: .capture)
+                let test = DataProcessor.Test(next: next, kbits: kbits)
+                let flush = Session.DispatchSync(session: Flushable.Periodically(interval: interval, next: test),
+                                                 queue: DispatchQueue.main)
+                
+                root.session(flush, kind: .other)
+            }
+        }
+    }
+}

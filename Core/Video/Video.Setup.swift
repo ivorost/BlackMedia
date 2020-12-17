@@ -16,6 +16,7 @@ extension VideoProcessor.Kind {
     static let duplicatesFree = VideoProcessor.Kind(rawValue: "duplicatesFree")
     static let duplicatesNext = VideoProcessor.Kind(rawValue: "duplicatesNext")
     static let encoder = VideoProcessor.Kind(rawValue: "encoder")
+    static let decoder = VideoProcessor.Kind(rawValue: "decoder")
     static let serializer = VideoProcessor.Kind(rawValue: "serializer")
     static let deserializer = VideoProcessor.Kind(rawValue: "deserializer")
     static let preview = VideoProcessor.Kind(rawValue: "preview")

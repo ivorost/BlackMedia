@@ -46,6 +46,7 @@
 		824CDF262583AC79006B8EDE /* Swift.Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824CDF252583AC79006B8EDE /* Swift.Collection.swift */; };
 		8276561D257E3D7D007E193A /* CoreGraphics.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8276561C257E3D7D007E193A /* CoreGraphics.General.swift */; };
 		828A8D79255E7C75004853F4 /* Main.WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A8D78255E7C75004853F4 /* Main.WindowController.swift */; };
+		828CA20C2589367F00247034 /* Video.H264.Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA20B2589367F00247034 /* Video.H264.Decoder.swift */; };
 		8294B867256EB78500BD032F /* Event.Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8294B866256EB78500BD032F /* Event.Post.swift */; };
 		8294B8692570222800BD032F /* CoreGraphics.Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8294B8682570222800BD032F /* CoreGraphics.Event.swift */; };
 		82A142162551244300FBABE9 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; };
@@ -199,6 +200,7 @@
 		824CDF252583AC79006B8EDE /* Swift.Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Collection.swift; sourceTree = "<group>"; };
 		8276561C257E3D7D007E193A /* CoreGraphics.General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphics.General.swift; sourceTree = "<group>"; };
 		828A8D78255E7C75004853F4 /* Main.WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.WindowController.swift; sourceTree = "<group>"; };
+		828CA20B2589367F00247034 /* Video.H264.Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Video.H264.Decoder.swift; path = ../../../../upwork/_old/gochat/apple/Common/IO/Video.H264.Decoder.swift; sourceTree = "<group>"; };
 		8294B866256EB78500BD032F /* Event.Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.Post.swift; sourceTree = "<group>"; };
 		8294B8682570222800BD032F /* CoreGraphics.Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphics.Event.swift; sourceTree = "<group>"; };
 		82A142152551244200FBABE9 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				82C9508E25474AB80025663F /* Video.Duplicates.swift */,
 				822764C125495D0D00C2E46D /* Video.Duplicates.metal */,
 				822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */,
+				828CA20B2589367F00247034 /* Video.H264.Decoder.swift */,
 				822764A925492D7000C2E46D /* Video.H264.Data.swift */,
 				82312116254EF13E007D5B1B /* Video.Metrics.swift */,
 				820A473E2564398C00CDD1DD /* Video.Threading.swift */,
@@ -835,6 +838,7 @@
 				823CD623256F97030015A7D8 /* General.Vector.swift in Sources */,
 				82C9505B2546F8F30025663F /* AppKit.View.swift in Sources */,
 				82C950262546F6830025663F /* Video.General.swift in Sources */,
+				828CA20C2589367F00247034 /* Video.H264.Decoder.swift in Sources */,
 				82C9505F2546F8F30025663F /* CoreGraphics.Display.swift in Sources */,
 				822D39842550400B003B1861 /* Network.Packet.swift in Sources */,
 				82C950312546F6830025663F /* AV.swift in Sources */,

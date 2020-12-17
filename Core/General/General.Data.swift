@@ -11,6 +11,8 @@ import Foundation
 
 extension DataProcessor.Kind {
     static let other = DataProcessor.Kind(rawValue: "other")
+    static let none = DataProcessor.Kind(rawValue: "none")
+    static let capture = DataProcessor.Kind(rawValue: "capture")
     static let serializer = DataProcessor.Kind(rawValue: "serializer")
     static let deserializer = DataProcessor.Kind(rawValue: "deserializer")
     static let networkData = DataProcessor.Kind(rawValue: "networkData")
@@ -52,6 +54,7 @@ class DataProcessor : DataProcessorProtocol {
 
 
 extension DataProcessor {
+    typealias Base = DataProcessor
     typealias Proto = DataProcessorProtocol
 }
 
@@ -78,3 +81,30 @@ class DataProcessorBroadcast : DataProcessorProtocol {
 func broadcast(_ x: [DataProcessorProtocol?]) -> DataProcessorProtocol? {
     broadcast(x, create: { DataProcessorBroadcast($0) })
 }
+
+extension DataProcessor {
+    class Test : Session.Proto & Flushable.Proto {
+        private let data: Data
+        private let next: DataProcessorProtocol
+        
+        init(next: DataProcessorProtocol, kbits: UInt) {
+            let count = Int(kbits * 1024 / 8)
+            var bytes = [UInt8](repeating: 0, count: count)
+            
+            for i in 0 ..< count {
+                bytes[i] = UInt8.random(in: UInt8.min ... UInt8.max)
+            }
+
+            self.data = Data(bytes)
+            self.next = next
+        }
+        
+        func start() throws {}
+        func stop() {}
+        
+        func flush() {
+            next.process(data: data)
+        }
+    }
+}
+

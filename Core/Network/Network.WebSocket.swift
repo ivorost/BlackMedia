@@ -86,13 +86,15 @@ extension WebSocketBase {
         private var webSocket: DataProcessor.Proto?
         private let name: String
         private let session: Session.Kind
+        private let target: DataProcessor.Kind
         private let network: DataProcessor.Kind
         private let output: DataProcessor.Kind
         private let create: Create
-        
+
         init(root: CaptureSetup.Proto,
              name: String,
              session: Session.Kind,
+             target: DataProcessor.Kind,
              network: DataProcessor.Kind,
              output: DataProcessor.Kind,
              create: @escaping Create) {
@@ -101,23 +103,26 @@ extension WebSocketBase {
             self.network = network
             self.output = output
             self.create = create
+            self.target = target
             super.init(root: root)
         }
         
-        init(data root: CaptureSetup.Proto, create: @escaping Create) {
+        init(data root: CaptureSetup.Proto, target: DataProcessor.Kind, create: @escaping Create) {
             self.name = "machine_mac_data"
             self.session = .networkData
             self.network = .networkData
             self.output = .networkDataOutput
             self.create = create
+            self.target = target
             super.init(root: root)
         }
         
-        init(helm root: CaptureSetup.Proto, create: @escaping Create) {
+        init(helm root: CaptureSetup.Proto, target: DataProcessor.Kind, create: @escaping Create) {
             self.name = "machine_mac_helm"
             self.session = .networkHelm
             self.network = .networkHelm
             self.output = .networkHelmOutput
+            self.target = target
             self.create = create
             super.init(root: root)
         }
@@ -135,8 +140,13 @@ extension WebSocketBase {
         override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
             var result = data
             
-            if let webSocket = webSocket, kind == .serializer {
-                result = DataProcessor(prev: result, next: webSocket)
+            if kind == target {
+                if let webSocket = webSocket {
+                    result = DataProcessor(prev: result, next: webSocket)
+                }
+                else {
+                    assert(false)
+                }
             }
             
             return super.data(result, kind: kind)
@@ -147,30 +157,30 @@ extension WebSocketBase {
 
 extension WebSocketMaster {
     class SetupData : SetupBase {
-        init(root: CaptureSetup.Proto) {
-            super.init(data: root, create: { return WebSocketMaster(name: $0, next: $1) })
+        init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
+            super.init(data: root, target: target, create: { return WebSocketMaster(name: $0, next: $1) })
         }
     }
 
     
     class SetupHelm : SetupBase {
-        init(root: CaptureSetup.Proto) {
-            super.init(helm: root, create: { return WebSocketMaster(name: $0, next: $1) })
+        init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
+            super.init(helm: root, target: target, create: { return WebSocketMaster(name: $0, next: $1) })
         }
     }
 }
 
 extension WebSocketSlave {
     class SetupData : SetupBase {
-        init(root: CaptureSetup.Proto) {
-            super.init(data: root, create: { return WebSocketSlave(name: $0, next: $1) })
+        init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
+            super.init(data: root, target: target, create: { return WebSocketSlave(name: $0, next: $1) })
         }
     }
 
     
     class SetupHelm : SetupBase {
-        init(root: CaptureSetup.Proto) {
-            super.init(helm: root, create: { return WebSocketSlave(name: $0, next: $1) })
+        init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
+            super.init(helm: root, target: target, create: { return WebSocketSlave(name: $0, next: $1) })
         }
     }
 }

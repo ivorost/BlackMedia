@@ -101,7 +101,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         let timebase = Timebase(); root.session(timebase, kind: .other)
         let display = DisplaySetup(root: root, settings: displayConfig)
         let displayInfo = DisplaySetup.InfoCapture(root: root, settings: displayConfig)
-        let preview = VideoSetupCheckbox(next: VideoSetupPreview(root: root, layer: layer),
+        let preview = VideoSetupCheckbox(next: VideoSetupPreview(root: root, layer: layer, kind: .deserializer),
                                          checkbox: views.setupPreviewButton)
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .serializer)
@@ -113,8 +113,9 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
                                                   checkbox: views.setupSenderDuplicatesMemcmpButton)
         let duplicates = VideoSetupCheckbox(next: broadcast([duplicatesMetal, duplicatesMemcmp]) ?? VideoSetup(),
                                             checkbox: views.setupSenderDuplicatesButton)
-        let webSocketHelm = VideoSetupCheckbox(next: cast(video: WebSocketMaster.SetupHelm(root: root)),
-                                               checkbox: views.setupSenderWebSocketButton)
+        let webSocketHelm = VideoSetupCheckbox(
+            next: cast(video: WebSocketMaster.SetupHelm(root: root, target: .none)),
+            checkbox: views.setupSenderWebSocketButton)
         let webSocketACKMetric = StringProcessor.TableView(tableView: views.tableViewACK1)
         let webSocketACK = VideoSetupCheckbox(
             next: VideoSetupCheckbox(next: VideoSetupSenderACK(root: root,
@@ -187,10 +188,12 @@ fileprivate class SetupVideoListening : VideoSetupVector {
     }
     
     override func create() -> [VideoSetupProtocol] {
-        let preview = VideoSetupPreview(root: root, layer: layer)
+        let preview = VideoSetupPreview(root: root, layer: layer, kind: .decoder)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
-        let webSocketHelm = VideoSetupCheckbox(next: cast(video: WebSocketSlave.SetupHelm(root: root)),
-                                               checkbox: views.setupSenderWebSocketButton)
+        let decoder = VideoProcessor.DecoderH264.Setup1(root: root)
+        let webSocketHelm = VideoSetupCheckbox(
+            next: cast(video: WebSocketSlave.SetupHelm(root: root, target: .serializer)),
+            checkbox: views.setupSenderWebSocketButton)
         let webSocketACK = VideoSetupCheckbox(next: VideoSetupViewerACK(root: root),
                                               checkbox: views.setupSenderWebSocketACKButton)
         let webSocketQuality = VideoSetupCheckbox(next: VideoSetupViewerQuality(root: root),
@@ -216,6 +219,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
         return [
             preview,
             deserializer,
+            decoder,
             webSocketHelm,
             webSocketACK,
             webSocketQuality,
@@ -326,7 +330,7 @@ fileprivate class SetupCapture : CaptureSetup.Vector {
     }
     
     override func create() -> [CaptureSetup.Proto] {
-        let websocket = WebSocketMaster.SetupData(root: self)
+        let websocket = WebSocketMaster.SetupData(root: self, target: .serializer)
         let aggregator = SessionSetup.Aggregator()
         let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
 
@@ -371,7 +375,7 @@ fileprivate class SetupViewer : CaptureSetup.Vector {
     override func create() -> [CaptureSetup.Proto] {
         let aggregator = SessionSetup.Aggregator()
         let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
-        let websocket = WebSocketSlave.SetupData(root: self)
+        let websocket = WebSocketSlave.SetupData(root: self, target: .serializer)
 
         videoRoot.register(cast(video: websocket))
         videoRoot.register(cast(video: aggregator))
@@ -392,6 +396,87 @@ fileprivate class SetupViewer : CaptureSetup.Vector {
 }
 
 
+fileprivate class SetupNetworkTest : CaptureSetup.Vector {
+    private weak var views: SetupNetworkTestUI?
+
+    init(views: SetupNetworkTestUI) {
+        self.views = views
+        super.init()
+    }
+    
+    override func create() -> [CaptureSetup.Proto] {
+        guard
+            let views = views,
+            let kbits = UInt(views.kbitsTextField.stringValue),
+            let interval = TimeInterval(views.intervalTextField.stringValue)
+        else { return [] }
+
+        let aggregator = SessionSetup.Aggregator()
+        let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
+        let websocket = WebSocketMaster.SetupData(root: self, target: .capture)
+        let test = DataProcessor.Test.Setup(root: self, kbits: kbits, interval: interval)
+
+        let byterateString = StringProcessor.TableView(tableView: views.capture.tableViewByterate)
+        let byterateMeasure = MeasureByterate(string: byterateString)
+        let byterate = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkData)
+
+        let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ byterateMeasure ]))
+        aggregator.session(Session.DispatchSync(session: flushPeriodically, queue: DispatchQueue.main), kind: .other)
+
+        return [
+            cast(capture: aggregatorDispatch),
+            websocket,
+            test,
+            byterate
+        ]
+    }
+}
+
+
+@objc class SetupNetworkTestUI : NSObject {
+    @IBOutlet private(set) var kbitsTextField: NSTextField!
+    @IBOutlet private(set) var intervalTextField: NSTextField!
+    @IBOutlet private(set) var testButton: NSButton!
+    @IBOutlet private(set) var stopButton: NSButton!
+    @IBOutlet private(set) var capture: DisplayCaptureViews!
+    private var session: Session.Proto?
+
+    @IBAction func startAction(_ sender: Any) {
+        let oldSession = self.session
+        let newSession = SetupNetworkTest(views: self).setup()
+        
+        self.session = newSession
+
+        Capture.shared.captureQueue.async {
+            do {
+                oldSession?.stop()
+                try newSession?.start()
+                
+                dispatchMainSync {
+                    self.testButton.isHidden = true
+                    self.stopButton.isHidden = false
+                }
+            }
+            catch {
+                logError(error)
+            }
+        }
+    }
+
+    @IBAction func stopAction(_ sender: Any) {
+        let session = self.session
+        
+        testButton.isHidden = false
+        stopButton.isHidden = true
+        self.session = nil
+
+        Capture.shared.captureQueue.async {
+            session?.stop()
+        }
+    }
+}
+
+
 class DisplayCaptureController : CaptureController {
     
     enum Error : Swift.Error {
@@ -399,6 +484,7 @@ class DisplayCaptureController : CaptureController {
     }
     
     @IBOutlet private var displayCaptureViews: DisplayCaptureViews!
+    @IBOutlet private var networkTestViews: SetupNetworkTestUI!
     private var privacyController: PrivacyViewController?
     private var previewWindowController: DisplayMirrorWindowController?
 
