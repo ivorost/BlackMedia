@@ -141,11 +141,11 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
 
         let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming1))
         let timestamp1processor = VideoOutputPresentationTime(string: timestamp1string, timebase: timebase)
-        let timestamp1 = VideoSetupProcessor(video: timestamp1processor, kind: .capture)
+        let timestamp1 = VideoSetupProcessor(kind: .capture, video: timestamp1processor)
 
         let timestamp2string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming2))
         let timestamp2processor = VideoOutputPresentationTime(string: timestamp2string, timebase: timebase)
-        let timestamp2 = VideoSetupProcessor(video: timestamp2processor, kind: .duplicatesFree)
+        let timestamp2 = VideoSetupProcessor(kind: .duplicatesFree, video: timestamp2processor)
 
         let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ byterateMeasure,
                                                                                 captureFPS,
@@ -177,10 +177,10 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
 
 fileprivate class SetupVideoListening : VideoSetupVector {
     private let views: DisplayCaptureViews
-    private let layer: AVSampleBufferDisplayLayer
+    private let layer: SampleBufferDisplayLayer
     private let root: VideoSetupProtocol
 
-    init(root: VideoSetupProtocol, views: DisplayCaptureViews, layer: AVSampleBufferDisplayLayer) {
+    init(root: VideoSetupProtocol, views: DisplayCaptureViews, layer: SampleBufferDisplayLayer) {
         self.root = root
         self.views = views
         self.layer = layer
@@ -190,8 +190,9 @@ fileprivate class SetupVideoListening : VideoSetupVector {
     override func create() -> [VideoSetupProtocol] {
         let window = (layer.delegate as? NSView)?.window
         let preview = VideoSetupPreview(root: root, layer: layer, kind: .deserializer)//.decoder)
+        let orientation = VideoSetup.LayerOrientation(layer: layer)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
-        let decoder = VideoProcessor.DecoderH264.Setup1(root: root)
+//        let decoder = VideoProcessor.DecoderH264.Setup1(root: root)
         var autosizeWindow: DataProcessor.Setup = DataProcessorSetup.shared
         if let window = window { autosizeWindow = DisplaySetup.AutosizeWindow(root: root, window: window) }
         let webSocketHelm = VideoSetupCheckbox(
@@ -210,7 +211,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
 
         let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming1))
         let timestamp1processor = VideoPresentationDelay(next: timestamp1string)
-        let timestamp1video = VideoSetupProcessor(video: timestamp1processor, kind: .preview)
+        let timestamp1video = VideoSetupProcessor(kind: .preview, video: timestamp1processor)
         let timestamp1data = DataProcessorSetup.Default(prev: timestamp1processor, kind: .networkDataOutput)
 
         let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ byterateMeasure,
@@ -221,6 +222,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
 
         return [
             preview,
+            orientation,
             deserializer,
 //            decoder,
             webSocketHelm,
@@ -366,11 +368,11 @@ fileprivate class SetupCapture : CaptureSetup.Vector {
 
 fileprivate class SetupViewer : CaptureSetup.Vector {
     private let views: DisplayCaptureViews
-    private let layer: AVSampleBufferDisplayLayer
+    private let layer: SampleBufferDisplayLayer
     private let videoRoot = VideoSetupVector()
     private let eventRoot = EventProcessorSetup.Vector()
 
-    init(views: DisplayCaptureViews, layer: AVSampleBufferDisplayLayer) {
+    init(views: DisplayCaptureViews, layer: SampleBufferDisplayLayer) {
         self.views = views
         self.layer = layer
         super.init()
@@ -556,9 +558,9 @@ class DisplayCaptureController : CaptureController {
     }
     
     override func createListenSession() throws -> SessionProtocol {
-        let layer = previewView?.sampleLayer ?? AVSampleBufferDisplayLayer()
+        let layer = previewView?.sampleLayer ?? SampleBufferDisplayLayer()
         var result: Session.Proto = SetupViewer(views: displayCaptureViews, layer: layer).setup() ?? Session.shared
-        
+
         result = Session(result, start: {
             dispatchMainSync {
                 self.previewWindowController?.session = self.activeSession

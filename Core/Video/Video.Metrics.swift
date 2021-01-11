@@ -121,8 +121,8 @@ class VideoPresentationDelay : VideoH264DeserializerBase, VideoOutputProtocol {
         super.init(metadataOnly: true)
     }
     
-    override func process(ID: UInt, time: VideoTime, originalTime: VideoTime) {
-        output[time.timestamp.timeStamp] = originalTime
+    override func process(metadata: VideoProcessor.Packet) {
+        output[metadata.time.timestamp.timeStamp] = metadata.originalTime
     }
 
     func process(video: VideoBuffer) {

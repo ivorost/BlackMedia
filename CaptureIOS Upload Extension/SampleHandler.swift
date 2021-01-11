@@ -24,6 +24,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         let timebase = Timebase(); root.session(timebase, kind: .other)
         let displayInfo = DisplaySetup.InfoCapture(root: root, settings: DisplayConfig(displayID: 0, fps: CMTime.zero)!)
         let capture = VideoSetup.External(root: root)
+        let orientation = VideoSetup.Orientation()
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
         let multithreading = VideoSetupMultithreading(root: root)
         let websocket = WebSocketMaster.SetupData(root: self, target: .serializer)
@@ -48,6 +49,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             webSocketHelm,
             webSocketACK,
             cast(video: capture),
+            orientation,
             byterate ]
     }
 }
@@ -93,7 +95,7 @@ class SampleHandler: RPBroadcastSampleHandler {
         case RPSampleBufferType.video:
             self.videoID += 1
             let videoID = self.videoID
-            
+                        
             Capture.shared.captureQueue.async {
                 self.config?.capture?.video.process(video: VideoBuffer(ID: videoID, buffer: sampleBuffer))
             }

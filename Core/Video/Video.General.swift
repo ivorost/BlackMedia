@@ -54,17 +54,22 @@ struct VideoBuffer {
 
     let ID: UInt
     let sampleBuffer: CMSampleBuffer
+    let orientation: UInt8? // CGImagePropertyOrientation.
     let flags: Flags
 }
 
 
 extension VideoBuffer {
-    init(ID: UInt, buffer: CMSampleBuffer) {
-        self.init(ID: ID, sampleBuffer: buffer, flags: [])
+    init(ID: UInt, buffer: CMSampleBuffer, orientation: UInt8? = nil) {
+        self.init(ID: ID, sampleBuffer: buffer, orientation: orientation, flags: [])
     }
     
     func copy(flags: Flags) -> VideoBuffer {
-        return VideoBuffer(ID: ID, sampleBuffer: sampleBuffer, flags: flags)
+        return VideoBuffer(ID: ID, sampleBuffer: sampleBuffer, orientation: orientation, flags: flags)
+    }
+
+    func copy(orientation: UInt8) -> VideoBuffer {
+        return VideoBuffer(ID: ID, sampleBuffer: sampleBuffer, orientation: orientation, flags: flags)
     }
 }
 

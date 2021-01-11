@@ -30,8 +30,13 @@ protocol VideoSetupProtocol : CaptureSetup.Proto {
 }
 
 
-extension VideoOutputProtocol {
+extension VideoProcessor {
     typealias Setup = VideoSetupProtocol
+}
+
+
+extension VideoSetup {
+    typealias Base = VideoSetup
 }
 
 
@@ -111,11 +116,15 @@ func broadcast(_ x: [VideoSetupProtocol?]) -> VideoSetupProtocol? {
 
 class VideoSetupProcessor : VideoSetup {
     
-    private let video: VideoOutputProtocol
+    private let create: (VideoProcessor.Proto) -> VideoProcessor.Proto
     private let kind: VideoProcessor.Kind
     
-    init(video: VideoOutputProtocol, kind: VideoProcessor.Kind) {
-        self.video = video
+    convenience init(kind: VideoProcessor.Kind, video: VideoOutputProtocol) {
+        self.init(kind: kind) { VideoProcessor(prev: video, next: $0) }
+    }
+    
+    init(kind: VideoProcessor.Kind, create: @escaping (VideoProcessor.Proto) -> VideoProcessor.Proto) {
+        self.create = create
         self.kind = kind
     }
     
@@ -123,7 +132,7 @@ class VideoSetupProcessor : VideoSetup {
         var result = video
         
         if kind == self.kind {
-            result = VideoProcessor(prev: self.video, next: result)
+            result = create(result)
         }
         
         return result

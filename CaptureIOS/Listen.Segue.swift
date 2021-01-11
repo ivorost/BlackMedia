@@ -10,9 +10,9 @@ import UIKit
 import AVFoundation
 
 fileprivate class SetupVideoListening : VideoSetupVector {
-    private let layer: AVSampleBufferDisplayLayer
+    private let layer: SampleBufferDisplayLayer
 
-    init(layer: AVSampleBufferDisplayLayer) {
+    init(layer: SampleBufferDisplayLayer) {
         self.layer = layer
         super.init()
     }
@@ -20,6 +20,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
     override func create() -> [VideoSetupProtocol] {
         let root = self
         let preview = VideoSetupPreview(root: root, layer: layer, kind: .deserializer)
+        let orientation = VideoSetup.LayerOrientation(layer: layer)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
         let webSocketHelm = WebSocketSlave.SetupHelm(root: root, target: .serializer)
         let webSocketACK = VideoSetupViewerACK(root: root)
@@ -30,6 +31,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
             cast(video: websocket),
             cast(video: aggregator),
             preview,
+            orientation,
             deserializer,
 //            decoder,
             cast(video: webSocketHelm),
@@ -46,6 +48,8 @@ class ListenSegue : UIStoryboardSegue {
         
         let setup = SetupVideoListening(layer: listenController.sampleBufferView.sampleLayer)
         let session = setup.setup()
+        
+        listenController.sampleBufferView.sampleLayer.videoGravity = .resizeAspect
         
         do {
             try session?.start()

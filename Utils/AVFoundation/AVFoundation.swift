@@ -137,26 +137,6 @@ class CaptureVideoPreviewView : AppleView {
     }
 }
 
-class SampleBufferDisplayView : AppleView {
-    
-    #if os(iOS)
-    override open class var layerClass: Swift.AnyClass {
-        return AVSampleBufferDisplayLayer.self
-    }
-    #else
-    override func makeBackingLayer() -> CALayer {
-        return AVSampleBufferDisplayLayer()
-    }
-    #endif
-    
-    var sampleLayer: AVSampleBufferDisplayLayer {
-        get {
-            
-            return layer as! AVSampleBufferDisplayLayer
-        }
-    }
-}
-
 func videoConnection(_ layer: AVCaptureVideoPreviewLayer) -> AVCaptureConnection.Accessor {
     return { (_ x: (AVCaptureConnection) throws -> Void) in
         guard let connection = layer.connection else { assert(false); return }

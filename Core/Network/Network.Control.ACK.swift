@@ -18,8 +18,8 @@ class VideoViewerACK : VideoH264DeserializerBase {
         super.init(metadataOnly: true)
     }
 
-    override func process(ID: UInt, time: VideoTime, originalTime: VideoTime) {
-        server?.process(data: "ack \(ID)".data(using: .utf8)!)
+    override func process(metadata: VideoProcessor.Packet) {
+        server?.process(data: "ack \(metadata.ID)".data(using: .utf8)!)
     }
 }
 

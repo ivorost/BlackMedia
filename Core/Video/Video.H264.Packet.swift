@@ -1,10 +1,28 @@
 
 import AVFoundation
 
-
 extension PacketDeserializer {
     
 }
+//func process(h264: Data, sps: Data, pps: Data, ID: UInt, time: VideoTime, originalTime: VideoTime) {
+
+
+extension VideoProcessor {
+    struct Packet {
+        let ID: UInt
+        let time: VideoTime
+        let originalTime: VideoTime
+        let orientation: UInt8
+    }
+    
+    struct PacketH264 {
+        let metadata: Packet
+        let sps: Data
+        let pps: Data
+        let data: Data
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // VideoH264Serializer
@@ -113,14 +131,13 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         
         let serializer = PacketSerializer(.video)
 
-        serializer.push(value: video.ID)
+        serializer.push(value: UInt64(video.ID))
         serializer.push(data: videoTime.data)
         serializer.push(data: systemTime.data)
+        serializer.push(value: UInt8(video.orientation ?? 0))
         serializer.push(data: Data(bytes: sps!, count: spsLength))
         serializer.push(data: Data(bytes: pps!, count: ppsLength))
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
-
-//        print("data \(serializer.data.count)")
         
         process(packet: serializer)
     }
@@ -143,22 +160,27 @@ class VideoH264DeserializerBase : PacketDeserializer.Processor {
         let ID = UInt(ID64)
         let time = VideoTime(deserialize: packet.popData()) // zero based timestamp
         let timeOriginal = VideoTime(deserialize: packet.popData()) // system clock based timestamp
+        var orientation: UInt8 = 0; packet.pop(&orientation)
+        let metadata = VideoProcessor.Packet(ID: ID, time: time, originalTime: timeOriginal, orientation: orientation)
         
-        process(ID: ID, time: time, originalTime: timeOriginal)
+
+        process(metadata: metadata)
 
         if !metadataOnly {
-            let h264SPS  = packet.popData()
-            let h264PPS  = packet.popData()
-            let h264Data = packet.popData()
+            let sps  = packet.popData()
+            let pps  = packet.popData()
+            let data = packet.popData()
             
-            process(h264: h264Data, sps: h264SPS, pps: h264PPS, ID: ID, time: time, originalTime: timeOriginal)
+            process(h264: VideoProcessor.PacketH264(metadata: metadata, sps: sps, pps: pps, data: data))
         }
     }
     
-    func process(ID: UInt, time: VideoTime, originalTime: VideoTime) {
+    func process(metadata: VideoProcessor.Packet) {
+        
     }
     
-    func process(h264: Data, sps: Data, pps: Data, ID: UInt, time: VideoTime, originalTime: VideoTime) {
+    func process(h264: VideoProcessor.PacketH264) {
+        
     }
 }
 
@@ -171,11 +193,11 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
         super.init()
     }
 
-    override func process(h264: Data, sps: Data, pps: Data, ID: UInt, time: VideoTime, originalTime: VideoTime) {
+    override func process(h264: VideoProcessor.PacketH264) {
         do {
-            let h264SPS  = sps as NSData
-            let h264PPS  = pps as NSData
-            var timingInfo = time.cmSampleTimingInfo
+            let h264SPS  = h264.sps as NSData
+            let h264PPS  = h264.pps as NSData
+            var timingInfo = h264.metadata.time.cmSampleTimingInfo
 
 //            print("deserializer \(ID)")
             
@@ -199,19 +221,19 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
             // block buffer
             
             var blockBuffer: CMBlockBuffer?
-            let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: h264.count)
+            let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: h264.data.count)
             
-            h264.bytes {
-                blockBufferData.assign(from: $0.assumingMemoryBound(to: Int8.self), count: h264.count)
+            h264.data.bytes {
+                blockBufferData.assign(from: $0.assumingMemoryBound(to: Int8.self), count: h264.data.count)
             }
             
             try checkStatus(CMBlockBufferCreateWithMemoryBlock(allocator: kCFAllocatorDefault,
                                                                memoryBlock: blockBufferData,
-                                                               blockLength: h264.count,
+                                                               blockLength: h264.data.count,
                                                                blockAllocator: kCFAllocatorDefault,
                                                                customBlockSource: nil,
                                                                offsetToData: 0,
-                                                               dataLength: h264.count,
+                                                               dataLength: h264.data.count,
                                                                flags: 0,
                                                                blockBufferOut: &blockBuffer), "createReadonlyBlockBuffer")
             
@@ -230,7 +252,9 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
             
             // output
             
-            next?.process(video: VideoBuffer(ID: ID, buffer: result!))
+            next?.process(video: VideoBuffer(ID: h264.metadata.ID,
+                                             buffer: result!,
+                                             orientation: h264.metadata.orientation))
         }
         catch {
             logAVError(error)

@@ -9,10 +9,12 @@
 import UIKit
 import ReplayKit
 
+
 fileprivate extension String {
     static let broadcastExtensionSetupUIbundleID
         = Bundle.main.bundleIdentifier!.appending(".extension-upload")
 }
+
 
 class ViewController: UIViewController {
 
@@ -32,6 +34,7 @@ class ViewController: UIViewController {
         }
     }
 }
+
 
 extension ViewController {
     @available(iOS 12.0, *)

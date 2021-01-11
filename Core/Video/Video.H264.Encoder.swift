@@ -136,7 +136,9 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
 
         DispatchQueue.global().async {
             SELF.callback?(SELF)
-            SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID, buffer: sampleBuffer))
+            SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID,
+                                                  buffer: sampleBuffer,
+                                                  orientation: videoRef.inner.orientation))
         }
     } as VTCompressionOutputCallback
     
