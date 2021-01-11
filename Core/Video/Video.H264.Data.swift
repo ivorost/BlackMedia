@@ -7,8 +7,8 @@ import AVFoundation
 
 class VideoH264Serializer : VideoOutputProtocol {
     
-    private var byterate = Byterate(print: true)
     private var next: DataProcessor?
+    private var timebase: VideoTime?
     
     init(_ next: DataProcessor?) {
         self.next = next
@@ -97,17 +97,27 @@ class VideoH264Serializer : VideoOutputProtocol {
             return
         }
         
+        // reset to to relative
+        
+        var videoTime = VideoTime(timingInfo)
+        
+        if timebase == nil {
+            timebase = videoTime
+        }
+        
+        if let timebase = timebase {
+            videoTime = videoTime.relative(to: timebase)
+        }
+        
         // build data
         
         let serializer = PacketSerializer()
         
-        serializer.push(data: VideoTime(timingInfo).nsData())
-        serializer.push(data: NSData(bytes: sps!, length: spsLength))
-        serializer.push(data: NSData(bytes: pps!, length: ppsLength))
-        serializer.push(data: NSData(bytes: dataPointer!, length: Int(totalLength)))
+        serializer.push(data: VideoTime(timingInfo).data)
+        serializer.push(data: Data(bytes: sps!, count: spsLength))
+        serializer.push(data: Data(bytes: pps!, count: ppsLength))
+        serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
 
-//        print("data \(serializer.data.count)")
-        byterate.process(data: serializer.data as Data)
         next?.process(data: serializer.data)
     }
 }
@@ -119,29 +129,34 @@ class VideoH264Serializer : VideoOutputProtocol {
 class VideoH264Deserializer : DataProcessor {
     
     private let next: VideoOutputProtocol?
+    private var prevTime: CMSampleTimingInfo?
+    private var firstTime: CMSampleTimingInfo?
+    private var startDate: Date?
     
     init(_ next: VideoOutputProtocol?) {
         self.next = next
     }
         
-    func process(data: NSData) {
+    func process(data: Data) {
         
         let d = PacketDeserializer(data)
         
         let h264Time = d.popData()
-        let h264SPS  = d.popData()
-        let h264PPS  = d.popData()
+        let h264SPS  = d.popData() as NSData
+        let h264PPS  = d.popData() as NSData
         let h264Data = d.popData()
         
         do {
+            var timingInfo = VideoTime(deserialize: h264Time).cmSampleTimingInfo
+
             // format description
             
             var formatDescription: CMFormatDescription?
             
             let parameterSetPointers : [UnsafePointer<UInt8>] = [h264SPS.bytes.assumingMemoryBound(to: UInt8.self),
                                                                  h264PPS.bytes.assumingMemoryBound(to: UInt8.self)]
-            let parameterSetSizes : [Int] = [h264SPS.length,
-                                             h264PPS.length]
+            let parameterSetSizes : [Int] = [h264SPS.count,
+                                             h264PPS.count]
             
             try checkStatus(CMVideoFormatDescriptionCreateFromH264ParameterSets(allocator: kCFAllocatorDefault,
                                                                                 parameterSetCount: 2,
@@ -154,22 +169,18 @@ class VideoH264Deserializer : DataProcessor {
             // block buffer
             
             var blockBuffer: CMBlockBuffer?
-            let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: h264Data.length)
-            blockBufferData.assign(from: h264Data.bytes.assumingMemoryBound(to: Int8.self), count: h264Data.length)
+            let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: h264Data.count)
+//            blockBufferData.assign(from: h264Data.bytes.assumingMemoryBound(to: Int8.self), count: h264Data.count)
             
             try checkStatus(CMBlockBufferCreateWithMemoryBlock(allocator: kCFAllocatorDefault,
                                                                memoryBlock: blockBufferData,
-                                                               blockLength: h264Data.length,
+                                                               blockLength: h264Data.count,
                                                                blockAllocator: kCFAllocatorDefault,
                                                                customBlockSource: nil,
                                                                offsetToData: 0,
-                                                               dataLength: h264Data.length,
+                                                               dataLength: h264Data.count,
                                                                flags: 0,
                                                                blockBufferOut: &blockBuffer), "createReadonlyBlockBuffer")
-            
-            // timing info
-            
-            var timingInfo = VideoTime(deserialize: h264Time).cmSampleTimingInfo
             
             // sample buffer
             
@@ -192,5 +203,4 @@ class VideoH264Deserializer : DataProcessor {
             logAVError(error)
         }
     }
-    
 }

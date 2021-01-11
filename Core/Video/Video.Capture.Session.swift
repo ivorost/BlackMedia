@@ -35,6 +35,8 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
         assert(queue.isCurrent == true)
         logAVPrior("video input start")
 
+        //kCVPixelFormatType_32BGRA
+//        kCVPixelFormatType_420YpCbCr8Planar
         dataOutput.setSampleBufferDelegate(self, queue: queue)
         dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
         dataOutput.alwaysDiscardsLateVideoFrames = true

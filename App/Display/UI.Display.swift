@@ -70,7 +70,7 @@ class DisplayCaptureController : CaptureController {
 
         return try Capture.shared.display(config: (display: displayConfig, video: videoConfig),
                                           inputFPS: inputFPS,
-                                          outputFPS: outputFPS)
+                                          outputFPS: outputFPS, layer: previewView.sampleLayer)
     }
     
     override func createListenSession() throws -> SessionProtocol {

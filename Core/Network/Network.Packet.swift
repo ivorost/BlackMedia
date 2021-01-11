@@ -10,15 +10,21 @@ import Foundation
 
 class PacketSerializer {
     
-    let data = NSMutableData()
+    var data = Data()
     
     func push(_ value: UnsafeRawPointer, _ size: Int) {
         var size32 = UInt32(size)
         
-        data.append(&size32, length: MemoryLayout<UInt32>.size)
-        data.append(value, length: size)
+        withUnsafeBytes(of: &size32) { data.append($0.bindMemory(to: UInt8.self)) }
+        data.append(UnsafeBufferPointer(start: value.bindMemory(to: UInt8.self, capacity: size), count: size))
     }
-    
+
+    func push(data: Data) {
+        data.bytes {
+            push($0, data.count)
+        }
+    }
+
     func push(data: NSData) {
         push(data.bytes, data.length)
     }
@@ -30,25 +36,25 @@ class PacketSerializer {
     func push<T>(array: [T]?) {
         var size32 = UInt32((array != nil ? array!.count : 0) * MemoryLayout<T>.size)
         
-        data.append(&size32, length: MemoryLayout<UInt32>.size)
+        withUnsafeBytes(of: &size32) { data.append($0.bindMemory(to: UInt8.self)) }
         
         guard size32 != 0 else { return }
 
         for var i in array! {
-            data.append(&i, length: MemoryLayout<T>.size)
+            withUnsafeBytes(of: &i) { data.append($0.bindMemory(to: UInt8.self)) }
         }
     }
 }
 
 class PacketDeserializer {
-    private let data: NSData
+    private let data: Data
     private(set) var shift = 0
     
-    init(_ data: NSData) {
+    init(_ data: Data) {
         self.data = data
     }
     
-    convenience init(_ data: NSData, _ index: Int) {
+    convenience init(_ data: Data, _ index: Int) {
         self.init(data)
         
         for _ in 0 ..< index {
@@ -59,7 +65,10 @@ class PacketDeserializer {
     private func popSize() -> Int {
         var size: UInt32 = 0
         
-        memcpy(&size, data.bytes.advanced(by: shift), MemoryLayout<UInt32>.size)
+        _ = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
+            memcpy(&size, bytes.bindMemory(to: UInt8.self).baseAddress?.advanced(by: shift), MemoryLayout<UInt32>.size)
+        }
+        
         shift += MemoryLayout<UInt32>.size
         
         return Int(size)
@@ -67,7 +76,11 @@ class PacketDeserializer {
     
     func pop(_ value: UnsafeMutableRawPointer) {
         let size = popSize()
-        memcpy(value, data.bytes.advanced(by: shift), size)
+
+        _ = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
+            memcpy(value, bytes.bindMemory(to: UInt8.self).baseAddress?.advanced(by: shift), size)
+        }
+
         shift += size
     }
     
@@ -81,7 +94,10 @@ class PacketDeserializer {
         while i < size {
             var x = T()
             
-            memcpy(&x, data.bytes.advanced(by: shift), MemoryLayout<T>.size)
+            _ = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
+                memcpy(&x, bytes.bindMemory(to: UInt8.self).baseAddress?.advanced(by: shift), MemoryLayout<T>.size)
+            }
+
             array!.append(x)
             
             i += MemoryLayout<T>.size
@@ -89,24 +105,26 @@ class PacketDeserializer {
         }
     }
     
-    func pop(data: inout NSData?) {
+    func pop(data: inout Data?) {
         let size = popSize()
-        let bytes = malloc(size)!
+        let resultBytes = malloc(size)!
         
-        memcpy(bytes, self.data.bytes.advanced(by: shift), Int(size))
+        _ = self.data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
+            memcpy(resultBytes, bytes.bindMemory(to: UInt8.self).baseAddress?.advanced(by: shift), Int(size))
+        }
+
         shift += Int(size)
-        
-        data = NSData(bytesNoCopy: bytes, length: size, freeWhenDone: true)
+        data = Data(bytesNoCopy: resultBytes, count: size, deallocator: .free)
     }
     
-    func popData() -> NSData {
-        var result: NSData?
+    func popData() -> Data {
+        var result: Data?
         pop(data: &result)
         return result!
     }
     
     func popString() -> String {
-        return String(data: popData() as Data, encoding: .utf8)!
+        return String(data: popData(), encoding: .utf8)!
     }
     
     func popSkip() -> PacketDeserializer {

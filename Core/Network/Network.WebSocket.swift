@@ -58,8 +58,8 @@ class WebSocketOutput : WebSocketSession, DataProcessor {
         super.init(urlString: .wsSender)
     }
     
-    func process(data: NSData) {
-        socket?.write(data: data as Data)
+    func process(data: Data) {
+        socket?.write(data: data)
     }
     
 }
@@ -75,7 +75,7 @@ class WebSocketInput : WebSocketSession {
     override func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
         case .binary(let data):
-            next?.process(data: data as NSData)
+            next?.process(data: data)
         default:
             super.didReceive(event: event, client: client)
         }

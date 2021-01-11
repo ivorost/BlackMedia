@@ -9,38 +9,35 @@
 import AVFoundation
 
 struct VideoTime {
-    let timeStamp: CaptureTime
-    let timeScale: Int32
+    let timestamp: CaptureTime
+    let duration: CaptureTime
     
     init() {
-        timeStamp = 0
-        timeScale = 0
+        timestamp = CaptureTime()
+        duration = CaptureTime()
     }
     
-    init(timeStamp: Float64, timeScale: Int32) {
-        self.timeStamp = timeStamp
-        self.timeScale = timeScale
-    }
-    
-    func copy(timeStamp: Float64) -> VideoTime {
-        return VideoTime(timeStamp: timeStamp, timeScale: timeScale)
+    init(timestamp: CaptureTime, duration: CaptureTime) {
+        self.timestamp = timestamp
+        self.duration = duration
     }
 }
 
 extension VideoTime {
     
     init(_ x: CMSampleTimingInfo) {
-        self.init(timeStamp: CMTimeGetSeconds(x.presentationTimeStamp), timeScale: x.presentationTimeStamp.timescale)
+        self.init(timestamp: CaptureTime(x.presentationTimeStamp), duration: CaptureTime(x.duration))
     }
     
     var cmSampleTimingInfo: CMSampleTimingInfo {
-        var result = CMSampleTimingInfo()
+        return CMSampleTimingInfo(duration: duration.cmTime,
+                                  presentationTimeStamp: timestamp.cmTime,
+                                  decodeTimeStamp: timestamp.cmTime)
+    }
+    
+    func relative(to timebase: VideoTime) -> VideoTime {
+        return VideoTime(timestamp: timestamp.substract(timebase.timestamp), duration: duration)
         
-        result.presentationTimeStamp.flags = .valid
-        result.presentationTimeStamp.timescale = timeScale
-        CMTimeSetSeconds(&result.presentationTimeStamp, timeStamp)
-        
-        return result
     }
 }
 

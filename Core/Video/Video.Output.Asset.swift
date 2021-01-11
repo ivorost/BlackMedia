@@ -7,7 +7,6 @@
 //
 
 import AVFoundation
-import Accelerate
 
 
 class VideoAssetOutput : AssetOutput, VideoOutputProtocol {

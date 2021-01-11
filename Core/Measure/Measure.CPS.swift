@@ -38,12 +38,12 @@ class MeasureCPS {
         }
         
         guard let lastData = data.last else {
-            startNewBlock()
+            startNewBlock(count: data.count)
             return
         }
 
         if Date().timeIntervalSince(lastData.startDate) > .blockDuration {
-            startNewBlock()
+            startNewBlock(count: data.count)
             return
         }
 
@@ -54,8 +54,8 @@ class MeasureCPS {
         callback?(cps)
     }
     
-    private func startNewBlock() {
-        data.append((count: 1, startDate: Date()))
+    private func startNewBlock(count: Int) {
+        data.append((count: count, startDate: Date()))
     }
     
     private func calcCPS() -> Double? {

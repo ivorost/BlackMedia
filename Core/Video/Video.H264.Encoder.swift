@@ -2,10 +2,6 @@
 import AVFoundation
 import VideoToolbox
 
-enum VideoError {
-    case generic(string: String)
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Session
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,12 +110,13 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
                                         frameProperties: nil,
                                         sourceFrameRefcon: nil,
                                         infoFlagsOut: &flags)
-        VTCompressionSessionCompleteFrames(session, untilPresentationTimeStamp: CMTime.invalid)
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Settings
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    //kCVPixelFormatType_32BGRA
     
     let defaultAttributes:[NSString: AnyObject] = [
         kCVPixelBufferPixelFormatTypeKey: Int(kCVPixelFormatType_32BGRA) as AnyObject,
@@ -141,7 +138,8 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
             kVTCompressionPropertyKey_RealTime: kCFBooleanTrue,
             kVTCompressionPropertyKey_ProfileLevel: profileLevel as NSObject,
             kVTCompressionPropertyKey_AverageBitRate: Int(outputDimentions.width * outputDimentions.height) as NSObject,
-            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration: NSNumber(value: 1.0 as Double),
+            kVTCompressionPropertyKey_MaxKeyFrameInterval: NSNumber(value: 0.0 as Double),
+            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration: NSNumber(value: 0.0 as Double),
             kVTCompressionPropertyKey_AllowFrameReordering: !isBaseline as NSObject,
         ]
         if (!isBaseline) {

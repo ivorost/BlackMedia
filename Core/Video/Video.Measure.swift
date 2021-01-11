@@ -42,3 +42,18 @@ class MeasureFPSPrint : MeasureFPS {
     }
 }
 
+class MeasureVideo : VideoOutputProtocol {
+    private let measure: MeasureProtocol
+    private let next: VideoOutputProtocol
+    
+    init(measure: MeasureProtocol, next: VideoOutputProtocol) {
+        self.measure = measure
+        self.next = next
+    }
+    
+    func process(video: CMSampleBuffer) {
+        measure.begin()
+        next.process(video: video)
+        measure.end()
+    }
+}

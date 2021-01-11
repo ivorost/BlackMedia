@@ -13,7 +13,8 @@ extension Capture {
     
     func display(config: (display: DisplayConfig, video: VideoConfig),
                  inputFPS: FuncWithDouble?,
-                 outputFPS: FuncWithDouble?) throws -> SessionProtocol {
+                 outputFPS: FuncWithDouble?,
+                 layer: AVSampleBufferDisplayLayer) throws -> SessionProtocol {
 
         var sessions = [SessionProtocol]()
 
@@ -35,8 +36,12 @@ extension Capture {
         var output = [VideoOutputProtocol]()
         
         let webSocketOutput = WebSocketOutput()
-        
-        let h264serializer = VideoH264Serializer(webSocketOutput)
+  
+        let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
+//        let preview = VideoOutputLayer(layer)
+//        let h264deserializer = VideoH264Deserializer(preview)
+
+        let h264serializer = VideoH264Serializer(measureByterate)
         
         let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
                                                   outputDimentions: dimensions,
@@ -44,12 +49,10 @@ extension Capture {
         
         output.append(h264encoder)
         
-        #if DEBUG
         if let fps = outputFPS {
             //                output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
             output.append(VideoFPS(MeasureFPS(callback: fps)))
         }
-        #endif
         
         // Capture
         
@@ -58,16 +61,17 @@ extension Capture {
         #if DEBUG
         //            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
         #endif
-        
+
+//        var capture = broadcast(output)
         var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
                                                                       measure: removeDuplicatesMeasure)
         
-        #if DEBUG
         if let fps = inputFPS {
             //                capture = VideoFPS(next: capture, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
             capture = VideoFPS(next: capture, measure: MeasureFPS(callback: fps))
         }
-        #endif
+        
+//        capture = MeasureVideo(measure: MeasureDurationPrint(title: "--- total"), next: capture)
         
         let captureSession = VideoCaptureSession(session: avCaptureSession,
                                                  queue: Capture.shared.captureQueue,

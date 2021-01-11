@@ -10,20 +10,23 @@ import Foundation
 
 protocol StructProtocol : InitProtocol {
 
-    init(deserialize data: NSData)
+    init(deserialize data: Data)
 
-    func nsData() -> NSData
+    var data: Data { get }
 }
 
 extension StructProtocol {
     
-    init(deserialize data: NSData) {
+    init(deserialize data: Data) {
         self.init()
-        memcpy(&self, data.bytes, MemoryLayout<Self>.size)
+
+        data.bytes {
+            memcpy(&self, $0, MemoryLayout<Self>.size)
+        }
     }
  
-    func nsData() -> NSData {
+    var data: Data {
         var copy = self
-        return NSData(bytes: &copy, length: MemoryLayout<Self>.size)
+        return Data(bytes: &copy, count: MemoryLayout<Self>.size)
     }
 }

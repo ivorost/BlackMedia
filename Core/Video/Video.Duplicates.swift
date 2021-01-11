@@ -12,7 +12,7 @@ import AppKit
 extension MTLTexture {
  
     func threadGroupCount() -> MTLSize {
-        return MTLSizeMake(30, 30, 1)
+        return MTLSizeMake(8, 8, 1)
     }
  
     func threadGroups() -> MTLSize {
@@ -34,84 +34,73 @@ class VideoRemoveDuplicateFrames : VideoOutputImpl {
         guard
             let computePipelineState = computePipelineState,
             let metalDevice = metalDevice,
-            let commandQueue = commandQueue
+            let commandQueue = commandQueue,
+            let textureCache = textureCache
         else {
             return nil
         }
         
-        // Get width and height for the pixel buffer
-        let width = CVPixelBufferGetWidth(pixelBuffer1)
-        let height = CVPixelBufferGetHeight(pixelBuffer1)
-        
-        // Converts the pixel buffer in a Metal texture.
-        var cvTexture1: CVMetalTexture?
-        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, self.textureCache!, pixelBuffer1, nil, .bgra8Unorm, width, height, 0, &cvTexture1)
-        guard let cvTexture11 = cvTexture1, let inputTexture1 = CVMetalTextureGetTexture(cvTexture11) else {
-            assert(false)
-            return nil
-        }
+        do {
+            // Converts the pixel buffer in a Metal texture.
+            let inputTextures1 = try pixelBuffer1.cvMTLTexture(textureCache: textureCache)
+            let inputTextures2 = try pixelBuffer2.cvMTLTexture(textureCache: textureCache)
+            
+            guard inputTextures1.count == inputTextures2.count else {
+                assert(false); return nil
+            }
+            
+            for i in 0 ..< inputTextures1.count {
+                let inputTexture1 = inputTextures1[i]
+                let inputTexture2 = inputTextures2[i]
 
-        var cvTexture2: CVMetalTexture?
-        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, self.textureCache!, pixelBuffer2, nil, .bgra8Unorm, width, height, 0, &cvTexture2)
-        guard let cvTexture22 = cvTexture2, let inputTexture2 = CVMetalTextureGetTexture(cvTexture22) else {
-            assert(false)
-            return nil
-        }
-
-//        var cvTexture3: CVMetalTexture?
-//        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, self.textureCache!, pixelBuffer2, nil, .bgra8Unorm, width, height, 0, &cvTexture3)
-//        guard let cvTexture33 = cvTexture3, let inputTexture3 = CVMetalTextureGetTexture(cvTexture33) else {
-//            assert(false)
-//            return nil
-//        }
-
-        // Create a command buffer
-        let commandBuffer = commandQueue.makeCommandBuffer()!
-     
-        // Create a compute command encoder.
-        let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder()!
-     
-        // Set the compute pipeline state for the command encoder.
-        computeCommandEncoder.setComputePipelineState(computePipelineState)
-     
-        // Set the input and output textures for the compute shader.
-        computeCommandEncoder.setTexture(inputTexture1, index: 0)
-        computeCommandEncoder.setTexture(inputTexture2, index: 1)
-//        computeCommandEncoder.setTexture(inputTexture3, index: 2)
-
-        var outBuffervalue = Int(0)
-        let outBuffer = metalDevice.makeBuffer(bytes: &outBuffervalue, length: MemoryLayout<Int>.size, options: [])!
-        computeCommandEncoder.setBuffer(outBuffer, offset: 0, index: 0)
-
-//        var test1 = Float(0)
-//        computeCommandEncoder.setBytes(&test1, length: MemoryLayout<Float>.size, index: 1)
-//
-//        var test2 = Float(0)
-//        computeCommandEncoder.setBytes(&test2, length: MemoryLayout<Float>.size, index: 2)
-        
-        // Encode a threadgroup's execution of a compute function
-        computeCommandEncoder.dispatchThreadgroups(inputTexture1.threadGroups(), threadsPerThreadgroup: inputTexture1.threadGroupCount())
-     
-        // End the encoding of the command.
-        computeCommandEncoder.endEncoding()
-
-        // Commit the command buffer for execution.
-        commandBuffer.commit()
-        commandBuffer.waitUntilCompleted()
-
-        // result
-        
-        let result = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
-        let data = result[0]
-
-        if data == 5 {
-            return false
-        }
-
-        if data == 3 {
-            return true
-        }
+                // Create a command buffer
+                let commandBuffer = commandQueue.makeCommandBuffer()!
                 
+                // Create a compute command encoder.
+                let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder()!
+                
+                // Set the compute pipeline state for the command encoder.
+                computeCommandEncoder.setComputePipelineState(computePipelineState)
+                
+                // Set the input and output textures for the compute shader.
+                computeCommandEncoder.setTexture(inputTexture1, index: 0)
+                computeCommandEncoder.setTexture(inputTexture2, index: 1)
+                //        computeCommandEncoder.setTexture(inputTexture3, index: 2)
+                
+                var outBuffervalue = Int(0)
+                let outBuffer = metalDevice.makeBuffer(bytes: &outBuffervalue, length: MemoryLayout<Int>.size, options: [])!
+                computeCommandEncoder.setBuffer(outBuffer, offset: 0, index: 0)
+                
+                // Encode a threadgroup's execution of a compute function
+                computeCommandEncoder.dispatchThreadgroups(inputTexture1.threadGroups(), threadsPerThreadgroup: inputTexture1.threadGroupCount())
+                
+                // End the encoding of the command.
+                computeCommandEncoder.endEncoding()
+                
+                // Commit the command buffer for execution.
+                commandBuffer.commit()
+                commandBuffer.waitUntilCompleted()
+                
+                // result
+                
+                let result = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
+                let data = result[0]
+                
+                if data == 5 {
+                    return false
+                }
+                
+                if data == 3 {
+                    return true
+                }
+                
+//                print("number \(data)")
+            }
+        }
+        catch {
+            logAVError(error)
+        }
+        
         return nil
     }
     
@@ -125,7 +114,7 @@ class VideoRemoveDuplicateFrames : VideoOutputImpl {
                 let library = try metalDevice.makeLibrary(URL: url)
                 
                 // Create a function with a specific name.
-                let function = library.makeFunction(name: "compare")!
+                let function = library.makeFunction(name: "compareRGBA")!
                 
                 // Create a compute pipeline with the above function.
                 self.computePipelineState = try metalDevice.makeComputePipelineState(function: function)
