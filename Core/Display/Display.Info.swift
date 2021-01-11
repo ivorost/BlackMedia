@@ -64,6 +64,12 @@ extension DisplayCapture {
                 var rect = CGRect.zero
                 rect.origin.y = window.screen!.frame.size.height - rect.size.height
                 rect.size = settings.rect.size
+                
+                rect.origin.x    /= settings.scale
+                rect.origin.y    /= settings.scale
+                rect.size.width  /= settings.scale
+                rect.size.height /= settings.scale
+
                 window.setFrame(rect, display: true, animate: true)
             }
         }

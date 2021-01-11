@@ -45,7 +45,13 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessor.Proto, Flushable.Pro
         lock.locked {
             flushState()
             
-            if queue.count < 2 {
+            #if os(OSX)
+            let capacity = 2
+            #else
+            let capacity = 1
+            #endif
+            
+            if queue.count < capacity {
                 process = true
                 queue.append((ID: video.ID, timestamp: Date()))
                 self.processTimeStamp = Date()

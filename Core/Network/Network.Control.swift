@@ -93,8 +93,43 @@ class VideoSenderQuality : VideoProcessor, DataProcessorProtocol {
 }
 
 
+extension VideoSenderQuality {
+    class Duplicates : VideoProcessor.Base {
+        private let next: VideoProcessor.Proto
+        private var sequenceCount = 0
+        private let lock = NSLock()
+        
+        init(next: VideoProcessor.Proto) {
+            self.next = next
+            super.init()
+        }
+        
+        override func process(video: VideoBuffer) {
+            var process = false
+            
+            lock.locked {
+                sequenceCount += 1
+                
+                if video.flags.contains(.duplicate), sequenceCount == 1 {
+                    process = true
+                }
+                
+                if !video.flags.contains(.duplicate) {
+                    sequenceCount = 0
+                }
+            }
+            
+            if process {
+                next.process(video: video)
+            }
+        }
+    }
+}
+
+
 class VideoSetupSenderQuality : VideoSetupSlave {
     private var networkSenderListener: DataProcessor?
+    private var control: VideoProcessor.Proto?
 
     override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
@@ -103,10 +138,21 @@ class VideoSetupSenderQuality : VideoSetupSlave {
             assert(networkSenderListener != nil)
             
             let control = create(next: result)
+            self.control = control
             networkSenderListener?.nextWeak = control
             result = control
         }
         
+        if kind == .duplicatesNext {
+            if let control = control {
+                let encoderDuplicates = VideoSenderQuality.Duplicates(next: control)
+                result = VideoProcessor(prev: result, next: encoderDuplicates)
+            }
+            else {
+                assert(false)
+            }
+        }
+
         return super.video(result, kind: kind)
     }
     

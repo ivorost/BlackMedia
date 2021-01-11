@@ -30,11 +30,11 @@ extension DisplayConfig {
         #if os(OSX)
         guard let displayMode = CGDisplayCopyDisplayMode(displayID) else { return nil }
         scale = CGFloat(displayMode.pixelWidth / displayMode.width)
-        rect.size.width = CGFloat(displayMode.width)
-        rect.size.height = CGFloat(displayMode.width)
+        rect.size.width = CGFloat(displayMode.pixelWidth)
+        rect.size.height = CGFloat(displayMode.pixelHeight)
         #else
-        rect.size.width = UIScreen.main.bounds.width
-        rect.size.height = UIScreen.main.bounds.height
+        rect.size.width = UIScreen.main.bounds.width * UIScreen.main.scale
+        rect.size.height = UIScreen.main.bounds.height * UIScreen.main.scale
         scale = UIScreen.main.scale
         #endif
 

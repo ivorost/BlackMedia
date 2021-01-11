@@ -22,8 +22,6 @@ extension VideoProcessor {
 
             let orientationVal: CGImagePropertyOrientation? = CGImagePropertyOrientation(rawValue: orientation!.uint32Value)
             
-            print(orientationVal!.rawValue)
-            
             if let orientation = orientation {
                 super.process(video: video.copy(orientation: orientation.uint8Value))
             }
