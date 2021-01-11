@@ -11,8 +11,7 @@ import AppKit
 
 extension Capture {
     
-    func display(config: (file: AVFileType, displays: [DisplayConfig], video: VideoConfig),
-                 preview layer: AVSampleBufferDisplayLayer,
+    func display(config: (display: DisplayConfig, video: VideoConfig),
                  inputFPS: FuncWithDouble?,
                  outputFPS: FuncWithDouble?) throws -> SessionProtocol {
 
@@ -28,66 +27,62 @@ extension Capture {
         var displayInputs = [DisplayInput]()
         var displayOutputs = [VideoCaptureSession]()
 
-        for displayConfig in config.displays {
-            let dimensions = CMVideoDimensions(width: Int32(displayConfig.rect.width),
-                                               height: Int32(displayConfig.rect.height))
-
-            // Output
-            
-            var output = [VideoOutputProtocol]()
-
-            let preview = VideoOutputLayer(layer)
-
-            let h264deserializer = VideoH264Deserializer(preview)
-            
-            let h264serializer = VideoH264Serializer(h264deserializer)
-
-            let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
-                                                      outputDimentions: dimensions,
-                                                      next: h264serializer)
-
-            output.append(h264encoder)
-
-            #if DEBUG
-            if let fps = outputFPS {
-//                output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
-                output.append(VideoFPS(MeasureFPS(callback: fps)))
-            }
-            #endif
-            
-            // Capture
-            
-            var removeDuplicatesMeasure: MeasureProtocol?
-            
-            #if DEBUG
-//            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
-            #endif
-
-            var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
-                                                                          measure: removeDuplicatesMeasure)
-            
-            #if DEBUG
-            if let fps = inputFPS {
-//                capture = VideoFPS(next: capture, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
-                capture = VideoFPS(next: capture, measure: MeasureFPS(callback: fps))
-            }
-            #endif
-
-            let captureSession = VideoCaptureSession(session: avCaptureSession,
-                                                     queue: Capture.shared.captureQueue,
-                                                     output: capture)
-            
-            let input = DisplayInput(session: avCaptureSession,
-                                     display: displayConfig,
-                                     video: config.video)
-
-            // Setup
-            
-            displayInputs.append(input)
-            displayOutputs.append(captureSession)
-            sessions.append(preview)
-            sessions.append(h264encoder)
+        let dimensions = CMVideoDimensions(width: Int32(config.display.rect.width),
+                                           height: Int32(config.display.rect.height))
+        
+        // Output
+        
+        var output = [VideoOutputProtocol]()
+        
+        let webSocketOutput = WebSocketOutput()
+        
+        let h264serializer = VideoH264Serializer(webSocketOutput)
+        
+        let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
+                                                  outputDimentions: dimensions,
+                                                  next: h264serializer)
+        
+        output.append(h264encoder)
+        
+        #if DEBUG
+        if let fps = outputFPS {
+            //                output.append(VideoFPS(MeasureFPSPrint(title: "fps (duplicates)", callback: fps)))
+            output.append(VideoFPS(MeasureFPS(callback: fps)))
         }
+        #endif
+        
+        // Capture
+        
+        var removeDuplicatesMeasure: MeasureProtocol?
+        
+        #if DEBUG
+        //            removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
+        #endif
+        
+        var capture: VideoOutputProtocol = VideoRemoveDuplicateFrames(next: broadcast(output),
+                                                                      measure: removeDuplicatesMeasure)
+        
+        #if DEBUG
+        if let fps = inputFPS {
+            //                capture = VideoFPS(next: capture, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))
+            capture = VideoFPS(next: capture, measure: MeasureFPS(callback: fps))
+        }
+        #endif
+        
+        let captureSession = VideoCaptureSession(session: avCaptureSession,
+                                                 queue: Capture.shared.captureQueue,
+                                                 output: capture)
+        
+        let input = DisplayInput(session: avCaptureSession,
+                                 display: config.display,
+                                 video: config.video)
+        
+        // Setup
+        
+        displayInputs.append(input)
+        displayOutputs.append(captureSession)
+        sessions.append(webSocketOutput)
+        sessions.append(h264encoder)
 
         let displayInput = broadcast(displayInputs)
         let displayOutput = broadcast(displayOutputs)

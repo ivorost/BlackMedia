@@ -20,6 +20,9 @@
 		82312117254EF13E007D5B1B /* Video.Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82312116254EF13E007D5B1B /* Video.Measure.swift */; };
 		82312119254EF2B8007D5B1B /* Video.Output.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82312118254EF2B7007D5B1B /* Video.Output.Layer.swift */; };
 		823D0F3825507D6100F8C852 /* MetalKit.CVMetalTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */; };
+		823D0F3A25513A7200F8C852 /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82A142162551244300FBABE9 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; };
+		82A1422325512D8100FBABE9 /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1422225512D8100FBABE9 /* Network.WebSocket.swift */; };
 		82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FE92546F58D0025663F /* AppDelegate.swift */; };
 		82C94FEC2546F58D0025663F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FEB2546F58D0025663F /* ViewController.swift */; };
 		82C94FEE2546F5930025663F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82C94FED2546F5930025663F /* Assets.xcassets */; };
@@ -93,6 +96,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		823D0F3925513A5200F8C852 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				823D0F3A25513A7200F8C852 /* Starscream.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Encoder.swift; sourceTree = "<group>"; };
 		822764A925492D7000C2E46D /* Video.H264.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Data.swift; sourceTree = "<group>"; };
@@ -107,6 +124,8 @@
 		82312116254EF13E007D5B1B /* Video.Measure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Measure.swift; sourceTree = "<group>"; };
 		82312118254EF2B7007D5B1B /* Video.Output.Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Output.Layer.swift; sourceTree = "<group>"; };
 		823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalKit.CVMetalTexture.swift; sourceTree = "<group>"; };
+		82A142152551244200FBABE9 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
+		82A1422225512D8100FBABE9 /* Network.WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.WebSocket.swift; sourceTree = "<group>"; };
 		82C94FE62546F58D0025663F /* Capture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C94FE92546F58D0025663F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82C94FEB2546F58D0025663F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +194,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82A142162551244300FBABE9 /* Starscream.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				822D39832550400B003B1861 /* Network.Packet.swift */,
+				82A1422225512D8100FBABE9 /* Network.WebSocket.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -273,9 +294,18 @@
 			path = MetalKit;
 			sourceTree = "<group>";
 		};
+		82A142142551243300FBABE9 /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				82A142152551244200FBABE9 /* Starscream.framework */,
+			);
+			name = Carthage;
+			sourceTree = "<group>";
+		};
 		82C94FDD2546F58D0025663F = {
 			isa = PBXGroup;
 			children = (
+				82A142142551243300FBABE9 /* Carthage */,
 				82C950152546F6350025663F /* Core */,
 				82C94FE82546F58D0025663F /* App */,
 				82C950832546FD6B0025663F /* Common */,
@@ -477,6 +507,7 @@
 				82C94FE22546F58D0025663F /* Sources */,
 				82C94FE32546F58D0025663F /* Frameworks */,
 				82C94FE42546F58D0025663F /* Resources */,
+				823D0F3925513A5200F8C852 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -632,6 +663,7 @@
 				82C950592546F8F30025663F /* AppKit.Alert.swift in Sources */,
 				82C9508B25473F550025663F /* Measure.CPS.swift in Sources */,
 				82C950822546FD2F0025663F /* Foundation.Thread.Background.swift in Sources */,
+				82A1422325512D8100FBABE9 /* Network.WebSocket.swift in Sources */,
 				82C9505B2546F8F30025663F /* AppKit.View.swift in Sources */,
 				82C950262546F6830025663F /* Video.General.swift in Sources */,
 				82C9505F2546F8F30025663F /* CoreGraphics.Display.swift in Sources */,
@@ -828,6 +860,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = NH8U964PWR;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -848,6 +884,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = NH8U964PWR;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

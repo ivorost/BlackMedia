@@ -10,6 +10,7 @@ protocol DataProcessor {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typealias FuncWithSession = (SessionProtocol) -> Void
+typealias FuncReturningSessionThrowing = () throws -> SessionProtocol
 
 protocol SessionProtocol {
     func start () throws

@@ -41,14 +41,6 @@ class DisplayCaptureController : CaptureController {
         }
     }
 
-    override func folderURL() -> URL? {
-        return URL.captureScreen
-    }
-
-    override func fileExtension() -> String {
-        return "mov"
-    }
-
     override func authorized() -> Bool? {
         return privacyController?.status?.authorized == true
     }
@@ -57,9 +49,9 @@ class DisplayCaptureController : CaptureController {
         privacyController?.requestPermissionsAndWait()
     }
 
-    override func createSession(url: URL) throws -> (session: SessionProtocol, progress: CaptureProgress?) {
-        let displaysConfigs = try createDisplaysConfigs()
-        let videoRect = displaysConfigs.map{ $0.rect }.union()
+    override func createCaptureSession() throws -> SessionProtocol {
+        let displayConfig = try createDisplaysConfigs().first!
+        let videoRect = displayConfig.rect
         let videoConfig = VideoConfig(codec: .h264,
                                       fps: CMTime.video(fps: 60),
                                       dimensions: CMVideoDimensions(width: Int32(videoRect.width),
@@ -76,12 +68,20 @@ class DisplayCaptureController : CaptureController {
             }
         }
 
-        let session = try Capture.shared.display(config: (file: .mov, displays: displaysConfigs, video: videoConfig),
-                                                 preview: previewView.sampleLayer,
-                                                 inputFPS: inputFPS,
-                                                 outputFPS: outputFPS)
-        
-        return (session: session, progress: nil)
+        return try Capture.shared.display(config: (display: displayConfig, video: videoConfig),
+                                          inputFPS: inputFPS,
+                                          outputFPS: outputFPS)
+    }
+    
+    override func createListenSession() throws -> SessionProtocol {
+        let inputFPS: FuncWithDouble = { fps in
+            dispatchMainAsync {
+                self.inputFPSLabel.stringValue = "\(Int(fps))"
+            }
+        }
+
+        return Capture.shared.preview(preview: previewView.sampleLayer,
+                                      inputFPS: inputFPS)
     }
     
     private func createDisplaysConfigs() throws -> [DisplayConfig] {
