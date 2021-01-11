@@ -55,3 +55,41 @@ extension DataProcessorSetup {
         }
     }
 }
+
+
+extension DataProcessorSetup {
+    class Default : Slave {
+        private let targetKind: DataProcessor.Kind
+        private let selfKind: DataProcessor.Kind
+        private let create: (DataProcessor.Proto) -> DataProcessor.Proto
+        
+        init(root: DataProcessor.Setup,
+             targetKind: DataProcessor.Kind,
+             selfKind: DataProcessor.Kind,
+             create: @escaping (DataProcessor.Proto) -> DataProcessor.Proto) {
+            
+            self.targetKind = targetKind
+            self.selfKind = selfKind
+            self.create = create
+            super.init(root: root)
+        }
+        
+        init(prev: DataProcessor.Proto,
+             kind: DataProcessor.Kind) {
+            self.targetKind = kind
+            self.selfKind = .other
+            self.create = { DataProcessor(prev: prev, next: $0) }
+            super.init(root: DataProcessorSetup.shared)
+        }
+        
+        override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+            var result = data
+            
+            if kind == targetKind {
+                result = root.data(create(result), kind: selfKind)
+            }
+            
+            return super.data(result, kind: kind)
+        }
+    }
+}

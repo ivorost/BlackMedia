@@ -91,7 +91,7 @@ extension Capture {
         let preview = VideoOutputLayer(layer ?? AVSampleBufferDisplayLayer())
         let fps = VideoFPS(next: preview, measure: MeasureFPS(callback: inputFPScallback))
 //        let quality = VideoQuality(server: server, next: fps)
-        let h264deserializer = VideoH264Deserializer(fps)
+        let h264deserializer = VideoH264Deserializer(next: fps)
         let ack = VideoViewerACK(server: server, next: h264deserializer)
         let webSocket = WebSocketSlave(name: "machine_mac", next: ack)
 

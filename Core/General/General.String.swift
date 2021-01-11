@@ -84,8 +84,14 @@ class StringProcessorWithIntervalBatching : StringProcessorWithIntervalBase {
     }
     
     override func flush() {
-        super.process(string: strings.joined(separator: "\n"))
-        lock.locked { strings.removeAll() }
+        var joined = ""
+
+        lock.locked {
+            joined = strings.joined(separator: "\n")
+            strings.removeAll()
+        }
+
+        super.process(string: joined)
     }
 }
 

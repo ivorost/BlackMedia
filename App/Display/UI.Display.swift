@@ -201,12 +201,33 @@ fileprivate class SetupVideoListening : VideoSetupVector {
         let fps = VideoSetupMeasure(kind: .deserializer,
                                     measure: MeasureFPSLabel(label: views.inputFPSLabel))
 
+        let byterateString
+            = StringProcessorWithIntervalCutting(next: StringProcessorTableView(tableView: views.tableViewByterate))
+        let byterateMeasure
+            = MeasureByterate(string: byterateString)
+        let byterate
+            = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkDataOutput)
+
+        let timestamp1string
+            = StringProcessorTableView(tableView: views.tableViewTiming1)
+        let timestamp1processor
+            = VideoPresentationDelay(next: timestamp1string)
+        let timestamp1video
+            = VideoSetupProcessor(video: timestamp1processor, kind: .preview)
+        let timestamp1data
+            = DataProcessorSetup.Default(prev: timestamp1processor, kind: .networkDataOutput)
+
+        root.session(Session.DispatchSync(session: byterateString, queue: DispatchQueue.main), kind: .other)
+
         return [
             preview,
             deserializer,
             webSocketHelm,
             webSocketACK,
             webSocketQuality,
+            byterate,
+            timestamp1video,
+            cast(video: timestamp1data),
             fps ]
     }
 }
@@ -357,6 +378,12 @@ fileprivate class SetupViewer : CaptureSetup.Vector {
         let aggregator = SessionSetup.Aggregator()
         let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
         let websocket = WebSocketSlave.SetupData(root: self)
+
+        videoRoot.register(cast(video: websocket))
+        videoRoot.register(cast(video: aggregator))
+        eventRoot.register(cast(event: websocket))
+        eventRoot.register(cast(event: aggregator))
+
         var video: VideoSetupProtocol = SetupVideoListening(root: videoRoot, views: views, layer: layer)
         var events: EventProcessor.Setup = SetupEventsCapture(root: eventRoot, views: views, layer: layer)
 
@@ -364,12 +391,7 @@ fileprivate class SetupViewer : CaptureSetup.Vector {
         events = EventProcessorSetup.Checkbox(next: events, checkbox: views.setupEventsButton)
         
         videoRoot.register(video)
-        videoRoot.register(cast(video: websocket))
-        videoRoot.register(cast(video: aggregator))
-
         eventRoot.register(events)
-        eventRoot.register(cast(event: websocket))
-        eventRoot.register(cast(event: aggregator))
 
         return [websocket, video, events, cast(capture: aggregatorDispatch)]
     }

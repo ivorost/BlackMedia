@@ -120,3 +120,28 @@ class VideoSetupMeasure : VideoSetup {
         return result
     }
 }
+
+class VideoPresentationDelay : VideoH264DeserializerBase, VideoOutputProtocol {
+    private let next: StringProcessorProtocol
+    private var output = [Int64 : VideoTime]()
+    
+    init(next: StringProcessorProtocol) {
+        self.next = next
+        super.init(metadataOnly: true)
+    }
+    
+    override func process(time: VideoTime, originalTime: VideoTime) {
+        output[time.timestamp.timeStamp] = originalTime
+    }
+
+    func process(video: CMSampleBuffer) {
+        let key = CMSampleBufferGetPresentationTimeStamp(video).value
+        guard let originalTimeSeconds = output[key]?.timestamp.seconds
+        else { assert(false); return }
+        let currentTimeSeconds = CACurrentMediaTime();
+        let delta = currentTimeSeconds - originalTimeSeconds
+
+        output.removeValue(forKey: key)
+        next.process(string: "\(delta)")
+    }
+}

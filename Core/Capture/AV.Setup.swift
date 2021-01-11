@@ -103,23 +103,39 @@ extension CaptureSetup {
 
 
 extension CaptureSetup {
+    fileprivate class DataAdapter : Base {
+        private let inner: DataProcessor.Setup
+        
+        init(data: DataProcessor.Setup) {
+            self.inner = data
+        }
+
+        override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+            inner.data(data, kind: kind)
+        }
+    }
+
     fileprivate class SessionAdapter : Base {
-        private let session: Session.Setup
+        private let inner: Session.Setup
         
         init(session: Session.Setup) {
-            self.session = session
+            self.inner = session
         }
         
         override func session(_ session: SessionProtocol, kind: Session.Kind) {
-            self.session.session(session, kind: kind)
+            self.inner.session(session, kind: kind)
         }
         
         override func complete() -> SessionProtocol? {
-            return self.session.complete()
+            return self.inner.complete()
         }
     }
 }
 
+
+func cast(capture data: DataProcessor.Setup) -> Capture.Setup {
+    return CaptureSetup.DataAdapter(data: data)
+}
 
 func cast(capture session: Session.Setup) -> Capture.Setup {
     return CaptureSetup.SessionAdapter(session: session)

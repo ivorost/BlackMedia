@@ -88,7 +88,7 @@ extension Capture {
         
         if let layer = layer {
             let preview = VideoOutputLayer(layer)
-            let h264deserializer = VideoH264Deserializer(preview)
+            let h264deserializer = VideoH264Deserializer(next: preview)
             
             dataOutput.append(h264deserializer)
         }

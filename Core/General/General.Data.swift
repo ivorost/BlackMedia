@@ -10,6 +10,7 @@ import Foundation
 
 
 extension DataProcessor.Kind {
+    static let other = DataProcessor.Kind(rawValue: "other")
     static let serializer = DataProcessor.Kind(rawValue: "serializer")
     static let deserializer = DataProcessor.Kind(rawValue: "deserializer")
     static let networkData = DataProcessor.Kind(rawValue: "networkData")

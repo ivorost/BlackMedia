@@ -204,3 +204,8 @@ func cast(video session: Session.Setup) -> VideoSetupProtocol {
 func cast(video capture: CaptureSetup.Proto) -> VideoSetupProtocol {
     return VideoSetupCaptureAdapter(capture)
 }
+
+
+func cast(video data: DataProcessor.Setup) -> VideoSetupProtocol {
+    return cast(video: cast(capture: data))
+}
