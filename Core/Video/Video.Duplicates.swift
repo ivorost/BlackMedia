@@ -208,11 +208,11 @@ class VideoRemoveDuplicateFramesUsingMemcmp : VideoRemoveDuplicateFramesBase {
 
 
 class VideoSetupDuplicatesTemplate<T> : VideoSetupSlave where T : VideoOutputWithNextProtocol {
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .capture {
-            let next = root.video(VideoOutputImpl(next: result), kind: .duplicatesFree)
+            let next = root.video(VideoProcessor(next: result), kind: .duplicatesFree)
             result = T(next: next)
             result = root.video(result, kind: .duplicates)
         }

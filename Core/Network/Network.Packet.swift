@@ -12,6 +12,11 @@ class PacketSerializer {
     
     var data = Data()
     
+    init(_ type: PacketType) {
+        var typeVar = type.rawValue
+        withUnsafeBytes(of: &typeVar) { data.append($0.bindMemory(to: UInt8.self)) }
+    }
+    
     func push(_ value: UnsafeRawPointer, _ size: Int) {
         var size32 = UInt32(size)
         
@@ -32,7 +37,12 @@ class PacketSerializer {
     func push(string: String) {
         push(data: string.data(using: .utf8)! as NSData)
     }
-    
+
+    func push<T>(value: T) {
+        var valueVar = value
+        push(&valueVar, MemoryLayout<T>.size)
+    }
+
     func push<T>(array: [T]?) {
         var size32 = UInt32((array != nil ? array!.count : 0) * MemoryLayout<T>.size)
         
@@ -49,9 +59,11 @@ class PacketSerializer {
 class PacketDeserializer {
     private let data: Data
     private(set) var shift = 0
-    
+    private(set) var type: PacketType = .undefined
+
     init(_ data: Data) {
         self.data = data
+        type = PacketType(rawValue: popUInt32()) ?? .undefined
     }
     
     convenience init(_ data: Data, _ index: Int) {
@@ -62,16 +74,20 @@ class PacketDeserializer {
         }
     }
 
-    private func popSize() -> Int {
-        var size: UInt32 = 0
+    private func popUInt32() -> UInt32 {
+        var result: UInt32 = 0
         
         _ = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
-            memcpy(&size, bytes.bindMemory(to: UInt8.self).baseAddress?.advanced(by: shift), MemoryLayout<UInt32>.size)
+            memcpy(&result, bytes.bindMemory(to: UInt8.self).baseAddress?.advanced(by: shift), MemoryLayout<UInt32>.size)
         }
         
         shift += MemoryLayout<UInt32>.size
         
-        return Int(size)
+        return result
+    }
+    
+    private func popSize() -> Int {
+        return Int(popUInt32())
     }
     
     func pop(_ value: UnsafeMutableRawPointer) {

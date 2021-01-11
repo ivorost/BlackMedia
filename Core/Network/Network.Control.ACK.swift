@@ -10,23 +10,28 @@
 import AVFoundation
 
 
-class VideoViewerACK : DataProcessorImpl {
+class VideoViewerACK : DataProcessor {
     
-    private var server: DataProcessor?
+    private var server: DataProcessorProtocol?
 
-    init(server: DataProcessor, next: DataProcessor? = nil) {
+    init(server: DataProcessorProtocol, next: DataProcessorProtocol? = nil) {
         self.server = server
         super.init(next: next)
     }
     
     override func process(data: Data) {
-        server?.process(data: "ack \(data.count)".data(using: .utf8)!)
+        let packet = PacketDeserializer(data)
+        
+        if packet.type == .video {
+            server?.process(data: "ack \(data.count)".data(using: .utf8)!)
+        }
+        
         super.process(data: data)
     }
 }
 
 
-//class VideoSenderACK : VideoOutputWithNext, DataProcessor {
+//class VideoSenderACK : VideoOutputWithNext, DataProcessorProtocol {
 //    private var counter = 10
 //
 //    func process(data: Data) {
@@ -43,7 +48,7 @@ class VideoViewerACK : DataProcessorImpl {
 //    }
 //}
 
-class VideoSenderACKCapture : VideoOutputImpl, DataProcessor {
+class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
 
     private var queue = Set<Int>()
     private var readyTimestamp: Date?
@@ -65,10 +70,10 @@ class VideoSenderACKCapture : VideoOutputImpl, DataProcessor {
         
         if count == 0 {
             super.process(video: video)
-            readyTimestamp = Date()
+            lock.locked { readyTimestamp = Date() }
         }
         else {
-            lastSampleBuffer = video
+            lock.locked { lastSampleBuffer = video }
         }
     }
     
@@ -77,7 +82,7 @@ class VideoSenderACKCapture : VideoOutputImpl, DataProcessor {
         let sizeString = string.suffix(from: string.index(string.startIndex, offsetBy: 4))
         
         if let size = Int(sizeString) {
-            _ = lock.locked {
+            lock.locked {
                 queue.remove(size)
                 
                 if queue.count == 0 {
@@ -114,10 +119,11 @@ class VideoSenderACKCapture : VideoOutputImpl, DataProcessor {
 }
 
 
-class VideoSenderACKNetwork : DataProcessor {
+class VideoSenderACKNetwork : DataProcessorProtocol {
     fileprivate weak var capture: VideoSenderACKCapture?
     
     func process(data: Data) {
+        guard PacketDeserializer(data).type == .video else { return }
         capture?.wait(size: data.count)
     }
 }
@@ -125,9 +131,9 @@ class VideoSenderACKNetwork : DataProcessor {
 
 class VideoSetupViewerACK : VideoSetupSlave {
     
-    private let server = DataProcessorImpl()
+    private let server = DataProcessor()
 
-    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+    override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         var result = data
         
         if kind == .networkHelm {
@@ -152,19 +158,19 @@ class VideoSetupSenderACK : VideoSetupSenderQuality {
         super.init(root: root)
     }
 
-    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+    override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         var result = data
         
         if kind == .networkData {
             let ack = VideoSenderACKNetwork()
             network = ack
-            result = DataProcessorImpl(prev: ack, next: result)
+            result = DataProcessor(prev: ack, next: result)
         }
         
         return super.data(result, kind: kind)
     }
     
-    override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessor {
+    override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessorProtocol {
         assert(network != nil)
         
         let result = VideoSenderACKCapture(next: next, metric: metric)
@@ -181,7 +187,7 @@ class VideoSetupSenderACK : VideoSetupSenderQuality {
 //        super.init(root: root)
 //    }
 //
-//    override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessor {
+//    override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessorProtocol {
 //        return VideoSenderACK(next: next, metric: metric)
 //    }
 //}

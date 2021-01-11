@@ -10,7 +10,7 @@ import Foundation
 
 
 class VideoSetupMultithreading : VideoSetupSlave {
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .encoder {

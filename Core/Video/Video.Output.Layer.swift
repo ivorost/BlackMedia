@@ -71,13 +71,13 @@ class VideoSetupPreview : VideoSetupSlave {
         super.init(root: root)
     }
         
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .deserializer {
             let previous = result
             result = root.video(VideoOutputLayer(layer), kind: .preview)
-            result = VideoOutputImpl(prev: previous, next: result)
+            result = VideoProcessor(prev: previous, next: result)
         }
         
         return super.video(result, kind: kind)

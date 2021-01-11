@@ -9,7 +9,7 @@
 import AVFoundation
 import AppKit
 
-typealias VideoFPS = VideoOutputImpl
+typealias VideoFPS = VideoProcessor
 
 extension VideoFPS {
     convenience init(_ measure: MeasureProtocol) {
@@ -102,19 +102,19 @@ class VideoOutputPresentationTime : VideoOutputProtocol {
 
 
 class VideoSetupMeasure : VideoSetup {
-    let kind: VideoOutputKind
+    let kind: VideoProcessor.Kind
     let measure: MeasureProtocol
     
-    init(kind: VideoOutputKind, measure: MeasureProtocol) {
+    init(kind: VideoProcessor.Kind, measure: MeasureProtocol) {
         self.kind = kind
         self.measure = measure
     }
     
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == self.kind {
-            result = VideoOutputImpl(prev: result, measure: measure)
+            result = VideoProcessor(prev: result, measure: measure)
         }
         
         return result

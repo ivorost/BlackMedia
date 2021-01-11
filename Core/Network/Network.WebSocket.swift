@@ -21,13 +21,13 @@ fileprivate extension String {
     """
 }
 
-class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
-    private let next: DataProcessor?
+class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDelegate {
+    private let next: DataProcessorProtocol?
     private let urlString: String
     private(set) var socket: WebSocket?
     private var connected: Func?
 
-    init(name: String, urlString: String, next: DataProcessor?) {
+    init(name: String, urlString: String, next: DataProcessorProtocol?) {
         self.urlString = urlString.replacingOccurrences(of: "machine_mac", with: name)
         self.next = next
     }
@@ -66,81 +66,111 @@ class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
 }
 
 
-class WebSocketSender : WebSocketSession {
-    init(name: String, next: DataProcessor? = nil) {
+class WebSocketMaster : WebSocketBase {
+    init(name: String, next: DataProcessorProtocol? = nil) {
         super.init(name: name, urlString: .wsSender, next: next)
     }
 }
 
 
-class WebSocketViewer : WebSocketSession {
-    init(name: String, next: DataProcessor? = nil) {
+class WebSocketSlave : WebSocketBase {
+    init(name: String, next: DataProcessorProtocol? = nil) {
         super.init(name: name, urlString: .wsReceiver, next: next)
     }
 }
 
 
-class VideoSetupWebSocketSender : VideoSetupSlave {
-    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
-        var result = data
+extension WebSocketBase {
+    class SetupBase : CaptureSetup.Slave {
+        typealias Create = (_ name: String, _ next: DataProcessor.Proto) -> WebSocketBase
+        private var webSocket: DataProcessor.Proto?
+        private let name: String
+        private let session: Session.Kind
+        private let network: DataProcessor.Kind
+        private let output: DataProcessor.Kind
+        private let create: Create
         
-        if kind == .serializer {
-            var webSocketData: DataProcessor = DataProcessorImpl()
-            webSocketData = root.data(webSocketData, kind: .networkDataOutput)
-            
-            let webSocket = WebSocketSender(name: "machine_mac_data", next: webSocketData)
-            root.session(webSocket, kind: .networkData)
-            result = root.data(webSocket, kind: .networkData)
+        init(root: CaptureSetup.Proto,
+             name: String,
+             session: Session.Kind,
+             network: DataProcessor.Kind,
+             output: DataProcessor.Kind,
+             create: @escaping Create) {
+            self.name = name
+            self.session = session
+            self.network = network
+            self.output = output
+            self.create = create
+            super.init(root: root)
         }
         
-        return super.data(result, kind: kind)
-    }
-}
+        init(data root: CaptureSetup.Proto, create: @escaping Create) {
+            self.name = "machine_mac_data"
+            self.session = .networkData
+            self.network = .networkData
+            self.output = .networkDataOutput
+            self.create = create
+            super.init(root: root)
+        }
+        
+        init(helm root: CaptureSetup.Proto, create: @escaping Create) {
+            self.name = "machine_mac_helm"
+            self.session = .networkHelm
+            self.network = .networkHelm
+            self.output = .networkHelmOutput
+            self.create = create
+            super.init(root: root)
+        }
 
-
-class VideoSetupWebSocketHelmSender : VideoSetupSlave {
-    override func session(_ session: SessionProtocol, kind: VideoSessionKind) {
-        if kind == .networkData {
-            var webSocketData: DataProcessor = DataProcessorImpl()
-            webSocketData = root.data(webSocketData, kind: .networkHelmOutput)
+        override func session(_ session: Session.Proto, kind: Session.Kind) {
+            if kind == .initial {
+                let webSocketData: DataProcessorProtocol = root.data(DataProcessor.shared, kind: self.output)
+                let webSocket = create(name, webSocketData)
+                
+                root.session(webSocket, kind: self.session)
+                self.webSocket = root.data(webSocket, kind: self.network)
+            }
+        }
+        
+        override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+            var result = data
             
-            let webSocket = WebSocketSender(name: "machine_mac_helm", next: webSocketData)
-            root.session(webSocket, kind: .networkHelm)
+            if let webSocket = webSocket, kind == .serializer {
+                result = DataProcessor(prev: result, next: webSocket)
+            }
+            
+            return super.data(result, kind: kind)
         }
     }
 }
 
 
-class VideoSetupWebSocketViewer {
-    
-    private let root: VideoSetupProtocol
-    
-    init(root: VideoSetupProtocol) {
-        self.root = root
+extension WebSocketMaster {
+    class SetupData : SetupBase {
+        init(root: CaptureSetup.Proto) {
+            super.init(data: root, create: { return WebSocketMaster(name: $0, next: $1) })
+        }
     }
-    
-    func setup() -> SessionProtocol {
-        var webSocketData: DataProcessor = DataProcessorImpl()
-        webSocketData = root.data(webSocketData, kind: .networkDataOutput)
 
-        let webSocket = WebSocketViewer(name: "machine_mac_data", next: webSocketData)
-        _ = root.data(webSocket, kind: .networkData)
-        root.session(webSocket, kind: .networkData)
-        
-        return SessionSyncDispatch(session: root.complete() ?? Session(), queue: Capture.shared.outputQueue)
+    
+    class SetupHelm : SetupBase {
+        init(root: CaptureSetup.Proto) {
+            super.init(helm: root, create: { return WebSocketMaster(name: $0, next: $1) })
+        }
     }
 }
 
+extension WebSocketSlave {
+    class SetupData : SetupBase {
+        init(root: CaptureSetup.Proto) {
+            super.init(data: root, create: { return WebSocketSlave(name: $0, next: $1) })
+        }
+    }
 
-class VideoSetupWebSocketHelmViewer : VideoSetupSlave {
-    override func session(_ session: SessionProtocol, kind: VideoSessionKind) {
-        if kind == .networkData {
-            var webSocketData: DataProcessor = DataProcessorImpl()
-            webSocketData = root.data(webSocketData, kind: .networkHelmOutput)
-
-            let webSocket = WebSocketViewer(name: "machine_mac_helm", next: webSocketData)
-            _ = root.data(webSocket, kind: .networkHelm)
-            root.session(webSocket, kind: .networkHelm)
+    
+    class SetupHelm : SetupBase {
+        init(root: CaptureSetup.Proto) {
+            super.init(helm: root, create: { return WebSocketSlave(name: $0, next: $1) })
         }
     }
 }

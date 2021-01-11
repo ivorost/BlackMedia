@@ -56,7 +56,7 @@ protocol VideoOutputWithNextProtocol : VideoOutputProtocol {
 }
 
 
-class VideoOutputImpl : VideoOutputProtocol {
+class VideoProcessor : VideoOutputProtocol {
     
     private let next: VideoOutputProtocol?
     private let prev: VideoOutputProtocol?
@@ -95,7 +95,16 @@ class VideoOutputImpl : VideoOutputProtocol {
 }
 
 
-class VideoOutputWithNext : VideoOutputImpl, VideoOutputWithNextProtocol {
+extension VideoProcessor {
+    typealias Proto = VideoOutputProtocol
+
+    public struct Kind : Hashable, Equatable, RawRepresentable {
+        let rawValue: String
+    }
+}
+
+
+class VideoOutputWithNext : VideoProcessor, VideoOutputWithNextProtocol {
     required init(next: VideoOutputProtocol?) {
         super.init(next: next)
     }
@@ -165,7 +174,7 @@ class VideoSession : Session, VideoSessionProtocol {
 }
 
 
-class VideoSessionBroadcast : SessionBroadcast, VideoSessionProtocol {
+class VideoSessionBroadcast : Session.Broadcast, VideoSessionProtocol {
     
     private var x: [VideoSessionProtocol?]
     

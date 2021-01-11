@@ -7,10 +7,10 @@ import AVFoundation
 
 class VideoH264Serializer : VideoOutputProtocol {
     
-    private var next: DataProcessor?
+    private var next: DataProcessorProtocol?
     private var timebase: VideoTime?
     
-    init(_ next: DataProcessor?) {
+    init(_ next: DataProcessorProtocol?) {
         self.next = next
     }
     
@@ -111,8 +111,8 @@ class VideoH264Serializer : VideoOutputProtocol {
         
         // build data
         
-        let serializer = PacketSerializer()
-        
+        let serializer = PacketSerializer(.video)
+
         serializer.push(data: videoTime.data)
         serializer.push(data: Data(bytes: sps!, count: spsLength))
         serializer.push(data: Data(bytes: pps!, count: ppsLength))
@@ -126,7 +126,7 @@ class VideoH264Serializer : VideoOutputProtocol {
 // NetworkH264Deserializer
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VideoH264Deserializer : DataProcessor {
+class VideoH264Deserializer : DataProcessorProtocol {
     
     private let next: VideoOutputProtocol?
     private var prevTime: CMSampleTimingInfo?
@@ -136,10 +136,11 @@ class VideoH264Deserializer : DataProcessor {
     init(_ next: VideoOutputProtocol?) {
         self.next = next
     }
-        
+    
     func process(data: Data) {
-        
         let d = PacketDeserializer(data)
+        
+        guard d.type == .video else { return }
         
         let h264Time = d.popData()
         let h264SPS  = d.popData() as NSData
@@ -213,22 +214,22 @@ class VideoH264Deserializer : DataProcessor {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class VideoSetupDeserializerH264 : VideoSetupSlave {
-    private let kind: DataProcessorKind
+    private let kind: DataProcessor.Kind
     
-    init(root: VideoSetupProtocol, kind: DataProcessorKind) {
+    init(root: VideoSetupProtocol, kind: DataProcessor.Kind) {
         self.kind = kind
         super.init(root: root)
     }
     
-    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+    override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         var result = data
         
         if kind == self.kind {
-            let deserializerVideo = root.video(VideoOutputImpl(), kind: .deserializer)
+            let deserializerVideo = root.video(VideoProcessor(), kind: .deserializer)
             let deserializer = root.data(VideoH264Deserializer(deserializerVideo), kind: .deserializer)
-            result = deserializer
+            result = DataProcessor(prev: result, next: deserializer)
         }
         
-        return result
+        return super.data(result, kind: kind)
     }
 }

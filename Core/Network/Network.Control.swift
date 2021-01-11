@@ -14,13 +14,13 @@ extension Double {
 }
 
 
-class VideoViewerQuality : VideoOutputImpl {
+class VideoViewerQuality : VideoProcessor {
     var bestSample: Double?
     var localTime: Date?
     var slowing = false
-    let server: DataProcessor
+    let server: DataProcessorProtocol
     
-    init(server: DataProcessor, next: VideoOutputProtocol? = nil) {
+    init(server: DataProcessorProtocol, next: VideoOutputProtocol? = nil) {
         self.server = server
         super.init(next: next)
     }
@@ -59,7 +59,7 @@ class VideoViewerQuality : VideoOutputImpl {
 }
 
 
-class VideoSenderQuality : VideoOutputImpl, DataProcessor {
+class VideoSenderQuality : VideoProcessor, DataProcessorProtocol {
     
     private var slowing = false
     private var lastFrameSent: Date?
@@ -94,12 +94,14 @@ class VideoSenderQuality : VideoOutputImpl, DataProcessor {
 
 
 class VideoSetupSenderQuality : VideoSetupSlave {
-    private var networkSenderListener: DataProcessorImpl?
+    private var networkSenderListener: DataProcessor?
 
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .capture {
+            assert(networkSenderListener != nil)
+            
             let control = create(next: result)
             networkSenderListener?.nextWeak = control
             result = control
@@ -108,11 +110,11 @@ class VideoSetupSenderQuality : VideoSetupSlave {
         return super.video(result, kind: kind)
     }
     
-    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+    override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         var result = data
         
         if kind == .networkHelmOutput {
-            let networkSenderListener = DataProcessorImpl(prev: result)
+            let networkSenderListener = DataProcessor(prev: result)
             
             self.networkSenderListener = networkSenderListener
             result = networkSenderListener
@@ -121,16 +123,16 @@ class VideoSetupSenderQuality : VideoSetupSlave {
         return super.data(result, kind: kind)
     }
     
-    func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessor {
+    func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessorProtocol {
         return VideoSenderQuality(next: next)
     }
 }
 
 
 class VideoSetupViewerQuality : VideoSetupSlave {
-    private let server = DataProcessorImpl()
+    private let server = DataProcessor()
     
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .deserializer {
@@ -140,7 +142,7 @@ class VideoSetupViewerQuality : VideoSetupSlave {
         return super.video(result, kind: kind)
     }
     
-    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+    override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         if kind == .networkData {
             server.nextWeak = data
         }

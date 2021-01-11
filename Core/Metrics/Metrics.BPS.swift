@@ -10,7 +10,7 @@ import AVFoundation
 import AppKit
 
 
-class MeasureByterate : MeasureCPS, DataProcessor {
+class MeasureByterate : MeasureCPS, DataProcessorProtocol {
     let string: StringProcessorProtocol?
     
     init(string: StringProcessorProtocol?) {

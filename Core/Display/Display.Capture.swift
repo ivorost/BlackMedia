@@ -10,26 +10,29 @@
 import AVFoundation
 
 
-class DisplaySetup {
+class DisplayCapture {
+    
+}
+
+
+class DisplaySetup : VideoSetupSlave {
     private let settings: DisplayConfig
-    private let root: VideoSetupProtocol
     private let avCaptureSession = AVCaptureSession()
     
-    init(settings: DisplayConfig, setup: VideoSetupProtocol) {
+    init(root: VideoSetupProtocol, settings: DisplayConfig) {
         self.settings = settings
-        self.root = setup
+        super.init(root: root)
     }
     
-    func setup() -> SessionProtocol {
-        let video = root.video(VideoOutputImpl(), kind: .capture)
-        
-        setupSession(avCaptureSession)
-        root.session(Session(), kind: .initial)
-        root.session(input(), kind: .input)
-        root.session(capture(next: video), kind: .capture)
-        root.session(avCaptureSession, kind: .avCapture)
-        
-        return SessionSyncDispatch(session: root.complete() ?? Session(), queue: Capture.shared.captureQueue)
+    override func session(_ session: Session.Proto, kind: Session.Kind) {
+        if kind == .initial {
+            let video = root.video(VideoProcessor(), kind: .capture)
+            
+            setupSession(avCaptureSession)
+            root.session(input(), kind: .input)
+            root.session(capture(next: video), kind: .capture)
+            root.session(avCaptureSession, kind: .avCapture)
+        }
     }
     
     func input() -> DisplayInput {
@@ -71,13 +74,13 @@ extension Capture {
         
         // Output
         
-        let qualityTuner = DataProcessorImpl()
+        let qualityTuner = DataProcessor()
         
-        var dataOutput = [DataProcessor]()
+        var dataOutput = [DataProcessorProtocol]()
         
         var output = [VideoOutputProtocol]()
         
-        let webSocketOutput = WebSocketSender(name: "machine_mac", next: qualityTuner)
+        let webSocketOutput = WebSocketMaster(name: "machine_mac", next: qualityTuner)
   
 //        let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
 
@@ -92,7 +95,7 @@ extension Capture {
         
         let h264serializer = VideoH264Serializer(broadcast(dataOutput))
 
-        let durationEnd = VideoOutputImpl(next: h264serializer, measure: MeasureEnd(duration))
+        let durationEnd = VideoProcessor(next: h264serializer, measure: MeasureEnd(duration))
 
         let h264encoder = VideoEncoderSessionH264(inputDimension: dimensions,
                                                   outputDimentions: dimensions,
@@ -116,7 +119,7 @@ extension Capture {
 //        removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
 //        #endif
         
-        var capture: VideoOutputProtocol = broadcast(output) ?? VideoOutputImpl()
+        var capture: VideoOutputProtocol = broadcast(output) ?? VideoProcessor()
         
         capture = VideoRemoveDuplicateFramesUsingMetal(next: capture)
 
@@ -131,7 +134,7 @@ extension Capture {
         
 //        capture = MeasureVideo(measure: MeasureDurationPrint(title: "--- total"), next: capture)
         
-        capture = VideoOutputImpl(next: capture, measure: MeasureBegin(duration))
+        capture = VideoProcessor(next: capture, measure: MeasureBegin(duration))
         
         let captureSession = VideoCaptureSession(session: avCaptureSession,
                                                  queue: Capture.shared.captureQueue,
@@ -148,7 +151,7 @@ extension Capture {
         sessions.append(input)
         sessions.append(avCaptureSession)
 
-        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)
+        return Session.DispatchSync(session: Session.Broadcast(sessions), queue: Capture.shared.captureQueue)
     }
 
 }

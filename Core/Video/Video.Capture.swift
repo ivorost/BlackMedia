@@ -79,26 +79,26 @@ extension Capture {
         sessions.append(captureSession)
 
         progress = sizeMonitorSession
-        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)
+        return Session.DispatchSync(session: Session.Broadcast(sessions), queue: Capture.shared.captureQueue)
     }
     
     func preview(preview layer: AVSampleBufferDisplayLayer?,
                  inputFPS: FuncWithDouble?) -> SessionProtocol {
         
         let inputFPScallback = inputFPS ?? { _ in }
-        let server = DataProcessorImpl()
+        let server = DataProcessor()
         var sessions = [SessionProtocol]()
         let preview = VideoOutputLayer(layer ?? AVSampleBufferDisplayLayer())
         let fps = VideoFPS(next: preview, measure: MeasureFPS(callback: inputFPScallback))
 //        let quality = VideoQuality(server: server, next: fps)
         let h264deserializer = VideoH264Deserializer(fps)
         let ack = VideoViewerACK(server: server, next: h264deserializer)
-        let webSocket = WebSocketViewer(name: "machine_mac", next: ack)
+        let webSocket = WebSocketSlave(name: "machine_mac", next: ack)
 
         server.nextWeak = webSocket
         sessions.append(preview)
         sessions.append(webSocket)
 
-        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.outputQueue)
+        return Session.DispatchSync(session: Session.Broadcast(sessions), queue: Capture.shared.outputQueue)
     }
 }

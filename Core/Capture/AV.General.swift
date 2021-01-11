@@ -1,130 +1,6 @@
 
 import AVFoundation
 
-protocol DataProcessor : class {
-    func process(data: Data)
-}
-
-class DataProcessorImpl : DataProcessor {
-    private let prev: DataProcessor?
-    private let next: DataProcessor?
-    weak var nextWeak: DataProcessor? = nil
-
-
-    init(next: DataProcessor? = nil) {
-        self.prev = nil
-        self.next = next
-        self.nextWeak = next
-    }
-
-    init(prev: DataProcessor, next: DataProcessor? = nil) {
-        self.prev = prev
-        self.next = next
-        self.nextWeak = next
-    }
-    
-    func process(data: Data) {
-        prev?.process(data: data)
-        nextWeak?.process(data: data)
-    }
-}
-
-class DataProcessorBroadcast : DataProcessor {
-    private var array: [DataProcessor?]
-    
-    init(_ array: [DataProcessor?]) {
-        self.array = array
-    }
-
-    func process(data: Data) {
-        for i in array { i?.process(data: data) }
-    }
-}
-
-func broadcast(_ x: [DataProcessor?]) -> DataProcessor? {
-    broadcast(x, create: { DataProcessorBroadcast($0) })
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Session
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typealias FuncWithSession = (SessionProtocol) -> Void
-typealias FuncReturningSessionThrowing = () throws -> SessionProtocol
-
-protocol SessionProtocol {
-    func start () throws
-    func stop()
-}
-
-class Session : SessionProtocol {
-    private let next: SessionProtocol?
-    private let startFunc: FuncThrows
-    private let stopFunc: Func
-    
-    init() {
-        next = nil
-        startFunc = {}
-        stopFunc = {}
-    }
-    
-    init(_ next: SessionProtocol?, start: @escaping FuncThrows = {}, stop: @escaping Func = {}) {
-        self.next = next
-        self.startFunc = start
-        self.stopFunc = stop
-    }
-
-    func start() throws {
-        try startFunc()
-        try next?.start()
-    }
-
-    func stop() {
-        stopFunc()
-        next?.stop()
-    }
-}
-
-class SessionBroadcast : SessionProtocol {
-    
-    private var x: [SessionProtocol?]
-    
-    init(_ x: [SessionProtocol?]) {
-        self.x = x
-    }
-    
-    func start () throws {
-        _ = try x.map({ try $0?.start() })
-    }
-    
-    func stop() {
-        _ = x.reversed().map({ $0?.stop() })
-    }
-}
-
-class SessionSyncDispatch : SessionProtocol {
-        
-    let session: SessionProtocol
-    let queue: DispatchQueue
-    
-    init(session: SessionProtocol, queue: DispatchQueue) {
-        self.session = session
-        self.queue = queue
-    }
-    
-    func start () throws {
-        try queue.sync {
-            try session.start()
-        }
-    }
-    
-    func stop() {
-        queue.sync {
-            session.stop()
-        }
-    }
-}
-
 
 class Timebase : Session {
     private(set) var date: Date = Date()
@@ -133,6 +9,13 @@ class Timebase : Session {
         date = Date()
     }
 }
+
+
+extension Session.Kind {
+    static let avCapture = Session.Kind(rawValue: "avCapture")
+    static let encoder = Session.Kind(rawValue: "encoder")
+}
+
 
 extension AVCaptureSession : SessionProtocol {
     func start() throws {
@@ -143,11 +26,6 @@ extension AVCaptureSession : SessionProtocol {
         print("STOP CAPTURE")
         stopRunning()
     }
-}
-
-
-func broadcast(_ x: [SessionProtocol?]) -> SessionProtocol? {
-    broadcast(x, create: { SessionBroadcast($0) })
 }
 
 

@@ -162,18 +162,20 @@ class VideoSetupEncoder : VideoSetupSlave {
         super.init(root: root)
     }
     
-    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .capture {
-            let serializerData = root.data(DataProcessorImpl(), kind: .serializer)
+            let serializerData = root.data(DataProcessor.shared, kind: .serializer)
             let serializer = VideoH264Serializer(serializerData)
             let serializerVideo = root.video(serializer, kind: .serializer)
             let encoder = VideoEncoderSessionH264(inputDimension: settings.input,
                                                   outputDimentions: settings.output,
                                                   next: serializerVideo)
 
-            result = root.video(encoder, kind: .encoder)
+            let encoderVideo = root.video(encoder, kind: .encoder)
+            
+            result = VideoProcessor(prev: result, next: encoderVideo)
             root.session(encoder, kind: .encoder)
         }
         
