@@ -50,11 +50,11 @@ class VideoViewerACK : DataProcessor {
 
 class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
 
-    private var queue = Set<Int>()
     private var readyTimestamp: Date?
     private var metric: StringProcessorProtocol
     private let lock = NSRecursiveLock()
-    private var lastSampleBuffer: CMSampleBuffer?
+    private var lastVideoBuffer: VideoBuffer?
+    private var count = 0
 
     init(next: VideoOutputProtocol?, metric: StringProcessorProtocol) {
         self.metric = metric
@@ -65,15 +65,23 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
         if let readyTimestamp = readyTimestamp, Date().timeIntervalSince(readyTimestamp) > 3 {
             recover()
         }
-
-        let count = lock.locked { queue.count }
         
-        if count == 0 {
+        var increment = 1
+        
+        if video.flags.contains(.duplicate) {
+            increment = 0
+        }
+        
+        lock.locked {
+            
+        }
+        
+        if count < 2 {
             super.process(video: video)
-            lock.locked { readyTimestamp = Date() }
+            lock.locked { readyTimestamp = Date(); count += increment }
         }
         else {
-            lock.locked { lastSampleBuffer = video.sampleBuffer }
+            lock.locked { lastVideoBuffer = video }
         }
     }
     
@@ -83,11 +91,7 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
         
         if let size = Int(sizeString) {
             lock.locked {
-                queue.remove(size)
-                
-                if queue.count == 0 {
-                    recover()
-                }
+                recover()
             }
         }
         else {
@@ -96,9 +100,9 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
     }
 
     func wait(size: Int) {
-        _ = lock.locked {
-            queue.insert(size)
-        }
+//        _ = lock.locked {
+//            queue.insert(size)
+//        }
     }
     
     private func recover() {
@@ -107,13 +111,13 @@ class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
         }
         
         lock.locked {
-            queue.removeAll()
+            count = 1
         }
         
         readyTimestamp = nil
         
-        if let sampleBuffer = lastSampleBuffer {
-            process(video: VideoBuffer(sampleBuffer))
+        if let lastVideoBuffer = lastVideoBuffer {
+            process(video: lastVideoBuffer)
         }
     }
 }

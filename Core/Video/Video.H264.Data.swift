@@ -120,6 +120,8 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
 
         process(packet: serializer)
+        
+        print("video \(serializer.data.count)")
     }
 }
 

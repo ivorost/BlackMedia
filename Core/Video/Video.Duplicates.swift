@@ -49,7 +49,7 @@ class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
                 super.process(video: video)
             }
             else {
-                super.process(video: video.copy(flags: [ .duplicate ]))
+//                super.process(video: video.copy(flags: [ .duplicate ]))
             }
         }
     }

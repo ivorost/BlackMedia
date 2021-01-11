@@ -156,16 +156,15 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
                                                                timestamp2string ]) ?? Session(),
                                           queue: DispatchQueue.main), kind: .other)
 
-
         return [
             preview,
             encoder,
             deserializer,
             multithreading,
-            duplicates,
             webSocketHelm,
             webSocketACK,
             webSocketQuality,
+            duplicates,
             captureFPS,
             duplicatesFPS,
             byterate,

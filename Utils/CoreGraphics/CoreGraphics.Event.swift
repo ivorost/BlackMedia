@@ -20,7 +20,8 @@ extension CGEvent {
              .otherMouseUp,
              .rightMouseDown,
              .rightMouseDragged,
-             .rightMouseUp:
+             .rightMouseUp,
+             .scrollWheel:
             return true
         default:
             return false
