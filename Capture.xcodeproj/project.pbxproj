@@ -95,6 +95,8 @@
 		82108A4E258BC3FE00B382A8 /* Foundation.Typedefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C950512546F8F30025663F /* Foundation.Typedefs.swift */; };
 		82108A58258BC5CD00B382A8 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82108A56258BC5CD00B382A8 /* Starscream.framework */; };
 		82108A69258BC7F400B382A8 /* General.String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C36682565267000EBCD8A /* General.String.swift */; };
+		8222EE37259732F7005D0C1A /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222EE36259732F7005D0C1A /* ReplayKit.framework */; };
+		8222EE4E25973929005D0C1A /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222EE36259732F7005D0C1A /* ReplayKit.framework */; };
 		8223343D257F615E0095D0CA /* General.Flush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8223343C257F615E0095D0CA /* General.Flush.swift */; };
 		822764A225492D5F00C2E46D /* Video.H264.Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */; };
 		822764AA25492D7000C2E46D /* Video.H264.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822764A925492D7000C2E46D /* Video.H264.Data.swift */; };
@@ -134,10 +136,7 @@
 		828CA222258B4D2900247034 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 828CA220258B4D2900247034 /* LaunchScreen.storyboard */; };
 		828CA22D258B4D2A00247034 /* CaptureIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA22C258B4D2A00247034 /* CaptureIOSTests.swift */; };
 		828CA238258B4D2B00247034 /* CaptureIOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA237258B4D2B00247034 /* CaptureIOSUITests.swift */; };
-		828CA255258B5E1400247034 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828CA254258B5E1400247034 /* ReplayKit.framework */; };
 		828CA258258B5E1400247034 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA257258B5E1400247034 /* SampleHandler.swift */; };
-		828CA25F258B5E1500247034 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828CA254258B5E1400247034 /* ReplayKit.framework */; };
-		828CA261258B5E1500247034 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828CA260258B5E1500247034 /* UIKit.framework */; };
 		828CA264258B5E1500247034 /* BroadcastSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA263258B5E1500247034 /* BroadcastSetupViewController.swift */; };
 		828CA268258B5E1500247034 /* CaptureIOS Upload ExtensionSetupUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 828CA25E258B5E1500247034 /* CaptureIOS Upload ExtensionSetupUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		828CA26B258B5E1500247034 /* CaptureIOS Upload Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 828CA253258B5E1400247034 /* CaptureIOS Upload Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -332,16 +331,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		82108A24258BC3A600B382A8 /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		823D0F3925513A5200F8C852 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,6 +392,7 @@
 		820B97D2256E68E500EB4D56 /* General.Data.Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Data.Setup.swift; sourceTree = "<group>"; };
 		820B97D4256E7C6900EB4D56 /* General.Session.Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Session.Setup.swift; sourceTree = "<group>"; };
 		82108A56258BC5CD00B382A8 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
+		8222EE36259732F7005D0C1A /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/ReplayKit.framework; sourceTree = DEVELOPER_DIR; };
 		8223343C257F615E0095D0CA /* General.Flush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Flush.swift; sourceTree = "<group>"; };
 		822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Encoder.swift; sourceTree = "<group>"; };
 		822764A925492D7000C2E46D /* Video.H264.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Data.swift; sourceTree = "<group>"; };
@@ -447,11 +437,9 @@
 		828CA237258B4D2B00247034 /* CaptureIOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureIOSUITests.swift; sourceTree = "<group>"; };
 		828CA239258B4D2B00247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828CA253258B5E1400247034 /* CaptureIOS Upload Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CaptureIOS Upload Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		828CA254258B5E1400247034 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = Library/Frameworks/ReplayKit.framework; sourceTree = DEVELOPER_DIR; };
 		828CA257258B5E1400247034 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
 		828CA259258B5E1400247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828CA25E258B5E1500247034 /* CaptureIOS Upload ExtensionSetupUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "CaptureIOS Upload ExtensionSetupUI.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		828CA260258B5E1500247034 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		828CA263258B5E1500247034 /* BroadcastSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastSetupViewController.swift; sourceTree = "<group>"; };
 		828CA265258B5E1500247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828CA298258B7D1500247034 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -540,6 +528,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8222EE4E25973929005D0C1A /* ReplayKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,7 +550,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				828CA255258B5E1400247034 /* ReplayKit.framework in Frameworks */,
+				8222EE37259732F7005D0C1A /* ReplayKit.framework in Frameworks */,
 				82108A58258BC5CD00B382A8 /* Starscream.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,8 +559,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				828CA25F258B5E1500247034 /* ReplayKit.framework in Frameworks */,
-				828CA261258B5E1500247034 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,9 +607,8 @@
 		822A5DFD256C497E00AAF2C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8222EE36259732F7005D0C1A /* ReplayKit.framework */,
 				822A5DFE256C497F00AAF2C0 /* ApplicationServices.framework */,
-				828CA254258B5E1400247034 /* ReplayKit.framework */,
-				828CA260258B5E1500247034 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1098,7 +1084,6 @@
 				828CA24F258B5E1400247034 /* Sources */,
 				828CA250258B5E1400247034 /* Frameworks */,
 				828CA251258B5E1400247034 /* Resources */,
-				82108A24258BC3A600B382A8 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1701,7 +1686,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = CaptureIOS/CaptureIOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = JWDCNYZ922;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1730,7 +1715,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = CaptureIOS/CaptureIOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = JWDCNYZ922;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1856,16 +1841,16 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = "CaptureIOS Upload ExtensionSetupUI/CaptureIOS Upload ExtensionSetupUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = JWDCNYZ922;
 				INFOPLIST_FILE = "CaptureIOS Upload ExtensionSetupUI/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.CaptureIOS-Upload-ExtensionSetupUI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.extension-upload-ui";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1880,16 +1865,16 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = "CaptureIOS Upload ExtensionSetupUI/CaptureIOS Upload ExtensionSetupUI.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = JWDCNYZ922;
 				INFOPLIST_FILE = "CaptureIOS Upload ExtensionSetupUI/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.CaptureIOS-Upload-ExtensionSetupUI";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.extension-upload-ui";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1902,61 +1887,57 @@
 		828CA270258B5E1500247034 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = "CaptureIOS Upload Extension/CaptureIOS Upload Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = JWDCNYZ922;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "CaptureIOS Upload Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.CaptureIOS-Upload-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.extension-upload";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
 		828CA271258B5E1500247034 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_ENTITLEMENTS = "CaptureIOS Upload Extension/CaptureIOS Upload Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = JWDCNYZ922;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "CaptureIOS Upload Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.CaptureIOS-Upload-Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.idrive.screentest.extension-upload";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};
@@ -2081,7 +2062,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
@@ -2112,7 +2093,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
