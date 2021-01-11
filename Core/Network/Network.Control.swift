@@ -111,7 +111,7 @@ class VideoSetupSenderQuality : VideoSetupSlave {
     override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
         var result = data
         
-        if kind == .networkData {
+        if kind == .networkHelmOutput {
             let networkSenderListener = DataProcessorImpl(prev: result)
             
             self.networkSenderListener = networkSenderListener
@@ -127,7 +127,7 @@ class VideoSetupSenderQuality : VideoSetupSlave {
 }
 
 
-class VideoSetupViewerQualityControl : VideoSetupSlave {
+class VideoSetupViewerQuality : VideoSetupSlave {
     private let server = DataProcessorImpl()
     
     override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
@@ -141,7 +141,7 @@ class VideoSetupViewerQualityControl : VideoSetupSlave {
     }
     
     override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
-        if kind == .network {
+        if kind == .networkData {
             server.nextWeak = data
         }
         

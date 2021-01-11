@@ -20,7 +20,7 @@ class VideoViewerACK : DataProcessorImpl {
     }
     
     override func process(data: Data) {
-        server?.process(data: "next".data(using: .utf8)!)
+        server?.process(data: "ack \(data.count)".data(using: .utf8)!)
         super.process(data: data)
     }
 }
@@ -43,33 +43,57 @@ class VideoViewerACK : DataProcessorImpl {
 //    }
 //}
 
-class VideoSenderACK : VideoOutputImpl, DataProcessor {
+class VideoSenderACKCapture : VideoOutputImpl, DataProcessor {
 
-    private var ready = true
+    private var queue = Set<Int>()
     private var readyTimestamp: Date?
     private var metric: StringProcessorProtocol
+    private let lock = NSRecursiveLock()
+    private var lastSampleBuffer: CMSampleBuffer?
 
     init(next: VideoOutputProtocol?, metric: StringProcessorProtocol) {
         self.metric = metric
         super.init(next: next)
     }
     
-    func process(data: Data) {
-        if String(data: data, encoding: .utf8) == "next" {
+    override func process(video: CMSampleBuffer) {
+        if let readyTimestamp = readyTimestamp, Date().timeIntervalSince(readyTimestamp) > 3 {
             recover()
+        }
+
+        let count = lock.locked { queue.count }
+        
+        if count == 0 {
+            super.process(video: video)
+            readyTimestamp = Date()
+        }
+        else {
+            lastSampleBuffer = video
+        }
+    }
+    
+    func process(data: Data) {
+        guard let string = String(data: data, encoding: .utf8), string.hasPrefix("ack ") else { return }
+        let sizeString = string.suffix(from: string.index(string.startIndex, offsetBy: 4))
+        
+        if let size = Int(sizeString) {
+            _ = lock.locked {
+                queue.remove(size)
+                
+                if queue.count == 0 {
+                    recover()
+                }
+            }
+        }
+        else {
+            assert(false)
         }
     }
 
-    override func process(video: CMSampleBuffer) {
-        if let readyTimestamp = readyTimestamp, Date().timeIntervalSince(readyTimestamp) > 1 {
-            recover()
+    func wait(size: Int) {
+        _ = lock.locked {
+            queue.insert(size)
         }
-
-        guard ready else { return }
-
-        super.process(video: video)
-        ready = false
-        readyTimestamp = Date()
     }
     
     private func recover() {
@@ -77,8 +101,24 @@ class VideoSenderACK : VideoOutputImpl, DataProcessor {
             metric.process(string: "\(Date().timeIntervalSince(timestamp))")
         }
         
-        ready = true
+        lock.locked {
+            queue.removeAll()
+        }
+        
         readyTimestamp = nil
+        
+        if let sampleBuffer = lastSampleBuffer {
+            process(video: sampleBuffer)
+        }
+    }
+}
+
+
+class VideoSenderACKNetwork : DataProcessor {
+    fileprivate weak var capture: VideoSenderACKCapture?
+    
+    func process(data: Data) {
+        capture?.wait(size: data.count)
     }
 }
 
@@ -90,11 +130,11 @@ class VideoSetupViewerACK : VideoSetupSlave {
     override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
         var result = data
         
-        if kind == .network {
+        if kind == .networkHelm {
             server.nextWeak = data
         }
 
-        if kind == .networkData {
+        if kind == .networkDataOutput {
             result = VideoViewerACK(server: server, next: result)
         }
         
@@ -105,14 +145,44 @@ class VideoSetupViewerACK : VideoSetupSlave {
 
 class VideoSetupSenderACK : VideoSetupSenderQuality {
     private let metric: StringProcessorProtocol
+    private var network: VideoSenderACKNetwork?
     
     init(root: VideoSetupProtocol, metric: StringProcessorProtocol) {
         self.metric = metric
         super.init(root: root)
     }
+
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        var result = data
+        
+        if kind == .networkData {
+            let ack = VideoSenderACKNetwork()
+            network = ack
+            result = DataProcessorImpl(prev: ack, next: result)
+        }
+        
+        return super.data(result, kind: kind)
+    }
     
     override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessor {
-        return VideoSenderACK(next: next, metric: metric)
+        assert(network != nil)
+        
+        let result = VideoSenderACKCapture(next: next, metric: metric)
+        network?.capture = result
+        return result
     }
 }
+
+//class VideoSetupSenderACK : VideoSetupSenderQuality {
+//    private let metric: StringProcessorProtocol
+//
+//    init(root: VideoSetupProtocol, metric: StringProcessorProtocol) {
+//        self.metric = metric
+//        super.init(root: root)
+//    }
+//
+//    override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessor {
+//        return VideoSenderACK(next: next, metric: metric)
+//    }
+//}
 

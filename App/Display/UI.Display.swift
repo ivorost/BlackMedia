@@ -80,8 +80,10 @@ fileprivate class CaptureSetup : VideoSetupVector {
                                                   checkbox: views.setupSenderDuplicatesMemcmpButton)
         let duplicates = VideoSetupCheckbox(next: broadcast([duplicatesMetal, duplicatesMemcmp]) ?? VideoSetup(),
                                             checkbox: views.setupSenderDuplicatesButton)
-        let webSocket = VideoSetupCheckbox(next: VideoSetupWebSocketSender(root: root),
-                                           checkbox: views.setupSenderWebSocketButton)
+        let webSocketData = VideoSetupCheckbox(next: VideoSetupWebSocketSender(root: root),
+                                               checkbox: views.setupSenderWebSocketButton)
+        let webSocketHelm = VideoSetupCheckbox(next: VideoSetupWebSocketHelmSender(root: root),
+                                               checkbox: views.setupSenderWebSocketButton)
         let webSocketACKMetric = StringProcessorTableView(tableView: views.tableViewACK1)
         let webSocketACK = VideoSetupCheckbox(next: VideoSetupSenderACK(root: root, metric: webSocketACKMetric),
                                               checkbox: views.setupSenderWebSocketACKButton)
@@ -97,7 +99,7 @@ fileprivate class CaptureSetup : VideoSetupVector {
         let byterateMeasure
             = MeasureByterate(string: byterateString)
         let byterate
-            = VideoSetupDataProcessor(data: byterateMeasure, kind: .network)
+            = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkData)
 
         let timestamp1string
             = StringProcessorWithIntervalBatching(next: StringProcessorTableView(tableView: views.tableViewTiming1))
@@ -125,7 +127,8 @@ fileprivate class CaptureSetup : VideoSetupVector {
             deserializer,
             multithreading,
             duplicates,
-            webSocket,
+            webSocketData,
+            webSocketHelm,
             webSocketACK,
             webSocketQuality,
             captureFPS,
@@ -151,10 +154,12 @@ fileprivate class ListenerSetup : VideoSetupVector {
         let root = self
         let general = VideoSetupGeneral()
         let preview = VideoSetupPreview(root: root, layer: layer)
-        let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkData)
+        let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
+        let webSocketHelm = VideoSetupCheckbox(next: VideoSetupWebSocketHelmViewer(root: root),
+                                               checkbox: views.setupSenderWebSocketButton)
         let webSocketACK = VideoSetupCheckbox(next: VideoSetupViewerACK(root: root),
                                               checkbox: views.setupSenderWebSocketACKButton)
-        let webSocketQuality = VideoSetupCheckbox(next: VideoSetupViewerQualityControl(root: root),
+        let webSocketQuality = VideoSetupCheckbox(next: VideoSetupViewerQuality(root: root),
                                                   checkbox: views.setupSenderWebSocketQualityButton)
         let fps = VideoSetupMeasure(kind: .deserializer,
                                     measure: MeasureFPSLabel(label: views.inputFPSLabel))
@@ -163,6 +168,7 @@ fileprivate class ListenerSetup : VideoSetupVector {
             general,
             preview,
             deserializer,
+            webSocketHelm,
             webSocketACK,
             webSocketQuality,
             fps ]

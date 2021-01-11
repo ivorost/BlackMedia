@@ -93,7 +93,7 @@ extension Capture {
 //        let quality = VideoQuality(server: server, next: fps)
         let h264deserializer = VideoH264Deserializer(fps)
         let ack = VideoViewerACK(server: server, next: h264deserializer)
-        let webSocket = WebSocketViewer(next: ack)
+        let webSocket = WebSocketViewer(name: "machine_mac", next: ack)
 
         server.nextWeak = webSocket
         sessions.append(preview)

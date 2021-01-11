@@ -25,9 +25,10 @@ class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
     private let next: DataProcessor?
     private let urlString: String
     private(set) var socket: WebSocket?
+    private var connected: Func?
 
-    init(urlString: String, next: DataProcessor?) {
-        self.urlString = urlString
+    init(name: String, urlString: String, next: DataProcessor?) {
+        self.urlString = urlString.replacingOccurrences(of: "machine_mac", with: name)
         self.next = next
     }
     
@@ -38,6 +39,10 @@ class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
         socket = WebSocket(request: request)
         socket?.delegate = self
         socket?.connect()
+        
+        wait { (done) in
+            self.connected = done
+        }
     }
     
     func stop() {
@@ -52,6 +57,8 @@ class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
         switch event {
         case .binary(let data):
             next?.process(data: data)
+        case .connected(_):
+            connected?()
         default:
             break
         }
@@ -60,15 +67,15 @@ class WebSocketSession : SessionProtocol, DataProcessor, WebSocketDelegate {
 
 
 class WebSocketSender : WebSocketSession {
-    init(next: DataProcessor? = nil) {
-        super.init(urlString: .wsSender, next: next)
+    init(name: String, next: DataProcessor? = nil) {
+        super.init(name: name, urlString: .wsSender, next: next)
     }
 }
 
 
 class WebSocketViewer : WebSocketSession {
-    init(next: DataProcessor? = nil) {
-        super.init(urlString: .wsReceiver, next: next)
+    init(name: String, next: DataProcessor? = nil) {
+        super.init(name: name, urlString: .wsReceiver, next: next)
     }
 }
 
@@ -79,14 +86,27 @@ class VideoSetupWebSocketSender : VideoSetupSlave {
         
         if kind == .serializer {
             var webSocketData: DataProcessor = DataProcessorImpl()
-            webSocketData = root.data(webSocketData, kind: .networkData)
+            webSocketData = root.data(webSocketData, kind: .networkDataOutput)
             
-            let webSocket = WebSocketSender(next: webSocketData)
-            root.session(webSocket, kind: .network)
-            result = root.data(webSocket, kind: .network)
+            let webSocket = WebSocketSender(name: "machine_mac_data", next: webSocketData)
+            root.session(webSocket, kind: .networkData)
+            result = root.data(webSocket, kind: .networkData)
         }
         
         return super.data(result, kind: kind)
+    }
+}
+
+
+class VideoSetupWebSocketHelmSender : VideoSetupSlave {
+    override func session(_ session: SessionProtocol, kind: VideoSessionKind) {
+        if kind == .networkData {
+            var webSocketData: DataProcessor = DataProcessorImpl()
+            webSocketData = root.data(webSocketData, kind: .networkHelmOutput)
+            
+            let webSocket = WebSocketSender(name: "machine_mac_helm", next: webSocketData)
+            root.session(webSocket, kind: .networkHelm)
+        }
     }
 }
 
@@ -101,12 +121,26 @@ class VideoSetupWebSocketViewer {
     
     func setup() -> SessionProtocol {
         var webSocketData: DataProcessor = DataProcessorImpl()
-        webSocketData = root.data(webSocketData, kind: .networkData)
+        webSocketData = root.data(webSocketData, kind: .networkDataOutput)
 
-        let webSocket = WebSocketViewer(next: webSocketData)
-        _ = root.data(webSocket, kind: .network)
-        root.session(webSocket, kind: .network)
+        let webSocket = WebSocketViewer(name: "machine_mac_data", next: webSocketData)
+        _ = root.data(webSocket, kind: .networkData)
+        root.session(webSocket, kind: .networkData)
         
         return SessionSyncDispatch(session: root.complete() ?? Session(), queue: Capture.shared.outputQueue)
+    }
+}
+
+
+class VideoSetupWebSocketHelmViewer : VideoSetupSlave {
+    override func session(_ session: SessionProtocol, kind: VideoSessionKind) {
+        if kind == .networkData {
+            var webSocketData: DataProcessor = DataProcessorImpl()
+            webSocketData = root.data(webSocketData, kind: .networkHelmOutput)
+
+            let webSocket = WebSocketViewer(name: "machine_mac_helm", next: webSocketData)
+            _ = root.data(webSocket, kind: .networkHelm)
+            root.session(webSocket, kind: .networkHelm)
+        }
     }
 }

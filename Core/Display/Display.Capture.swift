@@ -24,6 +24,7 @@ class DisplaySetup {
         let video = root.video(VideoOutputImpl(), kind: .capture)
         
         setupSession(avCaptureSession)
+        root.session(Session(), kind: .initial)
         root.session(input(), kind: .input)
         root.session(capture(next: video), kind: .capture)
         root.session(avCaptureSession, kind: .avCapture)
@@ -76,7 +77,7 @@ extension Capture {
         
         var output = [VideoOutputProtocol]()
         
-        let webSocketOutput = WebSocketSender(next: qualityTuner)
+        let webSocketOutput = WebSocketSender(name: "machine_mac", next: qualityTuner)
   
 //        let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
 

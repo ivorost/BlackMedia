@@ -13,11 +13,13 @@ import AppKit
 
 enum VideoSessionKind {
     case other
+    case initial
     case input
     case capture
     case avCapture
     case encoder
-    case network
+    case networkData
+    case networkHelm
 }
 
 
@@ -35,8 +37,10 @@ enum VideoOutputKind {
 enum DataProcessorKind {
     case serializer
     case deserializer
-    case network
     case networkData
+    case networkDataOutput
+    case networkHelm
+    case networkHelmOutput
 }
 
 
