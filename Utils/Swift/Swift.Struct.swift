@@ -30,3 +30,11 @@ extension StructProtocol {
         return Data(bytes: &copy, count: MemoryLayout<Self>.size)
     }
 }
+
+class StructContainer<T> {
+    let inner: T
+    
+    init(_ inner: T) {
+        self.inner = inner
+    }
+}

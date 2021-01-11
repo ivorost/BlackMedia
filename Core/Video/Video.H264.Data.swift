@@ -113,6 +113,7 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         
         let serializer = PacketSerializer(.video)
 
+        serializer.push(value: video.ID)
         serializer.push(data: videoTime.data)
         serializer.push(data: systemTime.data)
         serializer.push(data: Data(bytes: sps!, count: spsLength))
@@ -120,8 +121,6 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
 
         process(packet: serializer)
-        
-        print("video \(serializer.data.count)")
     }
 }
 
@@ -138,24 +137,26 @@ class VideoH264DeserializerBase : PacketDeserializer.Processor {
     }
 
     override func process(packet: PacketDeserializer) {
+        var ID64: UInt64 = 0; packet.pop(&ID64)
+        let ID = UInt(ID64)
         let time = VideoTime(deserialize: packet.popData()) // zero based timestamp
         let timeOriginal = VideoTime(deserialize: packet.popData()) // system clock based timestamp
         
-        process(time: time, originalTime: timeOriginal)
+        process(ID: ID, time: time, originalTime: timeOriginal)
 
         if !metadataOnly {
             let h264SPS  = packet.popData()
             let h264PPS  = packet.popData()
             let h264Data = packet.popData()
             
-            process(h264: h264Data, sps: h264SPS, pps: h264PPS, time: time, originalTime: timeOriginal)
+            process(h264: h264Data, sps: h264SPS, pps: h264PPS, ID: ID, time: time, originalTime: timeOriginal)
         }
     }
     
-    func process(time: VideoTime, originalTime: VideoTime) {
+    func process(ID: UInt, time: VideoTime, originalTime: VideoTime) {
     }
     
-    func process(h264: Data, sps: Data, pps: Data, time: VideoTime, originalTime: VideoTime) {
+    func process(h264: Data, sps: Data, pps: Data, ID: UInt, time: VideoTime, originalTime: VideoTime) {
     }
 }
 
@@ -168,7 +169,7 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
         super.init()
     }
 
-    override func process(h264: Data, sps: Data, pps: Data, time: VideoTime, originalTime: VideoTime) {
+    override func process(h264: Data, sps: Data, pps: Data, ID: UInt, time: VideoTime, originalTime: VideoTime) {
         do {
             let h264SPS  = sps as NSData
             let h264PPS  = pps as NSData
@@ -225,7 +226,7 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
             
             // output
             
-            next?.process(video: VideoBuffer(result!))
+            next?.process(video: VideoBuffer(ID: ID, buffer: result!))
         }
         catch {
             logAVError(error)

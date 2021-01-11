@@ -19,7 +19,7 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     private var outputDimentions: CMVideoDimensions
     private let next: VideoOutputProtocol?
     private let callback: Callback?
-    private var duplicatesCount = 0
+    private var processedVideoBuffer: VideoBuffer?
 
     init(inputDimension: CMVideoDimensions,
          outputDimentions: CMVideoDimensions,
@@ -40,30 +40,6 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         self.callback = callback
     }
     
-    private var sessionCallback: VTCompressionOutputCallback = {(
-        outputCallbackRefCon:UnsafeMutableRawPointer?,
-        sourceFrameRefCon:UnsafeMutableRawPointer?,
-        status:OSStatus,
-        infoFlags:VTEncodeInfoFlags,
-        sampleBuffer_:CMSampleBuffer?
-        ) in
-        
-        let SELF: VideoEncoderSessionH264 = unsafeBitCast(outputCallbackRefCon, to: VideoEncoderSessionH264.self)
-        guard let sampleBuffer = sampleBuffer_ else { logError("VideoEncoderSessionH264 nil buffer"); return }
-                
-        if status != 0 {
-            logAVError("VTCompressionSession to H264 failed")
-            return
-        }
-
-//        Capture.shared.captureQueue.async {
-        DispatchQueue.global().async {
-            SELF.callback?(SELF)
-            SELF.next?.process(video: VideoBuffer(sampleBuffer))
-        }
-        
-        } as VTCompressionOutputCallback
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // IOSessionProtocol
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,22 +86,61 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func process(video: VideoBuffer) {
+        _process(video: video)
+        
+//        Capture.shared.captureQueue.asyncAfter(deadline: .now() + 0.1) {
+//            if let processedVideoBuffer = self.processedVideoBuffer, processedVideoBuffer.ID < video.ID {
+//                self._process(video: video)
+//                print("aaaa")
+//            }
+//        }
+    }
+    
+    func _process(video: VideoBuffer) {
         guard let session = self.session else { logError("VideoEncoderSessionH264 no session"); return }
 
         if !video.flags.contains(.duplicate) {
             guard let imageBuffer:CVImageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer) else { return }
             var flags:VTEncodeInfoFlags = VTEncodeInfoFlags()
-
+            let videoRef = StructContainer(video)
+            
             VTCompressionSessionEncodeFrame(
                 session,
                 imageBuffer: imageBuffer,
                 presentationTimeStamp: CMSampleBufferGetPresentationTimeStamp(video.sampleBuffer),
-                duration: CMTime.video(fps: .frameRate),//CMTime(value: 1000, timescale: 6000),//CMTime.invalid,
+                duration: CMTime.video(fps: .frameRate),
                 frameProperties: nil,
-                sourceFrameRefcon: nil,
+                sourceFrameRefcon: UnsafeMutableRawPointer(mutating: bridgeRetained(obj: videoRef)),
                 infoFlagsOut: &flags)
         }
     }
+        
+    private var sessionCallback: VTCompressionOutputCallback = {(
+        outputCallbackRefCon:UnsafeMutableRawPointer?,
+        sourceFrameRefCon:UnsafeMutableRawPointer?,
+        status:OSStatus,
+        infoFlags:VTEncodeInfoFlags,
+        sampleBuffer_:CMSampleBuffer?
+        ) in
+        
+        let SELF: VideoEncoderSessionH264 = unsafeBitCast(outputCallbackRefCon,
+                                                          to: VideoEncoderSessionH264.self)
+        let videoRef: StructContainer<VideoBuffer> = bridgeRetained(ptr: sourceFrameRefCon!)
+        guard let sampleBuffer = sampleBuffer_ else { logError("VideoEncoderSessionH264 nil buffer"); return }
+        
+        SELF.processedVideoBuffer = videoRef.inner
+        
+        if status != 0 {
+            logAVError("VTCompressionSession to H264 failed")
+            return
+        }
+
+//        Capture.shared.captureQueue.async {
+        DispatchQueue.global().async {
+            SELF.callback?(SELF)
+            SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID, buffer: sampleBuffer))
+        }
+    } as VTCompressionOutputCallback
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Settings

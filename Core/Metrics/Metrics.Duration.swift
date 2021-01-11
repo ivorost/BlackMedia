@@ -64,17 +64,3 @@ class MeasureDurationAverage : MeasureProtocol {
     }
 }
 
-
-class MeasureDurationAveragePrint : MeasureDurationAverage {
-    let title: String
-    
-    init(title: String) {
-        self.title = title
-    }
-    
-    override func process(milliseconds: TimeInterval) {
-        print("\(title) \(milliseconds)")
-        super.process(milliseconds: milliseconds)
-    }
-}
-

@@ -25,6 +25,7 @@ extension MTLTexture {
 
 class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
     private var lastImageBuffer: CVImageBuffer?
+    private var duplicatesCount = 0
     private let lock = NSLock()
 
     fileprivate func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
@@ -32,9 +33,10 @@ class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
     }
 
     override func process(video: VideoBuffer) {
-        return lock.locked {
+        var process = true
+        
+        lock.locked {
             let imageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer)
-            var process = true
             
             if process,
                 let lastImageBuffer = lastImageBuffer,
@@ -43,14 +45,23 @@ class VideoRemoveDuplicateFramesBase : VideoOutputWithNext {
                 process = false
             }
             
-            lastImageBuffer = imageBuffer
-            
             if process {
-                super.process(video: video)
+                duplicatesCount = 0
             }
             else {
-//                super.process(video: video.copy(flags: [ .duplicate ]))
+                duplicatesCount += 1
             }
+            
+            if duplicatesCount == 5 {
+                process = true
+                print("aaa")
+            }
+            
+            lastImageBuffer = imageBuffer
+        }
+
+        if process {
+            super.process(video: video)
         }
     }
 }
@@ -224,3 +235,4 @@ class VideoSetupDuplicatesTemplate<T> : VideoSetupSlave where T : VideoOutputWit
 
 typealias VideoSetupDuplicatesMetal = VideoSetupDuplicatesTemplate <VideoRemoveDuplicateFramesUsingMetal>
 typealias VideoSetupDuplicatesMemcmp = VideoSetupDuplicatesTemplate <VideoRemoveDuplicateFramesUsingMemcmp>
+

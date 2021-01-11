@@ -115,9 +115,11 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
                                             checkbox: views.setupSenderDuplicatesButton)
         let webSocketHelm = VideoSetupCheckbox(next: cast(video: WebSocketMaster.SetupHelm(root: root)),
                                                checkbox: views.setupSenderWebSocketButton)
-        let webSocketACKMetric = StringProcessorTableView(tableView: views.tableViewACK1)
+        let webSocketACKMetric = StringProcessor.TableView(tableView: views.tableViewACK1)
         let webSocketACK = VideoSetupCheckbox(
-            next: VideoSetupCheckbox(next: VideoSetupSenderACK(root: root, metric: webSocketACKMetric),
+            next: VideoSetupCheckbox(next: VideoSetupSenderACK(root: root,
+                                                               timebase: timebase,
+                                                               metric: webSocketACKMetric),
                                      checkbox: views.setupSenderWebSocketACKButton),
             checkbox: views.setupSenderWebSocketButton)
             
@@ -125,36 +127,32 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             next: VideoSetupCheckbox(next: VideoSetupSenderQuality(root: root),
                                      checkbox: views.setupSenderWebSocketQualityButton),
             checkbox: views.setupSenderWebSocketButton)
-        let captureFPS = VideoSetupMeasure(kind: .capture,
-                                           measure: MeasureFPSLabel(label: views.inputFPSLabel))
-        let duplicatesFPS = VideoSetupMeasure(kind: .duplicatesFree,
-                                              measure: MeasureFPSLabel(label: views.outputFPSLabel))
         
-        let byterateString
-            = StringProcessorWithIntervalCutting(next: StringProcessorTableView(tableView: views.tableViewByterate))
-        let byterateMeasure
-            = MeasureByterate(string: byterateString)
-        let byterate
-            = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkData)
+        let captureFPS = MeasureFPSLabel(label: views.inputFPSLabel)
+        let captureFPSsetup = VideoSetupMeasure(kind: .capture, measure: captureFPS)
+        
+        let duplicatesFPS = MeasureFPSLabel(label: views.outputFPSLabel)
+        let duplicatesFPSsetup = VideoSetupMeasure(kind: .duplicatesFree, measure: duplicatesFPS)
+        
+        let byterateString = StringProcessor.TableView(tableView: views.tableViewByterate)
+        let byterateMeasure = MeasureByterate(string: byterateString)
+        let byterate = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkData)
 
-        let timestamp1string
-            = StringProcessorWithIntervalBatching(next: StringProcessorTableView(tableView: views.tableViewTiming1))
-        let timestamp1processor
-            = VideoOutputPresentationTime(string: timestamp1string, timebase: timebase)
-        let timestamp1
-            = VideoSetupProcessor(video: timestamp1processor, kind: .capture)
+        let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming1))
+        let timestamp1processor = VideoOutputPresentationTime(string: timestamp1string, timebase: timebase)
+        let timestamp1 = VideoSetupProcessor(video: timestamp1processor, kind: .capture)
 
-        let timestamp2string
-            = StringProcessorWithIntervalBatching(next: StringProcessorTableView(tableView: views.tableViewTiming2))
-        let timestamp2processor
-            = VideoOutputPresentationTime(string: timestamp2string, timebase: timebase)
-        let timestamp2
-            = VideoSetupProcessor(video: timestamp2processor, kind: .duplicatesFree)
+        let timestamp2string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming2))
+        let timestamp2processor = VideoOutputPresentationTime(string: timestamp2string, timebase: timebase)
+        let timestamp2 = VideoSetupProcessor(video: timestamp2processor, kind: .duplicatesFree)
 
-        root.session(Session.DispatchSync(session: broadcast([ byterateString,
-                                                               timestamp1string,
-                                                               timestamp2string ]) ?? Session(),
-                                          queue: DispatchQueue.main), kind: .other)
+        let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ byterateMeasure,
+                                                                                captureFPS,
+                                                                                duplicatesFPS,
+                                                                                timestamp1string,
+                                                                                timestamp2string ]))
+        
+        root.session(Session.DispatchSync(session: flushPeriodically, queue: DispatchQueue.main), kind: .other)
 
         return [
             preview,
@@ -165,8 +163,8 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             webSocketACK,
             webSocketQuality,
             duplicates,
-            captureFPS,
-            duplicatesFPS,
+            captureFPSsetup,
+            duplicatesFPSsetup,
             byterate,
             timestamp1,
             timestamp2,
@@ -197,26 +195,23 @@ fileprivate class SetupVideoListening : VideoSetupVector {
                                               checkbox: views.setupSenderWebSocketACKButton)
         let webSocketQuality = VideoSetupCheckbox(next: VideoSetupViewerQuality(root: root),
                                                   checkbox: views.setupSenderWebSocketQualityButton)
-        let fps = VideoSetupMeasure(kind: .deserializer,
-                                    measure: MeasureFPSLabel(label: views.inputFPSLabel))
+        let fps = MeasureFPSLabel(label: views.inputFPSLabel)
+        let fpsSetup = VideoSetupMeasure(kind: .deserializer, measure: fps)
 
-        let byterateString
-            = StringProcessorWithIntervalCutting(next: StringProcessorTableView(tableView: views.tableViewByterate))
-        let byterateMeasure
-            = MeasureByterate(string: byterateString)
-        let byterate
-            = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkDataOutput)
+        let byterateString = StringProcessor.TableView(tableView: views.tableViewByterate)
+        let byterateMeasure = MeasureByterate(string: byterateString)
+        let byterate = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkDataOutput)
 
-        let timestamp1string
-            = StringProcessorTableView(tableView: views.tableViewTiming1)
-        let timestamp1processor
-            = VideoPresentationDelay(next: timestamp1string)
-        let timestamp1video
-            = VideoSetupProcessor(video: timestamp1processor, kind: .preview)
-        let timestamp1data
-            = DataProcessorSetup.Default(prev: timestamp1processor, kind: .networkDataOutput)
+        let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming1))
+        let timestamp1processor = VideoPresentationDelay(next: timestamp1string)
+        let timestamp1video = VideoSetupProcessor(video: timestamp1processor, kind: .preview)
+        let timestamp1data = DataProcessorSetup.Default(prev: timestamp1processor, kind: .networkDataOutput)
 
-        root.session(Session.DispatchSync(session: byterateString, queue: DispatchQueue.main), kind: .other)
+        let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ byterateMeasure,
+                                                                                fps,
+                                                                                timestamp1string ]))
+        
+        root.session(Session.DispatchSync(session: flushPeriodically, queue: DispatchQueue.main), kind: .other)
 
         return [
             preview,
@@ -227,7 +222,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
             byterate,
             timestamp1video,
             cast(video: timestamp1data),
-            fps ]
+            fpsSetup ]
     }
 }
 

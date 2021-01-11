@@ -8,123 +8,121 @@
 
 import AppKit
 
-protocol StringProcessorProtocol {
+protocol StringProcessorProto {
     func process(string: String)
 }
 
 
-class StringProcessorChain : StringProcessorProtocol {
-    let next: StringProcessorProtocol?
-    
-    init(next: StringProcessorProtocol?) {
-        self.next = next
-    }
-    
-    func process(string: String) {
-        next?.process(string: string)
-    }
+class StringProcessorBase : StringProcessorProto {
+    func process(string: String) {}
 }
 
 
-class StringProcessorWithIntervalBase : StringProcessorProtocol, SessionProtocol {
-    private let next: StringProcessorProtocol
-    private let interval: TimeInterval
-    private var timer: Timer?
-    
-    init(interval: TimeInterval, next: StringProcessorProtocol) {
-        self.interval = interval
-        self.next = next
-    }
-
-    convenience init(next: StringProcessorProtocol) {
-        self.init(interval: 0.33, next: next)
-    }
-    
-    func start() throws {
-        timer = Timer.scheduledTimer(withTimeInterval: interval,
-                                     repeats: true,
-                                     block: { _ in self.flush() })
-    }
-    
-    func stop() {
-        timer?.invalidate()
-        timer = nil
-    }
-    
-    func process(string: String) {
-        next.process(string: string)
-    }
-    
-    func flush() {
-    }
+class StringProcessor : StringProcessorBase {
+    static let shared = StringProcessor()
 }
 
 
-class StringProcessorWithIntervalCutting : StringProcessorWithIntervalBase {
-    var string: String?
-    
-    override func process(string: String) {
-        self.string = string
-    }
-    
-    override func flush() {
-        if let string = string {
-            super.process(string: string)
+extension StringProcessor {
+    typealias Base = StringProcessorBase
+    typealias Proto = StringProcessorProto
+}
+
+
+extension StringProcessor {
+    class Chain : Proto {
+        let next: Proto?
+        
+        init(next: Proto?) {
+            self.next = next
+        }
+        
+        func process(string: String) {
+            next?.process(string: string)
         }
     }
 }
 
 
-class StringProcessorWithIntervalBatching : StringProcessorWithIntervalBase {
-    var strings = [String]()
-    let lock = NSLock()
-    
-    override func process(string: String) {
-        lock.locked { strings.append(string) }
-    }
-    
-    override func flush() {
-        var joined = ""
-
-        lock.locked {
-            joined = strings.joined(separator: "\n")
-            strings.removeAll()
+extension StringProcessor {
+    class FlushLast : Chain, Flushable.Proto {
+        private var string: String?
+        
+        init(_ next: StringProcessor.Proto?) {
+            super.init(next: next)
         }
-
-        super.process(string: joined)
-    }
-}
-
-
-class StringProcessorTableView : StringProcessorChain {
-    private let tableView: NSTableView
-    private let arrayController = NSArrayController()
-
-    init(tableView: NSTableView, next: StringProcessorProtocol? = nil) {
-        self.tableView = tableView
-        super.init(next: next)
         
-        tableView.bind(.content,
-                   to: arrayController,
-                   withKeyPath: "arrangedObjects",
-                   options: nil)
-    }
-    
-    override func process(string: String) {
-        super.process(string: string)
+        override func process(string: String) {
+            self.string = string
+        }
         
-        dispatchMainAsync {
-            let strings = string.split(separator: "\n")
-            
-            self.tableView.beginUpdates()
-
-            for string in strings {
-                self.arrayController.addObject(string)
+        func flush() {
+            if let string = string {
+                super.process(string: string)
             }
-
-            self.tableView.endUpdates()
-            self.tableView.scrollToEndOfDocument(nil)
         }
     }
+}
 
+
+extension StringProcessor {
+    class FlushAll : Chain, Flushable.Proto {
+        var strings = [String]()
+        let lock = NSLock()
+        
+        init(_ next: StringProcessor.Proto?) {
+            super.init(next: next)
+        }
+
+        override func process(string: String) {
+            lock.locked { strings.append(string) }
+        }
+        
+        func flush() {
+            var joined = ""
+            
+            lock.locked {
+                joined = strings.joined(separator: "\n")
+                strings.removeAll()
+            }
+            
+            super.process(string: joined)
+        }
+    }
+}
+
+
+extension StringProcessor {
+    class TableView : Chain {
+        private let tableView: NSTableView
+        private let arrayController = NSArrayController()
+        private var lastScrollPosition: CGPoint?
+        
+        init(tableView: NSTableView, next: StringProcessor.Proto? = nil) {
+            self.tableView = tableView
+            super.init(next: next)
+            
+            tableView.bind(.content,
+                           to: arrayController,
+                           withKeyPath: "arrangedObjects",
+                           options: nil)
+        }
+        
+        override func process(string: String) {
+            super.process(string: string)
+            
+            dispatchMainAsync {
+                let strings = string.split(separator: "\n")
+                
+                self.tableView.beginUpdates()
+                
+                for string in strings {
+                    self.arrayController.addObject(string)
+                }
+                
+                self.tableView.endUpdates()
+                self.tableView.scrollToEndOfDocument(nil)
+            }
+        }
+    }
 }

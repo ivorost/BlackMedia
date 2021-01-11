@@ -52,18 +52,19 @@ struct VideoBuffer {
         static let duplicate = Flags(rawValue: 1 << 0)
     }
 
+    let ID: UInt
     let sampleBuffer: CMSampleBuffer
     let flags: Flags
 }
 
 
 extension VideoBuffer {
-    init(_ sampleBuffer: CMSampleBuffer) {
-        self.init(sampleBuffer: sampleBuffer, flags: [])
+    init(ID: UInt, buffer: CMSampleBuffer) {
+        self.init(ID: ID, sampleBuffer: buffer, flags: [])
     }
     
     func copy(flags: Flags) -> VideoBuffer {
-        return VideoBuffer(sampleBuffer: sampleBuffer, flags: flags)
+        return VideoBuffer(ID: ID, sampleBuffer: sampleBuffer, flags: flags)
     }
 }
 

@@ -18,6 +18,7 @@
 		820B97D1256E367B00EB4D56 /* General.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B97D0256E367B00EB4D56 /* General.Session.swift */; };
 		820B97D3256E68E500EB4D56 /* General.Data.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B97D2256E68E500EB4D56 /* General.Data.Setup.swift */; };
 		820B97D5256E7C6900EB4D56 /* General.Session.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B97D4256E7C6900EB4D56 /* General.Session.Setup.swift */; };
+		8223343D257F615E0095D0CA /* General.Flush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8223343C257F615E0095D0CA /* General.Flush.swift */; };
 		822764A225492D5F00C2E46D /* Video.H264.Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */; };
 		822764AA25492D7000C2E46D /* Video.H264.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822764A925492D7000C2E46D /* Video.H264.Data.swift */; };
 		822764B825493D7400C2E46D /* Metrics.BPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822764B725493D7400C2E46D /* Metrics.BPS.swift */; };
@@ -41,6 +42,8 @@
 		823D0F3825507D6100F8C852 /* MetalKit.CVMetalTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */; };
 		823D0F3A25513A7200F8C852 /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82499AC725702B17000B8E61 /* General.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82499AC625702B17000B8E61 /* General.UI.swift */; };
+		824CDF232583913F006B8EDE /* Swift.Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824CDF222583913F006B8EDE /* Swift.Pointers.swift */; };
+		824CDF262583AC79006B8EDE /* Swift.Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824CDF252583AC79006B8EDE /* Swift.Collection.swift */; };
 		8276561D257E3D7D007E193A /* CoreGraphics.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8276561C257E3D7D007E193A /* CoreGraphics.General.swift */; };
 		828A8D79255E7C75004853F4 /* Main.WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A8D78255E7C75004853F4 /* Main.WindowController.swift */; };
 		8294B867256EB78500BD032F /* Event.Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8294B866256EB78500BD032F /* Event.Post.swift */; };
@@ -169,6 +172,7 @@
 		820B97D0256E367B00EB4D56 /* General.Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Session.swift; sourceTree = "<group>"; };
 		820B97D2256E68E500EB4D56 /* General.Data.Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Data.Setup.swift; sourceTree = "<group>"; };
 		820B97D4256E7C6900EB4D56 /* General.Session.Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Session.Setup.swift; sourceTree = "<group>"; };
+		8223343C257F615E0095D0CA /* General.Flush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Flush.swift; sourceTree = "<group>"; };
 		822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Encoder.swift; sourceTree = "<group>"; };
 		822764A925492D7000C2E46D /* Video.H264.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Data.swift; sourceTree = "<group>"; };
 		822764B725493D7400C2E46D /* Metrics.BPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.BPS.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 		823CD622256F97030015A7D8 /* General.Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Vector.swift; sourceTree = "<group>"; };
 		823D0F3725507D6100F8C852 /* MetalKit.CVMetalTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalKit.CVMetalTexture.swift; sourceTree = "<group>"; };
 		82499AC625702B17000B8E61 /* General.UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.UI.swift; sourceTree = "<group>"; };
+		824CDF222583913F006B8EDE /* Swift.Pointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Pointers.swift; sourceTree = "<group>"; };
+		824CDF252583AC79006B8EDE /* Swift.Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Collection.swift; sourceTree = "<group>"; };
 		8276561C257E3D7D007E193A /* CoreGraphics.General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphics.General.swift; sourceTree = "<group>"; };
 		828A8D78255E7C75004853F4 /* Main.WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.WindowController.swift; sourceTree = "<group>"; };
 		8294B866256EB78500BD032F /* Event.Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.Post.swift; sourceTree = "<group>"; };
@@ -314,6 +320,7 @@
 				820B97D4256E7C6900EB4D56 /* General.Session.Setup.swift */,
 				823CD622256F97030015A7D8 /* General.Vector.swift */,
 				82499AC625702B17000B8E61 /* General.UI.swift */,
+				8223343C257F615E0095D0CA /* General.Flush.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -604,6 +611,8 @@
 			children = (
 				82C950562546F8F30025663F /* Swift.String.swift */,
 				822D398525505783003B1861 /* Swift.Struct.swift */,
+				824CDF222583913F006B8EDE /* Swift.Pointers.swift */,
+				824CDF252583AC79006B8EDE /* Swift.Collection.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -780,6 +789,7 @@
 				82C9505E2546F8F30025663F /* CoreGraphics.Array.swift in Sources */,
 				82C950272546F6830025663F /* Video.Input.swift in Sources */,
 				82086FF0257A3D570082D573 /* App.Settings.swift in Sources */,
+				8223343D257F615E0095D0CA /* General.Flush.swift in Sources */,
 				82C9505C2546F8F30025663F /* AppKit.ViewController.swift in Sources */,
 				82BA6B852563E3FA00113EFC /* Common.Swift.swift in Sources */,
 				82C9503C2546F7210025663F /* UI.Display.Previews.swift in Sources */,
@@ -859,12 +869,14 @@
 				822D397F25503AD7003B1861 /* Video.Time.swift in Sources */,
 				82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */,
 				82C950892546FD6B0025663F /* Common.URL.swift in Sources */,
+				824CDF262583AC79006B8EDE /* Swift.Collection.swift in Sources */,
 				8276561D257E3D7D007E193A /* CoreGraphics.General.swift in Sources */,
 				8294B8692570222800BD032F /* CoreGraphics.Event.swift in Sources */,
 				823C6492256C03AF009BCAF9 /* Event.Capture.swift in Sources */,
 				82C950692546F93B0025663F /* Dispatch.swift in Sources */,
 				82AFA62A25596ADD00CCA044 /* AV.Time.swift in Sources */,
 				82086FE825794F250082D573 /* Event.Filter.swift in Sources */,
+				824CDF232583913F006B8EDE /* Swift.Pointers.swift in Sources */,
 				82C9502B2546F6830025663F /* Video.Output.Asset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1033,7 +1045,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1062,7 +1074,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Capture.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (

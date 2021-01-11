@@ -9,64 +9,39 @@
 import AVFoundation
 import AppKit
 
-
 fileprivate extension TimeInterval {
-    static let blockDuration: TimeInterval = 1 // 1.5 second
+    static let calcDuration: TimeInterval = 3 // in seconds
 }
 
-
-fileprivate extension Int {
-    static let maxBlockCount: Int = 3
-}
-
-
-class MeasureCPS {
-    private var data = [(count: Int, startDate: Date)]()
+class MeasureCPS : Flushable {
+    private var data = [(count: Int, timestamp: Date)]()
     private var callback: FuncWithDouble?
     private let lock = NSLock()
     
-    init(callback: @escaping FuncWithDouble) {
-        self.callback = callback
-    }
-    
     func measure(count: Int) {
         lock.locked {
-            if let cps = calcCPS() {
-                process(cps: cps)
-            }
-            
-            if data.count >= .maxBlockCount {
-                data.removeFirst()
-            }
-            
-            guard let lastData = data.last else {
-                startNewBlock(count: count)
-                return
-            }
-
-            if Date().timeIntervalSince(lastData.startDate) > .blockDuration {
-                startNewBlock(count: count)
-                return
-            }
-
-            data[data.count-1].count += count
+            data.append((count: count, timestamp: Date()))
         }
     }
     
-    open func process(cps: Double) {
-        callback?(cps)
+    override func flush() {
+        lock.locked {
+            let date = Date()
+            flushData(date)
+            let cps = calcCPS(date)
+            process(cps: cps)
+        }
     }
     
-    private func startNewBlock(count: Int) {
-        data.append((count: count, startDate: Date()))
+    func process(cps: Double) {
     }
     
-    private func calcCPS() -> Double? {
-        guard let firstData = data.first else { return nil }
-        
-        let startDate = firstData.startDate
-        let count = data.map{ $0.count }.reduce(0, +)
-        
-        return Double(count) / Date().timeIntervalSince(startDate)
+    private func flushData(_ date: Date) {
+        data.removeAll { date.timeIntervalSince($0.timestamp) > .calcDuration }
+    }
+    
+    private func calcCPS(_ date: Date) -> Double {
+        guard let first = data.first else { return 0 }
+        return data.map{ Double($0.count) }.reduce(0, +) / max(1, date.timeIntervalSince(first.timestamp))
     }
 }

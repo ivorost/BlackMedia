@@ -10,142 +10,135 @@
 import AVFoundation
 
 
-class VideoViewerACK : DataProcessor {
-    
-    private var server: DataProcessorProtocol?
+class VideoViewerACK : VideoH264DeserializerBase {
+    fileprivate var server: DataProcessorProtocol?
 
-    init(server: DataProcessorProtocol, next: DataProcessorProtocol? = nil) {
+    init(server: DataProcessorProtocol?) {
         self.server = server
-        super.init(next: next)
+        super.init(metadataOnly: true)
     }
-    
-    override func process(data: Data) {
-        let packet = PacketDeserializer(data)
-        
-        if packet.type == .video {
-            server?.process(data: "ack \(data.count)".data(using: .utf8)!)
-        }
-        
-        super.process(data: data)
+
+    override func process(ID: UInt, time: VideoTime, originalTime: VideoTime) {
+        server?.process(data: "ack \(ID)".data(using: .utf8)!)
     }
 }
 
 
-//class VideoSenderACK : VideoOutputWithNext, DataProcessorProtocol {
-//    private var counter = 10
-//
-//    func process(data: Data) {
-//    }
-//
-//    override func process(video: VideoBuffer) {
-//        if counter >= 10 {
-//            counter = 0
-//            super.process(video: video)
-//        }
-//        else {
-//            counter += 1
-//        }
-//    }
-//}
+class VideoSenderACKCapture : VideoProcessor, DataProcessor.Proto, Flushable.Proto {
 
-class VideoSenderACKCapture : VideoProcessor, DataProcessorProtocol {
-
-    private var readyTimestamp: Date?
-    private var metric: StringProcessorProtocol
+    private var queue = [(ID: UInt, timestamp: Date)]()
+    private var metric: StringProcessor.Proto
     private let lock = NSRecursiveLock()
     private var lastVideoBuffer: VideoBuffer?
-    private var count = 0
+    private var processTimeStamp: Date?
+    private let timebase: Timebase
 
-    init(next: VideoOutputProtocol?, metric: StringProcessorProtocol) {
+    init(next: VideoOutputProtocol, timebase: Timebase, metric: StringProcessor.Proto) {
+        self.timebase = timebase
         self.metric = metric
         super.init(next: next)
     }
     
     override func process(video: VideoBuffer) {
-        if let readyTimestamp = readyTimestamp, Date().timeIntervalSince(readyTimestamp) > 3 {
-            recover()
-        }
-        
-        var increment = 1
-        
-        if video.flags.contains(.duplicate) {
-            increment = 0
-        }
+        var process = false
         
         lock.locked {
+            flushState()
             
+            if queue.count < 2 {
+                process = true
+                queue.append((ID: video.ID, timestamp: Date()))
+                self.processTimeStamp = Date()
+            }
         }
         
-        if count < 2 {
+        if process {
             super.process(video: video)
-            lock.locked { readyTimestamp = Date(); count += increment }
-        }
-        else {
-            lock.locked { lastVideoBuffer = video }
         }
     }
     
     func process(data: Data) {
         guard let string = String(data: data, encoding: .utf8), string.hasPrefix("ack ") else { return }
-        let sizeString = string.suffix(from: string.index(string.startIndex, offsetBy: 4))
+        let idString = string.suffix(from: string.index(string.startIndex, offsetBy: 4))
         
-        if let size = Int(sizeString) {
+        if let ID = UInt(idString) {
             lock.locked {
-                recover()
+                if let removed = queue.removeFirst(where: { $0.ID == ID }) {
+                    metric(ID: removed.ID, timestamp: queue.last?.timestamp ?? removed.timestamp)
+                }
+
+                flush()
             }
         }
         else {
             assert(false)
         }
     }
+    
+    private func flushState() {
+        lock.locked {
+            var flush = false
+            
+            if !flush, processTimeStamp == nil {
+                flush = true
+            }
 
-    func wait(size: Int) {
-//        _ = lock.locked {
-//            queue.insert(size)
-//        }
+            if !flush, let timestamp = processTimeStamp, Date().timeIntervalSince(timestamp) > 3 {
+                flush = true
+            }
+            
+            if flush && queue.count > 0 {
+                let removed = queue.removeFirst()
+                metric(ID: removed.ID, timestamp: queue.last?.timestamp ?? removed.timestamp, comment: "(timeout)")
+            }
+        }
     }
     
-    private func recover() {
-        if let timestamp = readyTimestamp {
-            metric.process(string: "\(Date().timeIntervalSince(timestamp))")
-        }
+    func flush() {
+        var lastVideoBuffer: VideoBuffer?
         
         lock.locked {
-            count = 1
+            lastVideoBuffer = self.lastVideoBuffer
+            self.lastVideoBuffer = nil
         }
-        
-        readyTimestamp = nil
         
         if let lastVideoBuffer = lastVideoBuffer {
             process(video: lastVideoBuffer)
+            
         }
     }
-}
 
-
-class VideoSenderACKNetwork : DataProcessorProtocol {
-    fileprivate weak var capture: VideoSenderACKCapture?
+    private func metric(ID: UInt, timestamp: Date, comment: String = "") {
+        let idString = "ID \(ID)".padding(toLength: 9, withPad: " ", startingAt: 0)
+        let timeString = String(format: "duration %.2f", Date().timeIntervalSince(timestamp))
+        metric("\(idString) \(timeString) \(comment)")
+    }
     
-    func process(data: Data) {
-        guard PacketDeserializer(data).type == .video else { return }
-        capture?.wait(size: data.count)
+    private func metric(_ string: String) {
+        let time = String(format: "[%.2f]", Date().timeIntervalSince(timebase.date))
+            .padding(toLength: 9, withPad: " ", startingAt: 0)
+        
+        metric.process(string: "\(time) \(string)")
     }
 }
 
 
 class VideoSetupViewerACK : VideoSetupSlave {
-    
-    private let server = DataProcessor()
+    private var server: DataProcessor.Proto?
+    private var ack: VideoViewerACK?
 
     override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         var result = data
         
         if kind == .networkHelm {
-            server.nextWeak = data
+            server = data
+            ack?.server = server
         }
 
         if kind == .networkDataOutput {
-            result = VideoViewerACK(server: server, next: result)
+            let ack = VideoViewerACK(server: server)
+            self.ack = ack
+            result = DataProcessor(prev: result, next: ack)
         }
         
         return super.data(result, kind: kind)
@@ -154,45 +147,16 @@ class VideoSetupViewerACK : VideoSetupSlave {
 
 
 class VideoSetupSenderACK : VideoSetupSenderQuality {
-    private let metric: StringProcessorProtocol
-    private var network: VideoSenderACKNetwork?
-    
-    init(root: VideoSetupProtocol, metric: StringProcessorProtocol) {
+    private let timebase: Timebase
+    private let metric: StringProcessor.Proto
+
+    init(root: VideoSetupProtocol, timebase: Timebase, metric: StringProcessor.Proto) {
+        self.timebase = timebase
         self.metric = metric
         super.init(root: root)
     }
 
-    override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
-        var result = data
-        
-        if kind == .networkData {
-            let ack = VideoSenderACKNetwork()
-            network = ack
-            result = DataProcessor(prev: ack, next: result)
-        }
-        
-        return super.data(result, kind: kind)
-    }
-    
     override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessorProtocol {
-        assert(network != nil)
-        
-        let result = VideoSenderACKCapture(next: next, metric: metric)
-        network?.capture = result
-        return result
+        return VideoSenderACKCapture(next: next, timebase: timebase, metric: metric)
     }
 }
-
-//class VideoSetupSenderACK : VideoSetupSenderQuality {
-//    private let metric: StringProcessorProtocol
-//
-//    init(root: VideoSetupProtocol, metric: StringProcessorProtocol) {
-//        self.metric = metric
-//        super.init(root: root)
-//    }
-//
-//    override func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessorProtocol {
-//        return VideoSenderACK(next: next, metric: metric)
-//    }
-//}
-

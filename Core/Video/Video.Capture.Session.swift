@@ -15,6 +15,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     private let output: VideoOutputProtocol?
     private let dataOutput = AVCaptureVideoDataOutput()
     private var lastImageBuffer: CVImageBuffer?
+    private var ID: UInt = 0
 
     init(session: AVCaptureSession,
          queue: DispatchQueue,
@@ -67,7 +68,10 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
         logAV("video input \(sampleBuffer.presentationSeconds)")
-        self.output?.process(video: VideoBuffer(sampleBuffer))
+        
+        let ID = self.ID
+        self.ID += 1
+        self.output?.process(video: VideoBuffer(ID: ID, buffer: sampleBuffer))
     }
     
     func failureNotification(notification: Notification) {

@@ -27,28 +27,11 @@ class MeasureFPS : MeasureCPS, MeasureProtocol {
 }
 
 
-class MeasureFPSPrint : MeasureFPS {
-    
-    let title: String
-    
-    init(title: String, callback: @escaping FuncWithDouble) {
-        self.title = title
-        super.init(callback: callback)
-    }
-    
-    override func process(cps: Double) {
-        print("\(title) \(cps)")
-        super.process(cps: cps)
-    }
-}
-
-
 class MeasureFPSLabel : MeasureFPS {
     let label: NSTextField
 
     init(label: NSTextField) {
         self.label = label
-        super.init { _ in }
     }
     
     override func process(cps: Double) {
@@ -78,24 +61,29 @@ class MeasureVideo : VideoOutputProtocol {
 
 
 class VideoOutputPresentationTime : VideoOutputProtocol {
-    let string: StringProcessorProtocol
-    let timebase: Timebase
-    var startTime: Double?
+    private let string: StringProcessor.Proto
+    private let timebase: Timebase
+    private var startTime: Double?
+    private let lock = NSLock()
     
-    init(string: StringProcessorProtocol, timebase: Timebase) {
+    init(string: StringProcessor.Proto, timebase: Timebase) {
         self.string = string
         self.timebase = timebase
     }
-        
+    
     func process(video: VideoBuffer) {
-        if startTime == nil {
-            startTime = video.sampleBuffer.presentationSeconds
-        }
-        
-        if let startTime = startTime {
-            let clock = "\(Date().timeIntervalSince(timebase.date))".padding(toLength: 10, withPad: " ", startingAt: 0)
-            let presentation = "\(video.sampleBuffer.presentationSeconds - startTime)"
-            string.process(string: "\(clock) : \(presentation)")
+        lock.locked {
+            if startTime == nil {
+                startTime = video.sampleBuffer.presentationSeconds
+            }
+            
+            if let startTime = startTime {
+                let clock = "\(Date().timeIntervalSince(timebase.date))"
+                    .padding(toLength: 10, withPad: " ", startingAt: 0)
+                let presentation = "\(video.sampleBuffer.presentationSeconds - startTime)"
+                
+                string.process(string: "\(clock) : \(presentation)")
+            }
         }
     }
 }
@@ -122,15 +110,15 @@ class VideoSetupMeasure : VideoSetup {
 }
 
 class VideoPresentationDelay : VideoH264DeserializerBase, VideoOutputProtocol {
-    private let next: StringProcessorProtocol
+    private let next: StringProcessor.Proto
     private var output = [Int64 : VideoTime]()
     
-    init(next: StringProcessorProtocol) {
+    init(next: StringProcessor.Proto) {
         self.next = next
         super.init(metadataOnly: true)
     }
     
-    override func process(time: VideoTime, originalTime: VideoTime) {
+    override func process(ID: UInt, time: VideoTime, originalTime: VideoTime) {
         output[time.timestamp.timeStamp] = originalTime
     }
 

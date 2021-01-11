@@ -11,11 +11,11 @@ import AppKit
 
 
 class MeasureByterate : MeasureCPS, DataProcessorProtocol {
-    let string: StringProcessorProtocol?
+    private let string: StringProcessor.Proto
     
-    init(string: StringProcessorProtocol?) {
+    init(string: StringProcessor.Proto) {
         self.string = string
-        super.init(callback: { _ in })
+        super.init()
     }
     
     func process(data: Data) {
@@ -23,8 +23,8 @@ class MeasureByterate : MeasureCPS, DataProcessorProtocol {
     }
     
     override func process(cps: Double) {
-        let cpsString = ByteCountFormatter.string(fromByteCount: Int64(cps),
-                                                  countStyle: .binary)
-        string?.process(string: cpsString)
+//        let cpsString = ByteCountFormatter.string(fromByteCount: Int64(cps), countStyle: .binary)
+        let cpsString = "\(Int(cps * 8.0 / 1024.0))".padding(toLength: 5, withPad: " ", startingAt: 0)
+        string.process(string: "\(cpsString) Kbits/s")
     }
 }
