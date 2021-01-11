@@ -36,6 +36,12 @@ class DisplayCaptureViews : NSObject {
     @IBOutlet private(set) var setupSenderPreviewButton: NSButton!
     @IBOutlet private(set) var setupSenderMultithreadingButton: NSButton!
     
+    @IBOutlet private(set) var tableViewTiming1: NSTableView!
+    @IBOutlet private(set) var tableViewTiming2: NSTableView!
+    @IBOutlet private(set) var tableViewACK1: NSTableView!
+    @IBOutlet private(set) var tableViewByterate: NSTableView!
+
+    
     @IBAction private func networkButtonsAction(_ sender: AnyObject) {
         
     }
@@ -61,6 +67,7 @@ fileprivate class CaptureSetup : VideoSetupVector {
     override func create() -> [VideoSetupProtocol] {
         let root = self
         let general = VideoSetupGeneral()
+        let timebase = Timebase(); general.session(timebase, kind: .other)
         let preview = VideoSetupCheckbox(next: VideoSetupPreview(root: root, layer: layer),
                                          checkbox: views.setupSenderPreviewButton)
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
@@ -75,7 +82,8 @@ fileprivate class CaptureSetup : VideoSetupVector {
                                             checkbox: views.setupSenderDuplicatesButton)
         let webSocket = VideoSetupCheckbox(next: VideoSetupWebSocketSender(root: root),
                                            checkbox: views.setupSenderWebSocketButton)
-        let webSocketACK = VideoSetupCheckbox(next: VideoSetupSenderACK(root: root),
+        let webSocketACKMetric = StringProcessorTableView(tableView: views.tableViewACK1)
+        let webSocketACK = VideoSetupCheckbox(next: VideoSetupSenderACK(root: root, metric: webSocketACKMetric),
                                               checkbox: views.setupSenderWebSocketACKButton)
         let webSocketQuality = VideoSetupCheckbox(next: VideoSetupSenderQuality(root: root),
                                                   checkbox: views.setupSenderWebSocketQualityButton)
@@ -83,7 +91,33 @@ fileprivate class CaptureSetup : VideoSetupVector {
                                            measure: MeasureFPSLabel(label: views.inputFPSLabel))
         let duplicatesFPS = VideoSetupMeasure(kind: .duplicatesFree,
                                               measure: MeasureFPSLabel(label: views.outputFPSLabel))
+        
+        let byterateString
+            = StringProcessorWithIntervalCutting(next: StringProcessorTableView(tableView: views.tableViewByterate))
+        let byterateMeasure
+            = MeasureByterate(string: byterateString)
+        let byterate
+            = VideoSetupDataProcessor(data: byterateMeasure, kind: .network)
 
+        let timestamp1string
+            = StringProcessorWithIntervalBatching(next: StringProcessorTableView(tableView: views.tableViewTiming1))
+        let timestamp1processor
+            = VideoOutputPresentationTime(string: timestamp1string, timebase: timebase)
+        let timestamp1
+            = VideoSetupProcessor(video: timestamp1processor, kind: .capture)
+
+        let timestamp2string
+            = StringProcessorWithIntervalBatching(next: StringProcessorTableView(tableView: views.tableViewTiming2))
+        let timestamp2processor
+            = VideoOutputPresentationTime(string: timestamp2string, timebase: timebase)
+        let timestamp2
+            = VideoSetupProcessor(video: timestamp2processor, kind: .duplicatesFree)
+
+        general.session(SessionSyncDispatch(session: broadcast([ byterateString,
+                                                                 timestamp1string,
+                                                                 timestamp2string ]) ?? Session(),
+                                            queue: DispatchQueue.main), kind: .other)
+        
         return [
             general,
             preview,
@@ -95,7 +129,10 @@ fileprivate class CaptureSetup : VideoSetupVector {
             webSocketACK,
             webSocketQuality,
             captureFPS,
-            duplicatesFPS ]
+            duplicatesFPS,
+            byterate,
+            timestamp1,
+            timestamp2 ]
     }
 }
 

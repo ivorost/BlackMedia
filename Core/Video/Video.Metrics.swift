@@ -77,6 +77,30 @@ class MeasureVideo : VideoOutputProtocol {
 }
 
 
+class VideoOutputPresentationTime : VideoOutputProtocol {
+    let string: StringProcessorProtocol
+    let timebase: Timebase
+    var startTime: Double?
+    
+    init(string: StringProcessorProtocol, timebase: Timebase) {
+        self.string = string
+        self.timebase = timebase
+    }
+        
+    func process(video: CMSampleBuffer) {
+        if startTime == nil {
+            startTime = video.presentationSeconds
+        }
+        
+        if let startTime = startTime {
+            let clock = "\(Date().timeIntervalSince(timebase.date))".padding(toLength: 10, withPad: " ", startingAt: 0)
+            let presentation = "\(video.presentationSeconds - startTime)"
+            string.process(string: "\(clock) : \(presentation)")
+        }
+    }
+}
+
+
 class VideoSetupMeasure : VideoSetup {
     let kind: VideoOutputKind
     let measure: MeasureProtocol

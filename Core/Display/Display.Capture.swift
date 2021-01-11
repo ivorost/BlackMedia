@@ -78,7 +78,7 @@ extension Capture {
         
         let webSocketOutput = WebSocketSender(next: qualityTuner)
   
-        let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
+//        let measureByterate = MeasureByteratePrint(title: "byterate", next: webSocketOutput, callback: {_ in })
 
         dataOutput.append(webSocketOutput)
         
@@ -109,19 +109,19 @@ extension Capture {
         
         // Capture
         
-        var removeDuplicatesMeasure: MeasureProtocol?
-        
-        #if DEBUG
-        removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
-        #endif
+//        var removeDuplicatesMeasure: MeasureProtocol?
+//        
+//        #if DEBUG
+//        removeDuplicatesMeasure = MeasureDurationAveragePrint(title: "duration (duplicates)")
+//        #endif
         
         var capture: VideoOutputProtocol = broadcast(output) ?? VideoOutputImpl()
         
         capture = VideoRemoveDuplicateFramesUsingMetal(next: capture)
 
-        let videoQuality = VideoSenderACK/*VideoQualityTuner*/(next: capture)
-        capture = videoQuality
-        qualityTuner.nextWeak = videoQuality
+//        let videoQuality = VideoSenderACK/*VideoQualityTuner*/(next: capture)
+//        capture = videoQuality
+//        qualityTuner.nextWeak = videoQuality
 
         if let fps = inputFPS {
             //                capture = VideoFPS(next: capture, measure: MeasureFPSPrint(title: "fps (input)", callback: fps))

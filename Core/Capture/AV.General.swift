@@ -17,11 +17,12 @@ class DataProcessorImpl : DataProcessor {
         self.nextWeak = next
     }
 
-    init(prev: DataProcessor) {
+    init(prev: DataProcessor, next: DataProcessor? = nil) {
         self.prev = prev
-        self.next = nil
+        self.next = next
+        self.nextWeak = next
     }
-
+    
     func process(data: Data) {
         prev?.process(data: data)
         nextWeak?.process(data: data)
@@ -124,6 +125,14 @@ class SessionSyncDispatch : SessionProtocol {
     }
 }
 
+
+class Timebase : Session {
+    private(set) var date: Date = Date()
+    
+    override func start() throws {
+        date = Date()
+    }
+}
 
 extension AVCaptureSession : SessionProtocol {
     func start() throws {

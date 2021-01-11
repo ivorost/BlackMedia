@@ -59,7 +59,7 @@ class VideoViewerQuality : VideoOutputImpl {
 }
 
 
-class VideoSenderQuality : VideoOutputWithNext, DataProcessor {
+class VideoSenderQuality : VideoOutputImpl, DataProcessor {
     
     private var slowing = false
     private var lastFrameSent: Date?
@@ -93,14 +93,14 @@ class VideoSenderQuality : VideoOutputWithNext, DataProcessor {
 }
 
 
-class VideoSetupSenderQualityControl<T> : VideoSetupSlave where T : VideoOutputWithNextProtocol & DataProcessor {
+class VideoSetupSenderQuality : VideoSetupSlave {
     private var networkSenderListener: DataProcessorImpl?
 
     override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
         var result = video
         
         if kind == .capture {
-            let control = T(next: result)
+            let control = create(next: result)
             networkSenderListener?.nextWeak = control
             result = control
         }
@@ -120,10 +120,11 @@ class VideoSetupSenderQualityControl<T> : VideoSetupSlave where T : VideoOutputW
         
         return super.data(result, kind: kind)
     }
+    
+    func create(next: VideoOutputProtocol) -> VideoOutputProtocol & DataProcessor {
+        return VideoSenderQuality(next: next)
+    }
 }
-
-
-class VideoSetupSenderQuality : VideoSetupSenderQualityControl<VideoSenderQuality> {}
 
 
 class VideoSetupViewerQualityControl : VideoSetupSlave {

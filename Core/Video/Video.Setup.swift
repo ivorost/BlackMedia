@@ -12,6 +12,7 @@ import AppKit
 
 
 enum VideoSessionKind {
+    case other
     case input
     case capture
     case avCapture
@@ -164,6 +165,50 @@ class VideoSetupVector : VideoSetupProtocol {
 
 func broadcast(_ x: [VideoSetupProtocol?]) -> VideoSetupProtocol? {
     broadcast(x, create: { VideoSetupVector($0) })
+}
+
+
+class VideoSetupProcessor : VideoSetup {
+    
+    private let video: VideoOutputProtocol
+    private let kind: VideoOutputKind
+    
+    init(video: VideoOutputProtocol, kind: VideoOutputKind) {
+        self.video = video
+        self.kind = kind
+    }
+    
+    override func video(_ video: VideoOutputProtocol, kind: VideoOutputKind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == self.kind {
+            result = VideoOutputImpl(prev: self.video, next: result)
+        }
+        
+        return result
+    }
+}
+
+
+class VideoSetupDataProcessor : VideoSetup {
+    
+    private let data: DataProcessor
+    private let kind: DataProcessorKind
+    
+    init(data: DataProcessor, kind: DataProcessorKind) {
+        self.data = data
+        self.kind = kind
+    }
+    
+    override func data(_ data: DataProcessor, kind: DataProcessorKind) -> DataProcessor {
+        var result = data
+        
+        if kind == self.kind {
+            result = DataProcessorImpl(prev: self.data, next: result)
+        }
+        
+        return result
+    }
 }
 
 
