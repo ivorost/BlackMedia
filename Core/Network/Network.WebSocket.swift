@@ -30,13 +30,15 @@ public class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDe
 
     init(name: String, urlString: String, next: DataProcessorProtocol?) {
         var urlStringVar = urlString
-        
-        urlStringVar = urlStringVar.replacingOccurrences(of: "machine_mac", with: name)
+        var urlStringPath = Settings.shared.server
         
         if let path = UserDefaults(suiteName: "group.com.idrive.screentest")?.string(forKey: "server_path") {
-            urlStringVar = urlStringVar.replacingOccurrences(of: "ws://relay.raghava.io/proxy", with: path)
+            urlStringPath = path
         }
-        
+
+        urlStringVar = urlStringVar.replacingOccurrences(of: "machine_mac", with: name)
+        urlStringVar = urlStringVar.replacingOccurrences(of: "ws://relay.raghava.io/proxy", with: urlStringPath)
+
         self.name = name
         self.urlString = urlStringVar
         self.next = next
