@@ -5,6 +5,7 @@
 //  Copyright © 2014-2019. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
 
 public typealias FuncWithAlert = (NSAlert) -> Void
@@ -28,4 +29,4 @@ public extension NSViewController {
                                     customize: customize)
     }
 }
-
+#endif

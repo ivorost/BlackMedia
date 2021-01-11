@@ -14,28 +14,16 @@ class CaptureController : NSViewController {
         case unimplemented
     }
 
-    @IBOutlet private(set) var previewView: SampleBufferDisplayView!
-    @IBOutlet private var startButton: NSButton!
+    @IBOutlet var previewView: SampleBufferDisplayView?
+    @IBOutlet private var captureButton: NSButton!
+    @IBOutlet private var listenButton: NSButton!
     @IBOutlet private var stopButton: NSButton!
-    @IBOutlet private var revealInFinderButton: NSButton!
     @IBOutlet private var errorLabel: NSTextField!
-    @IBOutlet private var secondsAvailableLabel: NSTextField!
-    @IBOutlet private var secondsSinceStartLabel: NSTextField!
-    @IBOutlet private var progressView: NSProgressIndicator!
     
-    private var captureSession: SessionProtocol?
-    private var captureURL: URL?
-    private var progressTimer: Timer?
-    private var progress: CaptureProgress?
-    private let timeFormatter = DateComponentsFormatter()
+    private(set) var activeSession: SessionProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        timeFormatter.allowedUnits = [.hour, .minute, .second]
-        timeFormatter.unitsStyle = .positional
-        timeFormatter.zeroFormattingBehavior = [ .pad ]
-        
         self.errorLabel.isHidden = true
     }
     
@@ -44,28 +32,18 @@ class CaptureController : NSViewController {
         stop()
     }
 
-    @IBAction private func startButtonAction(_ sender: Any) {
-        start()
+    @IBAction private func captureButtonAction(_ sender: Any) {
+        capture()
+    }
+
+    @IBAction func listenButtonAction(_ sender: Any) {
+        listen()
     }
 
     @IBAction private func stopButtonAction(_ sender: Any) {
         stop()
     }
     
-    @IBAction private func revealInFinderButtonAction(_ sender: Any) {
-        guard let url = self.captureURL else { assert(false); return }
-        NSWorkspace.shared.selectFile(url.path, inFileViewerRootedAtPath: "")
-    }
-
-    func folderURL() -> URL? {
-        assert(false)
-        return URL.applicationData
-    }
-
-    func fileExtension() -> String {
-        return "mp4"
-    }
-
     func authorized() -> Bool? {
         assert(false)
         return false
@@ -75,80 +53,75 @@ class CaptureController : NSViewController {
         assert(false)
     }
     
-    func createSession(url: URL) throws -> (session: SessionProtocol, progress: CaptureProgress?) {
+    func createCaptureSession() throws -> SessionProtocol {
         throw Error.unimplemented
     }
-    
-    private func start() {
-        self.revealInFinderButton.isEnabled = true
-        self.stopButton.isEnabled = true
-        self.startButton.isEnabled = false
 
-        let cancel = {
-            DispatchQueue.main.sync {
-                self.revealInFinderButton.isEnabled = self.captureURL != nil
+    func createListenSession() throws -> SessionProtocol {
+        throw Error.unimplemented
+    }
+
+    func start(createSession: @escaping FuncReturningSessionThrowing) {
+        self.stopButton.isEnabled = true
+        self.captureButton.isEnabled = false
+        self.listenButton.isEnabled = false
+
+        let stop = {
+            dispatchMainSync {
                 self.stopButton.isEnabled = false
-                self.startButton.isEnabled = true
+                self.captureButton.isEnabled = true
+                self.listenButton.isEnabled = true
             }
         }
         
         DispatchQueue.global().async {
             do {
-                let fileName = DateFormatter.fileName.string(from: Date())
-                guard let folderURL = self.folderURL() else { assert(false); return }
-                let url = folderURL.appendingPathComponent(fileName + "." + self.fileExtension())
-
-                if !FileManager.default.fileExists(atPath: folderURL.path) {
-                    try? FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: true, attributes: nil)
-                }
-                
                 self.requestPermissionsAndWait()
                 
                 if self.authorized() != true {
-                    cancel()
+                    stop()
                     return
                 }
                 
-                var capture: (session: SessionProtocol, progress: CaptureProgress?)?
+                var activeSession: SessionProtocol?
                 
-                try DispatchQueue.main.sync {
-                    capture = try self.createSession(url: url)
+                try dispatch_sync_on_main {
+                    activeSession = Session(try createSession(), start: {}, stop: {
+                        stop()
+                    })
                     
-                    self.captureSession = capture?.session
-                    self.progress = capture?.progress
-                    self.captureURL = url
+                    self.activeSession = activeSession
                 }
 
-                try capture?.session.start()
-
-                DispatchQueue.main.sync {
-                    self.progressTimer = Timer.scheduledTimer(timeInterval: 1,
-                                                              target: self,
-                                                              selector: #selector(self.tick),
-                                                              userInfo: nil,
-                                                              repeats: true)
-                }
+                try activeSession?.start()
             }
             catch {
                 logError(error)
-                cancel()
+                stop()
                 self.show(error)
             }
         }
     }
     
+    private func capture() {
+        start(createSession: createCaptureSession)
+    }
+    
+    private func listen() {
+        start(createSession: createListenSession)
+    }
+    
     func stop() {
         DispatchQueue.global().async {
-            let captureSession = self.captureSession
+            let activeSession = self.activeSession
             
-            self.captureSession = nil
-            captureSession?.stop()
+            self.activeSession = nil
+            activeSession?.stop()
         }
         
         stopButton.isEnabled = false
-        startButton.isEnabled = true
-        progressTimer?.invalidate()
-        progressTimer = nil
+        captureButton.isEnabled = true
+        listenButton.isEnabled = true
     }
     
     private func show(_ error: Swift.Error) {
@@ -164,21 +137,5 @@ class CaptureController : NSViewController {
 
         errorLabel.stringValue = stringValue
         errorLabel.isHidden = false
-    }
-
-    @objc private func tick() {
-        guard
-            let secondsSinceStart = progress?.secondsSinceStart,
-            let secondsSinceStartString = timeFormatter.string(from: secondsSinceStart)
-            else { return }
-
-        if
-            let secondsAvailable = progress?.secondsAvailable,
-            let secondsAvailableString = timeFormatter.string(from: secondsAvailable) {
-            secondsAvailableLabel.stringValue = "-" + secondsAvailableString
-            progressView.doubleValue = 100.0 * secondsSinceStart / secondsAvailable
-        }
-
-        secondsSinceStartLabel.stringValue = secondsSinceStartString
     }
 }

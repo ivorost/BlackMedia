@@ -15,6 +15,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     private let output: VideoOutputProtocol?
     private let dataOutput = AVCaptureVideoDataOutput()
     private var lastImageBuffer: CVImageBuffer?
+    private var ID: UInt = 0
 
     init(session: AVCaptureSession,
          queue: DispatchQueue,
@@ -32,10 +33,12 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     func start() throws {
-        assert(queue.isCurrent == true)
+//        assert(queue.isCurrent == true)
         logAVPrior("video input start")
 
-        dataOutput.setSampleBufferDelegate(self, queue: queue)
+        //kCVPixelFormatType_32BGRA
+//        kCVPixelFormatType_420YpCbCr8Planar
+        dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global())
         dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
         dataOutput.alwaysDiscardsLateVideoFrames = true
         
@@ -54,7 +57,7 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     }
     
     func stop() {
-        assert(queue.isCurrent == true)
+//        assert(queue.isCurrent == true)
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,8 +67,11 @@ class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelega
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
-        logAV("video input \(sampleBuffer.seconds())")
-        self.output?.process(video: sampleBuffer)
+        logAV("video input \(sampleBuffer.presentationSeconds)")
+        
+        let ID = self.ID
+        self.ID += 1
+        self.output?.process(video: VideoBuffer(ID: ID, buffer: sampleBuffer))
     }
     
     func failureNotification(notification: Notification) {

@@ -7,12 +7,14 @@
 //
 
 import AVFoundation
-import AppKit
+import CoreVideo
+import CoreImage
+
 
 extension MTLTexture {
  
     func threadGroupCount() -> MTLSize {
-        return MTLSizeMake(30, 30, 1)
+        return MTLSizeMake(8, 8, 1)
     }
  
     func threadGroups() -> MTLSize {
@@ -22,100 +24,124 @@ extension MTLTexture {
 }
 
 
-class VideoRemoveDuplicateFrames : VideoOutputImpl {
+class VideoRemoveDuplicateFramesBase : VideoProcessor {
     private var lastImageBuffer: CVImageBuffer?
+    private let lock = NSLock()
+    fileprivate let duplicatesFree: VideoOutputProtocol
+
+    required init(next: VideoOutputProtocol, duplicatesFree: VideoOutputProtocol) {
+        self.duplicatesFree = duplicatesFree
+        super.init(next: next)
+    }
+
+    fileprivate func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+        return nil
+    }
+    
+    override func process(video: VideoBuffer) {
+        var duplicate = false
+        
+        lock.locked {
+            let imageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer)
+            
+            if let lastImageBuffer = lastImageBuffer,
+               let imageBuffer = imageBuffer,
+               isEqual(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
+                duplicate = true
+            }
+            
+            lastImageBuffer = imageBuffer
+        }
+
+        if !duplicate {
+            duplicatesFree.process(video: video)
+        }
+
+        super.process(video: duplicate ? video.copy(flags: [.duplicate]) : video)
+    }
+}
+
+
+class VideoRemoveDuplicateFramesUsingMetal : VideoRemoveDuplicateFramesBase {
     private var textureCache: CVMetalTextureCache?
     private var commandQueue: MTLCommandQueue?
     private var computePipelineState: MTLComputePipelineState?
     private let metalDevice = MTLCreateSystemDefaultDevice()
     private var context = CIContext(mtlDevice: MTLCreateSystemDefaultDevice()!)
 
-    func compare(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+    override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
         guard
             let computePipelineState = computePipelineState,
             let metalDevice = metalDevice,
-            let commandQueue = commandQueue
+            let commandQueue = commandQueue,
+            let textureCache = textureCache
         else {
             return nil
         }
         
-        // Get width and height for the pixel buffer
-        let width = CVPixelBufferGetWidth(pixelBuffer1)
-        let height = CVPixelBufferGetHeight(pixelBuffer1)
-        
-        // Converts the pixel buffer in a Metal texture.
-        var cvTexture1: CVMetalTexture?
-        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, self.textureCache!, pixelBuffer1, nil, .bgra8Unorm, width, height, 0, &cvTexture1)
-        guard let cvTexture11 = cvTexture1, let inputTexture1 = CVMetalTextureGetTexture(cvTexture11) else {
-            assert(false)
-            return nil
-        }
+        do {
+            // Converts the pixel buffer in a Metal texture.
+            let inputTextures1 = try pixelBuffer1.cvMTLTexture(textureCache: textureCache)
+            let inputTextures2 = try pixelBuffer2.cvMTLTexture(textureCache: textureCache)
+            
+            guard inputTextures1.count == inputTextures2.count else {
+                assert(false); return nil
+            }
+            
+            for i in 0 ..< inputTextures1.count {
+                let inputTexture1 = inputTextures1[i]
+                let inputTexture2 = inputTextures2[i]
 
-        var cvTexture2: CVMetalTexture?
-        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, self.textureCache!, pixelBuffer2, nil, .bgra8Unorm, width, height, 0, &cvTexture2)
-        guard let cvTexture22 = cvTexture2, let inputTexture2 = CVMetalTextureGetTexture(cvTexture22) else {
-            assert(false)
-            return nil
-        }
-
-//        var cvTexture3: CVMetalTexture?
-//        CVMetalTextureCacheCreateTextureFromImage(kCFAllocatorDefault, self.textureCache!, pixelBuffer2, nil, .bgra8Unorm, width, height, 0, &cvTexture3)
-//        guard let cvTexture33 = cvTexture3, let inputTexture3 = CVMetalTextureGetTexture(cvTexture33) else {
-//            assert(false)
-//            return nil
-//        }
-
-        // Create a command buffer
-        let commandBuffer = commandQueue.makeCommandBuffer()!
-     
-        // Create a compute command encoder.
-        let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder()!
-     
-        // Set the compute pipeline state for the command encoder.
-        computeCommandEncoder.setComputePipelineState(computePipelineState)
-     
-        // Set the input and output textures for the compute shader.
-        computeCommandEncoder.setTexture(inputTexture1, index: 0)
-        computeCommandEncoder.setTexture(inputTexture2, index: 1)
-//        computeCommandEncoder.setTexture(inputTexture3, index: 2)
-
-        var outBuffervalue = Int(0)
-        let outBuffer = metalDevice.makeBuffer(bytes: &outBuffervalue, length: MemoryLayout<Int>.size, options: [])!
-        computeCommandEncoder.setBuffer(outBuffer, offset: 0, index: 0)
-
-//        var test1 = Float(0)
-//        computeCommandEncoder.setBytes(&test1, length: MemoryLayout<Float>.size, index: 1)
-//
-//        var test2 = Float(0)
-//        computeCommandEncoder.setBytes(&test2, length: MemoryLayout<Float>.size, index: 2)
-        
-        // Encode a threadgroup's execution of a compute function
-        computeCommandEncoder.dispatchThreadgroups(inputTexture1.threadGroups(), threadsPerThreadgroup: inputTexture1.threadGroupCount())
-     
-        // End the encoding of the command.
-        computeCommandEncoder.endEncoding()
-
-        // Commit the command buffer for execution.
-        commandBuffer.commit()
-        commandBuffer.waitUntilCompleted()
-
-        // result
-        
-        let result = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
-        let data = result[0]
-
-        if data == 5 {
-            return false
-        }
-
-        if data == 3 {
-            return true
-        }
+                // Create a command buffer
+                let commandBuffer = commandQueue.makeCommandBuffer()!
                 
+                // Create a compute command encoder.
+                let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder()!
+                
+                // Set the compute pipeline state for the command encoder.
+                computeCommandEncoder.setComputePipelineState(computePipelineState)
+                
+                // Set the input and output textures for the compute shader.
+                computeCommandEncoder.setTexture(inputTexture1, index: 0)
+                computeCommandEncoder.setTexture(inputTexture2, index: 1)
+                //        computeCommandEncoder.setTexture(inputTexture3, index: 2)
+                
+                var outBuffervalue = Int(0)
+                let outBuffer = metalDevice.makeBuffer(bytes: &outBuffervalue, length: MemoryLayout<Int>.size, options: [])!
+                computeCommandEncoder.setBuffer(outBuffer, offset: 0, index: 0)
+                
+                // Encode a threadgroup's execution of a compute function
+                computeCommandEncoder.dispatchThreadgroups(inputTexture1.threadGroups(), threadsPerThreadgroup: inputTexture1.threadGroupCount())
+                
+                // End the encoding of the command.
+                computeCommandEncoder.endEncoding()
+                
+                // Commit the command buffer for execution.
+                commandBuffer.commit()
+                commandBuffer.waitUntilCompleted()
+                
+                // result
+                
+                let result = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
+                let data = result[0]
+                
+                if data == 5 {
+                    return false
+                }
+                
+                if data == 3 {
+                    return true
+                }
+            }
+        }
+        catch {
+            logAVError(error)
+        }
+        
         return nil
     }
     
-    override init(next: VideoOutputProtocol? = nil, measure: MeasureProtocol? = nil) {
+    required init(next: VideoOutputProtocol, duplicatesFree: VideoOutputProtocol) {
         do {
             if let metalDevice = metalDevice {
                 // Create a command queue.
@@ -125,7 +151,7 @@ class VideoRemoveDuplicateFrames : VideoOutputImpl {
                 let library = try metalDevice.makeLibrary(URL: url)
                 
                 // Create a function with a specific name.
-                let function = library.makeFunction(name: "compare")!
+                let function = library.makeFunction(name: "compareRGBA")!
                 
                 // Create a compute pipeline with the above function.
                 self.computePipelineState = try metalDevice.makeComputePipelineState(function: function)
@@ -148,26 +174,59 @@ class VideoRemoveDuplicateFrames : VideoOutputImpl {
             logAVError(error)
         }
 
-        super.init(next: next, measure: measure)
-    }
-    
-    override func processSelf(video: CMSampleBuffer) -> Bool {
-        let imageBuffer = CMSampleBufferGetImageBuffer(video)
-        var process = true
-
-//        if process && lastImageBuffer == imageBuffer {
-//            process = false
-//        }
-
-        if process,
-            let lastImageBuffer = lastImageBuffer,
-            let imageBuffer = imageBuffer,
-            compare(pixelBuffer1: lastImageBuffer, pixelBuffer2: imageBuffer) == true {
-            process = false
-        }
-        
-        lastImageBuffer = imageBuffer
-        
-        return process
+        super.init(next: next, duplicatesFree: duplicatesFree)
     }
 }
+
+
+class VideoRemoveDuplicateFramesUsingMemcmp : VideoRemoveDuplicateFramesBase {
+    
+    override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+        guard
+            let surface1 = CVPixelBufferGetIOSurface(pixelBuffer1)?.takeUnretainedValue(),
+            let surface2 = CVPixelBufferGetIOSurface(pixelBuffer2)?.takeUnretainedValue()
+            else {
+                return nil
+        }
+
+        CVPixelBufferLockBaseAddress(pixelBuffer1, [])
+        CVPixelBufferLockBaseAddress(pixelBuffer2, [])
+        IOSurfaceLock(surface1, [], nil)
+        IOSurfaceLock(surface2, [], nil)
+        
+        let baseAddress1 = IOSurfaceGetBaseAddress(surface1)
+        let baseAddress2 = IOSurfaceGetBaseAddress(surface2)
+        let size1 = IOSurfaceGetAllocSize(surface1)
+        let size2 = IOSurfaceGetAllocSize(surface2)
+
+        let isEqual = (size1 == size2) && memcmp(baseAddress1, baseAddress2, size1) == 0
+
+        IOSurfaceUnlock(surface1, [], nil)
+        IOSurfaceUnlock(surface2, [], nil)
+        CVPixelBufferUnlockBaseAddress(pixelBuffer1, [])
+        CVPixelBufferUnlockBaseAddress(pixelBuffer2, [])
+        
+        return isEqual;
+    }
+}
+
+
+class VideoSetupDuplicatesTemplate<T> : VideoSetupSlave where T : VideoRemoveDuplicateFramesBase {
+    override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
+        var result = video
+        
+        if kind == .capture {
+            let duplicatesFree = root.video(VideoProcessor(next: result), kind: .duplicatesFree)
+            let duplicatesNext = root.video(VideoProcessor(), kind: .duplicatesNext)
+
+            result = T(next: duplicatesNext, duplicatesFree: duplicatesFree)
+        }
+        
+        return result
+    }
+}
+
+
+typealias VideoSetupDuplicatesMetal = VideoSetupDuplicatesTemplate <VideoRemoveDuplicateFramesUsingMetal>
+typealias VideoSetupDuplicatesMemcmp = VideoSetupDuplicatesTemplate <VideoRemoveDuplicateFramesUsingMemcmp>
+

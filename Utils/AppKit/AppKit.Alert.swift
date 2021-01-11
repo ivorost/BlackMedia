@@ -5,6 +5,7 @@
 //  Copyright © 2014-2019. All rights reserved.
 //
 
+#if os(OSX)
 import Cocoa
 
 extension String {
@@ -449,3 +450,4 @@ extension NSAlert {
         }
     }
 }
+#endif

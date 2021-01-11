@@ -9,11 +9,34 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void compare(texture2d<float, access::read> texture1 [[ texture(0) ]],
+kernel void compareRGBA(texture2d<float, access::read> texture1 [[ texture(0) ]],
                         texture2d<float, access::read> texture2 [[ texture(1) ]],
 //                        texture2d<float, access::write> texture3 [[ texture(2) ]],
                         device int *result [[ buffer(0) ]],
                         uint2 gid [[ thread_position_in_grid ]])
+{
+//    *result += 1;
+    int resultInt = *result;
+
+    if (resultInt == 5) {
+        return;
+    }
+
+    float4 colorAtPixel1 = texture1.read(gid);
+    float4 colorAtPixel2 = texture2.read(gid);
+
+    if (any(colorAtPixel1 != colorAtPixel2)) {
+        *result = 5;
+    }
+    else if (resultInt == 0) {
+        *result = 3;
+    }
+}
+
+kernel void comparePlanar(texture2d<float, access::read> texture1 [[ texture(0) ]],
+                          texture2d<float, access::read> texture2 [[ texture(1) ]],
+                          device int *result [[ buffer(0) ]],
+                          uint2 gid [[ thread_position_in_grid ]])
 {
     int resultInt = *result;
     

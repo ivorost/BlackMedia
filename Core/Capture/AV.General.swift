@@ -1,67 +1,19 @@
 
 import AVFoundation
 
-protocol DataProcessor {
-    func process(data: NSData)
-}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Session
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-typealias FuncWithSession = (SessionProtocol) -> Void
-
-protocol SessionProtocol {
-    func start () throws
-    func stop()
-}
-
-class Session : SessionProtocol {
-    private let next: SessionProtocol?
-    init() { next = nil }
-    init(_ next: SessionProtocol?) { self.next = next }
-    func start() throws { try next?.start() }
-    func stop() { next?.stop() }
-}
-
-class SessionBroadcast : SessionProtocol {
+class Timebase : Session {
+    private(set) var date: Date = Date()
     
-    private var x: [SessionProtocol?]
-    
-    init(_ x: [SessionProtocol?]) {
-        self.x = x
-    }
-    
-    func start () throws {
-        _ = try x.map({ try $0?.start() })
-    }
-    
-    func stop() {
-        _ = x.reversed().map({ $0?.stop() })
+    override func start() throws {
+        date = Date()
     }
 }
 
-class SessionSyncDispatch : SessionProtocol {
-        
-    let session: SessionProtocol
-    let queue: DispatchQueue
-    
-    init(session: SessionProtocol, queue: DispatchQueue) {
-        self.session = session
-        self.queue = queue
-    }
-    
-    func start () throws {
-        try queue.sync {
-            try session.start()
-        }
-    }
-    
-    func stop() {
-        queue.sync {
-            session.stop()
-        }
-    }
+
+extension Session.Kind {
+    static let avCapture = Session.Kind(rawValue: "avCapture")
+    static let encoder = Session.Kind(rawValue: "encoder")
 }
 
 
@@ -74,11 +26,6 @@ extension AVCaptureSession : SessionProtocol {
         print("STOP CAPTURE")
         stopRunning()
     }
-}
-
-
-func broadcast(_ x: [SessionProtocol]) -> SessionProtocol? {
-    broadcast(x, create: { SessionBroadcast(x) })
 }
 
 
@@ -142,15 +89,23 @@ func logAVError(_ error: String) {
 // Broadcast
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func broadcast<T>(_ x: [T?], create: () -> T?) -> T? {
-    if (x.count == 0) {
-        return nil
-    }
-    if (x.count == 1) {
-        return x[0]
+func broadcast<T>(_ x: [T?], create: ([T]) -> T) -> T? {
+    var theX = [T]()
+    
+    for i in x {
+        if let i = i {
+            theX.append(i)
+        }
     }
     
-    return create()
+    if (theX.count == 0) {
+        return nil
+    }
+    if (theX.count == 1) {
+        return theX[0]
+    }
+    
+    return create(theX)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

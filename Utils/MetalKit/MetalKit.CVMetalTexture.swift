@@ -9,7 +9,7 @@
 import MetalKit
 
 extension CVPixelBuffer {
-    func cvMetalTexture(textureCache: CVMetalTextureCache) -> [CVMetalTexture] {
+    func cvMetalTexture(textureCache: CVMetalTextureCache) throws -> [CVMetalTexture] {
         var result = [CVMetalTexture]()
         var metalPixelFormat : MTLPixelFormat
                 
@@ -28,12 +28,8 @@ extension CVPixelBuffer {
             switch imageBufferPixelFormat {
             case kCVPixelFormatType_32RGBA:
                 metalPixelFormat = .rgba8Unorm
-                //        case kCVPixelFormatType_32ABGR:
-                //            metalPixelFormat = .abgr8Unorm
-                //        case kCVPixelFormatType_32ARGB:
-            //            metalPixelFormat = .argb8Unorm
             case kCVPixelFormatType_32BGRA:
-                metalPixelFormat = .rgba8Unorm
+                metalPixelFormat = .bgra8Unorm
             case kCVPixelFormatType_420YpCbCr8BiPlanarFullRange, kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange:
                 if planeIndex == 0 {
                     metalPixelFormat = .r8Unorm
@@ -47,18 +43,34 @@ extension CVPixelBuffer {
             }
             
             var cvTexture : CVMetalTexture?
-            let status = CVMetalTextureCacheCreateTextureFromImage(nil,
-                                                      textureCache,
-                                                      self,
-                                                      nil,
-                                                      metalPixelFormat,
-                                                      width,
-                                                      height,
-                                                      planeIndex,
-                                                      &cvTexture)
+            try checkStatus(CVMetalTextureCacheCreateTextureFromImage(nil,
+                                                                      textureCache,
+                                                                      self,
+                                                                      nil,
+                                                                      metalPixelFormat,
+                                                                      width,
+                                                                      height,
+                                                                      planeIndex,
+                                                                      &cvTexture),
+                            "CVPixelBuffer.cvMetalTexture.CVMetalTextureCacheCreateTextureFromImage")
             
             if let cvTexture = cvTexture {
                 result.append(cvTexture)
+            }
+        }
+        
+        return result
+    }
+    
+    func cvMTLTexture(textureCache: CVMetalTextureCache) throws -> [MTLTexture] {
+        var result = [MTLTexture]()
+        
+        for metalTexture in try cvMetalTexture(textureCache: textureCache)  {
+            if let mtlTexture = CVMetalTextureGetTexture(metalTexture) {
+                result.append(mtlTexture)
+            }
+            else {
+                assert(false)
             }
         }
         

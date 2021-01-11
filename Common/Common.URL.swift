@@ -9,6 +9,8 @@
 import Foundation
 
 public extension URL {
+    static let appSettings = appLibrary.appendingPathComponent("Settings")
+
     static var applicationData: URL? {
         guard
             let bundleID = Bundle.main.bundleIdentifier,
@@ -18,7 +20,7 @@ public extension URL {
         
         return applicationSupportURL.appendingPathComponent(bundleID)
     }
-
+    
     static var captureCamera: URL? {
         return applicationData?.appendingPathComponent("camera")
     }
@@ -27,3 +29,4 @@ public extension URL {
         return applicationData?.appendingPathComponent("screen")
     }
 }
+

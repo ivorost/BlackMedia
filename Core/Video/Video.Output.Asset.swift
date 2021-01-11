@@ -7,7 +7,7 @@
 //
 
 import AVFoundation
-import Accelerate
+import CoreImage
 
 
 class VideoAssetOutput : AssetOutput, VideoOutputProtocol {
@@ -20,8 +20,8 @@ class VideoAssetOutput : AssetOutput, VideoOutputProtocol {
         super.init(writer: asset, writerSession: assetSession, input: input)
     }
 
-    func process(video: CMSampleBuffer) {
-        process(sampleBuffer: video)
+    func process(video: VideoBuffer) {
+        process(sampleBuffer: video.sampleBuffer)
     }
 }
 

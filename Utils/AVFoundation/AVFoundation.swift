@@ -24,9 +24,9 @@ extension AVCaptureDevice {
 
     static func defaultVideoDevice() -> AVCaptureDevice? {
         #if os(iOS)
-        for i in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
-            if (i as! AVCaptureDevice).position == .front {
-                return i as? AVCaptureDevice
+        for i in AVCaptureDevice.devices(for: .video) {
+            if i.position == .front {
+                return i
             }
         }
         
@@ -133,26 +133,6 @@ class CaptureVideoPreviewView : AppleView {
     var captureLayer: AVCaptureVideoPreviewLayer {
         get {
             return layer as! AVCaptureVideoPreviewLayer
-        }
-    }
-}
-
-class SampleBufferDisplayView : AppleView {
-    
-    #if os(iOS)
-    override open class var layerClass: Swift.AnyClass {
-        return AVSampleBufferDisplayLayer.self
-    }
-    #else
-    override func makeBackingLayer() -> CALayer {
-        return AVSampleBufferDisplayLayer()
-    }
-    #endif
-    
-    var sampleLayer: AVSampleBufferDisplayLayer {
-        get {
-            
-            return layer as! AVSampleBufferDisplayLayer
         }
     }
 }

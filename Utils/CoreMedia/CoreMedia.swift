@@ -23,7 +23,7 @@ extension CMVideoDimensions : Equatable {
 
 extension CMSampleBuffer {
     
-    func seconds() -> Double {
+    var presentationSeconds: Double {
         return CMTimeGetSeconds(CMSampleBufferGetPresentationTimeStamp(self))
     }
 }

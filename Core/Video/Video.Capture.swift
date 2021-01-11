@@ -8,6 +8,7 @@
 
 import AVFoundation
 
+
 extension Capture {
     func video(config: CaptureConfig,
                preview layer: AVCaptureVideoPreviewLayer,
@@ -78,6 +79,6 @@ extension Capture {
         sessions.append(captureSession)
 
         progress = sizeMonitorSession
-        return SessionSyncDispatch(session: SessionBroadcast(sessions), queue: Capture.shared.captureQueue)
-    }
+        return Session.DispatchSync(session: Session.Broadcast(sessions), queue: Capture.shared.captureQueue)
+    }    
 }
