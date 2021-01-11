@@ -6,7 +6,7 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
-import AppKit
+import Foundation
 
 
 protocol SessionSetupProtocol : class {

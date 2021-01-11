@@ -7,7 +7,9 @@
 //
 
 import AVFoundation
+#if os(OSX)
 import AppKit
+#endif
 
 typealias VideoFPS = VideoProcessor
 
@@ -27,6 +29,7 @@ class MeasureFPS : MeasureCPS, MeasureProtocol {
 }
 
 
+#if os(OSX)
 class MeasureFPSLabel : MeasureFPS {
     let label: NSTextField
 
@@ -41,7 +44,7 @@ class MeasureFPSLabel : MeasureFPS {
         super.process(cps: cps)
     }
 }
-
+#endif
 
 class MeasureVideo : VideoOutputProtocol {
     private let measure: MeasureProtocol

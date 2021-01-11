@@ -8,6 +8,7 @@
 
 import AVFoundation
 
+#if os(OSX)
 extension AVCaptureScreenInput {
     static var canRecordScreen: Bool {
         let stream = CGDisplayStream(display: CGMainDisplayID(),
@@ -21,3 +22,4 @@ extension AVCaptureScreenInput {
         return stream != nil
     }
 }
+#endif

@@ -7,7 +7,6 @@
 //
 
 import AVFoundation
-import AppKit
 
 
 class MeasureByterate : MeasureCPS, DataProcessorProtocol {

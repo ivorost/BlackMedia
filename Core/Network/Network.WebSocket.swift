@@ -21,14 +21,24 @@ fileprivate extension String {
     """
 }
 
-class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDelegate {
+public class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDelegate {
+    private let name: String
     private let next: DataProcessorProtocol?
     private let urlString: String
     private(set) var socket: WebSocket?
     private var connected: Func?
 
     init(name: String, urlString: String, next: DataProcessorProtocol?) {
-        self.urlString = urlString.replacingOccurrences(of: "machine_mac", with: name)
+        var urlStringVar = urlString
+        
+        urlStringVar = urlStringVar.replacingOccurrences(of: "machine_mac", with: name)
+        
+        if let path = UserDefaults(suiteName: "group.com.idrive.screentest")?.string(forKey: "server_path") {
+            urlStringVar = urlStringVar.replacingOccurrences(of: "ws://relay.raghava.io/proxy", with: path)
+        }
+        
+        self.name = name
+        self.urlString = urlStringVar
         self.next = next
     }
     
@@ -43,21 +53,24 @@ class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDelegate 
         wait { (done) in
             self.connected = done
         }
+
+        print("connected2 \(name)")
     }
     
     func stop() {
         socket?.disconnect()
     }
     
-    func process(data: Data) {
+    public func process(data: Data) {
         socket?.write(data: data)
     }
 
-    func didReceive(event: WebSocketEvent, client: WebSocket) {
+    public func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
         case .binary(let data):
             next?.process(data: data)
         case .connected(_):
+            print("connected1 \(name)")
             connected?()
         default:
             break
@@ -66,7 +79,7 @@ class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDelegate 
 }
 
 
-class WebSocketMaster : WebSocketBase {
+public class WebSocketMaster : WebSocketBase {
     init(name: String, next: DataProcessorProtocol? = nil) {
         super.init(name: name, urlString: .wsSender, next: next)
     }

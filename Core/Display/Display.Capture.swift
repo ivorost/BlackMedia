@@ -14,8 +14,8 @@ class DisplayCapture {
     
 }
 
-
 class DisplaySetup : VideoSetupSlave {
+    #if os(OSX)
     private let settings: DisplayConfig
     private let avCaptureSession = AVCaptureSession()
     
@@ -49,4 +49,5 @@ class DisplaySetup : VideoSetupSlave {
     func setupSession(_ session: AVCaptureSession) {
         session.sessionPreset = .high
     }
+    #endif
 }

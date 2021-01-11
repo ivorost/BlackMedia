@@ -120,6 +120,8 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         serializer.push(data: Data(bytes: pps!, count: ppsLength))
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
 
+//        print("data \(serializer.data.count)")
+        
         process(packet: serializer)
     }
 }
@@ -175,6 +177,8 @@ class VideoH264Deserializer : VideoH264DeserializerBase {
             let h264PPS  = pps as NSData
             var timingInfo = time.cmSampleTimingInfo
 
+//            print("deserializer \(ID)")
+            
             // format description
             
             var formatDescription: CMFormatDescription?

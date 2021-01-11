@@ -7,7 +7,8 @@
 //
 
 import AVFoundation
-import AppKit
+import CoreVideo
+import CoreImage
 
 
 extension MTLTexture {

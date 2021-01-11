@@ -24,9 +24,9 @@ extension AVCaptureDevice {
 
     static func defaultVideoDevice() -> AVCaptureDevice? {
         #if os(iOS)
-        for i in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
-            if (i as! AVCaptureDevice).position == .front {
-                return i as? AVCaptureDevice
+        for i in AVCaptureDevice.devices(for: .video) {
+            if i.position == .front {
+                return i
             }
         }
         

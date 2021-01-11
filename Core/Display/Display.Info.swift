@@ -6,24 +6,17 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
+import Foundation
+#if os(OSX)
 import AppKit
-
+#endif
 
 extension DisplayCapture {
     class InfoCapture : PacketSerializer.Processor, Session.Proto {
         private let settings: DisplayConfig
         
         init(next: DataProcessor.Proto, settings: DisplayConfig) {
-            var rect = settings.rect
-            rect.size.width /= NSScreen.main?.backingScaleFactor ?? 1.0
-            rect.size.height /= NSScreen.main?.backingScaleFactor ?? 1.0
-
-            let settingsVar = DisplayConfig(displayID: settings.displayID,
-                                            rect: rect,
-                                            fps: settings.fps)
-            
-
-            self.settings = settingsVar
+            self.settings = settings
             super.init(next: next)
         }
         
@@ -31,12 +24,14 @@ extension DisplayCapture {
             let packet = PacketSerializer(.display)
             packet.push(value: settings)
             
+            print("display info")
             process(packet: packet)
         }
         
         func stop() {
         }
     }
+    
     
     class InfoViewer : PacketDeserializer.Processor {
         private(set) var settings: DisplayConfig?
@@ -53,6 +48,27 @@ extension DisplayCapture {
             self.settings = settings
         }
     }
+    
+    #if os(OSX)
+    class AutosizeWindow : InfoViewer {
+        private let window: NSWindow
+        
+        init(_ window: NSWindow) {
+            self.window = window
+        }
+        
+        override func process(packet: PacketDeserializer) {
+            super.process(packet: packet)
+            
+            if let settings = settings {
+                var rect = CGRect.zero
+                rect.origin.y = window.screen!.frame.size.height - rect.size.height
+                rect.size = settings.rect.size
+                window.setFrame(rect, display: true, animate: true)
+            }
+        }
+    }
+    #endif
 }
 
 
@@ -75,3 +91,16 @@ extension DisplaySetup {
         }
     }
 }
+
+
+#if os(OSX)
+extension DisplaySetup {
+    class AutosizeWindow : DataProcessorSetup.Default {
+        init(root: CaptureSetup.Proto, window: NSWindow) {
+            super.init(root: root, targetKind: .networkDataOutput, selfKind: .other) {
+                DataProcessor(prev: $0, next: DisplayCapture.AutosizeWindow(window))
+            }
+        }
+    }
+}
+#endif

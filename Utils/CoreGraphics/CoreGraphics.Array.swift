@@ -6,7 +6,7 @@
 //  Copyright © 2020 JoJo Systems. All rights reserved.
 //
 
-import Foundation
+import CoreGraphics
 
 extension Array where Element == CGRect {
     func union() -> CGRect {

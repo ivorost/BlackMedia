@@ -8,6 +8,7 @@
 
 import CoreGraphics
 
+#if os(OSX)
 extension CGEvent {
     var isMouse: Bool {
         switch type {
@@ -43,3 +44,4 @@ extension CGEvent {
         }
     }
 }
+#endif

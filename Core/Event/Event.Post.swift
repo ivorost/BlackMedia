@@ -8,7 +8,6 @@
 
 import AppKit
 
-
 extension EventProcessor {
     class Post : Chain {
         override func process(event: NSEvent) {

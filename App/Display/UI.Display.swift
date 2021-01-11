@@ -188,9 +188,12 @@ fileprivate class SetupVideoListening : VideoSetupVector {
     }
     
     override func create() -> [VideoSetupProtocol] {
-        let preview = VideoSetupPreview(root: root, layer: layer, kind: .decoder)
+        let window = (layer.delegate as? NSView)?.window
+        let preview = VideoSetupPreview(root: root, layer: layer, kind: .deserializer)//.decoder)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
         let decoder = VideoProcessor.DecoderH264.Setup1(root: root)
+        var autosizeWindow: DataProcessor.Setup = DataProcessorSetup.shared
+        if let window = window { autosizeWindow = DisplaySetup.AutosizeWindow(root: root, window: window) }
         let webSocketHelm = VideoSetupCheckbox(
             next: cast(video: WebSocketSlave.SetupHelm(root: root, target: .serializer)),
             checkbox: views.setupSenderWebSocketButton)
@@ -219,12 +222,13 @@ fileprivate class SetupVideoListening : VideoSetupVector {
         return [
             preview,
             deserializer,
-            decoder,
+//            decoder,
             webSocketHelm,
             webSocketACK,
             webSocketQuality,
             byterate,
             timestamp1video,
+            cast(video: autosizeWindow),
             cast(video: timestamp1data),
             fpsSetup ]
     }
@@ -571,28 +575,24 @@ class DisplayCaptureController : CaptureController {
 
     private func createDisplaysConfigs() throws -> [DisplayConfig] {
         var result = [DisplayConfig]()
-        
         let displays = [CGMainDisplayID()]
         let maxColumns = Int(ceil(sqrt(Double(displays.count))))
         var columnIndex = 0
         var origin = CGPoint.zero
         
         for displayID in displays {
-            guard let displayMode = CGDisplayCopyDisplayMode(displayID) else { throw Error.displayMode }
-            let rect = CGRect(x: Int(origin.x),
-                              y: Int(origin.y),
-                              width: displayMode.pixelWidth,
-                              height: displayMode.pixelHeight)
-            let displayConfig = DisplayConfig(displayID: displayID, rect: rect, fps: CMTime.video(fps: 60))
+            guard
+                let displayConfig = DisplayConfig(displayID: displayID, fps: CMTime.video(fps: 60))
+                else { throw Error.displayMode }
             
             result.append(displayConfig)
             columnIndex += 1
-            origin.x += CGFloat(displayMode.pixelWidth)
+            origin.x += CGFloat(displayConfig.rect.width * displayConfig.scale)
             
             if columnIndex >= maxColumns {
                 columnIndex = 0
                 origin.x += 0
-                origin.y += CGFloat(displayMode.pixelHeight)
+                origin.y += CGFloat(displayConfig.rect.height * displayConfig.scale)
             }
         }
         

@@ -1,0 +1,58 @@
+//
+//  Listen.Segue.swift
+//  CaptureIOS Upload Extension
+//
+//  Created by Ivan Kh on 21.12.2020.
+//  Copyright © 2020 Ivan Kh. All rights reserved.
+//
+
+import UIKit
+import AVFoundation
+
+fileprivate class SetupVideoListening : VideoSetupVector {
+    private let layer: AVSampleBufferDisplayLayer
+
+    init(layer: AVSampleBufferDisplayLayer) {
+        self.layer = layer
+        super.init()
+    }
+    
+    override func create() -> [VideoSetupProtocol] {
+        let root = self
+        let preview = VideoSetupPreview(root: root, layer: layer, kind: .deserializer)
+        let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
+        let webSocketHelm = WebSocketSlave.SetupHelm(root: root, target: .serializer)
+        let webSocketACK = VideoSetupViewerACK(root: root)
+        let aggregator = SessionSetup.Aggregator()
+        let websocket = WebSocketSlave.SetupData(root: self, target: .serializer)
+
+        return [
+            cast(video: websocket),
+            cast(video: aggregator),
+            preview,
+            deserializer,
+//            decoder,
+            cast(video: webSocketHelm),
+            webSocketACK ]
+    }
+}
+
+class ListenSegue : UIStoryboardSegue {
+    override func perform() {
+        super.perform()
+        
+        guard let listenController = self.destination as? ListenViewController else { assert(false); return }
+        _ = listenController.view
+        
+        let setup = SetupVideoListening(layer: listenController.sampleBufferView.sampleLayer)
+        let session = setup.setup()
+        
+        do {
+            try session?.start()
+            listenController.session = session
+        }
+        catch {
+            logAVError(error)
+        }
+    }
+}

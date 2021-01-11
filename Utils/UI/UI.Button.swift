@@ -6,6 +6,7 @@
 //  Copyright © 2020 JoJo Systems. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
 
 class RadioButton : NSButton {
@@ -47,3 +48,4 @@ class RadioButton : NSButton {
         disableRadioButtonGroup()
     }
 }
+#endif

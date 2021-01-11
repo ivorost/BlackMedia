@@ -6,7 +6,10 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
+import Foundation
+#if os(OSX)
 import AppKit
+#endif
 
 protocol StringProcessorProto {
     func process(string: String)
@@ -93,6 +96,17 @@ extension StringProcessor {
 
 
 extension StringProcessor {
+    final class Print : Base {
+        static let shared = Print()
+        
+        override func process(string: String) {
+            print(string)
+        }
+    }
+}
+
+#if os(OSX)
+extension StringProcessor {
     class TableView : Chain {
         private let tableView: NSTableView
         private let arrayController = NSArrayController()
@@ -126,3 +140,4 @@ extension StringProcessor {
         }
     }
 }
+#endif

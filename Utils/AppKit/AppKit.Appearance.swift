@@ -6,6 +6,7 @@
 //  Copyright © 2020 JoJo Systems. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
 
 public extension NSAppearance {
@@ -37,3 +38,4 @@ public extension NSApplication {
         return !isDark
     }
 }
+#endif

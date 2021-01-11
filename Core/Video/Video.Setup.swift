@@ -8,7 +8,9 @@
 
 
 import AVFoundation
+#if os(OSX)
 import AppKit
+#endif
 
 
 extension VideoProcessor.Kind {
@@ -151,6 +153,7 @@ class VideoSetupDataProcessor : VideoSetup {
 }
 
 
+#if os(OSX)
 class VideoSetupCheckbox : VideoSetupChain {
     private let checkbox: NSButton
     
@@ -165,6 +168,7 @@ class VideoSetupCheckbox : VideoSetupChain {
             : VideoSetup.shared
     }
 }
+#endif
 
 
 fileprivate class VideoSetupSessionAdapter : VideoSetup {
@@ -193,6 +197,20 @@ fileprivate class VideoSetupCaptureAdapter : VideoSetupSessionAdapter {
     
     override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
         return capture.data(data, kind: kind)
+    }
+}
+
+
+extension VideoSetup {
+    class External: VideoSetupSlave {
+        private(set) var video: VideoProcessor.Proto = VideoProcessor.shared
+        
+        override func session(_ session: Session.Proto, kind: Session.Kind) {
+            if kind == .initial {
+                let video = root.video(VideoProcessor.shared, kind: .capture)
+                self.video = video
+            }
+        }
     }
 }
 

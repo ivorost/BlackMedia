@@ -6,8 +6,7 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
-import AVFoundation
-import AppKit
+import Foundation
 
 fileprivate extension TimeInterval {
     static let calcDuration: TimeInterval = 3 // in seconds

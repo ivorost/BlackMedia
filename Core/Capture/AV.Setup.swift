@@ -6,7 +6,7 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
-import AppKit
+import AVFoundation
 
 
 protocol CaptureSetupProtocol : Session.Setup & DataProcessor.Setup {

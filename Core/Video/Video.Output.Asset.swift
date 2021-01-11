@@ -7,6 +7,7 @@
 //
 
 import AVFoundation
+import CoreImage
 
 
 class VideoAssetOutput : AssetOutput, VideoOutputProtocol {

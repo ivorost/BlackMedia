@@ -6,6 +6,7 @@
 //  Copyright © 2020 JoJo Systems. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
 
 extension NSView {
@@ -25,3 +26,4 @@ extension NSView {
         }
     }
 }
+#endif

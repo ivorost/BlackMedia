@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vZC-2L-J1n">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Capture iOS app-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CaptureIOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fYG-Xa-oMO" customClass="RPSystemBroadcastPickerView">
+                                <rect key="frame" x="183" y="349" width="48" height="48"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="SVm-r0-Fgf"/>
+                                    <constraint firstAttribute="width" constant="48" id="YYD-1Z-hVK"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XI1-WX-caF">
+                                <rect key="frame" x="207" y="112" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W47-vm-ONs">
+                                <rect key="frame" x="179.5" y="405" width="55" height="30"/>
+                                <state key="normal" title="Capture">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sgh-Hu-b48" userLabel="Middle">
+                                <rect key="frame" x="20" y="475" width="374" height="0.0"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="a5O-HP-Zp3"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-OU-8ZW">
+                                <rect key="frame" x="183" y="515" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="Qg8-H5-La8"/>
+                                    <constraint firstAttribute="height" constant="48" id="yRR-hX-NiR"/>
+                                </constraints>
+                                <state key="normal" title="Listen" image="icons8-angry-eye"/>
+                                <connections>
+                                    <segue destination="GPn-qo-tCt" kind="show" customClass="ListenSegue" customModule="CaptureIOS" customModuleProvider="target" id="gzp-tT-Oxe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08Y-6x-P8P">
+                                <rect key="frame" x="186" y="564" width="42" height="30"/>
+                                <state key="normal" title="Listen">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ws://relay.raghava.io/proxy" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ku4-2M-Sbk">
+                                <rect key="frame" x="20" y="112" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="serverPathEditingDidEnd:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="GnH-p2-2IV"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="wDm-0N-S1r"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Sgh-Hu-b48" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="0qb-ma-qr4"/>
+                            <constraint firstItem="XI1-WX-caF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="4VX-BG-BmK"/>
+                            <constraint firstItem="08Y-6x-P8P" firstAttribute="top" secondItem="qk1-OU-8ZW" secondAttribute="bottom" constant="1" id="AkH-ZC-wrP"/>
+                            <constraint firstItem="Sgh-Hu-b48" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="JLy-8x-B9i"/>
+                            <constraint firstItem="W47-vm-ONs" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bvQ-zx-02B"/>
+                            <constraint firstItem="fYG-Xa-oMO" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fXp-KR-Sri"/>
+                            <constraint firstItem="XI1-WX-caF" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fcz-eH-Chb"/>
+                            <constraint firstItem="ku4-2M-Sbk" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="iz7-cT-Wb5"/>
+                            <constraint firstItem="08Y-6x-P8P" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lPC-we-hjN"/>
+                            <constraint firstItem="qk1-OU-8ZW" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="nLR-8S-AMN"/>
+                            <constraint firstItem="Sgh-Hu-b48" firstAttribute="top" secondItem="W47-vm-ONs" secondAttribute="bottom" constant="40" id="o7h-Ux-6kf"/>
+                            <constraint firstItem="W47-vm-ONs" firstAttribute="top" secondItem="fYG-Xa-oMO" secondAttribute="bottom" constant="8" symbolic="YES" id="pqk-M3-9TI"/>
+                            <constraint firstItem="qk1-OU-8ZW" firstAttribute="top" secondItem="Sgh-Hu-b48" secondAttribute="bottom" constant="40" id="s7M-yo-srd"/>
+                            <constraint firstItem="ku4-2M-Sbk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="sB7-f7-AzV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ku4-2M-Sbk" secondAttribute="trailing" constant="20" id="sv6-fF-9zI"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Sgh-Hu-b48" secondAttribute="trailing" constant="20" id="xz5-S7-iO3"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Capture iOS app" id="dPD-ib-B0y"/>
+                    <connections>
+                        <outlet property="broadcastButton" destination="W47-vm-ONs" id="cac-Lc-lDU"/>
+                        <outlet property="broadcastPickerView" destination="fYG-Xa-oMO" id="7jN-NP-6jU"/>
+                        <outlet property="serverPathTextField" destination="ku4-2M-Sbk" id="QTW-tF-OoX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="434.78260869565219" y="95.758928571428569"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="uFg-hd-FF3">
+            <objects>
+                <navigationController id="vZC-2L-J1n" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="00w-SR-ahr">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="IqS-Pt-2uo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gqd-CA-oFk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-470" y="96"/>
+        </scene>
+        <!--Listening-->
+        <scene sceneID="kTp-gZ-1C5">
+            <objects>
+                <viewController id="GPn-qo-tCt" customClass="ListenViewController" customModule="CaptureIOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z0t-qi-cHy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUl-X7-ACF" customClass="SampleBufferDisplayView" customModule="CaptureIOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="XoN-L3-LJY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="rUl-X7-ACF" firstAttribute="leading" secondItem="XoN-L3-LJY" secondAttribute="leading" id="8dN-PZ-rla"/>
+                            <constraint firstItem="rUl-X7-ACF" firstAttribute="top" secondItem="XoN-L3-LJY" secondAttribute="top" id="AjI-kl-ylY"/>
+                            <constraint firstItem="XoN-L3-LJY" firstAttribute="trailing" secondItem="rUl-X7-ACF" secondAttribute="trailing" id="BbQ-JB-j9X"/>
+                            <constraint firstItem="XoN-L3-LJY" firstAttribute="bottom" secondItem="rUl-X7-ACF" secondAttribute="bottom" id="OeC-ny-aSN"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Listening" id="k0X-0f-sBU">
+                        <barButtonItem key="backBarButtonItem" title="Done" id="l0c-D6-2xi"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sampleBufferView" destination="rUl-X7-ACF" id="XSl-ax-ckA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UpQ-p5-hjZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1288" y="96"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icons8-angry-eye" width="48" height="48"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

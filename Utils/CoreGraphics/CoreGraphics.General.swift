@@ -6,7 +6,7 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
-import Foundation
+import CoreGraphics
 
 extension CGPoint {
     static func +=(lhs: inout CGPoint, rhs: CGPoint) {

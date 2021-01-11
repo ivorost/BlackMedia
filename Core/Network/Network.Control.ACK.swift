@@ -150,7 +150,7 @@ class VideoSetupSenderACK : VideoSetupSenderQuality {
     private let timebase: Timebase
     private let metric: StringProcessor.Proto
 
-    init(root: VideoSetupProtocol, timebase: Timebase, metric: StringProcessor.Proto) {
+    init(root: VideoSetupProtocol, timebase: Timebase, metric: StringProcessor.Proto = StringProcessor.shared) {
         self.timebase = timebase
         self.metric = metric
         super.init(root: root)

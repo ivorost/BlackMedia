@@ -6,6 +6,7 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
 
 class CheckboxChain<T> {
@@ -25,3 +26,4 @@ class CheckboxChain<T> {
             : off
     }
 }
+#endif
