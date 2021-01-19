@@ -25,9 +25,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let path = UserDefaults(suiteName: "group.com.idrive.screentest")?.string(forKey: "server_path") {
-            serverPathTextField.text = path
-        }
+        serverPathTextField.text = Settings.shared.server
         
         if #available(iOS 12.0, *) {
             setupPickerView()
@@ -53,8 +51,9 @@ extension ViewController {
 
 extension ViewController : UITextFieldDelegate {
     @IBAction func serverPathEditingDidEnd(_ sender: Any) {
-        let path = serverPathTextField.text?.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        UserDefaults(suiteName: "group.com.idrive.screentest")?.set(path, forKey: "server_path")
+        if let path = serverPathTextField.text?.trimmingCharacters(in: CharacterSet(charactersIn: "/")) {
+            Settings.shared.server = path
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

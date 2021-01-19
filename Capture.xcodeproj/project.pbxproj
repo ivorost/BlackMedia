@@ -149,6 +149,8 @@
 		82A1422325512D8100FBABE9 /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1422225512D8100FBABE9 /* Network.WebSocket.swift */; };
 		82A40C9025753C6200CB4C63 /* Display.Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A40C8F25753C6200CB4C63 /* Display.Info.swift */; };
 		82A40C932575592200CB4C63 /* Event.Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A40C922575592200CB4C63 /* Event.Transform.swift */; };
+		82A8EA3325B6F6E40091B405 /* App.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82086FEF257A3D570082D573 /* App.Settings.swift */; };
+		82A8EA3925B6F6EC0091B405 /* App.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82086FEF257A3D570082D573 /* App.Settings.swift */; };
 		82AFA61E25595C5D00CCA044 /* Foundation.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA61D25595C5D00CCA044 /* Foundation.Data.swift */; };
 		82AFA62A25596ADD00CCA044 /* AV.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA62925596ADD00CCA044 /* AV.Time.swift */; };
 		82BA6B852563E3FA00113EFC /* Common.Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA6B842563E3FA00113EFC /* Common.Swift.swift */; };
@@ -1347,6 +1349,7 @@
 				82E53C99258BF6C30071C58A /* AV.Input.swift in Sources */,
 				82E53CBC258BF6F80071C58A /* Video.H264.Packet.swift in Sources */,
 				82E53CBE258BF6F80071C58A /* Video.Metrics.swift in Sources */,
+				82A8EA3325B6F6E40091B405 /* App.Settings.swift in Sources */,
 				82E53C7A258BF68A0071C58A /* CoreGraphics.General.swift in Sources */,
 				82E53CC7258BF6F90071C58A /* Video.Time.swift in Sources */,
 				82E53C68258BF65D0071C58A /* General.Session.swift in Sources */,
@@ -1439,6 +1442,7 @@
 				82108A44258BC3FE00B382A8 /* AppKit.ViewController.swift in Sources */,
 				82108A3C258BC3FE00B382A8 /* Foundation.Thread.Wait.swift in Sources */,
 				82108A47258BC3FE00B382A8 /* CoreGraphics.Array.swift in Sources */,
+				82A8EA3925B6F6EC0091B405 /* App.Settings.swift in Sources */,
 				82108A4D258BC3FE00B382A8 /* CoreGraphics.Display.swift in Sources */,
 				821089EF258BC32800B382A8 /* General.Flush.swift in Sources */,
 				821089FA258BC32800B382A8 /* Video.General.swift in Sources */,

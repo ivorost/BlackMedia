@@ -32,10 +32,6 @@ public class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDe
         var urlStringVar = urlString
         var urlStringPath = Settings.shared.server
         
-        if let path = UserDefaults(suiteName: "group.com.idrive.screentest")?.string(forKey: "server_path") {
-            urlStringPath = path
-        }
-
         urlStringVar = urlStringVar.replacingOccurrences(of: "machine_mac", with: name)
         urlStringVar = urlStringVar.replacingOccurrences(of: "ws://relay.raghava.io/proxy", with: urlStringPath)
 
