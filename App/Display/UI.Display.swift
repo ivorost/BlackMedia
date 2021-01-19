@@ -113,6 +113,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
                                                   checkbox: views.setupSenderDuplicatesMemcmpButton)
         let duplicates = VideoSetupCheckbox(next: broadcast([duplicatesMetal, duplicatesMemcmp]) ?? VideoSetup(),
                                             checkbox: views.setupSenderDuplicatesButton)
+        let recolor = VideoSetup.Recolor()
         let webSocketHelm = VideoSetupCheckbox(
             next: cast(video: WebSocketMaster.SetupHelm(root: root, target: .none)),
             checkbox: views.setupSenderWebSocketButton)
@@ -163,6 +164,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             webSocketHelm,
             webSocketACK,
             webSocketQuality,
+            recolor,
             duplicates,
             captureFPSsetup,
             duplicatesFPSsetup,

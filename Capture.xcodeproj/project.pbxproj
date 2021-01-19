@@ -149,6 +149,12 @@
 		82A1422325512D8100FBABE9 /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1422225512D8100FBABE9 /* Network.WebSocket.swift */; };
 		82A40C9025753C6200CB4C63 /* Display.Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A40C8F25753C6200CB4C63 /* Display.Info.swift */; };
 		82A40C932575592200CB4C63 /* Event.Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A40C922575592200CB4C63 /* Event.Transform.swift */; };
+		82A8EA1225B6113A0091B405 /* Video.Recolor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8EA1125B6113A0091B405 /* Video.Recolor.swift */; };
+		82A8EA1325B6113A0091B405 /* Video.Recolor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8EA1125B6113A0091B405 /* Video.Recolor.swift */; };
+		82A8EA1425B6113A0091B405 /* Video.Recolor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8EA1125B6113A0091B405 /* Video.Recolor.swift */; };
+		82A8EA2025B61B6B0091B405 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */; };
+		82A8EA2125B61B6B0091B405 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */; };
+		82A8EA2225B61B6B0091B405 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */; };
 		82A8EA3325B6F6E40091B405 /* App.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82086FEF257A3D570082D573 /* App.Settings.swift */; };
 		82A8EA3925B6F6EC0091B405 /* App.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82086FEF257A3D570082D573 /* App.Settings.swift */; };
 		82AFA61E25595C5D00CCA044 /* Foundation.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA61D25595C5D00CCA044 /* Foundation.Data.swift */; };
@@ -461,6 +467,9 @@
 		82A1422225512D8100FBABE9 /* Network.WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.WebSocket.swift; sourceTree = "<group>"; };
 		82A40C8F25753C6200CB4C63 /* Display.Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Display.Info.swift; sourceTree = "<group>"; };
 		82A40C922575592200CB4C63 /* Event.Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.Transform.swift; sourceTree = "<group>"; };
+		82A8EA1125B6113A0091B405 /* Video.Recolor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Recolor.swift; sourceTree = "<group>"; };
+		82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Video.Recolor.metal; sourceTree = "<group>"; };
+		82A8EA2D25B6AD090091B405 /* Video.Recolor.hlsl */ = {isa = PBXFileReference; lastKnownFileType = text; name = Video.Recolor.hlsl; path = ../../../../../../../Users/ivankh/Downloads/6/Video.Recolor.hlsl; sourceTree = "<group>"; };
 		82AFA61D25595C5D00CCA044 /* Foundation.Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.Data.swift; sourceTree = "<group>"; };
 		82AFA62925596ADD00CCA044 /* AV.Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Time.swift; sourceTree = "<group>"; };
 		82BA6B842563E3FA00113EFC /* Common.Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.Swift.swift; sourceTree = "<group>"; };
@@ -672,6 +681,9 @@
 				82C9501C2546F6820025663F /* Video.Output.Asset.swift */,
 				82C9501D2546F6830025663F /* Video.Output.Preview.swift */,
 				82312118254EF2B7007D5B1B /* Video.Output.Layer.swift */,
+				82A8EA1125B6113A0091B405 /* Video.Recolor.swift */,
+				82A8EA2D25B6AD090091B405 /* Video.Recolor.hlsl */,
+				82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */,
 				82C9508E25474AB80025663F /* Video.Duplicates.swift */,
 				822764C125495D0D00C2E46D /* Video.Duplicates.metal */,
 				822764A125492D5E00C2E46D /* Video.H264.Encoder.swift */,
@@ -1326,6 +1338,7 @@
 				82E53C90258BF6A00071C58A /* Common.Date.swift in Sources */,
 				82E53C8F258BF6A00071C58A /* Common.Log.swift in Sources */,
 				82E53C95258BF6C30071C58A /* AV.General.swift in Sources */,
+				82A8EA1325B6113A0091B405 /* Video.Recolor.swift in Sources */,
 				826D6829259063CF00FCA680 /* Listen.ViewController.swift in Sources */,
 				82E53CC5258BF6F90071C58A /* Video.Duplicates.metal in Sources */,
 				82E53CBD258BF6F80071C58A /* Video.Capture.Session.swift in Sources */,
@@ -1340,6 +1353,7 @@
 				82E53CCF258BF73F0071C58A /* Metrics.BPS.swift in Sources */,
 				82E53C80258BF68A0071C58A /* QuartzCore.Layer.swift in Sources */,
 				82E53CD8258BF7550071C58A /* Network.Control.ACK.swift in Sources */,
+				82A8EA2125B61B6B0091B405 /* Video.Recolor.metal in Sources */,
 				82E53C7C258BF68A0071C58A /* Foundation.URL.swift in Sources */,
 				82E53CC1258BF6F90071C58A /* Video.Threading.swift in Sources */,
 				82E53CD1258BF73F0071C58A /* Metrics.Duration.swift in Sources */,
@@ -1443,6 +1457,7 @@
 				82108A3C258BC3FE00B382A8 /* Foundation.Thread.Wait.swift in Sources */,
 				82108A47258BC3FE00B382A8 /* CoreGraphics.Array.swift in Sources */,
 				82A8EA3925B6F6EC0091B405 /* App.Settings.swift in Sources */,
+				82A8EA1425B6113A0091B405 /* Video.Recolor.swift in Sources */,
 				82108A4D258BC3FE00B382A8 /* CoreGraphics.Display.swift in Sources */,
 				821089EF258BC32800B382A8 /* General.Flush.swift in Sources */,
 				821089FA258BC32800B382A8 /* Video.General.swift in Sources */,
@@ -1451,6 +1466,7 @@
 				821089FF258BC32800B382A8 /* General.Session.Setup.swift in Sources */,
 				821089E9258BC32800B382A8 /* Video.Time.swift in Sources */,
 				821089F3258BC32800B382A8 /* General.Data.swift in Sources */,
+				82A8EA2225B61B6B0091B405 /* Video.Recolor.metal in Sources */,
 				82108A3E258BC3FE00B382A8 /* Foundation.Thread.Background.swift in Sources */,
 				821089F1258BC32800B382A8 /* General.Data.Setup.swift in Sources */,
 				821089EA258BC32800B382A8 /* Display.Input.swift in Sources */,
@@ -1577,6 +1593,7 @@
 				82C9507B2546FADC0025663F /* Common.Capture.swift in Sources */,
 				822764A225492D5F00C2E46D /* Video.H264.Encoder.swift in Sources */,
 				82C950872546FD6B0025663F /* Common.Date.swift in Sources */,
+				82A8EA2025B61B6B0091B405 /* Video.Recolor.metal in Sources */,
 				82C9503D2546F7210025663F /* UI.Display.Privacy.swift in Sources */,
 				823C6490256C0392009BCAF9 /* Event.Setup.swift in Sources */,
 				82C40C24256D7DD200FB9BF9 /* Event.Thread.swift in Sources */,
@@ -1611,6 +1628,7 @@
 				8294B8692570222800BD032F /* CoreGraphics.Event.swift in Sources */,
 				823C6492256C03AF009BCAF9 /* Event.Capture.swift in Sources */,
 				82C950692546F93B0025663F /* Dispatch.swift in Sources */,
+				82A8EA1225B6113A0091B405 /* Video.Recolor.swift in Sources */,
 				82AFA62A25596ADD00CCA044 /* AV.Time.swift in Sources */,
 				82086FE825794F250082D573 /* Event.Filter.swift in Sources */,
 				824CDF232583913F006B8EDE /* Swift.Pointers.swift in Sources */,
