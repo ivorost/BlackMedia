@@ -48,6 +48,22 @@ extension StringProcessor {
 
 
 extension StringProcessor {
+    class ChainConstant : Chain {
+        let prepend: String
+        
+        init(prepend: String, next: Proto?) {
+            self.prepend = prepend
+            super.init(next: next)
+        }
+        
+        override func process(string: String) {
+            super.process(string: prepend + string)
+        }
+    }
+}
+
+
+extension StringProcessor {
     class FlushLast : Chain, Flushable.Proto {
         private var string: String?
         

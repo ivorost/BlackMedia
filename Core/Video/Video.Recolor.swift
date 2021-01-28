@@ -10,6 +10,9 @@ import AVFoundation
 import CoreVideo
 import CoreImage
 
+// For convertion from sample.comp.hlsl to sample.comp.metal use:
+// glslangValidator -e main -o sample.comp.spv -H -V -D sample.comp.hlsl
+// spirv-cross sample.comp.spv --output sample.comp.metal --msl
 
 extension VideoProcessor {
     class Recolor : Base {

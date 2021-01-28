@@ -30,7 +30,7 @@ public class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDe
 
     init(name: String, urlString: String, next: DataProcessorProtocol?) {
         var urlStringVar = urlString
-        var urlStringPath = Settings.shared.server
+        let urlStringPath = Settings.shared.server
         
         urlStringVar = urlStringVar.replacingOccurrences(of: "machine_mac", with: name)
         urlStringVar = urlStringVar.replacingOccurrences(of: "ws://relay.raghava.io/proxy", with: urlStringPath)

@@ -70,3 +70,20 @@ extension Flushable {
         }
     }
 }
+
+
+extension Flushable {
+    class OperationsNumber : Proto {
+        private let next: StringProcessor.Proto
+        private let queue: OperationQueue
+        
+        init(queue: OperationQueue, next: StringProcessor.Proto) {
+            self.next = next
+            self.queue = queue
+        }
+        
+        func flush() {
+            next.process(string: "\(queue.operations.count)")
+        }
+    }
+}

@@ -39,8 +39,8 @@ class DisplayCaptureViews : NSObject {
     @IBOutlet private(set) var setupPreviewButton: NSButton!
     @IBOutlet private(set) var setupMultithreadingButton: NSButton!
     
-    @IBOutlet private(set) var tableViewTiming1: NSTableView!
-    @IBOutlet private(set) var tableViewTiming2: NSTableView!
+    @IBOutlet private(set) var tableViewTiming: NSTableView!
+    @IBOutlet private(set) var tableViewThreads: NSTableView!
     @IBOutlet private(set) var tableViewACK1: NSTableView!
     @IBOutlet private(set) var tableViewByterate: NSTableView!
 
@@ -83,6 +83,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
     private let views: DisplayCaptureViews
     private let layer: AVSampleBufferDisplayLayer
     private let root: VideoSetupProtocol
+    private let encoderOutputQueue = OperationQueue()
     
     init(root: VideoSetupProtocol,
          displayConfig: DisplayConfig,
@@ -94,6 +95,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         self.encoderConfig = encoderConfig
         self.views = views
         self.layer = layer
+        self.encoderOutputQueue.maxConcurrentOperationCount = 3
         super.init()
     }
     
@@ -105,7 +107,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
                                          checkbox: views.setupPreviewButton)
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .serializer)
-        let multithreading = VideoSetupCheckbox(next: VideoSetupMultithreading(root: root),
+        let multithreading = VideoSetupCheckbox(next: VideoSetupMultithreading(root: root, queue: encoderOutputQueue),
                                                 checkbox: views.setupMultithreadingButton)
         let duplicatesMetal = VideoSetupCheckbox(next: VideoSetupDuplicatesMetal(root: root),
                                                  checkbox: views.setupSenderDuplicatesMetalButton)
@@ -140,19 +142,19 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         let byterateMeasure = MeasureByterate(string: byterateString)
         let byterate = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkData)
 
-        let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming1))
+        let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming))
         let timestamp1processor = VideoOutputPresentationTime(string: timestamp1string, timebase: timebase)
         let timestamp1 = VideoSetupProcessor(kind: .capture, video: timestamp1processor)
 
-        let timestamp2string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming2))
-        let timestamp2processor = VideoOutputPresentationTime(string: timestamp2string, timebase: timebase)
-        let timestamp2 = VideoSetupProcessor(kind: .duplicatesFree, video: timestamp2processor)
-
+        let numThreads2table = StringProcessor.TableView(tableView: views.tableViewThreads)
+        let numThreads2string = StringProcessor.ChainConstant(prepend: "threads number: ", next: numThreads2table)
+        let numThreads = Flushable.OperationsNumber(queue: encoderOutputQueue, next: numThreads2string)
+        
         let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ byterateMeasure,
                                                                                 captureFPS,
                                                                                 duplicatesFPS,
                                                                                 timestamp1string,
-                                                                                timestamp2string ]))
+                                                                                numThreads ]))
         
         root.session(Session.DispatchSync(session: flushPeriodically, queue: DispatchQueue.main), kind: .other)
 
@@ -170,7 +172,6 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             duplicatesFPSsetup,
             byterate,
             timestamp1,
-            timestamp2,
             display,
             cast(video: displayInfo) ]
     }
@@ -211,7 +212,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
         let byterateMeasure = MeasureByterate(string: byterateString)
         let byterate = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkDataOutput)
 
-        let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming1))
+        let timestamp1string = StringProcessor.FlushLast(StringProcessor.TableView(tableView: views.tableViewTiming))
         let timestamp1processor = VideoPresentationDelay(next: timestamp1string)
         let timestamp1video = VideoSetupProcessor(kind: .preview, video: timestamp1processor)
         let timestamp1data = DataProcessorSetup.Default(prev: timestamp1processor, kind: .networkDataOutput)

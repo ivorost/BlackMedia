@@ -18,7 +18,6 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     private let inputDimension: CMVideoDimensions
     private var outputDimentions: CMVideoDimensions
     private let next: VideoOutputProtocol?
-    private let callback: Callback?
 
     init(inputDimension: CMVideoDimensions,
          outputDimentions: CMVideoDimensions,
@@ -26,17 +25,6 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
         self.inputDimension = inputDimension
         self.outputDimentions = outputDimentions
         self.next = next
-        self.callback = nil
-    }
-
-    init(inputDimension: CMVideoDimensions,
-         outputDimentions: CMVideoDimensions,
-         next: VideoOutputProtocol?,
-         callback: @escaping Callback) {
-        self.inputDimension = inputDimension
-        self.outputDimentions = outputDimentions
-        self.next = next
-        self.callback = callback
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,18 +107,15 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
                                                           to: VideoEncoderSessionH264.self)
         let videoRef: StructContainer<VideoBuffer> = bridgeRetained(ptr: sourceFrameRefCon!)
         guard let sampleBuffer = sampleBuffer_ else { logError("VideoEncoderSessionH264 nil buffer"); return }
-                
+        
         if status != 0 {
             logAVError("VTCompressionSession to H264 failed")
             return
         }
 
-        DispatchQueue.global().async {
-            SELF.callback?(SELF)
-            SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID,
-                                                  buffer: sampleBuffer,
-                                                  orientation: videoRef.inner.orientation))
-        }
+        SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID,
+                                              buffer: sampleBuffer,
+                                              orientation: videoRef.inner.orientation))
     } as VTCompressionOutputCallback
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
