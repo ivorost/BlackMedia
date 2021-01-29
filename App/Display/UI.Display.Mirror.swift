@@ -17,7 +17,11 @@ class DisplayMirrorWindowController : NSWindowController, NSWindowDelegate {
     }
     
     func windowWillClose(_ notification: Notification) {
-        session?.stop()
+        let session = self.session
+        
+        DispatchQueue.global().async {
+            session?.stop()
+        }
     }
 }
 

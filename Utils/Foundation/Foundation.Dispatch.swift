@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public func dispatchMainSync(_ f: Func) {
     if Thread.isMainThread {
         autoreleasepool {
@@ -23,6 +24,7 @@ public func dispatchMainSync(_ f: Func) {
     }
 }
 
+
 public func dispatchMainAsync(_ f: @escaping Func) {
     DispatchQueue.main.async {
         autoreleasepool {
@@ -31,10 +33,23 @@ public func dispatchMainAsync(_ f: @escaping Func) {
     }
 }
 
+
 public func dispatchMainAfter(_ delay: Double, _ f: @escaping Func) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
         autoreleasepool {
             f()
+        }
+    }
+}
+
+
+extension DispatchQueue {
+    func syncSafe(execute block: () -> Void) {
+        if isCurrent {
+            block()
+        }
+        else {
+            sync { block() }
         }
     }
 }
