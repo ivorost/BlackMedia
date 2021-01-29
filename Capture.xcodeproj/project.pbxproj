@@ -469,7 +469,6 @@
 		82A40C922575592200CB4C63 /* Event.Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.Transform.swift; sourceTree = "<group>"; };
 		82A8EA1125B6113A0091B405 /* Video.Recolor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Recolor.swift; sourceTree = "<group>"; };
 		82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Video.Recolor.metal; sourceTree = "<group>"; };
-		82A8EA2D25B6AD090091B405 /* Video.Recolor.hlsl */ = {isa = PBXFileReference; lastKnownFileType = text; name = Video.Recolor.hlsl; path = ../../../../../../../Users/ivankh/Downloads/6/Video.Recolor.hlsl; sourceTree = "<group>"; };
 		82A8EA5A25B71CAD0091B405 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		82A8EA5B25B71CAD0091B405 /* .gitmodules */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		82A8EA5D25B71CAD0091B405 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -638,6 +637,7 @@
 		82A8EB1325B71CAE0091B405 /* Config.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Config.h.in; sourceTree = "<group>"; };
 		82A8EB1425B71CAE0091B405 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		82A8EB1625B71CAE0091B405 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
+		82A8EB1D25C3F8CE0091B405 /* Video.Recolor.hlsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = Video.Recolor.hlsl; sourceTree = "<group>"; };
 		82AFA61D25595C5D00CCA044 /* Foundation.Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.Data.swift; sourceTree = "<group>"; };
 		82AFA62925596ADD00CCA044 /* AV.Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Time.swift; sourceTree = "<group>"; };
 		82BA6B842563E3FA00113EFC /* Common.Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.Swift.swift; sourceTree = "<group>"; };
@@ -850,7 +850,7 @@
 				82C9501D2546F6830025663F /* Video.Output.Preview.swift */,
 				82312118254EF2B7007D5B1B /* Video.Output.Layer.swift */,
 				82A8EA1125B6113A0091B405 /* Video.Recolor.swift */,
-				82A8EA2D25B6AD090091B405 /* Video.Recolor.hlsl */,
+				82A8EB1D25C3F8CE0091B405 /* Video.Recolor.hlsl */,
 				82A8EA1F25B61B6B0091B405 /* Video.Recolor.metal */,
 				82C9508E25474AB80025663F /* Video.Duplicates.swift */,
 				822764C125495D0D00C2E46D /* Video.Duplicates.metal */,
