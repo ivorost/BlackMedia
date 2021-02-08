@@ -58,7 +58,9 @@ extension EventProcessor {
             location.y += (layer.frame.height - videoSize.height) / 2.0
             location.y = layer.frame.height - location.y
             location.y = settings.rect.origin.y + location.y * scale
-
+            location.x /= settings.scale
+            location.y /= settings.scale
+            
             cgEvent.location = location
          }
     }

@@ -25,6 +25,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         let displayInfo = DisplaySetup.InfoCapture(root: root, settings: DisplayConfig(displayID: 0, fps: CMTime.zero)!)
         let capture = VideoSetup.External(root: root)
         let orientation = VideoSetup.Orientation()
+        let recolor = VideoSetup.Recolor()
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
         let multithreading = VideoSetupMultithreading(root: root)
         let websocket = WebSocketMaster.SetupData(root: self, target: .serializer)
@@ -45,6 +46,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             cast(video: displayInfo),
             cast(video: aggregator),
             encoder,
+            recolor,
             multithreading,
             webSocketHelm,
             webSocketACK,

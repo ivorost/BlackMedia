@@ -69,6 +69,7 @@ extension Session {
     }
 }
 
+
 extension Session {
     class Broadcast : SessionProtocol {
         
@@ -90,6 +91,7 @@ extension Session {
     }
 }
 
+
 extension Session {
     class DispatchSync : SessionProtocol {
         
@@ -108,12 +110,13 @@ extension Session {
         }
         
         func stop() {
-            queue.sync {
+            queue.syncSafe {
                 session.stop()
             }
         }
     }
 }
+
 
 func broadcast(_ x: [SessionProtocol?]) -> SessionProtocol? {
     broadcast(x, create: { Session.Broadcast($0) })

@@ -135,16 +135,16 @@ extension VideoProcessor {
 
 class VideoOutputDispatch : VideoOutputProtocol {
     let next: VideoOutputProtocol?
-    let queue: DispatchQueue
+    let queue: OperationQueue
     
-    init(next: VideoOutputProtocol?, queue: DispatchQueue) {
+    init(next: VideoOutputProtocol?, queue: OperationQueue) {
         self.next = next
         self.queue = queue
     }
     
     func process(video: VideoBuffer) {
         if let next = next {
-            queue.async {
+            queue.addOperation {
                 next.process(video: video)
             }
         }
