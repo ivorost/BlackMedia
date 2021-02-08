@@ -1,0 +1,4 @@
+
+#include "../../ThirdParty/Carthage/Checkouts/xcconfigs/macOS/macOS-Framework.xcconfig"
+#include "Base-macOS.xcconfig"
+#include "Framework.xcconfig"

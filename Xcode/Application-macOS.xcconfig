@@ -1,0 +1,9 @@
+
+#include "../../ThirdParty/Carthage/Checkouts/xcconfigs/macOS/macOS-Application.xcconfig"
+#include "Base-macOS.xcconfig"
+#include "Application.xcconfig"
+
+PLATFORM_ROOT = $(SRCROOT)/../macOS
+INFOPLIST_FILE = $(PLATFORM_ROOT)/Xcode/Info.plist
+CODE_SIGN_ENTITLEMENTS = $(PLATFORM_ROOT)/Xcode/Application.entitlements
+

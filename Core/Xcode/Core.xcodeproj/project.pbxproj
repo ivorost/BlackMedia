@@ -1,0 +1,758 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		82B3AC5C25D50CBF00DA6D29 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC4325D3B29600DA6D29 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82B3AC7525D522C800DA6D29 /* Event.CGEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F873A825D27413008DF76E /* Event.CGEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82B3AD0225D55E3900DA6D29 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC4325D3B29600DA6D29 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82B3AD0525D55E3900DA6D29 /* Video.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D125D27413008DF76E /* Video.Input.swift */; };
+		82B3AD0625D55E3900DA6D29 /* AV.Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739E25D27413008DF76E /* AV.Output.swift */; };
+		82B3AD0725D55E3900DA6D29 /* Video.H264.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D025D27413008DF76E /* Video.H264.Packet.swift */; };
+		82B3AD0825D55E3900DA6D29 /* Video.Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D325D27413008DF76E /* Video.Orientation.swift */; };
+		82B3AD0925D55E3900DA6D29 /* Video.Recolor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DA25D27413008DF76E /* Video.Recolor.swift */; };
+		82B3AD0A25D55E3900DA6D29 /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C725D27413008DF76E /* Network.WebSocket.swift */; };
+		82B3AD0B25D55E3900DA6D29 /* Audio.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */; };
+		82B3AD0C25D55E3900DA6D29 /* AV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A025D27413008DF76E /* AV.swift */; };
+		82B3AD0E25D55E3900DA6D29 /* Video.Output.Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D725D27413008DF76E /* Video.Output.Preview.swift */; };
+		82B3AD0F25D55E3900DA6D29 /* AV.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739F25D27413008DF76E /* AV.Setup.swift */; };
+		82B3AD1025D55E3900DA6D29 /* General.Session.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B625D27413008DF76E /* General.Session.Setup.swift */; };
+		82B3AD1125D55E3900DA6D29 /* General.String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B825D27413008DF76E /* General.String.swift */; };
+		82B3AD1225D55E3900DA6D29 /* Display.Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A425D27413008DF76E /* Display.Info.swift */; };
+		82B3AD1325D55E3900DA6D29 /* Display.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A325D27413008DF76E /* Display.Capture.swift */; };
+		82B3AD1425D55E3900DA6D29 /* Video.Capture.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Capture.Session.swift */; };
+		82B3AD1525D55E3900DA6D29 /* General.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B925D27413008DF76E /* General.UI.swift */; };
+		82B3AD1625D55E3900DA6D29 /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CC25D27413008DF76E /* Video.Duplicates.swift */; };
+		82B3AD1725D55E3900DA6D29 /* AV.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739D25D27413008DF76E /* AV.Input.swift */; };
+		82B3AD1825D55E3900DA6D29 /* Video.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DD25D27413008DF76E /* Video.Time.swift */; };
+		82B3AD1925D55E3900DA6D29 /* Video.H264.Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CF25D27413008DF76E /* Video.H264.Encoder.swift */; };
+		82B3AD1A25D55E3900DA6D29 /* General.Flush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B525D27413008DF76E /* General.Flush.swift */; };
+		82B3AD1B25D55E3900DA6D29 /* Network.Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C425D27413008DF76E /* Network.Control.swift */; };
+		82B3AD1D25D55E3900DA6D29 /* Metrics.Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BE25D27413008DF76E /* Metrics.Base.swift */; };
+		82B3AD1E25D55E3900DA6D29 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
+		82B3AD1F25D55E3900DA6D29 /* Network.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C625D27413008DF76E /* Network.Packet.swift */; };
+		82B3AD2125D55E3900DA6D29 /* Audio.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739925D27413008DF76E /* Audio.Input.swift */; };
+		82B3AD2225D55E3900DA6D29 /* General.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B425D27413008DF76E /* General.Data.swift */; };
+		82B3AD2325D55E3900DA6D29 /* Video.H264.Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */; };
+		82B3AD2425D55E3900DA6D29 /* AV.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739C25D27413008DF76E /* AV.General.swift */; };
+		82B3AD2525D55E3900DA6D29 /* Network.Control.ACK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C325D27413008DF76E /* Network.Control.ACK.swift */; };
+		82B3AD2625D55E3900DA6D29 /* Video.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CD25D27413008DF76E /* Video.General.swift */; };
+		82B3AD2825D55E3900DA6D29 /* Video.Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D225D27413008DF76E /* Video.Metrics.swift */; };
+		82B3AD2925D55E3900DA6D29 /* Metrics.Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C125D27413008DF76E /* Metrics.Duration.swift */; };
+		82B3AD2A25D55E3900DA6D29 /* General.Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BA25D27413008DF76E /* General.Vector.swift */; };
+		82B3AD2D25D55E3900DA6D29 /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
+		82B3AD2E25D55E3900DA6D29 /* Video.Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DC25D27413008DF76E /* Video.Threading.swift */; };
+		82B3AD3025D55E3900DA6D29 /* Video.Orientation.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D425D27413008DF76E /* Video.Orientation.UI.swift */; };
+		82B3AD3125D55E3900DA6D29 /* General.Data.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B325D27413008DF76E /* General.Data.Setup.swift */; };
+		82B3AD3325D55E3900DA6D29 /* Video.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DB25D27413008DF76E /* Video.Setup.swift */; };
+		82B3AD3425D55E3900DA6D29 /* Metrics.CPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C025D27413008DF76E /* Metrics.CPS.swift */; };
+		82B3AD3525D55E3900DA6D29 /* AV.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A125D27413008DF76E /* AV.Time.swift */; };
+		82B3AD3625D55E3900DA6D29 /* Video.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D525D27413008DF76E /* Video.Output.Asset.swift */; };
+		82B3AD3725D55E3900DA6D29 /* Display.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A525D27413008DF76E /* Display.Input.swift */; };
+		82B3AD3825D55E3900DA6D29 /* General.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B725D27413008DF76E /* General.Session.swift */; };
+		82B3AD3925D55E3900DA6D29 /* Video.Output.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D625D27413008DF76E /* Video.Output.Layer.swift */; };
+		82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BF25D27413008DF76E /* Metrics.BPS.swift */; };
+		82B3AD3C25D55E3900DA6D29 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEC8A625D28A98000302A0 /* Settings.swift */; };
+		82B3AD3D25D55E3900DA6D29 /* Compare.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BC25D27413008DF76E /* Compare.metal */; };
+		82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
+		82B3AD3F25D55E3900DA6D29 /* Video.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CA25D27413008DF76E /* Video.Capture.swift */; };
+		82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C525D27413008DF76E /* Network.General.swift */; };
+		82B3AD4525D55E3900DA6D29 /* Video.Recolor.hlsl in Resources */ = {isa = PBXBuildFile; fileRef = 82F873D825D27413008DF76E /* Video.Recolor.hlsl */; };
+		82B3AD5025D55EDB00DA6D29 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82CEC89E25D27EF6000302A0 /* Starscream.framework */; };
+		82B3AD5825D5706600DA6D29 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5725D5706600DA6D29 /* Utils.framework */; };
+		82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5D25D5755500DA6D29 /* Common.framework */; };
+		82CEC8A125D27F11000302A0 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82CEC89D25D27EEE000302A0 /* Starscream.framework */; };
+		82CEC8A725D28A98000302A0 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEC8A625D28A98000302A0 /* Settings.swift */; };
+		82F873DF25D27413008DF76E /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
+		82F873E025D27413008DF76E /* Audio.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739925D27413008DF76E /* Audio.Input.swift */; };
+		82F873E125D27413008DF76E /* Audio.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */; };
+		82F873E225D27413008DF76E /* AV.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739C25D27413008DF76E /* AV.General.swift */; };
+		82F873E325D27413008DF76E /* AV.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739D25D27413008DF76E /* AV.Input.swift */; };
+		82F873E425D27413008DF76E /* AV.Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739E25D27413008DF76E /* AV.Output.swift */; };
+		82F873E525D27413008DF76E /* AV.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739F25D27413008DF76E /* AV.Setup.swift */; };
+		82F873E625D27413008DF76E /* AV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A025D27413008DF76E /* AV.swift */; };
+		82F873E725D27413008DF76E /* AV.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A125D27413008DF76E /* AV.Time.swift */; };
+		82F873E825D27413008DF76E /* Display.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A325D27413008DF76E /* Display.Capture.swift */; };
+		82F873E925D27413008DF76E /* Display.Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A425D27413008DF76E /* Display.Info.swift */; };
+		82F873EA25D27413008DF76E /* Display.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A525D27413008DF76E /* Display.Input.swift */; };
+		82F873EB25D27413008DF76E /* Event.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A725D27413008DF76E /* Event.Capture.swift */; };
+		82F873ED25D27413008DF76E /* Event.CGEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A925D27413008DF76E /* Event.CGEvent.m */; };
+		82F873EE25D27413008DF76E /* Event.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873AA25D27413008DF76E /* Event.Data.swift */; };
+		82F873EF25D27413008DF76E /* Event.Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873AB25D27413008DF76E /* Event.Filter.swift */; };
+		82F873F025D27413008DF76E /* Event.Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873AC25D27413008DF76E /* Event.Post.swift */; };
+		82F873F125D27413008DF76E /* Event.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873AD25D27413008DF76E /* Event.Processor.swift */; };
+		82F873F225D27413008DF76E /* Event.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873AE25D27413008DF76E /* Event.Setup.swift */; };
+		82F873F325D27413008DF76E /* Event.Thread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873AF25D27413008DF76E /* Event.Thread.swift */; };
+		82F873F425D27413008DF76E /* Event.Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B025D27413008DF76E /* Event.Transform.swift */; };
+		82F873F525D27413008DF76E /* Event.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B125D27413008DF76E /* Event.UI.swift */; };
+		82F873F625D27413008DF76E /* General.Data.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B325D27413008DF76E /* General.Data.Setup.swift */; };
+		82F873F725D27413008DF76E /* General.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B425D27413008DF76E /* General.Data.swift */; };
+		82F873F825D27413008DF76E /* General.Flush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B525D27413008DF76E /* General.Flush.swift */; };
+		82F873F925D27413008DF76E /* General.Session.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B625D27413008DF76E /* General.Session.Setup.swift */; };
+		82F873FA25D27413008DF76E /* General.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B725D27413008DF76E /* General.Session.swift */; };
+		82F873FB25D27413008DF76E /* General.String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B825D27413008DF76E /* General.String.swift */; };
+		82F873FC25D27413008DF76E /* General.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B925D27413008DF76E /* General.UI.swift */; };
+		82F873FD25D27414008DF76E /* General.Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BA25D27413008DF76E /* General.Vector.swift */; };
+		82F873FE25D27414008DF76E /* Compare.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BC25D27413008DF76E /* Compare.metal */; };
+		82F873FF25D27414008DF76E /* Metrics.Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BE25D27413008DF76E /* Metrics.Base.swift */; };
+		82F8740025D27414008DF76E /* Metrics.BPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BF25D27413008DF76E /* Metrics.BPS.swift */; };
+		82F8740125D27414008DF76E /* Metrics.CPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C025D27413008DF76E /* Metrics.CPS.swift */; };
+		82F8740225D27414008DF76E /* Metrics.Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C125D27413008DF76E /* Metrics.Duration.swift */; };
+		82F8740325D27414008DF76E /* Network.Control.ACK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C325D27413008DF76E /* Network.Control.ACK.swift */; };
+		82F8740425D27414008DF76E /* Network.Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C425D27413008DF76E /* Network.Control.swift */; };
+		82F8740525D27414008DF76E /* Network.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C525D27413008DF76E /* Network.General.swift */; };
+		82F8740625D27414008DF76E /* Network.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C625D27413008DF76E /* Network.Packet.swift */; };
+		82F8740725D27414008DF76E /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C725D27413008DF76E /* Network.WebSocket.swift */; };
+		82F8740825D27414008DF76E /* Video.Capture.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Capture.Session.swift */; };
+		82F8740925D27414008DF76E /* Video.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CA25D27413008DF76E /* Video.Capture.swift */; };
+		82F8740A25D27414008DF76E /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
+		82F8740B25D27414008DF76E /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CC25D27413008DF76E /* Video.Duplicates.swift */; };
+		82F8740C25D27414008DF76E /* Video.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CD25D27413008DF76E /* Video.General.swift */; };
+		82F8740D25D27414008DF76E /* Video.H264.Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */; };
+		82F8740E25D27414008DF76E /* Video.H264.Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CF25D27413008DF76E /* Video.H264.Encoder.swift */; };
+		82F8740F25D27414008DF76E /* Video.H264.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D025D27413008DF76E /* Video.H264.Packet.swift */; };
+		82F8741025D27414008DF76E /* Video.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D125D27413008DF76E /* Video.Input.swift */; };
+		82F8741125D27414008DF76E /* Video.Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D225D27413008DF76E /* Video.Metrics.swift */; };
+		82F8741225D27414008DF76E /* Video.Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D325D27413008DF76E /* Video.Orientation.swift */; };
+		82F8741325D27414008DF76E /* Video.Orientation.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D425D27413008DF76E /* Video.Orientation.UI.swift */; };
+		82F8741425D27414008DF76E /* Video.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D525D27413008DF76E /* Video.Output.Asset.swift */; };
+		82F8741525D27414008DF76E /* Video.Output.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D625D27413008DF76E /* Video.Output.Layer.swift */; };
+		82F8741625D27414008DF76E /* Video.Output.Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D725D27413008DF76E /* Video.Output.Preview.swift */; };
+		82F8741725D27414008DF76E /* Video.Recolor.hlsl in Resources */ = {isa = PBXBuildFile; fileRef = 82F873D825D27413008DF76E /* Video.Recolor.hlsl */; };
+		82F8741825D27414008DF76E /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
+		82F8741925D27414008DF76E /* Video.Recolor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DA25D27413008DF76E /* Video.Recolor.swift */; };
+		82F8741A25D27414008DF76E /* Video.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DB25D27413008DF76E /* Video.Setup.swift */; };
+		82F8741B25D27414008DF76E /* Video.Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DC25D27413008DF76E /* Video.Threading.swift */; };
+		82F8741C25D27414008DF76E /* Video.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DD25D27413008DF76E /* Video.Time.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		82B3AC4325D3B29600DA6D29 /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
+		82B3AD4925D55E3900DA6D29 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
+		82B3AD4D25D55E5300DA6D29 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
+		82B3AD5725D5706600DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82B3AD5D25D5755500DA6D29 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82CEC89D25D27EEE000302A0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
+		82CEC89E25D27EF6000302A0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
+		82CEC8A625D28A98000302A0 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		82F8738825D2738F008DF76E /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82F8739525D27413008DF76E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82F8739825D27413008DF76E /* Audio.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.General.swift; sourceTree = "<group>"; };
+		82F8739925D27413008DF76E /* Audio.Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.Input.swift; sourceTree = "<group>"; };
+		82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.Output.Asset.swift; sourceTree = "<group>"; };
+		82F8739C25D27413008DF76E /* AV.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.General.swift; sourceTree = "<group>"; };
+		82F8739D25D27413008DF76E /* AV.Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Input.swift; sourceTree = "<group>"; };
+		82F8739E25D27413008DF76E /* AV.Output.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Output.swift; sourceTree = "<group>"; };
+		82F8739F25D27413008DF76E /* AV.Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Setup.swift; sourceTree = "<group>"; };
+		82F873A025D27413008DF76E /* AV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.swift; sourceTree = "<group>"; };
+		82F873A125D27413008DF76E /* AV.Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AV.Time.swift; sourceTree = "<group>"; };
+		82F873A325D27413008DF76E /* Display.Capture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.Capture.swift; sourceTree = "<group>"; };
+		82F873A425D27413008DF76E /* Display.Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.Info.swift; sourceTree = "<group>"; };
+		82F873A525D27413008DF76E /* Display.Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.Input.swift; sourceTree = "<group>"; };
+		82F873A725D27413008DF76E /* Event.Capture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Capture.swift; sourceTree = "<group>"; };
+		82F873A825D27413008DF76E /* Event.CGEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.CGEvent.h; sourceTree = "<group>"; };
+		82F873A925D27413008DF76E /* Event.CGEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.CGEvent.m; sourceTree = "<group>"; };
+		82F873AA25D27413008DF76E /* Event.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Data.swift; sourceTree = "<group>"; };
+		82F873AB25D27413008DF76E /* Event.Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Filter.swift; sourceTree = "<group>"; };
+		82F873AC25D27413008DF76E /* Event.Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Post.swift; sourceTree = "<group>"; };
+		82F873AD25D27413008DF76E /* Event.Processor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Processor.swift; sourceTree = "<group>"; };
+		82F873AE25D27413008DF76E /* Event.Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Setup.swift; sourceTree = "<group>"; };
+		82F873AF25D27413008DF76E /* Event.Thread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Thread.swift; sourceTree = "<group>"; };
+		82F873B025D27413008DF76E /* Event.Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.Transform.swift; sourceTree = "<group>"; };
+		82F873B125D27413008DF76E /* Event.UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.UI.swift; sourceTree = "<group>"; };
+		82F873B325D27413008DF76E /* General.Data.Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.Data.Setup.swift; sourceTree = "<group>"; };
+		82F873B425D27413008DF76E /* General.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.Data.swift; sourceTree = "<group>"; };
+		82F873B525D27413008DF76E /* General.Flush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.Flush.swift; sourceTree = "<group>"; };
+		82F873B625D27413008DF76E /* General.Session.Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.Session.Setup.swift; sourceTree = "<group>"; };
+		82F873B725D27413008DF76E /* General.Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.Session.swift; sourceTree = "<group>"; };
+		82F873B825D27413008DF76E /* General.String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.String.swift; sourceTree = "<group>"; };
+		82F873B925D27413008DF76E /* General.UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.UI.swift; sourceTree = "<group>"; };
+		82F873BA25D27413008DF76E /* General.Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.Vector.swift; sourceTree = "<group>"; };
+		82F873BC25D27413008DF76E /* Compare.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Compare.metal; sourceTree = "<group>"; };
+		82F873BE25D27413008DF76E /* Metrics.Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.Base.swift; sourceTree = "<group>"; };
+		82F873BF25D27413008DF76E /* Metrics.BPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.BPS.swift; sourceTree = "<group>"; };
+		82F873C025D27413008DF76E /* Metrics.CPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.CPS.swift; sourceTree = "<group>"; };
+		82F873C125D27413008DF76E /* Metrics.Duration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.Duration.swift; sourceTree = "<group>"; };
+		82F873C325D27413008DF76E /* Network.Control.ACK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.Control.ACK.swift; sourceTree = "<group>"; };
+		82F873C425D27413008DF76E /* Network.Control.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.Control.swift; sourceTree = "<group>"; };
+		82F873C525D27413008DF76E /* Network.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.General.swift; sourceTree = "<group>"; };
+		82F873C625D27413008DF76E /* Network.Packet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.Packet.swift; sourceTree = "<group>"; };
+		82F873C725D27413008DF76E /* Network.WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.WebSocket.swift; sourceTree = "<group>"; };
+		82F873C925D27413008DF76E /* Video.Capture.Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Capture.Session.swift; sourceTree = "<group>"; };
+		82F873CA25D27413008DF76E /* Video.Capture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Capture.swift; sourceTree = "<group>"; };
+		82F873CB25D27413008DF76E /* Video.Duplicates.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Video.Duplicates.metal; sourceTree = "<group>"; };
+		82F873CC25D27413008DF76E /* Video.Duplicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Duplicates.swift; sourceTree = "<group>"; };
+		82F873CD25D27413008DF76E /* Video.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.General.swift; sourceTree = "<group>"; };
+		82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Decoder.swift; sourceTree = "<group>"; };
+		82F873CF25D27413008DF76E /* Video.H264.Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Encoder.swift; sourceTree = "<group>"; };
+		82F873D025D27413008DF76E /* Video.H264.Packet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.H264.Packet.swift; sourceTree = "<group>"; };
+		82F873D125D27413008DF76E /* Video.Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Input.swift; sourceTree = "<group>"; };
+		82F873D225D27413008DF76E /* Video.Metrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Metrics.swift; sourceTree = "<group>"; };
+		82F873D325D27413008DF76E /* Video.Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Orientation.swift; sourceTree = "<group>"; };
+		82F873D425D27413008DF76E /* Video.Orientation.UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Orientation.UI.swift; sourceTree = "<group>"; };
+		82F873D525D27413008DF76E /* Video.Output.Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Output.Asset.swift; sourceTree = "<group>"; };
+		82F873D625D27413008DF76E /* Video.Output.Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Output.Layer.swift; sourceTree = "<group>"; };
+		82F873D725D27413008DF76E /* Video.Output.Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Output.Preview.swift; sourceTree = "<group>"; };
+		82F873D825D27413008DF76E /* Video.Recolor.hlsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Video.Recolor.hlsl; sourceTree = "<group>"; };
+		82F873D925D27413008DF76E /* Video.Recolor.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Video.Recolor.metal; sourceTree = "<group>"; };
+		82F873DA25D27413008DF76E /* Video.Recolor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Recolor.swift; sourceTree = "<group>"; };
+		82F873DB25D27413008DF76E /* Video.Setup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Setup.swift; sourceTree = "<group>"; };
+		82F873DC25D27413008DF76E /* Video.Threading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Threading.swift; sourceTree = "<group>"; };
+		82F873DD25D27413008DF76E /* Video.Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Time.swift; sourceTree = "<group>"; };
+		82F8742F25D274BA008DF76E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		82F8743125D274BA008DF76E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		82B3AD4225D55E3900DA6D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */,
+				82B3AD5825D5706600DA6D29 /* Utils.framework in Frameworks */,
+				82B3AD5025D55EDB00DA6D29 /* Starscream.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F8738525D2738F008DF76E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82CEC8A125D27F11000302A0 /* Starscream.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		82CEC89825D27EB4000302A0 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				82CEC89B25D27EC3000302A0 /* OSX */,
+				82CEC89C25D27ECC000302A0 /* iOS */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
+		82CEC89B25D27EC3000302A0 /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				82CEC89D25D27EEE000302A0 /* Starscream.framework */,
+			);
+			name = OSX;
+			sourceTree = "<group>";
+		};
+		82CEC89C25D27ECC000302A0 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				82CEC89E25D27EF6000302A0 /* Starscream.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		82CEC89F25D27F02000302A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				82B3AD5D25D5755500DA6D29 /* Common.framework */,
+				82B3AD5725D5706600DA6D29 /* Utils.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		82F8737E25D2738F008DF76E = {
+			isa = PBXGroup;
+			children = (
+				82F8739625D27413008DF76E /* Code */,
+				82F8739425D27413008DF76E /* Xcode */,
+				82CEC89825D27EB4000302A0 /* ThirdParty */,
+				82F8738925D2738F008DF76E /* Products */,
+				82CEC89F25D27F02000302A0 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		82F8738925D2738F008DF76E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82F8738825D2738F008DF76E /* Core.framework */,
+				82B3AD4925D55E3900DA6D29 /* Core.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		82F8739425D27413008DF76E /* Xcode */ = {
+			isa = PBXGroup;
+			children = (
+				82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */,
+				82B3AD4D25D55E5300DA6D29 /* Framework-macOS.xcconfig */,
+				82F8743125D274BA008DF76E /* Debug.xcconfig */,
+				82F8742F25D274BA008DF76E /* Release.xcconfig */,
+				82B3AC4325D3B29600DA6D29 /* Core.h */,
+				82F8739525D27413008DF76E /* Info.plist */,
+			);
+			name = Xcode;
+			sourceTree = "<group>";
+		};
+		82F8739625D27413008DF76E /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				82CEC8A625D28A98000302A0 /* Settings.swift */,
+				82F8739725D27413008DF76E /* Audio */,
+				82F8739B25D27413008DF76E /* Capture */,
+				82F873A225D27413008DF76E /* Display */,
+				82F873A625D27413008DF76E /* Event */,
+				82F873B225D27413008DF76E /* General */,
+				82F873BB25D27413008DF76E /* Metal */,
+				82F873BD25D27413008DF76E /* Metrics */,
+				82F873C225D27413008DF76E /* Network */,
+				82F873C825D27413008DF76E /* Video */,
+			);
+			name = Code;
+			path = ../Code;
+			sourceTree = "<group>";
+		};
+		82F8739725D27413008DF76E /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				82F8739825D27413008DF76E /* Audio.General.swift */,
+				82F8739925D27413008DF76E /* Audio.Input.swift */,
+				82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		82F8739B25D27413008DF76E /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				82F8739C25D27413008DF76E /* AV.General.swift */,
+				82F8739D25D27413008DF76E /* AV.Input.swift */,
+				82F8739E25D27413008DF76E /* AV.Output.swift */,
+				82F8739F25D27413008DF76E /* AV.Setup.swift */,
+				82F873A025D27413008DF76E /* AV.swift */,
+				82F873A125D27413008DF76E /* AV.Time.swift */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
+		82F873A225D27413008DF76E /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				82F873A325D27413008DF76E /* Display.Capture.swift */,
+				82F873A425D27413008DF76E /* Display.Info.swift */,
+				82F873A525D27413008DF76E /* Display.Input.swift */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
+		82F873A625D27413008DF76E /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				82F873A725D27413008DF76E /* Event.Capture.swift */,
+				82F873A825D27413008DF76E /* Event.CGEvent.h */,
+				82F873A925D27413008DF76E /* Event.CGEvent.m */,
+				82F873AA25D27413008DF76E /* Event.Data.swift */,
+				82F873AB25D27413008DF76E /* Event.Filter.swift */,
+				82F873AC25D27413008DF76E /* Event.Post.swift */,
+				82F873AD25D27413008DF76E /* Event.Processor.swift */,
+				82F873AE25D27413008DF76E /* Event.Setup.swift */,
+				82F873AF25D27413008DF76E /* Event.Thread.swift */,
+				82F873B025D27413008DF76E /* Event.Transform.swift */,
+				82F873B125D27413008DF76E /* Event.UI.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		82F873B225D27413008DF76E /* General */ = {
+			isa = PBXGroup;
+			children = (
+				82F873B325D27413008DF76E /* General.Data.Setup.swift */,
+				82F873B425D27413008DF76E /* General.Data.swift */,
+				82F873B525D27413008DF76E /* General.Flush.swift */,
+				82F873B625D27413008DF76E /* General.Session.Setup.swift */,
+				82F873B725D27413008DF76E /* General.Session.swift */,
+				82F873B825D27413008DF76E /* General.String.swift */,
+				82F873B925D27413008DF76E /* General.UI.swift */,
+				82F873BA25D27413008DF76E /* General.Vector.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		82F873BB25D27413008DF76E /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				82F873BC25D27413008DF76E /* Compare.metal */,
+			);
+			path = Metal;
+			sourceTree = "<group>";
+		};
+		82F873BD25D27413008DF76E /* Metrics */ = {
+			isa = PBXGroup;
+			children = (
+				82F873BE25D27413008DF76E /* Metrics.Base.swift */,
+				82F873BF25D27413008DF76E /* Metrics.BPS.swift */,
+				82F873C025D27413008DF76E /* Metrics.CPS.swift */,
+				82F873C125D27413008DF76E /* Metrics.Duration.swift */,
+			);
+			path = Metrics;
+			sourceTree = "<group>";
+		};
+		82F873C225D27413008DF76E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				82F873C325D27413008DF76E /* Network.Control.ACK.swift */,
+				82F873C425D27413008DF76E /* Network.Control.swift */,
+				82F873C525D27413008DF76E /* Network.General.swift */,
+				82F873C625D27413008DF76E /* Network.Packet.swift */,
+				82F873C725D27413008DF76E /* Network.WebSocket.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		82F873C825D27413008DF76E /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				82F873C925D27413008DF76E /* Video.Capture.Session.swift */,
+				82F873CA25D27413008DF76E /* Video.Capture.swift */,
+				82F873CB25D27413008DF76E /* Video.Duplicates.metal */,
+				82F873CC25D27413008DF76E /* Video.Duplicates.swift */,
+				82F873CD25D27413008DF76E /* Video.General.swift */,
+				82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */,
+				82F873CF25D27413008DF76E /* Video.H264.Encoder.swift */,
+				82F873D025D27413008DF76E /* Video.H264.Packet.swift */,
+				82F873D125D27413008DF76E /* Video.Input.swift */,
+				82F873D225D27413008DF76E /* Video.Metrics.swift */,
+				82F873D325D27413008DF76E /* Video.Orientation.swift */,
+				82F873D425D27413008DF76E /* Video.Orientation.UI.swift */,
+				82F873D525D27413008DF76E /* Video.Output.Asset.swift */,
+				82F873D625D27413008DF76E /* Video.Output.Layer.swift */,
+				82F873D725D27413008DF76E /* Video.Output.Preview.swift */,
+				82F873D825D27413008DF76E /* Video.Recolor.hlsl */,
+				82F873D925D27413008DF76E /* Video.Recolor.metal */,
+				82F873DA25D27413008DF76E /* Video.Recolor.swift */,
+				82F873DB25D27413008DF76E /* Video.Setup.swift */,
+				82F873DC25D27413008DF76E /* Video.Threading.swift */,
+				82F873DD25D27413008DF76E /* Video.Time.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		82B3AD0125D55E3900DA6D29 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82B3AD0225D55E3900DA6D29 /* Core.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F8738325D2738F008DF76E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82B3AC5C25D50CBF00DA6D29 /* Core.h in Headers */,
+				82B3AC7525D522C800DA6D29 /* Event.CGEvent.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		82B3AD0025D55E3900DA6D29 /* Core-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82B3AD4625D55E3900DA6D29 /* Build configuration list for PBXNativeTarget "Core-iOS" */;
+			buildPhases = (
+				82B3AD0125D55E3900DA6D29 /* Headers */,
+				82B3AD0425D55E3900DA6D29 /* Sources */,
+				82B3AD4225D55E3900DA6D29 /* Frameworks */,
+				82B3AD4425D55E3900DA6D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Core-iOS";
+			productName = Core;
+			productReference = 82B3AD4925D55E3900DA6D29 /* Core.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		82F8738725D2738F008DF76E /* Core-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82F8739025D2738F008DF76E /* Build configuration list for PBXNativeTarget "Core-macOS" */;
+			buildPhases = (
+				82F8738325D2738F008DF76E /* Headers */,
+				82F8738425D2738F008DF76E /* Sources */,
+				82F8738525D2738F008DF76E /* Frameworks */,
+				82F8738625D2738F008DF76E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Core-macOS";
+			productName = Core;
+			productReference = 82F8738825D2738F008DF76E /* Core.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		82F8737F25D2738F008DF76E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					82F8738725D2738F008DF76E = {
+						CreatedOnToolsVersion = 12.0;
+					};
+				};
+			};
+			buildConfigurationList = 82F8738225D2738F008DF76E /* Build configuration list for PBXProject "Core" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 82F8737E25D2738F008DF76E;
+			productRefGroup = 82F8738925D2738F008DF76E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				82F8738725D2738F008DF76E /* Core-macOS */,
+				82B3AD0025D55E3900DA6D29 /* Core-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		82B3AD4425D55E3900DA6D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82B3AD4525D55E3900DA6D29 /* Video.Recolor.hlsl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F8738625D2738F008DF76E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82F8741725D27414008DF76E /* Video.Recolor.hlsl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		82B3AD0425D55E3900DA6D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82B3AD0525D55E3900DA6D29 /* Video.Input.swift in Sources */,
+				82B3AD0625D55E3900DA6D29 /* AV.Output.swift in Sources */,
+				82B3AD0725D55E3900DA6D29 /* Video.H264.Packet.swift in Sources */,
+				82B3AD0825D55E3900DA6D29 /* Video.Orientation.swift in Sources */,
+				82B3AD0925D55E3900DA6D29 /* Video.Recolor.swift in Sources */,
+				82B3AD0A25D55E3900DA6D29 /* Network.WebSocket.swift in Sources */,
+				82B3AD0B25D55E3900DA6D29 /* Audio.Output.Asset.swift in Sources */,
+				82B3AD0C25D55E3900DA6D29 /* AV.swift in Sources */,
+				82B3AD0E25D55E3900DA6D29 /* Video.Output.Preview.swift in Sources */,
+				82B3AD0F25D55E3900DA6D29 /* AV.Setup.swift in Sources */,
+				82B3AD1025D55E3900DA6D29 /* General.Session.Setup.swift in Sources */,
+				82B3AD1125D55E3900DA6D29 /* General.String.swift in Sources */,
+				82B3AD1225D55E3900DA6D29 /* Display.Info.swift in Sources */,
+				82B3AD1325D55E3900DA6D29 /* Display.Capture.swift in Sources */,
+				82B3AD1425D55E3900DA6D29 /* Video.Capture.Session.swift in Sources */,
+				82B3AD1525D55E3900DA6D29 /* General.UI.swift in Sources */,
+				82B3AD1625D55E3900DA6D29 /* Video.Duplicates.swift in Sources */,
+				82B3AD1725D55E3900DA6D29 /* AV.Input.swift in Sources */,
+				82B3AD1825D55E3900DA6D29 /* Video.Time.swift in Sources */,
+				82B3AD1925D55E3900DA6D29 /* Video.H264.Encoder.swift in Sources */,
+				82B3AD1A25D55E3900DA6D29 /* General.Flush.swift in Sources */,
+				82B3AD1B25D55E3900DA6D29 /* Network.Control.swift in Sources */,
+				82B3AD1D25D55E3900DA6D29 /* Metrics.Base.swift in Sources */,
+				82B3AD1E25D55E3900DA6D29 /* Video.Recolor.metal in Sources */,
+				82B3AD1F25D55E3900DA6D29 /* Network.Packet.swift in Sources */,
+				82B3AD2125D55E3900DA6D29 /* Audio.Input.swift in Sources */,
+				82B3AD2225D55E3900DA6D29 /* General.Data.swift in Sources */,
+				82B3AD2325D55E3900DA6D29 /* Video.H264.Decoder.swift in Sources */,
+				82B3AD2425D55E3900DA6D29 /* AV.General.swift in Sources */,
+				82B3AD2525D55E3900DA6D29 /* Network.Control.ACK.swift in Sources */,
+				82B3AD2625D55E3900DA6D29 /* Video.General.swift in Sources */,
+				82B3AD2825D55E3900DA6D29 /* Video.Metrics.swift in Sources */,
+				82B3AD2925D55E3900DA6D29 /* Metrics.Duration.swift in Sources */,
+				82B3AD2A25D55E3900DA6D29 /* General.Vector.swift in Sources */,
+				82B3AD2D25D55E3900DA6D29 /* Video.Duplicates.metal in Sources */,
+				82B3AD2E25D55E3900DA6D29 /* Video.Threading.swift in Sources */,
+				82B3AD3025D55E3900DA6D29 /* Video.Orientation.UI.swift in Sources */,
+				82B3AD3125D55E3900DA6D29 /* General.Data.Setup.swift in Sources */,
+				82B3AD3325D55E3900DA6D29 /* Video.Setup.swift in Sources */,
+				82B3AD3425D55E3900DA6D29 /* Metrics.CPS.swift in Sources */,
+				82B3AD3525D55E3900DA6D29 /* AV.Time.swift in Sources */,
+				82B3AD3625D55E3900DA6D29 /* Video.Output.Asset.swift in Sources */,
+				82B3AD3725D55E3900DA6D29 /* Display.Input.swift in Sources */,
+				82B3AD3825D55E3900DA6D29 /* General.Session.swift in Sources */,
+				82B3AD3925D55E3900DA6D29 /* Video.Output.Layer.swift in Sources */,
+				82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */,
+				82B3AD3C25D55E3900DA6D29 /* Settings.swift in Sources */,
+				82B3AD3D25D55E3900DA6D29 /* Compare.metal in Sources */,
+				82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */,
+				82B3AD3F25D55E3900DA6D29 /* Video.Capture.swift in Sources */,
+				82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82F8738425D2738F008DF76E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82F8741025D27414008DF76E /* Video.Input.swift in Sources */,
+				82F873E425D27413008DF76E /* AV.Output.swift in Sources */,
+				82F8740F25D27414008DF76E /* Video.H264.Packet.swift in Sources */,
+				82F8741225D27414008DF76E /* Video.Orientation.swift in Sources */,
+				82F8741925D27414008DF76E /* Video.Recolor.swift in Sources */,
+				82F8740725D27414008DF76E /* Network.WebSocket.swift in Sources */,
+				82F873E125D27413008DF76E /* Audio.Output.Asset.swift in Sources */,
+				82F873E625D27413008DF76E /* AV.swift in Sources */,
+				82F873EF25D27413008DF76E /* Event.Filter.swift in Sources */,
+				82F8741625D27414008DF76E /* Video.Output.Preview.swift in Sources */,
+				82F873E525D27413008DF76E /* AV.Setup.swift in Sources */,
+				82F873F925D27413008DF76E /* General.Session.Setup.swift in Sources */,
+				82F873FB25D27413008DF76E /* General.String.swift in Sources */,
+				82F873E925D27413008DF76E /* Display.Info.swift in Sources */,
+				82F873E825D27413008DF76E /* Display.Capture.swift in Sources */,
+				82F8740825D27414008DF76E /* Video.Capture.Session.swift in Sources */,
+				82F873FC25D27413008DF76E /* General.UI.swift in Sources */,
+				82F8740B25D27414008DF76E /* Video.Duplicates.swift in Sources */,
+				82F873E325D27413008DF76E /* AV.Input.swift in Sources */,
+				82F8741C25D27414008DF76E /* Video.Time.swift in Sources */,
+				82F8740E25D27414008DF76E /* Video.H264.Encoder.swift in Sources */,
+				82F873F825D27413008DF76E /* General.Flush.swift in Sources */,
+				82F8740425D27414008DF76E /* Network.Control.swift in Sources */,
+				82F873F425D27413008DF76E /* Event.Transform.swift in Sources */,
+				82F873FF25D27414008DF76E /* Metrics.Base.swift in Sources */,
+				82F8741825D27414008DF76E /* Video.Recolor.metal in Sources */,
+				82F8740625D27414008DF76E /* Network.Packet.swift in Sources */,
+				82F873F125D27413008DF76E /* Event.Processor.swift in Sources */,
+				82F873E025D27413008DF76E /* Audio.Input.swift in Sources */,
+				82F873F725D27413008DF76E /* General.Data.swift in Sources */,
+				82F8740D25D27414008DF76E /* Video.H264.Decoder.swift in Sources */,
+				82F873E225D27413008DF76E /* AV.General.swift in Sources */,
+				82F8740325D27414008DF76E /* Network.Control.ACK.swift in Sources */,
+				82F8740C25D27414008DF76E /* Video.General.swift in Sources */,
+				82F873EB25D27413008DF76E /* Event.Capture.swift in Sources */,
+				82F8741125D27414008DF76E /* Video.Metrics.swift in Sources */,
+				82F8740225D27414008DF76E /* Metrics.Duration.swift in Sources */,
+				82F873FD25D27414008DF76E /* General.Vector.swift in Sources */,
+				82F873F525D27413008DF76E /* Event.UI.swift in Sources */,
+				82F873ED25D27413008DF76E /* Event.CGEvent.m in Sources */,
+				82F8740A25D27414008DF76E /* Video.Duplicates.metal in Sources */,
+				82F8741B25D27414008DF76E /* Video.Threading.swift in Sources */,
+				82F873F325D27413008DF76E /* Event.Thread.swift in Sources */,
+				82F8741325D27414008DF76E /* Video.Orientation.UI.swift in Sources */,
+				82F873F625D27413008DF76E /* General.Data.Setup.swift in Sources */,
+				82F873F225D27413008DF76E /* Event.Setup.swift in Sources */,
+				82F8741A25D27414008DF76E /* Video.Setup.swift in Sources */,
+				82F8740125D27414008DF76E /* Metrics.CPS.swift in Sources */,
+				82F873E725D27413008DF76E /* AV.Time.swift in Sources */,
+				82F8741425D27414008DF76E /* Video.Output.Asset.swift in Sources */,
+				82F873EA25D27413008DF76E /* Display.Input.swift in Sources */,
+				82F873FA25D27413008DF76E /* General.Session.swift in Sources */,
+				82F8741525D27414008DF76E /* Video.Output.Layer.swift in Sources */,
+				82F8740025D27414008DF76E /* Metrics.BPS.swift in Sources */,
+				82F873F025D27413008DF76E /* Event.Post.swift in Sources */,
+				82CEC8A725D28A98000302A0 /* Settings.swift in Sources */,
+				82F873FE25D27414008DF76E /* Compare.metal in Sources */,
+				82F873DF25D27413008DF76E /* Audio.General.swift in Sources */,
+				82F8740925D27414008DF76E /* Video.Capture.swift in Sources */,
+				82F8740525D27414008DF76E /* Network.General.swift in Sources */,
+				82F873EE25D27413008DF76E /* Event.Data.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		82B3AD4725D55E3900DA6D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		82B3AD4825D55E3900DA6D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		82F8738E25D2738F008DF76E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82F8743125D274BA008DF76E /* Debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		82F8738F25D2738F008DF76E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82F8742F25D274BA008DF76E /* Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		82F8739125D2738F008DF76E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82B3AD4D25D55E5300DA6D29 /* Framework-macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		82F8739225D2738F008DF76E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82B3AD4D25D55E5300DA6D29 /* Framework-macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		82B3AD4625D55E3900DA6D29 /* Build configuration list for PBXNativeTarget "Core-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82B3AD4725D55E3900DA6D29 /* Debug */,
+				82B3AD4825D55E3900DA6D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82F8738225D2738F008DF76E /* Build configuration list for PBXProject "Core" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F8738E25D2738F008DF76E /* Debug */,
+				82F8738F25D2738F008DF76E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82F8739025D2738F008DF76E /* Build configuration list for PBXNativeTarget "Core-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F8739125D2738F008DF76E /* Debug */,
+				82F8739225D2738F008DF76E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 82F8737F25D2738F008DF76E /* Project object */;
+}

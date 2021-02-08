@@ -1,3 +1,0 @@
-[submodule "ThirdParty/VulkanMacOS"]
-	path = ThirdParty/VulkanMacOS
-	url = https://github.com/MikhailGorobets/VulkanMacOS

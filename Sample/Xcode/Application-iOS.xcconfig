@@ -1,0 +1,3 @@
+
+#include "Sample-iOS.xcconfig"
+#include "../../Xcode/Application-iOS.xcconfig"

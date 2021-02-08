@@ -1,0 +1,6 @@
+
+// iOS specific configs
+
+#include "../Base.h"
+
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(WORKSPACE_ROOT)/Carthage/Build/iOS
