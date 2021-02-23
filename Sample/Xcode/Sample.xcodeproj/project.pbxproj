@@ -165,7 +165,6 @@
 		828CA21C258B4D1F00247034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		828CA21E258B4D2900247034 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		828CA221258B4D2900247034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		828CA223258B4D2900247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828CA228258B4D2A00247034 /* SampleIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		828CA22C258B4D2A00247034 /* CaptureIOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureIOSTests.swift; sourceTree = "<group>"; };
 		828CA22E258B4D2A00247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -179,7 +178,6 @@
 		828CA263258B5E1500247034 /* BroadcastSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastSetupViewController.swift; sourceTree = "<group>"; };
 		828CA265258B5E1500247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828CA298258B7D1500247034 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		828CA2A0258BAFE900247034 /* CaptureIOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CaptureIOS.entitlements; sourceTree = "<group>"; };
 		828CA2A1258BB01900247034 /* Application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Application.entitlements; sourceTree = "<group>"; };
 		828CA2A8258BB02600247034 /* Application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Application.entitlements; sourceTree = "<group>"; };
 		82A142152551244200FBABE9 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
@@ -312,7 +310,6 @@
 		828CA214258B4D1F00247034 /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				828CA2A0258BAFE900247034 /* CaptureIOS.entitlements */,
 				828CA215258B4D1F00247034 /* AppDelegate.swift */,
 				828CA219258B4D1F00247034 /* ViewController.swift */,
 				826D68112590629600FCA680 /* Listen.ViewController.swift */,
@@ -320,7 +317,6 @@
 				828CA21B258B4D1F00247034 /* Main.storyboard */,
 				828CA21E258B4D2900247034 /* Assets.xcassets */,
 				828CA220258B4D2900247034 /* LaunchScreen.storyboard */,
-				828CA223258B4D2900247034 /* Info.plist */,
 			);
 			path = Code;
 			sourceTree = "<group>";

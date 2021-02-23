@@ -7,28 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8202D3F725DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */; };
+		8202D3F825DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */; };
 		82B3AC6525D5189000DA6D29 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6125D5188A00DA6D29 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3ACB625D551EB00DA6D29 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6125D5188A00DA6D29 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82B3ACB825D551EB00DA6D29 /* Common.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734E25D26B0D008DF76E /* Common.Log.swift */; };
-		82B3ACB925D551EB00DA6D29 /* Common.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8735025D26B0D008DF76E /* Common.URL.swift */; };
-		82B3ACBA25D551EB00DA6D29 /* Common.Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734D25D26B0D008DF76E /* Common.Date.swift */; };
+		82B3ACB825D551EB00DA6D29 /* Utils.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734E25D26B0D008DF76E /* Utils.Log.swift */; };
+		82B3ACB925D551EB00DA6D29 /* Utils.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8735025D26B0D008DF76E /* Utils.URL.swift */; };
+		82B3ACBA25D551EB00DA6D29 /* Utils.Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734D25D26B0D008DF76E /* Utils.Date.swift */; };
 		82B3ACD525D553C600DA6D29 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3ACD425D553C600DA6D29 /* Utils.framework */; };
-		82F8735125D26B0D008DF76E /* Common.Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734D25D26B0D008DF76E /* Common.Date.swift */; };
-		82F8735225D26B0D008DF76E /* Common.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734E25D26B0D008DF76E /* Common.Log.swift */; };
-		82F8735425D26B0D008DF76E /* Common.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8735025D26B0D008DF76E /* Common.URL.swift */; };
+		82F8735125D26B0D008DF76E /* Utils.Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734D25D26B0D008DF76E /* Utils.Date.swift */; };
+		82F8735225D26B0D008DF76E /* Utils.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734E25D26B0D008DF76E /* Utils.Log.swift */; };
+		82F8735425D26B0D008DF76E /* Utils.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8735025D26B0D008DF76E /* Utils.URL.swift */; };
 		82F8737B25D26C2A008DF76E /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F8737A25D26C2A008DF76E /* Utils.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.AppDelegate.swift; sourceTree = "<group>"; };
 		82B3AC6125D5188A00DA6D29 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		82B3ACC125D551EB00DA6D29 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3ACCE25D5530D00DA6D29 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
 		82B3ACCF25D5530D00DA6D29 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
 		82B3ACD425D553C600DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F8734025D2679C008DF76E /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		82F8734D25D26B0D008DF76E /* Common.Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.Date.swift; sourceTree = "<group>"; };
-		82F8734E25D26B0D008DF76E /* Common.Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.Log.swift; sourceTree = "<group>"; };
-		82F8735025D26B0D008DF76E /* Common.URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.URL.swift; sourceTree = "<group>"; };
+		82F8734D25D26B0D008DF76E /* Utils.Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.Date.swift; sourceTree = "<group>"; };
+		82F8734E25D26B0D008DF76E /* Utils.Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.Log.swift; sourceTree = "<group>"; };
+		82F8735025D26B0D008DF76E /* Utils.URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.URL.swift; sourceTree = "<group>"; };
 		82F8735725D26B14008DF76E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82F8736525D26B28008DF76E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
 		82F8736625D26B28008DF76E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
@@ -55,6 +58,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8202D3F025DEDC4800E211C0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				82F8734D25D26B0D008DF76E /* Utils.Date.swift */,
+				82F8734E25D26B0D008DF76E /* Utils.Log.swift */,
+				82F8735025D26B0D008DF76E /* Utils.URL.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8202D3F325DEDC6600E211C0 /* Target */ = {
+			isa = PBXGroup;
+			children = (
+				8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */,
+			);
+			path = Target;
+			sourceTree = "<group>";
+		};
 		82F8733625D2679C008DF76E = {
 			isa = PBXGroup;
 			children = (
@@ -77,9 +98,8 @@
 		82F8734C25D26B0D008DF76E /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				82F8734D25D26B0D008DF76E /* Common.Date.swift */,
-				82F8734E25D26B0D008DF76E /* Common.Log.swift */,
-				82F8735025D26B0D008DF76E /* Common.URL.swift */,
+				8202D3F325DEDC6600E211C0 /* Target */,
+				8202D3F025DEDC4800E211C0 /* Utils */,
 			);
 			name = Code;
 			path = ../Code;
@@ -219,9 +239,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82B3ACB825D551EB00DA6D29 /* Common.Log.swift in Sources */,
-				82B3ACB925D551EB00DA6D29 /* Common.URL.swift in Sources */,
-				82B3ACBA25D551EB00DA6D29 /* Common.Date.swift in Sources */,
+				82B3ACB825D551EB00DA6D29 /* Utils.Log.swift in Sources */,
+				82B3ACB925D551EB00DA6D29 /* Utils.URL.swift in Sources */,
+				82B3ACBA25D551EB00DA6D29 /* Utils.Date.swift in Sources */,
+				8202D3F825DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,9 +250,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82F8735225D26B0D008DF76E /* Common.Log.swift in Sources */,
-				82F8735425D26B0D008DF76E /* Common.URL.swift in Sources */,
-				82F8735125D26B0D008DF76E /* Common.Date.swift in Sources */,
+				82F8735225D26B0D008DF76E /* Utils.Log.swift in Sources */,
+				82F8735425D26B0D008DF76E /* Utils.URL.swift in Sources */,
+				82F8735125D26B0D008DF76E /* Utils.Date.swift in Sources */,
+				8202D3F725DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

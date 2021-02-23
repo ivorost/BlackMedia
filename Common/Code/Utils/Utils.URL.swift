@@ -9,7 +9,6 @@
 import Foundation
 
 public extension URL {
-    static let appSettings = appLibrary.appendingPathComponent("Settings")
 
     static var applicationData: URL? {
         guard

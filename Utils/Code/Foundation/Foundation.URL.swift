@@ -13,6 +13,7 @@ public extension URL {
     static let appLibrary = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
     static let appDocuments = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     static let appLogs = appDocuments.appendingPathComponent("logs")
+    static let appSettings = appLibrary.appendingPathComponent("Settings")
 }
 
 

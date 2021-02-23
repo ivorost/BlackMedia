@@ -7,7 +7,7 @@ import VideoToolbox
 // VideoDecoderH264
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extension VideoProcessor {
+public extension VideoProcessor {
     class DecoderH264 : Proto, Session.Proto {
         
         private let next: VideoOutputProtocol?
@@ -17,14 +17,14 @@ extension VideoProcessor {
             self.next = next
         }
         
-        func start() throws {
+        public func start() throws {
         }
         
-        func stop() {
+        public func stop() {
             
         }
         
-        func process(video: VideoBuffer) {
+        public func process(video: VideoBuffer) {
             if session == nil {
                 do {
                     guard
@@ -126,12 +126,19 @@ extension VideoProcessor {
 }
 
 
-extension VideoProcessor.DecoderH264 {
-    class Setup1 : VideoSetupSlave {
-        override func video(_ video: VideoProcessor.Proto, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
+public extension VideoProcessor.DecoderH264 {
+    class Setup : VideoSetupSlave {
+        private let target: VideoProcessor.Kind
+        
+        public init(root: VideoSetupProtocol, target: VideoProcessor.Kind = .deserializer) {
+            self.target = target
+            super.init(root: root)
+        }
+        
+        public override func video(_ video: VideoProcessor.Proto, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
             var result = video
             
-            if kind == .deserializer {
+            if kind == self.target {
                 let next = root.video(VideoProcessor.shared, kind: .decoder)
                 let decoder = VideoProcessor.DecoderH264(next)
                 

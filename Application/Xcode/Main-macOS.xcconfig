@@ -1,0 +1,4 @@
+
+#include "Main.xcconfig"
+
+IDRIVE_APPLICATION_NAME = screensharing.macos

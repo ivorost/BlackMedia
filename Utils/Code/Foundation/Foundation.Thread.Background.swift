@@ -1,24 +1,24 @@
 
 import Foundation
 
-extension Double {
+public extension Double {
     static let defaultInterval: Double = 0.1
 }
 
-class BackgroundThread : Thread {
+public class BackgroundThread : Thread {
     
     private var runLoop: RunLoop!
     private var callbacks = [UUID: Func]()
     private var running: Bool = false
     private var interval: Double
     
-    init(_ name: String, interval: Double = .defaultInterval) {
+    public init(_ name: String, interval: Double = .defaultInterval) {
         self.interval = interval
         super.init()
         self.name = name
     }
     
-    convenience init<T>(_ type: T, interval: Double = .defaultInterval) {
+    public convenience init<T>(_ type: T, interval: Double = .defaultInterval) {
         if let typeName = type as? String {
             self.init(typeName)
         }
@@ -51,7 +51,7 @@ class BackgroundThread : Thread {
         super.cancel()
     }
     
-    func sync(_ callback: @escaping Func) {
+    public func sync(_ callback: @escaping Func) {
         if Thread.current == self {
             autoreleasepool {
                 callback()
@@ -62,11 +62,11 @@ class BackgroundThread : Thread {
         }
     }
 
-    func async(_ callback: @escaping Func) {
+    public func async(_ callback: @escaping Func) {
         _call(callback, false)
     }
     
-    func exec(sync: Bool, _ callback: @escaping Func) {
+    public func exec(sync: Bool, _ callback: @escaping Func) {
         if sync {
             self.sync(callback)
         }

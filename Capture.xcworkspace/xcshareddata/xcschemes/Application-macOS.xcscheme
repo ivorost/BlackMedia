@@ -3,7 +3,7 @@
    LastUpgradeVersion = "1200"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82B3AC8125D5354700DA6D29"
+               BlueprintIdentifier = "822C7FE525D12A1B004E77F9"
                BuildableName = "Utils.framework"
-               BlueprintName = "Utils-iOS"
+               BlueprintName = "Utils-macOS"
                ReferencedContainer = "container:Utils/Xcode/Utils.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82B3ACB425D551EB00DA6D29"
+               BlueprintIdentifier = "82F8733F25D2679C008DF76E"
                BuildableName = "Common.framework"
-               BlueprintName = "Common-iOS"
+               BlueprintName = "Common-macOS"
                ReferencedContainer = "container:Common/Xcode/Common.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82B3AD0025D55E3900DA6D29"
+               BlueprintIdentifier = "82F8738725D2738F008DF76E"
                BuildableName = "Core.framework"
-               BlueprintName = "Core-iOS"
+               BlueprintName = "Core-macOS"
                ReferencedContainer = "container:Core/Xcode/Core.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,10 +56,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "828CA212258B4D1F00247034"
-               BuildableName = "SampleIOS.app"
-               BlueprintName = "SampleIOS"
-               ReferencedContainer = "container:Sample/Xcode/Sample.xcodeproj">
+               BlueprintIdentifier = "82F572EC25DA893B0063E04E"
+               BuildableName = "Application-macOS.app"
+               BlueprintName = "Application-macOS"
+               ReferencedContainer = "container:Application/Xcode/Application.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -74,20 +74,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "828CA227258B4D2A00247034"
-               BuildableName = "SampleIOSTests.xctest"
-               BlueprintName = "SampleIOSTests"
-               ReferencedContainer = "container:Sample/Xcode/Sample.xcodeproj">
+               BlueprintIdentifier = "82F572FE25DA893E0063E04E"
+               BuildableName = "ApplicationTests.xctest"
+               BlueprintName = "ApplicationTests"
+               ReferencedContainer = "container:Application/Xcode/Application.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "828CA232258B4D2B00247034"
-               BuildableName = "SampleIOSUITests.xctest"
-               BlueprintName = "SampleIOSUITests"
-               ReferencedContainer = "container:Sample/Xcode/Sample.xcodeproj">
+               BlueprintIdentifier = "82F5730925DA893E0063E04E"
+               BuildableName = "ApplicationUITests.xctest"
+               BlueprintName = "ApplicationUITests"
+               ReferencedContainer = "container:Application/Xcode/Application.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -106,10 +106,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "828CA212258B4D1F00247034"
-            BuildableName = "SampleIOS.app"
-            BlueprintName = "SampleIOS"
-            ReferencedContainer = "container:Sample/Xcode/Sample.xcodeproj">
+            BlueprintIdentifier = "82F572EC25DA893B0063E04E"
+            BuildableName = "Application-macOS.app"
+            BlueprintName = "Application-macOS"
+            ReferencedContainer = "container:Application/Xcode/Application.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -123,10 +123,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "828CA212258B4D1F00247034"
-            BuildableName = "SampleIOS.app"
-            BlueprintName = "SampleIOS"
-            ReferencedContainer = "container:Sample/Xcode/Sample.xcodeproj">
+            BlueprintIdentifier = "82F572EC25DA893B0063E04E"
+            BuildableName = "Application-macOS.app"
+            BlueprintName = "Application-macOS"
+            ReferencedContainer = "container:Application/Xcode/Application.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8202D3BC25DE3E0A00E211C0 /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
+		8202D3C025DE3E0D00E211C0 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
+		8202D3D125DE3F4700E211C0 /* Foundation.Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3D025DE3F4700E211C0 /* Foundation.Bundle.swift */; };
+		8202D3D225DE3F4700E211C0 /* Foundation.Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3D025DE3F4700E211C0 /* Foundation.Bundle.swift */; };
+		8202D3D725DE400200E211C0 /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
+		8202D3D825DE400200E211C0 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
 		82B3AC5C25D50CBF00DA6D29 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC4325D3B29600DA6D29 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3AC7525D522C800DA6D29 /* Event.CGEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F873A825D27413008DF76E /* Event.CGEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3AD0225D55E3900DA6D29 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC4325D3B29600DA6D29 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -33,7 +39,6 @@
 		82B3AD1A25D55E3900DA6D29 /* General.Flush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B525D27413008DF76E /* General.Flush.swift */; };
 		82B3AD1B25D55E3900DA6D29 /* Network.Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C425D27413008DF76E /* Network.Control.swift */; };
 		82B3AD1D25D55E3900DA6D29 /* Metrics.Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BE25D27413008DF76E /* Metrics.Base.swift */; };
-		82B3AD1E25D55E3900DA6D29 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
 		82B3AD1F25D55E3900DA6D29 /* Network.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C625D27413008DF76E /* Network.Packet.swift */; };
 		82B3AD2125D55E3900DA6D29 /* Audio.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739925D27413008DF76E /* Audio.Input.swift */; };
 		82B3AD2225D55E3900DA6D29 /* General.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B425D27413008DF76E /* General.Data.swift */; };
@@ -44,7 +49,6 @@
 		82B3AD2825D55E3900DA6D29 /* Video.Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D225D27413008DF76E /* Video.Metrics.swift */; };
 		82B3AD2925D55E3900DA6D29 /* Metrics.Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C125D27413008DF76E /* Metrics.Duration.swift */; };
 		82B3AD2A25D55E3900DA6D29 /* General.Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BA25D27413008DF76E /* General.Vector.swift */; };
-		82B3AD2D25D55E3900DA6D29 /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
 		82B3AD2E25D55E3900DA6D29 /* Video.Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DC25D27413008DF76E /* Video.Threading.swift */; };
 		82B3AD3025D55E3900DA6D29 /* Video.Orientation.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D425D27413008DF76E /* Video.Orientation.UI.swift */; };
 		82B3AD3125D55E3900DA6D29 /* General.Data.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B325D27413008DF76E /* General.Data.Setup.swift */; };
@@ -61,12 +65,13 @@
 		82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
 		82B3AD3F25D55E3900DA6D29 /* Video.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CA25D27413008DF76E /* Video.Capture.swift */; };
 		82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C525D27413008DF76E /* Network.General.swift */; };
-		82B3AD4525D55E3900DA6D29 /* Video.Recolor.hlsl in Resources */ = {isa = PBXBuildFile; fileRef = 82F873D825D27413008DF76E /* Video.Recolor.hlsl */; };
 		82B3AD5025D55EDB00DA6D29 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82CEC89E25D27EF6000302A0 /* Starscream.framework */; };
 		82B3AD5825D5706600DA6D29 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5725D5706600DA6D29 /* Utils.framework */; };
 		82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5D25D5755500DA6D29 /* Common.framework */; };
 		82CEC8A125D27F11000302A0 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82CEC89D25D27EEE000302A0 /* Starscream.framework */; };
 		82CEC8A725D28A98000302A0 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEC8A625D28A98000302A0 /* Settings.swift */; };
+		82F5738625DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
+		82F5738725DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
 		82F873DF25D27413008DF76E /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
 		82F873E025D27413008DF76E /* Audio.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739925D27413008DF76E /* Audio.Input.swift */; };
 		82F873E125D27413008DF76E /* Audio.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */; };
@@ -109,7 +114,6 @@
 		82F8740725D27414008DF76E /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C725D27413008DF76E /* Network.WebSocket.swift */; };
 		82F8740825D27414008DF76E /* Video.Capture.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Capture.Session.swift */; };
 		82F8740925D27414008DF76E /* Video.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CA25D27413008DF76E /* Video.Capture.swift */; };
-		82F8740A25D27414008DF76E /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
 		82F8740B25D27414008DF76E /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CC25D27413008DF76E /* Video.Duplicates.swift */; };
 		82F8740C25D27414008DF76E /* Video.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CD25D27413008DF76E /* Video.General.swift */; };
 		82F8740D25D27414008DF76E /* Video.H264.Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */; };
@@ -122,8 +126,6 @@
 		82F8741425D27414008DF76E /* Video.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D525D27413008DF76E /* Video.Output.Asset.swift */; };
 		82F8741525D27414008DF76E /* Video.Output.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D625D27413008DF76E /* Video.Output.Layer.swift */; };
 		82F8741625D27414008DF76E /* Video.Output.Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D725D27413008DF76E /* Video.Output.Preview.swift */; };
-		82F8741725D27414008DF76E /* Video.Recolor.hlsl in Resources */ = {isa = PBXBuildFile; fileRef = 82F873D825D27413008DF76E /* Video.Recolor.hlsl */; };
-		82F8741825D27414008DF76E /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
 		82F8741925D27414008DF76E /* Video.Recolor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DA25D27413008DF76E /* Video.Recolor.swift */; };
 		82F8741A25D27414008DF76E /* Video.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DB25D27413008DF76E /* Video.Setup.swift */; };
 		82F8741B25D27414008DF76E /* Video.Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DC25D27413008DF76E /* Video.Threading.swift */; };
@@ -131,6 +133,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8202D38625DE310E00E211C0 /* Bundle-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Bundle-iOS.xcconfig"; path = "../../Xcode/Bundle-iOS.xcconfig"; sourceTree = "<group>"; };
+		8202D38725DE310E00E211C0 /* Bundle-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Bundle-macOS.xcconfig"; path = "../../Xcode/Bundle-macOS.xcconfig"; sourceTree = "<group>"; };
+		8202D3D025DE3F4700E211C0 /* Foundation.Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.Bundle.swift; sourceTree = "<group>"; };
 		82B3AC4325D3B29600DA6D29 /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		82B3AD4925D55E3900DA6D29 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
@@ -140,6 +145,7 @@
 		82CEC89D25D27EEE000302A0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
 		82CEC89E25D27EF6000302A0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 		82CEC8A625D28A98000302A0 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		82F5738525DBD2790063E04E /* Video.Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Reader.swift; sourceTree = "<group>"; };
 		82F8738825D2738F008DF76E /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F8739525D27413008DF76E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82F8739825D27413008DF76E /* Audio.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.General.swift; sourceTree = "<group>"; };
@@ -230,6 +236,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8202D3CF25DE3F4700E211C0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8202D3D025DE3F4700E211C0 /* Foundation.Bundle.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		82CEC89825D27EB4000302A0 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +303,8 @@
 			children = (
 				82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */,
 				82B3AD4D25D55E5300DA6D29 /* Framework-macOS.xcconfig */,
+				8202D38625DE310E00E211C0 /* Bundle-iOS.xcconfig */,
+				8202D38725DE310E00E211C0 /* Bundle-macOS.xcconfig */,
 				82F8743125D274BA008DF76E /* Debug.xcconfig */,
 				82F8742F25D274BA008DF76E /* Release.xcconfig */,
 				82B3AC4325D3B29600DA6D29 /* Core.h */,
@@ -310,6 +326,7 @@
 				82F873BD25D27413008DF76E /* Metrics */,
 				82F873C225D27413008DF76E /* Network */,
 				82F873C825D27413008DF76E /* Video */,
+				8202D3CF25DE3F4700E211C0 /* Utils */,
 			);
 			name = Code;
 			path = ../Code;
@@ -415,6 +432,7 @@
 		82F873C825D27413008DF76E /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				82F5738525DBD2790063E04E /* Video.Reader.swift */,
 				82F873C925D27413008DF76E /* Video.Capture.Session.swift */,
 				82F873CA25D27413008DF76E /* Video.Capture.swift */,
 				82F873CB25D27413008DF76E /* Video.Duplicates.metal */,
@@ -536,7 +554,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82B3AD4525D55E3900DA6D29 /* Video.Recolor.hlsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,7 +561,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82F8741725D27414008DF76E /* Video.Recolor.hlsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +577,7 @@
 				82B3AD0825D55E3900DA6D29 /* Video.Orientation.swift in Sources */,
 				82B3AD0925D55E3900DA6D29 /* Video.Recolor.swift in Sources */,
 				82B3AD0A25D55E3900DA6D29 /* Network.WebSocket.swift in Sources */,
+				82F5738725DBD2790063E04E /* Video.Reader.swift in Sources */,
 				82B3AD0B25D55E3900DA6D29 /* Audio.Output.Asset.swift in Sources */,
 				82B3AD0C25D55E3900DA6D29 /* AV.swift in Sources */,
 				82B3AD0E25D55E3900DA6D29 /* Video.Output.Preview.swift in Sources */,
@@ -578,7 +595,6 @@
 				82B3AD1A25D55E3900DA6D29 /* General.Flush.swift in Sources */,
 				82B3AD1B25D55E3900DA6D29 /* Network.Control.swift in Sources */,
 				82B3AD1D25D55E3900DA6D29 /* Metrics.Base.swift in Sources */,
-				82B3AD1E25D55E3900DA6D29 /* Video.Recolor.metal in Sources */,
 				82B3AD1F25D55E3900DA6D29 /* Network.Packet.swift in Sources */,
 				82B3AD2125D55E3900DA6D29 /* Audio.Input.swift in Sources */,
 				82B3AD2225D55E3900DA6D29 /* General.Data.swift in Sources */,
@@ -589,19 +605,21 @@
 				82B3AD2825D55E3900DA6D29 /* Video.Metrics.swift in Sources */,
 				82B3AD2925D55E3900DA6D29 /* Metrics.Duration.swift in Sources */,
 				82B3AD2A25D55E3900DA6D29 /* General.Vector.swift in Sources */,
-				82B3AD2D25D55E3900DA6D29 /* Video.Duplicates.metal in Sources */,
 				82B3AD2E25D55E3900DA6D29 /* Video.Threading.swift in Sources */,
 				82B3AD3025D55E3900DA6D29 /* Video.Orientation.UI.swift in Sources */,
 				82B3AD3125D55E3900DA6D29 /* General.Data.Setup.swift in Sources */,
 				82B3AD3325D55E3900DA6D29 /* Video.Setup.swift in Sources */,
 				82B3AD3425D55E3900DA6D29 /* Metrics.CPS.swift in Sources */,
 				82B3AD3525D55E3900DA6D29 /* AV.Time.swift in Sources */,
+				8202D3D225DE3F4700E211C0 /* Foundation.Bundle.swift in Sources */,
 				82B3AD3625D55E3900DA6D29 /* Video.Output.Asset.swift in Sources */,
 				82B3AD3725D55E3900DA6D29 /* Display.Input.swift in Sources */,
 				82B3AD3825D55E3900DA6D29 /* General.Session.swift in Sources */,
 				82B3AD3925D55E3900DA6D29 /* Video.Output.Layer.swift in Sources */,
 				82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */,
+				8202D3D725DE400200E211C0 /* Video.Duplicates.metal in Sources */,
 				82B3AD3C25D55E3900DA6D29 /* Settings.swift in Sources */,
+				8202D3D825DE400200E211C0 /* Video.Recolor.metal in Sources */,
 				82B3AD3D25D55E3900DA6D29 /* Compare.metal in Sources */,
 				82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */,
 				82B3AD3F25D55E3900DA6D29 /* Video.Capture.swift in Sources */,
@@ -626,8 +644,10 @@
 				82F873E525D27413008DF76E /* AV.Setup.swift in Sources */,
 				82F873F925D27413008DF76E /* General.Session.Setup.swift in Sources */,
 				82F873FB25D27413008DF76E /* General.String.swift in Sources */,
+				8202D3D125DE3F4700E211C0 /* Foundation.Bundle.swift in Sources */,
 				82F873E925D27413008DF76E /* Display.Info.swift in Sources */,
 				82F873E825D27413008DF76E /* Display.Capture.swift in Sources */,
+				8202D3C025DE3E0D00E211C0 /* Video.Recolor.metal in Sources */,
 				82F8740825D27414008DF76E /* Video.Capture.Session.swift in Sources */,
 				82F873FC25D27413008DF76E /* General.UI.swift in Sources */,
 				82F8740B25D27414008DF76E /* Video.Duplicates.swift in Sources */,
@@ -638,7 +658,6 @@
 				82F8740425D27414008DF76E /* Network.Control.swift in Sources */,
 				82F873F425D27413008DF76E /* Event.Transform.swift in Sources */,
 				82F873FF25D27414008DF76E /* Metrics.Base.swift in Sources */,
-				82F8741825D27414008DF76E /* Video.Recolor.metal in Sources */,
 				82F8740625D27414008DF76E /* Network.Packet.swift in Sources */,
 				82F873F125D27413008DF76E /* Event.Processor.swift in Sources */,
 				82F873E025D27413008DF76E /* Audio.Input.swift in Sources */,
@@ -647,13 +666,14 @@
 				82F873E225D27413008DF76E /* AV.General.swift in Sources */,
 				82F8740325D27414008DF76E /* Network.Control.ACK.swift in Sources */,
 				82F8740C25D27414008DF76E /* Video.General.swift in Sources */,
+				8202D3BC25DE3E0A00E211C0 /* Video.Duplicates.metal in Sources */,
 				82F873EB25D27413008DF76E /* Event.Capture.swift in Sources */,
 				82F8741125D27414008DF76E /* Video.Metrics.swift in Sources */,
 				82F8740225D27414008DF76E /* Metrics.Duration.swift in Sources */,
 				82F873FD25D27414008DF76E /* General.Vector.swift in Sources */,
 				82F873F525D27413008DF76E /* Event.UI.swift in Sources */,
 				82F873ED25D27413008DF76E /* Event.CGEvent.m in Sources */,
-				82F8740A25D27414008DF76E /* Video.Duplicates.metal in Sources */,
+				82F5738625DBD2790063E04E /* Video.Reader.swift in Sources */,
 				82F8741B25D27414008DF76E /* Video.Threading.swift in Sources */,
 				82F873F325D27413008DF76E /* Event.Thread.swift in Sources */,
 				82F8741325D27414008DF76E /* Video.Orientation.UI.swift in Sources */,

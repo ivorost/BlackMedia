@@ -14,6 +14,48 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "822C7FE525D12A1B004E77F9"
+               BuildableName = "Utils.framework"
+               BlueprintName = "Utils-macOS"
+               ReferencedContainer = "container:Utils/Xcode/Utils.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82F8733F25D2679C008DF76E"
+               BuildableName = "Common.framework"
+               BlueprintName = "Common-macOS"
+               ReferencedContainer = "container:Common/Xcode/Common.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82F8738725D2738F008DF76E"
+               BuildableName = "Core.framework"
+               BlueprintName = "Core-macOS"
+               ReferencedContainer = "container:Core/Xcode/Core.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C94FE52546F58D0025663F"
                BuildableName = "Sample.app"
                BlueprintName = "Sample"

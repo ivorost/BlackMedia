@@ -29,7 +29,7 @@ public extension VideoProcessor {
                     // Create a command queue.
                     self.commandQueue = metalDevice.makeCommandQueue()!
                     
-                    let url = Bundle.main.url(forResource: "default", withExtension: "metallib")!
+                    let url = Bundle.this.url(forResource: "default", withExtension: "metallib")!
                     let library = try metalDevice.makeLibrary(URL: url)
                     
                     // Create a function with a specific name.

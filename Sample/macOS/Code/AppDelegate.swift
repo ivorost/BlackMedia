@@ -10,16 +10,14 @@ import Cocoa
 import ApplicationServices
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: Common.AppDelegate {
     private var timer: Timer?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        super.applicationDidFinishLaunching(aNotification)
+        
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true]
-        
-        try? FileManager.default.createDirectory(at: .appSettings,
-                                                 withIntermediateDirectories: true,
-                                                 attributes: nil)
-        
+                
         if !AXIsProcessTrustedWithOptions(options) {
             timer = Timer.scheduledTimer(
                 withTimeInterval: 3.0,
