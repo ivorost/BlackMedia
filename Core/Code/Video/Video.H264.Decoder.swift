@@ -31,8 +31,9 @@ public extension VideoProcessor {
                         let formatDescription = CMSampleBufferGetFormatDescription(video.sampleBuffer)
                         else { logError("CMSampleBufferGetFormatDescription"); return }
                     let destinationPixelBufferAttributes = NSMutableDictionary()
-                    destinationPixelBufferAttributes.setValue(NSNumber(value: kCVPixelFormatType_32BGRA), forKey: kCVPixelBufferPixelFormatTypeKey as String)
-                    
+                    destinationPixelBufferAttributes.setValue(NSNumber(value: Capture.shared.pixelFormat),
+                                                              forKey: kCVPixelBufferPixelFormatTypeKey as String)
+
                     let decoderSpecification = NSMutableDictionary()
                     #if os(OSX)
                     decoderSpecification[kVTVideoDecoderSpecification_EnableHardwareAcceleratedVideoDecoder]

@@ -24,6 +24,7 @@ class Viewer : VideoSetupVector {
         let preview = VideoSetupPreview(root: root, layer: view.sampleLayer, kind: .decoder)
         let decoder = VideoProcessor.DecoderH264.Setup(root: root, target: .capture)
         let aggregator = SessionSetup.Aggregator()
+//        let recolor = VideoSetup.Recolor(target: .decoder)
 
         self.reader = reader
         
@@ -31,6 +32,7 @@ class Viewer : VideoSetupVector {
             cast(video: aggregator),
             reader,
             decoder,
+//            recolor,
             preview ]
     }
 }

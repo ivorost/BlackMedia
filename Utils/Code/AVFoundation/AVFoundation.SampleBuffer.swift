@@ -86,8 +86,6 @@ public class SampleBufferDisplayLayer : AVSampleBufferDisplayLayer {
         
         let angle = calcAngle(video: rotation, device: deviceRotation)
         
-        print("angle \(angle)")
-        
         if false { }
         else if angle == 90 {
             transform = transform.rotated(by: .pi / 2.0)

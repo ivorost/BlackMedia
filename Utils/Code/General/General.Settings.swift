@@ -27,9 +27,7 @@ public class Settings {
     
     open func writeSetting(_ key: Key, _ val: Any?) {
         let plistContents = NSMutableDictionary(contentsOf: .appSettingsPath) ?? NSMutableDictionary()
-        
-        print(URL.appSettingsPath.path)
-        
+                
         plistContents[key] = val
         plistContents.write(to: .appSettingsPath, atomically: true)
     }

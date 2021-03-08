@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8202D3F725DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */; };
-		8202D3F825DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */; };
+		8202D3F725DEDC8A00E211C0 /* Application.Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3F625DEDC8A00E211C0 /* Application.Delegate.swift */; };
+		8202D3F825DEDC8A00E211C0 /* Application.Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3F625DEDC8A00E211C0 /* Application.Delegate.swift */; };
 		82B3AC6525D5189000DA6D29 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6125D5188A00DA6D29 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3ACB625D551EB00DA6D29 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6125D5188A00DA6D29 /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3ACB825D551EB00DA6D29 /* Utils.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734E25D26B0D008DF76E /* Utils.Log.swift */; };
@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.AppDelegate.swift; sourceTree = "<group>"; };
+		8202D3F625DEDC8A00E211C0 /* Application.Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.Delegate.swift; sourceTree = "<group>"; };
 		82B3AC6125D5188A00DA6D29 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		82B3ACC125D551EB00DA6D29 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3ACCE25D5530D00DA6D29 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
@@ -68,12 +68,12 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		8202D3F325DEDC6600E211C0 /* Target */ = {
+		8202D3F325DEDC6600E211C0 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				8202D3F625DEDC8A00E211C0 /* Target.AppDelegate.swift */,
+				8202D3F625DEDC8A00E211C0 /* Application.Delegate.swift */,
 			);
-			path = Target;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		82F8733625D2679C008DF76E = {
@@ -98,7 +98,7 @@
 		82F8734C25D26B0D008DF76E /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				8202D3F325DEDC6600E211C0 /* Target */,
+				8202D3F325DEDC6600E211C0 /* Application */,
 				8202D3F025DEDC4800E211C0 /* Utils */,
 			);
 			name = Code;
@@ -242,7 +242,7 @@
 				82B3ACB825D551EB00DA6D29 /* Utils.Log.swift in Sources */,
 				82B3ACB925D551EB00DA6D29 /* Utils.URL.swift in Sources */,
 				82B3ACBA25D551EB00DA6D29 /* Utils.Date.swift in Sources */,
-				8202D3F825DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */,
+				8202D3F825DEDC8A00E211C0 /* Application.Delegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +253,7 @@
 				82F8735225D26B0D008DF76E /* Utils.Log.swift in Sources */,
 				82F8735425D26B0D008DF76E /* Utils.URL.swift in Sources */,
 				82F8735125D26B0D008DF76E /* Utils.Date.swift in Sources */,
-				8202D3F725DEDC8A00E211C0 /* Target.AppDelegate.swift in Sources */,
+				8202D3F725DEDC8A00E211C0 /* Application.Delegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

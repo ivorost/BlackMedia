@@ -13,11 +13,11 @@ import ApplicationServices
 class AppDelegate: Common.AppDelegate {
     private var timer: Timer?
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    override func applicationDidFinishLaunching(_ aNotification: Notification) {
         super.applicationDidFinishLaunching(aNotification)
         
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true]
-                
+        
         if !AXIsProcessTrustedWithOptions(options) {
             timer = Timer.scheduledTimer(
                 withTimeInterval: 3.0,

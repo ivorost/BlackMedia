@@ -18,4 +18,6 @@ public class Capture {
     public let captureQueue = DispatchQueue.CreateCheckable("capture_queue")
     public let outputQueue = DispatchQueue.CreateCheckable("output_queue")
     public let setupQueue = DispatchQueue.CreateCheckable("setup_queue")
+    public let pixelFormat = kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
+//    public let pixelFormat = kCVPixelFormatType_32BGRA
 }

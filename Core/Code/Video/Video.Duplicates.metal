@@ -11,11 +11,9 @@ using namespace metal;
 
 kernel void compareRGBA(texture2d<float, access::read> texture1 [[ texture(0) ]],
                         texture2d<float, access::read> texture2 [[ texture(1) ]],
-//                        texture2d<float, access::write> texture3 [[ texture(2) ]],
                         device int *result [[ buffer(0) ]],
                         uint2 gid [[ thread_position_in_grid ]])
 {
-//    *result += 1;
     int resultInt = *result;
 
     if (resultInt == 5) {

@@ -137,7 +137,7 @@ public extension VideoProcessor {
             if let blockBuffer = blockBuffer {
                 CMSampleBufferSetDataBuffer(sampleBuffer, newValue: blockBuffer)
             }
-            
+                        
             next.process(video: VideoBuffer(ID: ID, buffer: sampleBuffer))
             ID += 1
         }

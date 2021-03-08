@@ -123,8 +123,7 @@ class VideoEncoderSessionH264 : VideoSessionProtocol, VideoOutputProtocol {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     let defaultAttributes:[NSString: AnyObject] = [
-//        kCVPixelBufferPixelFormatTypeKey: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) as AnyObject ]
-        kCVPixelBufferPixelFormatTypeKey: Int(kCVPixelFormatType_32BGRA) as AnyObject ]
+        kCVPixelBufferPixelFormatTypeKey: Int(Capture.shared.pixelFormat) as AnyObject ]
     
     fileprivate var attributes:[NSString: AnyObject] {
         var attributes:[NSString: AnyObject] = defaultAttributes

@@ -11,19 +11,6 @@ import CoreVideo
 import CoreImage
 
 
-extension MTLTexture {
- 
-    func threadGroupCount() -> MTLSize {
-        return MTLSizeMake(8, 8, 1)
-    }
- 
-    func threadGroups() -> MTLSize {
-        let groupCount = threadGroupCount()
-        return MTLSizeMake(Int(self.width) / groupCount.width, Int(self.height) / groupCount.height, 1)
-    }
-}
-
-
 public class VideoRemoveDuplicateFramesBase : VideoProcessor {
     private var lastImageBuffer: CVImageBuffer?
     private let lock = NSLock()
@@ -63,118 +50,60 @@ public class VideoRemoveDuplicateFramesBase : VideoProcessor {
 
 
 public class VideoRemoveDuplicateFramesUsingMetal : VideoRemoveDuplicateFramesBase {
-    private var textureCache: CVMetalTextureCache?
-    private var commandQueue: MTLCommandQueue?
-    private var computePipelineState: MTLComputePipelineState?
-    private let metalDevice = MTLCreateSystemDefaultDevice()
-    private var context = CIContext(mtlDevice: MTLCreateSystemDefaultDevice()!)
+    private let metalProcessor: MetalProcessor.PixelBuffer?
+
+    required init(next: VideoOutputProtocol, duplicatesFree: VideoOutputProtocol) {
+        do {
+            let url = Bundle.this.url(forResource: "default", withExtension: "metallib")!
+            metalProcessor = try MetalProcessor.PixelBuffer(library: url, function: "compareRGBA")
+        }
+        catch {
+            metalProcessor = nil
+            logAVError(error)
+        }
+
+        super.init(next: next, duplicatesFree: duplicatesFree)
+    }
 
     override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
-        guard
-            let computePipelineState = computePipelineState,
-            let metalDevice = metalDevice,
-            let commandQueue = commandQueue,
-            let textureCache = textureCache
-        else {
-            return nil
-        }
-        
         do {
-            // Converts the pixel buffer in a Metal texture.
-            let inputTextures1 = try pixelBuffer1.cvMTLTexture(textureCache: textureCache)
-            let inputTextures2 = try pixelBuffer2.cvMTLTexture(textureCache: textureCache)
+            var outBufferValue = Int(0)
+            var outBuffer: MTLBuffer?
+            var result: Bool?
             
-            guard inputTextures1.count == inputTextures2.count else {
-                assert(false); return nil
-            }
-            
-            for i in 0 ..< inputTextures1.count {
-                let inputTexture1 = inputTextures1[i]
-                let inputTexture2 = inputTextures2[i]
-
-                // Create a command buffer
-                let commandBuffer = commandQueue.makeCommandBuffer()!
-                
-                // Create a compute command encoder.
-                let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder()!
-                
-                // Set the compute pipeline state for the command encoder.
-                computeCommandEncoder.setComputePipelineState(computePipelineState)
-                
-                // Set the input and output textures for the compute shader.
-                computeCommandEncoder.setTexture(inputTexture1, index: 0)
-                computeCommandEncoder.setTexture(inputTexture2, index: 1)
-                //        computeCommandEncoder.setTexture(inputTexture3, index: 2)
-                
-                var outBuffervalue = Int(0)
-                let outBuffer = metalDevice.makeBuffer(bytes: &outBuffervalue, length: MemoryLayout<Int>.size, options: [])!
+            let initialize = { (computeCommandEncoder: MTLComputeCommandEncoder) -> Void in
+                outBuffer = self.metalProcessor?.metalDevice.makeBuffer(bytes: &outBufferValue,
+                                                                        length: MemoryLayout<Int>.size,
+                                                                        options: [])!
                 computeCommandEncoder.setBuffer(outBuffer, offset: 0, index: 0)
-                
-                // Encode a threadgroup's execution of a compute function
-                computeCommandEncoder.dispatchThreadgroups(inputTexture1.threadGroups(), threadsPerThreadgroup: inputTexture1.threadGroupCount())
-                
-                // End the encoding of the command.
-                computeCommandEncoder.endEncoding()
-                
-                // Commit the command buffer for execution.
-                commandBuffer.commit()
-                commandBuffer.waitUntilCompleted()
-                
-                // result
-                
-                let result = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
-                let data = result[0]
+            }
+
+            let complete = { (computeCommandEncoder: MTLComputeCommandEncoder) -> Void in
+                guard let outBuffer = outBuffer else { assert(false); return }
+                let resultPointer = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
+                let data = resultPointer[0]
                 
                 if data == 5 {
-                    return false
+                    result = false
                 }
                 
                 if data == 3 {
-                    return true
+                    result = true
                 }
             }
+
+            try metalProcessor?.processAndWait(pixelBuffer1: pixelBuffer1,
+                                               pixelBuffer2: pixelBuffer2,
+                                               initialize: initialize,
+                                               complete: complete)
+            
+            return result
         }
         catch {
             logAVError(error)
         }
         
         return nil
-    }
-    
-    required init(next: VideoOutputProtocol, duplicatesFree: VideoOutputProtocol) {
-        do {
-            if let metalDevice = metalDevice {
-                // Create a command queue.
-                self.commandQueue = metalDevice.makeCommandQueue()!
-                
-                let url = Bundle.this.url(forResource: "default", withExtension: "metallib")!
-                let library = try metalDevice.makeLibrary(URL: url)
-                
-                // Create a function with a specific name.
-                let function = library.makeFunction(name: "compareRGBA")!
-                
-                // Create a compute pipeline with the above function.
-                self.computePipelineState = try metalDevice.makeComputePipelineState(function: function)
-                
-                // Initialize the cache to convert the pixel buffer into a Metal texture.
-                var textCache: CVMetalTextureCache?
-                if CVMetalTextureCacheCreate(kCFAllocatorDefault,
-                                             nil,
-                                             metalDevice,
-                                             nil,
-                                             &textCache) != kCVReturnSuccess {
-                    fatalError("Unable to allocate texture cache.")
-                }
-                else {
-                    self.textureCache = textCache
-                }
-            }
-        }
-        catch {
-            logAVError(error)
-        }
-
-        super.init(next: next, duplicatesFree: duplicatesFree)
     }
 }
 
