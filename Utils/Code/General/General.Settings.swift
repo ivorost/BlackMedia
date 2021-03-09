@@ -47,3 +47,20 @@ public class Settings {
     }
     #endif
 }
+
+public extension Settings {
+    func readSetting(_ forKey: Key) -> URL? {
+        guard
+            let base64: String = readSetting(forKey),
+            let data = Data(base64Encoded: base64)
+        else { return nil }
+        
+        var isStale = false
+        return try? URL(resolvingBookmarkData: data, bookmarkDataIsStale: &isStale)
+    }
+    
+    func writeSetting(_ key: Key, _ val: URL?) {
+        writeSetting(key, try? val?.bookmarkData().base64EncodedString())
+
+    }
+}

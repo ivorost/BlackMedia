@@ -15,7 +15,7 @@ class PreviewSegue : NSStoryboardSegue {
             let preview = previewWindow.contentViewController as? PreviewController
         else { return }
         
-        if let url = dialog.url {
+        if let url = previewWindow.object?.url {
             preview.sampleBufferView.layer = preview.sampleBufferView.makeBackingLayer()
             
             let viewer = Viewer(url: url, view: preview.sampleBufferView)
@@ -27,21 +27,24 @@ class PreviewSegue : NSStoryboardSegue {
             
             session = PreviewSegueSession(next: session, view: dialog, preview: previewWindow)
         
-            do {
-                try session.start()
-                dialog.previewWindow = previewWindow.window
-                dialog.session = session
-                preview.window = previewWindow
-                previewWindow.session = session
-                super.perform()
+            DispatchQueue.global().async {
+                do {
+                    try session.start()
 
-                let videoSize = viewer.reader?.processor?.videoSize
-                
-                previewWindow.videoSize = videoSize
-                assert(videoSize != nil)
-            }
-            catch {
-                dialog.show(error: error)
+                    dispatchMainSync {
+                        super.perform()
+                        dialog.add(session)
+                        previewWindow.session = session
+                        
+                        let videoSize = viewer.reader?.processor?.videoSize
+                        
+                        previewWindow.videoSize = videoSize
+                        assert(videoSize != nil)
+                    }
+                }
+                catch {
+                    dialog.show(error: error)
+                }
             }
         }
         else {
@@ -55,6 +58,7 @@ fileprivate class PreviewSegueSession : Session.Proto {
     private var next: Session.Proto?
     private let view: ViewController
     private let preview: PreviewWindowController
+    private var stopped = false
     
     init(next: Session.Proto, view: ViewController, preview: PreviewWindowController) {
         self.next = next
@@ -67,9 +71,13 @@ fileprivate class PreviewSegueSession : Session.Proto {
     }
     
     func stop() {
+        guard !stopped else { return }
+        
+        stopped = true
+        preview.window?.close()
         next?.stop()
         next = nil
-        view.session = nil
         preview.session = nil
+        view.remove(self)
     }
 }

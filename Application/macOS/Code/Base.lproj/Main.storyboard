@@ -707,11 +707,74 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Application_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="332"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-nL-Bot">
+                                <rect key="frame" x="25" y="255" width="313" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" id="ATd-5c-tiU">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mNY-xD-8lr" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="249" width="112" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JeW-rt-xQO">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectFileAction1:" target="XfG-lQ-9wD" id="rQ2-tP-zQ0"/>
+                                    <outlet property="textField" destination="lG6-nL-Bot" id="RbP-ba-xz9"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qHw-tb-YK2">
+                                <rect key="frame" x="25" y="197" width="313" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" id="wY9-QE-y7W">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WOD-dJ-YcR" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="191" width="112" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cWP-Zd-A1i">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectFileAction3:" target="XfG-lQ-9wD" id="oKd-5l-VMQ"/>
+                                    <outlet property="textField" destination="qHw-tb-YK2" id="j1b-hx-boJ"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jj2-Sh-dhS">
+                                <rect key="frame" x="25" y="226" width="313" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" id="11X-JU-LDG">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dPS-QX-O1T" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="220" width="112" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6ey-aq-KKF">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectFileAction2:" target="XfG-lQ-9wD" id="riK-1X-ZLw"/>
+                                    <outlet property="textField" destination="jj2-Sh-dhS" id="fT0-aR-IT4"/>
+                                </connections>
+                            </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MLW-sm-zmX">
-                                <rect key="frame" x="30" y="136" width="313" height="21"/>
+                                <rect key="frame" x="25" y="168" width="313" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" id="tOM-Mj-bTl">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -719,17 +782,27 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Pj-cB-Mp8">
-                                <rect key="frame" x="355" y="130" width="112" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Pj-cB-Mp8" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="162" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YDn-fV-PwU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="selectFileAction:" target="XfG-lQ-9wD" id="toz-2j-Zjn"/>
+                                    <action selector="selectFileAction4:" target="XfG-lQ-9wD" id="3xW-u9-u4D"/>
+                                    <outlet property="textField" destination="MLW-sm-zmX" id="ofn-4D-3NO"/>
                                 </connections>
                             </button>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ye-jI-Std">
+                                <rect key="frame" x="35" y="144" width="315" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Unable to play file" id="ggv-e8-qau">
+                                    <font key="font" metaFont="cellTitle"/>
+                                    <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pgc-Rm-0Xp">
                                 <rect key="frame" x="317" y="13" width="76" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -738,7 +811,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="7nt-IT-vlE" kind="show" customClass="PreviewSegue" customModule="Application_macOS" customModuleProvider="target" id="wWa-Qq-pSd"/>
+                                    <action selector="viewerAction:" target="XfG-lQ-9wD" id="9bd-No-SYf"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5RK-nu-Me8">
@@ -755,27 +828,50 @@ Gw
                                     <action selector="cancelAction:" target="XfG-lQ-9wD" id="GEW-nK-p42"/>
                                 </connections>
                             </button>
-                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ye-jI-Std">
-                                <rect key="frame" x="40" y="112" width="315" height="16"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="imx-KY-Rzh">
+                                <rect key="frame" x="23" y="111" width="209" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Unable to play file" id="ggv-e8-qau">
-                                    <font key="font" metaFont="cellTitle"/>
-                                    <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                                <buttonCell key="cell" type="radio" title="Show all videos on one screen" bezelStyle="regularSquare" imagePosition="left" alignment="left" enabled="NO" inset="2" id="G6s-iH-RYD">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="modeButtonAction:" target="XfG-lQ-9wD" id="TTh-Yh-u31"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h35-f1-rK1">
+                                <rect key="frame" x="23" y="89" width="249" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="radio" title="Show each video on separate screen" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="cxb-Pa-A1U">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="modeButtonAction:" target="XfG-lQ-9wD" id="wwf-YA-LQ3"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="5RK-nu-Me8" id="1lN-2P-cfJ"/>
                         <outlet property="errorLabel" destination="1ye-jI-Std" id="pzy-5m-76P"/>
-                        <outlet property="filePathTextField" destination="MLW-sm-zmX" id="1GZ-vM-9Ho"/>
+                        <outlet property="filePathButton1" destination="mNY-xD-8lr" id="0ae-Ej-wHD"/>
+                        <outlet property="filePathButton2" destination="dPS-QX-O1T" id="XXt-5C-nVm"/>
+                        <outlet property="filePathButton3" destination="WOD-dJ-YcR" id="oOq-lb-c9V"/>
+                        <outlet property="filePathButton4" destination="4Pj-cB-Mp8" id="QbT-Ec-ugS"/>
+                        <outlet property="filePathTextField1" destination="lG6-nL-Bot" id="lbP-Co-OG3"/>
+                        <outlet property="filePathTextField2" destination="jj2-Sh-dhS" id="nwo-Ul-1iD"/>
+                        <outlet property="filePathTextField3" destination="qHw-tb-YK2" id="Aiq-I9-WKy"/>
+                        <outlet property="filePathTextField4" destination="MLW-sm-zmX" id="JDV-FG-wA9"/>
+                        <outlet property="modeCombineButton" destination="imx-KY-Rzh" id="xoQ-35-UAN"/>
+                        <outlet property="modeSplitButton" destination="h35-f1-rK1" id="6LJ-5u-jhj"/>
                         <outlet property="viewerButton" destination="Pgc-Rm-0Xp" id="Rab-Sj-Ta9"/>
+                        <segue destination="7nt-IT-vlE" kind="show" identifier="PreviewSegue" customClass="PreviewSegue" customModule="Application_macOS" customModuleProvider="target" id="KcK-Eg-odP"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="743"/>
+            <point key="canvasLocation" x="75" y="774"/>
         </scene>
         <!--Preview Window-->
         <scene sceneID="hfI-Ub-fxN">
