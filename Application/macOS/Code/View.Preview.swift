@@ -11,23 +11,26 @@ import AVFoundation
 
 struct PreviewObject {
     let index: Int
-    let url: URL
+    let urls: [URL]
 }
 
 
 class PreviewController: NSViewController {
-    @IBOutlet private(set) var sampleBufferView: SampleBufferDisplayView!
+    @IBOutlet private(set) var sampleBufferView1: SampleBufferDisplayView?
+    @IBOutlet private(set) var sampleBufferView2: SampleBufferDisplayView?
+    @IBOutlet private(set) var sampleBufferView3: SampleBufferDisplayView?
+    @IBOutlet private(set) var sampleBufferView4: SampleBufferDisplayView?
     weak var window: PreviewWindowController?
+
+    var sampleBufferViews: [SampleBufferDisplayView?] {
+        return [ sampleBufferView1, sampleBufferView2, sampleBufferView3, sampleBufferView4 ]
+    }
 }
 
 
 class PreviewWindowController: NSWindowController, NSWindowDelegate {
     var session: Session.Proto?
     var object: PreviewObject?
-    
-    override func windowDidLoad() {
-        print("segue: \(Date().timeIntervalSinceReferenceDate)")
-    }
     
     private var prefferedScreen: NSScreen? {
         guard let object = object else { assert(false); return NSScreen.main }
@@ -52,26 +55,33 @@ class PreviewWindowController: NSWindowController, NSWindowDelegate {
         else { assert(false); return }
     
         // for screen sharing we have to compare scales or event physical size
-        
-        var rect = CGRect(x: screen.frame.origin.x,
-                          y: screen.frame.origin.y,
+    
+        let padding = object?.urls.count ?? 0 > 1
+            ? CGSize(width: 24, height: 24)
+            : CGSize.zero
+        var screenFrame = screen.frame
+
+        screenFrame.size.width -= padding.width
+        screenFrame.size.height -= padding.height
+
+        var rect = CGRect(x: screenFrame.origin.x,
+                          y: screenFrame.origin.y,
                           width: videoSize.width,
                           height: videoSize.height)
-        var screenRect = screen.frame
-        
-        screenRect.size.height -= titlebarHeight
         
         if rect.width > screen.frame.width {
-            rect.size.height *= screen.frame.width / rect.width
-            rect.size.width = screen.frame.width
+            rect.size.height *= screenFrame.width / rect.width
+            rect.size.width = screenFrame.width
         }
         
-        if rect.height > screen.frame.height {
-            rect.size.width *= screen.frame.height / rect.height
-            rect.size.height = screen.frame.height
+        if rect.height > screenFrame.height {
+            rect.size.width *= screenFrame.height / rect.height
+            rect.size.height = screenFrame.height - titlebarHeight
         }
         
-        rect.size.height += titlebarHeight
+        rect.size.width += padding.width
+        rect.size.height += titlebarHeight + padding.height
+        
         rect.origin.x = screen.frame.origin.x
             + (screen.frame.size.width - rect.width) / 2
         rect.origin.y = screen.frame.origin.y

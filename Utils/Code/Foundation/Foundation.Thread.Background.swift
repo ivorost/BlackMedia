@@ -8,7 +8,8 @@ public extension Double {
 public class BackgroundThread : Thread {
     
     private var runLoop: RunLoop!
-    private var callbacks = [UUID: Func]()
+    private var callbacks = [UUID: FuncThrows]()
+    private var errors = [UUID: Error]()
     private var running: Bool = false
     private var interval: Double
     
@@ -52,18 +53,26 @@ public class BackgroundThread : Thread {
     }
     
     public func sync(_ callback: @escaping Func) {
+        try? _sync(callback)
+    }
+
+    public func sync(_ callback: @escaping FuncThrows) throws {
+        try _sync(callback)
+    }
+    
+    private func _sync(_ callback: @escaping FuncThrows) throws {
         if Thread.current == self {
-            autoreleasepool {
-                callback()
+            try autoreleasepool {
+                try callback()
             }
         }
         else {
-            _call(callback, true)
+            try _call(callback, true)
         }
     }
 
     public func async(_ callback: @escaping Func) {
-        _call(callback, false)
+        try? _call(callback, false)
     }
     
     public func exec(sync: Bool, _ callback: @escaping Func) {
@@ -75,7 +84,7 @@ public class BackgroundThread : Thread {
         }
     }
     
-    func _call(_ callback: @escaping Func, _ wait: Bool) {
+    func _call(_ callback: @escaping FuncThrows, _ wait: Bool) throws {
         let id = UUID()
         
         callbacks[id] = callback
@@ -84,11 +93,22 @@ public class BackgroundThread : Thread {
                 on: self,
                 with: id,
                 waitUntilDone: wait)
+        
+        if wait, let error = errors[id] {
+            errors.removeValue(forKey: id)
+            throw error
+        }
     }
 
     @objc func _perform(_ id: UUID) {
         autoreleasepool {
-            callbacks[id]!()
+            do {
+                try callbacks[id]!()
+            }
+            catch {
+                errors[id] = error
+            }
+            
             callbacks.removeValue(forKey: id)
         }
     }

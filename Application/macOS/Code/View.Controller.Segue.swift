@@ -15,10 +15,18 @@ class PreviewSegue : NSStoryboardSegue {
             let preview = previewWindow.contentViewController as? PreviewController
         else { return }
         
-        if let url = previewWindow.object?.url {
-            preview.sampleBufferView.layer = preview.sampleBufferView.makeBackingLayer()
+        let sampleBufferViews = preview.sampleBufferViews
+        
+        if let urls = previewWindow.object?.urls, urls.count > 0 {
+            var info = [Viewer.Info]()
             
-            let viewer = Viewer(url: url, view: preview.sampleBufferView)
+            for i in 0 ..< min(urls.count, sampleBufferViews.count) {
+                guard let sampleBufferView = sampleBufferViews[i] else { assert(false); return }
+                sampleBufferView.layer = sampleBufferView.makeBackingLayer()
+                info.append((urls[i], sampleBufferView))
+            }
+            
+            let viewer = Viewer(info)
             
             guard var session = viewer.setup() else {
                 dialog.show(error: nil)
@@ -26,7 +34,7 @@ class PreviewSegue : NSStoryboardSegue {
             }
             
             session = PreviewSegueSession(next: session, view: dialog, preview: previewWindow)
-        
+            
             DispatchQueue.global().async {
                 do {
                     try session.start()
@@ -34,12 +42,9 @@ class PreviewSegue : NSStoryboardSegue {
                     dispatchMainSync {
                         super.perform()
                         dialog.add(session)
+                        preview.window = previewWindow
                         previewWindow.session = session
-                        
-                        let videoSize = viewer.reader?.processor?.videoSize
-                        
-                        previewWindow.videoSize = videoSize
-                        assert(videoSize != nil)
+                        previewWindow.videoSize = viewer.videoSize
                     }
                 }
                 catch {
@@ -79,5 +84,18 @@ fileprivate class PreviewSegueSession : Session.Proto {
         next = nil
         preview.session = nil
         view.remove(self)
+    }
+}
+
+
+fileprivate extension Viewer {
+    var videoSize: CGSize {
+        let size0 = readers.count > 0 ? readers[0].processor?.videoSize ?? CGSize.zero : CGSize.zero
+        let size1 = readers.count > 1 ? readers[1].processor?.videoSize ?? CGSize.zero : CGSize.zero
+        let size2 = readers.count > 2 ? readers[2].processor?.videoSize ?? CGSize.zero : CGSize.zero
+        let size3 = readers.count > 3 ? readers[3].processor?.videoSize ?? CGSize.zero : CGSize.zero
+
+        return CGSize(width: max(size0.width + size1.width, size2.width + size3.width),
+                      height: max(size0.height + size1.height, size2.height + size3.height))
     }
 }

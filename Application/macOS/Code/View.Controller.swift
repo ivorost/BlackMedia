@@ -10,6 +10,7 @@ import Cocoa
 
 fileprivate extension NSStoryboardSegue.Identifier {
     static let previewSegue = "PreviewSegue"
+    static let combinedPreviewSegue = "CombinedPreviewSegue"
 }
 
 
@@ -57,8 +58,7 @@ class ViewController: NSViewController {
         loadURL(Settings.shared.fileURL4, filePathTextField4, 3)
         
         if Settings.shared.modeCombine == true {
-//            modeCombineButton.state = .on
-            modeSplitButton.state = .on
+            modeCombineButton.state = .on
         }
         else if Settings.shared.modeCombine == false {
             modeSplitButton.state = .on
@@ -67,16 +67,8 @@ class ViewController: NSViewController {
             modeSplitButton.state = .on
         }
         else {
-            modeSplitButton.state = .on
-//            modeCombineButton.state = .on
+            modeCombineButton.state = .on
         }
-        
-        modeDidChanged()
-  
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(modeDidChanged),
-                                               name: NSApplication.didChangeScreenParametersNotification,
-                                               object: nil)
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -117,12 +109,51 @@ class ViewController: NSViewController {
         selectFile(button: sender, settingKey: .fileURL4, index: 3)
     }
 
+    @IBAction fileprivate func clearFileAction1(_ sender: SelectFileButton) {
+        clearFile(button: sender, settingKey: .fileURL1, index: 0)
+    }
+
+    @IBAction fileprivate func clearFileAction2(_ sender: SelectFileButton) {
+        clearFile(button: sender, settingKey: .fileURL2, index: 1)
+    }
+
+    @IBAction fileprivate func clearFileAction3(_ sender: SelectFileButton) {
+        clearFile(button: sender, settingKey: .fileURL3, index: 2)
+    }
+
+    @IBAction fileprivate func clearFileAction4(_ sender: SelectFileButton) {
+        clearFile(button: sender, settingKey: .fileURL4, index: 3)
+    }
+
     @IBAction @objc func viewerAction(_ sender: Any) {
+        guard NSScreen.screens.count > 0 else { return }
+        
+        let urls = self.urls.reduce([URL]()) {
+            if let url = $1 {
+                return $0 + [ url ]
+            }
+            else {
+                return $0
+            }
+        }
+        
+        if modeCombineButton.state == .on {
+            self.performSegue(withIdentifier: urls.count > 1 ? .combinedPreviewSegue : .previewSegue,
+                              sender: PreviewObject(index: 0, urls: urls))
+            return
+        }
+        
         for index in 0 ..< urls.count {
-            guard let url = urls[index] else { continue }
-            guard index < NSScreen.screens.count else { continue }
-            
-            self.performSegue(withIdentifier: .previewSegue, sender: PreviewObject(index: index, url: url))
+            if index < NSScreen.screens.count - 1 {
+                self.performSegue(withIdentifier: .previewSegue,
+                                  sender: PreviewObject(index: index, urls: [ urls[index] ]))
+            }
+            else {
+                let urlsLeft = Array(urls.suffix(from: index))
+                self.performSegue(withIdentifier: urlsLeft.count > 1 ? .combinedPreviewSegue : .previewSegue,
+                                  sender: PreviewObject(index: index, urls: urlsLeft))
+                break
+            }
         }
     }
     
@@ -134,14 +165,18 @@ class ViewController: NSViewController {
     }
     
     @IBAction @objc func modeButtonAction(_ sender: NSButton) {
-        modeDidChanged()
-        
         if sender == modeCombineButton && modeCombineButton.state == .on {
             Settings.shared.modeCombine = true
         }
         else if sender == modeSplitButton && modeSplitButton.state == .on {
             Settings.shared.modeCombine = false
         }
+    }
+
+    private func clearFile(button: SelectFileButton, settingKey: String, index: Int) {
+        self.urls[index] = nil
+        Settings.shared.writeSetting(settingKey, nil)
+        button.textField.stringValue = ""
     }
     
     private func selectFile(button: SelectFileButton, settingKey: String, index: Int) {
@@ -161,29 +196,6 @@ class ViewController: NSViewController {
     private func sessionsDidChanged() {
         viewerButton.isEnabled = sessions.count == 0
         cancelButton.isEnabled = !viewerButton.isEnabled
-    }
-
-    @objc private func modeDidChanged() {
-        if modeCombineButton.state == .on {
-            filePathTextField1.isEnabled = true
-            filePathTextField2.isEnabled = true
-            filePathTextField3.isEnabled = true
-            filePathTextField4.isEnabled = true
-            filePathButton1.isEnabled = true
-            filePathButton2.isEnabled = true
-            filePathButton3.isEnabled = true
-            filePathButton4.isEnabled = true
-        }
-        else {
-            filePathTextField1.isEnabled = NSScreen.screens.count > 0
-            filePathTextField2.isEnabled = NSScreen.screens.count > 1
-            filePathTextField3.isEnabled = NSScreen.screens.count > 2
-            filePathTextField4.isEnabled = NSScreen.screens.count > 3
-            filePathButton1.isEnabled = NSScreen.screens.count > 0
-            filePathButton2.isEnabled = NSScreen.screens.count > 1
-            filePathButton3.isEnabled = NSScreen.screens.count > 2
-            filePathButton4.isEnabled = NSScreen.screens.count > 3
-        }
     }
 }
 

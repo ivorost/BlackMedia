@@ -9,13 +9,8 @@ import Foundation
 import AVFoundation
 
 
-fileprivate extension Double {
-    static var fps = 60.0
-}
-
-
 public extension VideoProcessor {
-    class AssetReader : Session.Proto {
+    class AssetReader : Session.Proto, Flushable.Proto {
         enum Error : Swift.Error {
             case missedVideoTrack
         }
@@ -26,9 +21,7 @@ public extension VideoProcessor {
         private var file: FileHandle?
         private var reader: AVAssetReader?
         private var videoOutput: AVAssetReaderSampleReferenceOutput?
-        private var timer: Timer?
         private var ID: UInt = 0
-        private var thread: BackgroundThread?
         private var startTime: Double?
         private var startDate: Date?
         private var postponedSampleBuffer: CMSampleBuffer?
@@ -53,27 +46,17 @@ public extension VideoProcessor {
             self.reader?.startReading()
             self.videoOutput = videoOutput
             self.videoSize = track.naturalSize
-            self.thread = BackgroundThread(VideoProcessor.self)
-
-            thread?.start()
-            thread?.sync {
-                self.timer = Timer.scheduledTimer(withTimeInterval: 1.0 / .fps, repeats: true, block: self.popSample)
-            }
         }
         
         public func stop() {
             reader?.cancelReading()
-            thread?.cancel()
-            timer?.invalidate()
             
             ID = 0
             reader = nil
             videoOutput = nil
-            thread = nil
-            timer = nil
         }
 
-        private func popSample(_ timer: Timer) {
+        public func flush() {
             do {
                 try popSample()
             }
@@ -81,7 +64,7 @@ public extension VideoProcessor {
                 logAVError(error)
             }
         }
-        
+                
         private func popSample() throws {
             guard let file = file else { assert(false); return }
             guard let videoOutput = videoOutput else { assert(false); return }
@@ -149,6 +132,7 @@ public extension VideoSetup {
     class AssetReader : VideoSetupSlave {
         private let url: URL
         public private(set) var processor: VideoProcessor.AssetReader?
+        public let flushable = Flushable.Proxy()
         
         public init(url: URL, root: VideoSetupProtocol) {
             self.url = url
@@ -161,6 +145,7 @@ public extension VideoSetup {
                 let reader = VideoProcessor.AssetReader(url: url, next: video)
                 
                 self.processor = reader
+                flushable.inner = reader
                 root.session(reader, kind: .input)
             }
         }

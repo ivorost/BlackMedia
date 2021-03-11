@@ -119,6 +119,35 @@ public extension Session {
 }
 
 
+public extension Session {
+    class Background : SessionProtocol {
+        private let session: SessionProtocol
+        private let thread: BackgroundThread
+        
+        public init(session: SessionProtocol, thread: BackgroundThread) {
+            self.session = session
+            self.thread = thread
+        }
+        
+        public func start () throws {
+            thread.start()
+
+            try thread.sync {
+                try self.session.start()
+            }
+        }
+        
+        public func stop() {
+            thread.sync {
+                self.session.stop()
+            }
+            
+            thread.cancel()
+        }
+    }
+}
+
+
 public func broadcast(_ x: [SessionProtocol?]) -> SessionProtocol? {
     broadcast(x, create: { Session.Broadcast($0) })
 }

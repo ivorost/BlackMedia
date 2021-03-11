@@ -707,7 +707,7 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Application_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="332"/>
+                        <rect key="frame" x="0.0" y="0.0" width="565" height="332"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-nL-Bot">
@@ -720,7 +720,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mNY-xD-8lr" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
-                                <rect key="frame" x="350" y="249" width="112" height="32"/>
+                                <rect key="frame" x="440" y="248" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JeW-rt-xQO">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -741,7 +741,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WOD-dJ-YcR" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
-                                <rect key="frame" x="350" y="191" width="112" height="32"/>
+                                <rect key="frame" x="440" y="190" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cWP-Zd-A1i">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -762,7 +762,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dPS-QX-O1T" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
-                                <rect key="frame" x="350" y="220" width="112" height="32"/>
+                                <rect key="frame" x="440" y="219" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6ey-aq-KKF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -783,7 +783,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Pj-cB-Mp8" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
-                                <rect key="frame" x="350" y="162" width="112" height="32"/>
+                                <rect key="frame" x="440" y="161" width="112" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Select file" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YDn-fV-PwU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -792,6 +792,54 @@
                                 <connections>
                                     <action selector="selectFileAction4:" target="XfG-lQ-9wD" id="3xW-u9-u4D"/>
                                     <outlet property="textField" destination="MLW-sm-zmX" id="ofn-4D-3NO"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XaL-ND-DZl" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="248" width="92" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cyj-M0-wcv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clearFileAction1:" target="XfG-lQ-9wD" id="9at-SZ-Ieu"/>
+                                    <outlet property="textField" destination="lG6-nL-Bot" id="Huj-bS-Kjj"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pw8-VW-vtx" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="190" width="92" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TbN-Cn-wYI">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clearFileAction3:" target="XfG-lQ-9wD" id="vyT-MV-QZx"/>
+                                    <outlet property="textField" destination="qHw-tb-YK2" id="zWl-H4-ijv"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oh0-kI-RDP" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="219" width="92" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HBa-bt-kvJ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clearFileAction2:" target="XfG-lQ-9wD" id="ros-vz-K4n"/>
+                                    <outlet property="textField" destination="jj2-Sh-dhS" id="uFl-be-T9c"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6uM-KH-ZAE" customClass="SelectFileButton" customModule="Application_macOS" customModuleProvider="target">
+                                <rect key="frame" x="350" y="161" width="92" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="S3r-DA-2y2">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clearFileAction4:" target="XfG-lQ-9wD" id="Msf-QI-2fb"/>
+                                    <outlet property="textField" destination="MLW-sm-zmX" id="iJo-xO-wnr"/>
                                 </connections>
                             </button>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ye-jI-Std">
@@ -804,7 +852,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pgc-Rm-0Xp">
-                                <rect key="frame" x="317" y="13" width="76" height="32"/>
+                                <rect key="frame" x="476" y="13" width="76" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Viewer" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="da2-rL-zj3">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -814,8 +862,30 @@
                                     <action selector="viewerAction:" target="XfG-lQ-9wD" id="9bd-No-SYf"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="imx-KY-Rzh">
+                                <rect key="frame" x="23" y="111" width="209" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="radio" title="Show all videos on one screen" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="G6s-iH-RYD">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="modeButtonAction:" target="XfG-lQ-9wD" id="TTh-Yh-u31"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h35-f1-rK1">
+                                <rect key="frame" x="23" y="89" width="118" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="radio" title="Use all screens" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="cxb-Pa-A1U">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="modeButtonAction:" target="XfG-lQ-9wD" id="wwf-YA-LQ3"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5RK-nu-Me8">
-                                <rect key="frame" x="391" y="13" width="76" height="32"/>
+                                <rect key="frame" x="402" y="13" width="76" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cyq-rh-cU6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -826,28 +896,6 @@ Gw
                                 </buttonCell>
                                 <connections>
                                     <action selector="cancelAction:" target="XfG-lQ-9wD" id="GEW-nK-p42"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="imx-KY-Rzh">
-                                <rect key="frame" x="23" y="111" width="209" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Show all videos on one screen" bezelStyle="regularSquare" imagePosition="left" alignment="left" enabled="NO" inset="2" id="G6s-iH-RYD">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="modeButtonAction:" target="XfG-lQ-9wD" id="TTh-Yh-u31"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h35-f1-rK1">
-                                <rect key="frame" x="23" y="89" width="249" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Show each video on separate screen" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="cxb-Pa-A1U">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="modeButtonAction:" target="XfG-lQ-9wD" id="wwf-YA-LQ3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -867,11 +915,12 @@ Gw
                         <outlet property="modeSplitButton" destination="h35-f1-rK1" id="6LJ-5u-jhj"/>
                         <outlet property="viewerButton" destination="Pgc-Rm-0Xp" id="Rab-Sj-Ta9"/>
                         <segue destination="7nt-IT-vlE" kind="show" identifier="PreviewSegue" customClass="PreviewSegue" customModule="Application_macOS" customModuleProvider="target" id="KcK-Eg-odP"/>
+                        <segue destination="8RJ-Zo-cVI" kind="show" identifier="CombinedPreviewSegue" customClass="PreviewSegue" customModule="Application_macOS" customModuleProvider="target" id="7xF-2C-a4h"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="774"/>
+            <point key="canvasLocation" x="76" y="774"/>
         </scene>
         <!--Preview Window-->
         <scene sceneID="hfI-Ub-fxN">
@@ -896,12 +945,12 @@ Gw
                 </windowController>
                 <customObject id="c5f-CQ-0DA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="1340"/>
+            <point key="canvasLocation" x="-189" y="1388"/>
         </scene>
-        <!--Preview Controller-->
+        <!--Preview (single)-->
         <scene sceneID="Jgk-OT-0Ng">
             <objects>
-                <viewController id="efX-K1-y5J" customClass="PreviewController" customModule="Application_macOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="efX-K1-y5J" userLabel="Preview (single)" customClass="PreviewController" customModule="Application_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="VMM-uf-g9m">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -934,12 +983,111 @@ Gw
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="sampleBufferView" destination="qZm-ef-Tqa" id="nJv-4a-l5e"/>
+                        <outlet property="sampleBufferView1" destination="qZm-ef-Tqa" id="CxI-Fx-6Qk"/>
                     </connections>
                 </viewController>
                 <customObject id="Lp6-MD-Yhw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="1879"/>
+            <point key="canvasLocation" x="-189" y="1871"/>
+        </scene>
+        <!--Preview (combined)-->
+        <scene sceneID="iLk-SR-vwX">
+            <objects>
+                <viewController id="b8G-fI-14x" userLabel="Preview (combined)" customClass="PreviewController" customModule="Application_macOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="8KX-qM-P7A">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="8YN-4M-iXM" customClass="SampleBufferDisplayView" customModule="Utils">
+                                <rect key="frame" x="8" y="154" width="213" height="138"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="ede-In-k4H" customClass="SampleBufferDisplayView" customModule="Utils">
+                                <rect key="frame" x="8" y="8" width="213" height="138"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Cyb-R4-ZFK" customClass="SampleBufferDisplayView" customModule="Utils">
+                                <rect key="frame" x="229" y="154" width="213" height="138"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="u5Z-a3-W2H" customClass="SampleBufferDisplayView" customModule="Utils">
+                                <rect key="frame" x="229" y="8" width="213" height="138"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="wjF-tf-Jj9" userLabel="Vertial space 0">
+                                <rect key="frame" x="0.0" y="146" width="100" height="8"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="80f-7e-zZf"/>
+                                    <constraint firstAttribute="height" constant="8" id="DXv-hw-Apn"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="I4U-Ho-6Kd" userLabel="Vertial space 1">
+                                <rect key="frame" x="350" y="146" width="100" height="8"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="BfI-cE-Zgg"/>
+                                    <constraint firstAttribute="width" constant="100" id="EY2-fR-B0n"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="K4c-A6-X4T" userLabel="Horizontal space 0">
+                                <rect key="frame" x="221" y="200" width="8" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="NFn-2B-w1d"/>
+                                    <constraint firstAttribute="width" constant="8" id="yfO-JT-gH0"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="6VJ-US-mhX" userLabel="Horizontal space 1">
+                                <rect key="frame" x="221" y="0.0" width="8" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="8" id="VHe-8g-2wq"/>
+                                    <constraint firstAttribute="height" constant="100" id="cOo-Cq-D9t"/>
+                                </constraints>
+                            </customView>
+                            <containerView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dih-Oy-rcH">
+                                <rect key="frame" x="51" y="272" width="349" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="DAk-2X-wVa"/>
+                                    <constraint firstAttribute="width" constant="349" id="s3H-MZ-jdC"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="E5C-ib-KPc" kind="embed" id="OFe-QG-zQm" identifier="ToolbarSegue" customClass="ToolbarSegue" customModule="Application_macOS"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="u5Z-a3-W2H" secondAttribute="trailing" constant="8" id="5n7-mm-KFj"/>
+                            <constraint firstItem="I4U-Ho-6Kd" firstAttribute="top" secondItem="Cyb-R4-ZFK" secondAttribute="bottom" id="6Ci-U2-4Df"/>
+                            <constraint firstAttribute="trailing" secondItem="Cyb-R4-ZFK" secondAttribute="trailing" constant="8" id="7Wv-Jm-EFb"/>
+                            <constraint firstItem="ede-In-k4H" firstAttribute="top" secondItem="wjF-tf-Jj9" secondAttribute="bottom" id="A16-or-2zr"/>
+                            <constraint firstItem="8YN-4M-iXM" firstAttribute="top" secondItem="8KX-qM-P7A" secondAttribute="top" constant="8" id="HLT-fC-4Sg"/>
+                            <constraint firstItem="ede-In-k4H" firstAttribute="leading" secondItem="8KX-qM-P7A" secondAttribute="leading" constant="8" id="LTs-4m-qA4"/>
+                            <constraint firstItem="6VJ-US-mhX" firstAttribute="centerX" secondItem="8KX-qM-P7A" secondAttribute="centerX" id="MH9-Cw-S1h"/>
+                            <constraint firstItem="I4U-Ho-6Kd" firstAttribute="centerY" secondItem="8KX-qM-P7A" secondAttribute="centerY" id="PkU-Nu-02K"/>
+                            <constraint firstItem="Cyb-R4-ZFK" firstAttribute="leading" secondItem="K4c-A6-X4T" secondAttribute="trailing" id="Rv0-ZA-2Dj"/>
+                            <constraint firstItem="wjF-tf-Jj9" firstAttribute="centerY" secondItem="8KX-qM-P7A" secondAttribute="centerY" id="StC-6A-okI"/>
+                            <constraint firstItem="wjF-tf-Jj9" firstAttribute="top" secondItem="8YN-4M-iXM" secondAttribute="bottom" id="TaR-kw-usU"/>
+                            <constraint firstAttribute="bottom" secondItem="6VJ-US-mhX" secondAttribute="bottom" id="V2L-Cw-mzE"/>
+                            <constraint firstItem="Cyb-R4-ZFK" firstAttribute="top" secondItem="8KX-qM-P7A" secondAttribute="top" constant="8" id="VzF-T8-S7X"/>
+                            <constraint firstItem="K4c-A6-X4T" firstAttribute="leading" secondItem="8YN-4M-iXM" secondAttribute="trailing" id="aTJ-gt-ZD7"/>
+                            <constraint firstItem="wjF-tf-Jj9" firstAttribute="leading" secondItem="8KX-qM-P7A" secondAttribute="leading" id="bxf-Ug-6bT"/>
+                            <constraint firstAttribute="bottom" secondItem="ede-In-k4H" secondAttribute="bottom" constant="8" id="cSB-Py-o9A"/>
+                            <constraint firstItem="Dih-Oy-rcH" firstAttribute="centerX" secondItem="8KX-qM-P7A" secondAttribute="centerX" id="dvT-dE-UXl"/>
+                            <constraint firstItem="6VJ-US-mhX" firstAttribute="leading" secondItem="ede-In-k4H" secondAttribute="trailing" id="fdv-vO-98d"/>
+                            <constraint firstItem="K4c-A6-X4T" firstAttribute="centerX" secondItem="8KX-qM-P7A" secondAttribute="centerX" id="hWn-pI-s7o"/>
+                            <constraint firstItem="u5Z-a3-W2H" firstAttribute="top" secondItem="I4U-Ho-6Kd" secondAttribute="bottom" id="jxY-dM-rev"/>
+                            <constraint firstAttribute="trailing" secondItem="I4U-Ho-6Kd" secondAttribute="trailing" id="mUg-QX-amq"/>
+                            <constraint firstAttribute="bottom" secondItem="u5Z-a3-W2H" secondAttribute="bottom" constant="8" id="nmg-hY-rgS"/>
+                            <constraint firstItem="K4c-A6-X4T" firstAttribute="top" secondItem="8KX-qM-P7A" secondAttribute="top" id="qul-RY-8Ye"/>
+                            <constraint firstItem="Dih-Oy-rcH" firstAttribute="top" secondItem="8KX-qM-P7A" secondAttribute="top" id="r97-KK-Wmv"/>
+                            <constraint firstItem="8YN-4M-iXM" firstAttribute="leading" secondItem="8KX-qM-P7A" secondAttribute="leading" constant="8" id="uzs-tg-g6v"/>
+                            <constraint firstItem="u5Z-a3-W2H" firstAttribute="leading" secondItem="6VJ-US-mhX" secondAttribute="trailing" id="xa3-pS-DLD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="sampleBufferView1" destination="8YN-4M-iXM" id="Yh0-DQ-wPw"/>
+                        <outlet property="sampleBufferView2" destination="Cyb-R4-ZFK" id="UMe-i6-fbx"/>
+                        <outlet property="sampleBufferView3" destination="ede-In-k4H" id="XzE-DI-tfk"/>
+                        <outlet property="sampleBufferView4" destination="u5Z-a3-W2H" id="fjj-Yw-jww"/>
+                    </connections>
+                </viewController>
+                <customObject id="9nN-kG-f5y" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="339" y="1871"/>
         </scene>
         <!--Toolbar Controller-->
         <scene sceneID="Tle-ip-oTc">
@@ -1109,9 +1257,37 @@ Gw
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="76" y="2402"/>
+            <point key="canvasLocation" x="76" y="2482"/>
+        </scene>
+        <!--Preview Window-->
+        <scene sceneID="1LE-vo-Pvt">
+            <objects>
+                <windowController id="8RJ-Zo-cVI" userLabel="Preview Window" customClass="PreviewWindowController" customModule="Application_macOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Bo7-Wg-zjw" customClass="FreeSizeWindow" customModule="Utils">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="163" y="197" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1280" height="775"/>
+                        <view key="contentView" id="f5P-gY-iFN">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="8RJ-Zo-cVI" id="TGE-Bh-Adc"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="b8G-fI-14x" kind="relationship" relationship="window.shadowedContentViewController" id="yQd-lQ-tpl"/>
+                    </connections>
+                </windowController>
+                <customObject id="X5I-81-7Dw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="339" y="1388"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="r1d-lx-Gqa"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Toolbar-action" width="50" height="31"/>
         <image name="Toolbar-alt-ctrl-d" width="50" height="32"/>

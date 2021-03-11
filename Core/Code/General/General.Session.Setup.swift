@@ -93,7 +93,26 @@ public extension SessionSetup {
         }
     }
 }
-    
+
+
+public extension SessionSetup {
+    class Static : Slave {
+        private let session: Session.Proto
+        
+        public init(root: Proto, session: Session.Proto) {
+            self.session = session
+            super.init(root: root)
+        }
+        
+        public override func session(_ session: Session.Proto, kind: Session.Kind) {
+            if kind == .initial {
+                root.session(self.session, kind: .other)
+            }
+        }
+    }
+}
+
+
 extension SessionSetup {
     class Vector : ProcessorWithVector<Proto>, Proto {
         func session(_ session: SessionProtocol, kind: Session.Kind) {
@@ -105,6 +124,7 @@ extension SessionSetup {
         }
     }
 }
+
 
 public extension SessionSetup {
     class DispatchSync : Chain {
@@ -118,6 +138,27 @@ public extension SessionSetup {
         public override func complete() -> Session.Proto? {
             if let session = super.complete() {
                 return Session.DispatchSync(session: session, queue: queue)
+            }
+            else {
+                return nil
+            }
+        }
+    }
+}
+
+
+public extension SessionSetup {
+    class Background : Chain {
+        private let thread: BackgroundThread
+
+        public init(next: SessionSetup.Proto, thread: BackgroundThread) {
+            self.thread = thread
+            super.init(next: next)
+        }
+        
+        public override func complete() -> Session.Proto? {
+            if let session = super.complete() {
+                return Session.Background(session: session, thread: thread)
             }
             else {
                 return nil

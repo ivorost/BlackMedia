@@ -25,6 +25,17 @@ public extension Flushable {
 
 
 public extension Flushable {
+    class Proxy : Proto {
+        var inner: Proto?
+        
+        public func flush() {
+            inner?.flush()
+        }
+    }
+}
+
+
+public extension Flushable {
     class Vector : Proto {
         private let inner: [Proto]
         
