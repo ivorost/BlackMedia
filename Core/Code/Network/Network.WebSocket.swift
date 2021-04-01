@@ -9,39 +9,24 @@
 import Foundation
 import Starscream
 
-fileprivate extension String {
-    static let wsSender =
-    """
-    ws://relay.raghava.io/proxy/connect?username=fL1VmUj0bK&machine_id=machine_mac&action=start_host_machine&token=vu8kd7ovvcJqp4uQeuD6OZQCUtWzX8BxeV7W1mq6fDdgsOkpVQeiTe73n6eleYvW6Nzom5fAWEJP5r6TBRUsx7tv6htvgIhdgEKqzKNfQ2G8d5CPUudhrvR6l4lc4TuuCHxdzZycSRCFQrraIUCYGujiArWe2ei7FuVZ1juerRSsrQ95ZUzlOIJJO7lGlNEupIxrHSgKt8F3e95802zsNcWsWh8Vgky985TXqq8gELVqK4VD692noib5bZU9GAy
-    """
 
-    static let wsReceiver =
-    """
-    ws://relay.raghava.io/proxy/connect?username=fL1VmUj0bK&machine_id=machine_mac&action=connect_to_host_machine&token=vu8kd7ovvcJqp4uQeuD6OZQCUtWzX8BxeV7W1mq6fDdgsOkpVQeiTe73n6eleYvW6Nzom5fAWEJP5r6TBRUsx7tv6htvgIhdgEKqzKNfQ2G8d5CPUudhrvR6l4lc4TuuCHxdzZycSRCFQrraIUCYGujiArWe2ei7FuVZ1juerRSsrQ95ZUzlOIJJO7lGlNEupIxrHSgKt8F3e95802zsNcWsWh8Vgky985TXqq8gELVqK4VD692noib5bZU9GAy
-    """
-}
-
-public class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDelegate {
-    private let name: String
+public class WebSocketClient : SessionProtocol, DataProcessorProtocol, WebSocketDelegate {
     private let next: DataProcessorProtocol?
-    private let urlString: String
+    private let url: URL
     private(set) var socket: WebSocket?
     private var connected: Func?
 
-    init(name: String, urlString: String, next: DataProcessorProtocol?) {
-        var urlStringVar = urlString
-        let urlStringPath = Settings.shared.server
-        
-        urlStringVar = urlStringVar.replacingOccurrences(of: "machine_mac", with: name)
-        urlStringVar = urlStringVar.replacingOccurrences(of: "ws://relay.raghava.io/proxy", with: urlStringPath)
-
-        self.name = name
-        self.urlString = urlStringVar
+    init(url: URL, next: DataProcessorProtocol?) {
+        self.url = url
         self.next = next
     }
     
+    var name: String {
+        return url.host ?? "unknown"
+    }
+    
     public func start() throws {
-        var request = URLRequest(url: URL(string: urlString)!)
+        var request = URLRequest(url: url)
         request.timeoutInterval = 5
        
         socket = WebSocket(request: request)
@@ -77,71 +62,54 @@ public class WebSocketBase : SessionProtocol, DataProcessorProtocol, WebSocketDe
 }
 
 
-public class WebSocketMaster : WebSocketBase {
-    init(name: String, next: DataProcessorProtocol? = nil) {
-        super.init(name: name, urlString: .wsSender, next: next)
+public extension WebSocketClient.Setup {
+    convenience init(data root: CaptureSetup.Proto, url: URL, target: DataProcessor.Kind) {
+        self.init(root: root,
+                  url: url,
+                  session: .networkData,
+                  target: target,
+                  network: .networkData,
+                  output: .networkDataOutput)
+    }
+
+    convenience init(helm root: CaptureSetup.Proto, url: URL, target: DataProcessor.Kind) {
+        self.init(root: root,
+                  url: url,
+                  session: .networkHelm,
+                  target: target,
+                  network: .networkHelm,
+                  output: .networkHelmOutput)
     }
 }
 
 
-public class WebSocketSlave : WebSocketBase {
-    init(name: String, next: DataProcessorProtocol? = nil) {
-        super.init(name: name, urlString: .wsReceiver, next: next)
-    }
-}
-
-
-public extension WebSocketBase {
-    class SetupBase : CaptureSetup.Slave {
-        typealias Create = (_ name: String, _ next: DataProcessor.Proto) -> WebSocketBase
+public extension WebSocketClient {
+    class Setup : CaptureSetup.Slave {
         private var webSocket: DataProcessor.Proto?
-        private let name: String
+        private let url: URL
         private let session: Session.Kind
         private let target: DataProcessor.Kind
         private let network: DataProcessor.Kind
         private let output: DataProcessor.Kind
-        private let create: Create
 
-        init(root: CaptureSetup.Proto,
-             name: String,
-             session: Session.Kind,
-             target: DataProcessor.Kind,
-             network: DataProcessor.Kind,
-             output: DataProcessor.Kind,
-             create: @escaping Create) {
-            self.name = name
+        public init(root: CaptureSetup.Proto,
+                    url: URL,
+                    session: Session.Kind,
+                    target: DataProcessor.Kind,
+                    network: DataProcessor.Kind,
+                    output: DataProcessor.Kind) {
+            self.url = url
             self.session = session
             self.network = network
             self.output = output
-            self.create = create
             self.target = target
             super.init(root: root)
         }
-        
-        init(data root: CaptureSetup.Proto, target: DataProcessor.Kind, create: @escaping Create) {
-            self.name = "machine_mac_data"
-            self.session = .networkData
-            self.network = .networkData
-            self.output = .networkDataOutput
-            self.create = create
-            self.target = target
-            super.init(root: root)
-        }
-        
-        init(helm root: CaptureSetup.Proto, target: DataProcessor.Kind, create: @escaping Create) {
-            self.name = "machine_mac_helm"
-            self.session = .networkHelm
-            self.network = .networkHelm
-            self.output = .networkHelmOutput
-            self.target = target
-            self.create = create
-            super.init(root: root)
-        }
-
+                
         public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {
                 let webSocketData: DataProcessorProtocol = root.data(DataProcessor.shared, kind: self.output)
-                let webSocket = create(name, webSocketData)
+                let webSocket = WebSocketClient(url: url, next: webSocketData)
                 
                 root.session(webSocket, kind: self.session)
                 self.webSocket = root.data(webSocket, kind: self.network)
@@ -161,37 +129,6 @@ public extension WebSocketBase {
             }
             
             return super.data(result, kind: kind)
-        }
-    }
-}
-
-
-public extension WebSocketMaster {
-    class SetupData : SetupBase {
-        public init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
-            super.init(data: root, target: target, create: { return WebSocketMaster(name: $0, next: $1) })
-        }
-    }
-
-    
-    class SetupHelm : SetupBase {
-        public init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
-            super.init(helm: root, target: target, create: { return WebSocketMaster(name: $0, next: $1) })
-        }
-    }
-}
-
-public extension WebSocketSlave {
-    class SetupData : SetupBase {
-        public init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
-            super.init(data: root, target: target, create: { return WebSocketSlave(name: $0, next: $1) })
-        }
-    }
-
-    
-    class SetupHelm : SetupBase {
-        public init(root: CaptureSetup.Proto, target: DataProcessor.Kind) {
-            super.init(helm: root, target: target, create: { return WebSocketSlave(name: $0, next: $1) })
         }
     }
 }

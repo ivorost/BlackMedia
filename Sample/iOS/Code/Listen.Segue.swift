@@ -18,14 +18,19 @@ fileprivate class SetupVideoListening : VideoSetupVector {
     }
     
     override func create() -> [VideoSetupProtocol] {
+        guard
+            let wsReceiverData = URL.wsReceiverData,
+            let wsReceiverHelm = URL.wsReceiverHelm
+        else { assert(false); return [] }
+
         let root = self
         let preview = VideoSetupPreview(root: root, layer: layer, kind: .deserializer)
         let orientation = VideoSetup.LayerOrientation(layer: layer)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .networkDataOutput)
-        let webSocketHelm = WebSocketSlave.SetupHelm(root: root, target: .serializer)
+        let webSocketHelm = WebSocketClient.Setup(helm: root, url: wsReceiverHelm, target: .serializer)
         let webSocketACK = VideoSetupViewerACK(root: root)
         let aggregator = SessionSetup.Aggregator()
-        let websocket = WebSocketSlave.SetupData(root: self, target: .serializer)
+        let websocket = WebSocketClient.Setup(data: self, url: wsReceiverData, target: .serializer)
 
         return [
             cast(video: websocket),

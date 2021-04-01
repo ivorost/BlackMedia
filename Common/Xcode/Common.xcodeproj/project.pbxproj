@@ -15,6 +15,8 @@
 		82B3ACB925D551EB00DA6D29 /* Utils.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8735025D26B0D008DF76E /* Utils.URL.swift */; };
 		82B3ACBA25D551EB00DA6D29 /* Utils.Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734D25D26B0D008DF76E /* Utils.Date.swift */; };
 		82B3ACD525D553C600DA6D29 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3ACD425D553C600DA6D29 /* Utils.framework */; };
+		82CA0AED26157A63001041C7 /* Application.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CA0AEC26157A63001041C7 /* Application.Settings.swift */; };
+		82CA0AEE26157A63001041C7 /* Application.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CA0AEC26157A63001041C7 /* Application.Settings.swift */; };
 		82F8735125D26B0D008DF76E /* Utils.Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734D25D26B0D008DF76E /* Utils.Date.swift */; };
 		82F8735225D26B0D008DF76E /* Utils.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8734E25D26B0D008DF76E /* Utils.Log.swift */; };
 		82F8735425D26B0D008DF76E /* Utils.URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8735025D26B0D008DF76E /* Utils.URL.swift */; };
@@ -28,6 +30,7 @@
 		82B3ACCE25D5530D00DA6D29 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
 		82B3ACCF25D5530D00DA6D29 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
 		82B3ACD425D553C600DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82CA0AEC26157A63001041C7 /* Application.Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.Settings.swift; sourceTree = "<group>"; };
 		82F8734025D2679C008DF76E /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F8734D25D26B0D008DF76E /* Utils.Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.Date.swift; sourceTree = "<group>"; };
 		82F8734E25D26B0D008DF76E /* Utils.Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.Log.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				8202D3F625DEDC8A00E211C0 /* Application.Delegate.swift */,
+				82CA0AEC26157A63001041C7 /* Application.Settings.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -243,6 +247,7 @@
 				82B3ACB925D551EB00DA6D29 /* Utils.URL.swift in Sources */,
 				82B3ACBA25D551EB00DA6D29 /* Utils.Date.swift in Sources */,
 				8202D3F825DEDC8A00E211C0 /* Application.Delegate.swift in Sources */,
+				82CA0AEE26157A63001041C7 /* Application.Settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +259,7 @@
 				82F8735425D26B0D008DF76E /* Utils.URL.swift in Sources */,
 				82F8735125D26B0D008DF76E /* Utils.Date.swift in Sources */,
 				8202D3F725DEDC8A00E211C0 /* Application.Delegate.swift in Sources */,
+				82CA0AED26157A63001041C7 /* Application.Settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

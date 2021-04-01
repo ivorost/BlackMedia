@@ -5,10 +5,10 @@
       location = "group:Utils/Xcode/Utils.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Common/Xcode/Common.xcodeproj">
+      location = "group:Core/Xcode/Core.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Core/Xcode/Core.xcodeproj">
+      location = "group:Common/Xcode/Common.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Sample/Xcode/Sample.xcodeproj">

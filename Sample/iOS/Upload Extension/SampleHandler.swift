@@ -7,7 +7,6 @@
 //
 
 import ReplayKit
-//import Utils
 import Core
 
 fileprivate class SetupDisplayCapture : VideoSetupVector {
@@ -22,6 +21,11 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
     }
     
     override func create() -> [VideoSetupProtocol] {
+        guard
+            let wsSenderData = URL.wsSenderData,
+            let wsSenderHelm = URL.wsSenderData
+        else { assert(false); return [] }
+
         let root = self
         let aggregator = SessionSetup.Aggregator()
         let timebase = Timebase(); root.session(timebase, kind: .other)
@@ -30,9 +34,10 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         let orientation = VideoSetup.Orientation()
         let recolor = VideoSetup.Recolor()
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
+        let serializer = VideoSetupDeserializerH264(root: root, kind: .serializer)
         let multithreading = VideoSetupMultithreading(root: root, queue: encoderOutputQueue)
-        let websocket = WebSocketMaster.SetupData(root: self, target: .serializer)
-        let webSocketHelm = cast(video: WebSocketMaster.SetupHelm(root: root, target: .none))
+        let websocket = WebSocketClient.Setup(data: self, url: wsSenderData, target: .serializer)
+        let webSocketHelm = cast(video: WebSocketClient.Setup(helm: root, url: wsSenderHelm, target: .none))
         let webSocketACK = VideoSetupSenderACK(root: root, timebase: timebase, metric: StringProcessor.Print.shared)
         
         let byterateString = StringProcessor.shared//.Print.shared
@@ -49,6 +54,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
             cast(video: displayInfo),
             cast(video: aggregator),
             encoder,
+            serializer,
             recolor,
             multithreading,
             webSocketHelm,

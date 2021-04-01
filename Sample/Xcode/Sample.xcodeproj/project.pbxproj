@@ -43,6 +43,9 @@
 		82C9507A2546FADC0025663F /* Common.Capture.Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C950772546FADC0025663F /* Common.Capture.Privacy.swift */; };
 		82C9507B2546FADC0025663F /* Common.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C950782546FADC0025663F /* Common.Capture.swift */; };
 		82C9507C2546FADC0025663F /* Common.Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C950792546FADC0025663F /* Common.Privacy.swift */; };
+		82CA0A9826143465001041C7 /* Core.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C925D6A38F0063E04E /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82CA0A9926143468001041C7 /* Common.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C725D6A3890063E04E /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82CA0A9A2614346C001041C7 /* Utils.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C525D6A3840063E04E /* Utils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82E53D0E258C09F60071C58A /* Starscream.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82108A56258BC5CD00B382A8 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82F0DC27255D2D4800727509 /* UI.Display.Mirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F0DC26255D2D4800727509 /* UI.Display.Mirror.swift */; };
 		82F0DC29255D58A300727509 /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -136,6 +139,9 @@
 			dstSubfolderSpec = 10;
 			files = (
 				82E53D0E258C09F60071C58A /* Starscream.framework in CopyFiles */,
+				82CA0A9826143465001041C7 /* Core.framework in CopyFiles */,
+				82CA0A9926143468001041C7 /* Common.framework in CopyFiles */,
+				82CA0A9A2614346C001041C7 /* Utils.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

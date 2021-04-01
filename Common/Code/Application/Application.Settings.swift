@@ -30,7 +30,7 @@ public extension Settings {
     #if os(OSX)
     static let shared = Settings()
     #else
-    static let shared = Settings(userDefaults: UserDefaults(suiteName: "group.com.idrive.screentest"))
+    static let shared = Settings(userDefaults: UserDefaults(suiteName: "group.com.idrive.screentest")!)
     #endif
 }
 

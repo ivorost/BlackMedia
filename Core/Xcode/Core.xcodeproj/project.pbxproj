@@ -62,7 +62,6 @@
 		82B3AD3825D55E3900DA6D29 /* General.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B725D27413008DF76E /* General.Session.swift */; };
 		82B3AD3925D55E3900DA6D29 /* Video.Output.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D625D27413008DF76E /* Video.Output.Layer.swift */; };
 		82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873BF25D27413008DF76E /* Metrics.BPS.swift */; };
-		82B3AD3C25D55E3900DA6D29 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEC8A625D28A98000302A0 /* Settings.swift */; };
 		82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
 		82B3AD3F25D55E3900DA6D29 /* Video.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CA25D27413008DF76E /* Video.Capture.swift */; };
 		82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C525D27413008DF76E /* Network.General.swift */; };
@@ -70,7 +69,6 @@
 		82B3AD5825D5706600DA6D29 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5725D5706600DA6D29 /* Utils.framework */; };
 		82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5D25D5755500DA6D29 /* Common.framework */; };
 		82CEC8A125D27F11000302A0 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82CEC89D25D27EEE000302A0 /* Starscream.framework */; };
-		82CEC8A725D28A98000302A0 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEC8A625D28A98000302A0 /* Settings.swift */; };
 		82F5738625DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
 		82F5738725DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
 		82F873DF25D27413008DF76E /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
@@ -145,7 +143,6 @@
 		82B3AD5D25D5755500DA6D29 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82CEC89D25D27EEE000302A0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
 		82CEC89E25D27EF6000302A0 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
-		82CEC8A625D28A98000302A0 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		82F5738525DBD2790063E04E /* Video.Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Reader.swift; sourceTree = "<group>"; };
 		82F8738825D2738F008DF76E /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F8739525D27413008DF76E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -317,7 +314,6 @@
 		82F8739625D27413008DF76E /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				82CEC8A625D28A98000302A0 /* Settings.swift */,
 				82F8739725D27413008DF76E /* Audio */,
 				82F8739B25D27413008DF76E /* Capture */,
 				82F873A225D27413008DF76E /* Display */,
@@ -611,7 +607,6 @@
 				82B3AD3925D55E3900DA6D29 /* Video.Output.Layer.swift in Sources */,
 				82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */,
 				8202D3D725DE400200E211C0 /* Video.Duplicates.metal in Sources */,
-				82B3AD3C25D55E3900DA6D29 /* Settings.swift in Sources */,
 				8202D3D825DE400200E211C0 /* Video.Recolor.metal in Sources */,
 				82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */,
 				82B3AD3F25D55E3900DA6D29 /* Video.Capture.swift in Sources */,
@@ -681,7 +676,6 @@
 				82F8741525D27414008DF76E /* Video.Output.Layer.swift in Sources */,
 				82F8740025D27414008DF76E /* Metrics.BPS.swift in Sources */,
 				82F873F025D27413008DF76E /* Event.Post.swift in Sources */,
-				82CEC8A725D28A98000302A0 /* Settings.swift in Sources */,
 				82F873DF25D27413008DF76E /* Audio.General.swift in Sources */,
 				82F8740925D27414008DF76E /* Video.Capture.swift in Sources */,
 				82F8740525D27414008DF76E /* Network.General.swift in Sources */,

@@ -2,12 +2,6 @@
 import AVFoundation
 
 
-extension PacketDeserializer {
-    
-}
-//func process(h264: Data, sps: Data, pps: Data, ID: UInt, time: VideoTime, originalTime: VideoTime) {
-
-
 public extension VideoProcessor {
     struct Packet {
         let ID: UInt
@@ -141,6 +135,32 @@ class VideoH264Serializer : PacketSerializer.Processor, VideoOutputProtocol {
         serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
         
         process(packet: serializer)
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Serializer Setup
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public class VideoSetupSerializerH264 : VideoSetupSlave {
+    private let kind: VideoProcessor.Kind
+    
+    public init(root: VideoSetupProtocol, kind: VideoProcessor.Kind) {
+        self.kind = kind
+        super.init(root: root)
+    }
+    
+    public override func video(_ video: VideoProcessor.Proto, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
+        var result = video
+
+        if kind == self.kind {
+            let serializerData = root.data(DataProcessor.shared, kind: .serializer)
+            let serializer = VideoH264Serializer(next: serializerData)
+            
+            result = VideoProcessor(prev: result, next: serializer)
+        }
+
+        return super.video(result, kind: kind)
     }
 }
 

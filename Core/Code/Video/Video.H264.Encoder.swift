@@ -203,19 +203,15 @@ public class VideoSetupEncoder : VideoSetupSlave {
         var result = video
         
         if kind == .capture {
-            let serializerData = root.data(DataProcessor.shared, kind: .serializer)
-            let serializer = VideoH264Serializer(next: serializerData)
-            let serializerVideo = root.video(serializer, kind: .serializer)
+            let next = root.video(result, kind: .encoder)
             let encoder = VideoEncoderSessionH264(inputDimension: settings.input,
                                                   outputDimentions: settings.output,
-                                                  next: serializerVideo)
+                                                  next: next)
 
-            let encoderVideo = root.video(encoder, kind: .encoder)
-            
-            result = VideoProcessor(prev: result, next: encoderVideo)
+            result = VideoProcessor(prev: result, next: encoder)
             root.session(encoder, kind: .encoder)
         }
-                
+        
         return super.video(result, kind: kind)
     }
 }

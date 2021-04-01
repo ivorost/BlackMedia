@@ -100,12 +100,15 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
     }
     
     override func create() -> [VideoSetupProtocol] {
+        guard let wsSenderHelm = URL.wsSenderHelm else { assert(false); return [] }
+        
         let timebase = Timebase(); root.session(timebase, kind: .other)
         let display = DisplaySetup(root: root, settings: displayConfig)
         let displayInfo = DisplaySetup.InfoCapture(root: root, settings: displayConfig)
         let preview = VideoSetupCheckbox(next: VideoSetupPreview(root: root, layer: layer, kind: .deserializer),
                                          checkbox: views.setupPreviewButton)
         let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
+        let serializer = VideoSetupSerializerH264(root: root, kind: .encoder)
         let deserializer = VideoSetupDeserializerH264(root: root, kind: .serializer)
         let multithreading = VideoSetupCheckbox(next: VideoSetupMultithreading(root: root, queue: encoderOutputQueue),
                                                 checkbox: views.setupMultithreadingButton)
@@ -117,7 +120,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
                                             checkbox: views.setupSenderDuplicatesButton)
         let recolor = VideoSetup.Recolor()
         let webSocketHelm = VideoSetupCheckbox(
-            next: cast(video: WebSocketMaster.SetupHelm(root: root, target: .none)),
+            next: cast(video: WebSocketClient.Setup(helm: root, url: wsSenderHelm, target: .none)),
             checkbox: views.setupSenderWebSocketButton)
         let webSocketACKMetric = StringProcessor.TableView(tableView: views.tableViewACK1)
         let webSocketACK = VideoSetupCheckbox(
@@ -161,6 +164,7 @@ fileprivate class SetupDisplayCapture : VideoSetupVector {
         return [
             preview,
             encoder,
+            serializer,
             deserializer,
             multithreading,
             webSocketHelm,
@@ -191,6 +195,8 @@ fileprivate class SetupVideoListening : VideoSetupVector {
     }
     
     override func create() -> [VideoSetupProtocol] {
+        guard let wsReceiverHelm = URL.wsReceiverHelm else { assert(false); return [] }
+
         let window = (layer.delegate as? NSView)?.window
         let preview = VideoSetupPreview(root: root, layer: layer, kind: .deserializer)//.decoder)
         let orientation = VideoSetup.LayerOrientation(layer: layer)
@@ -199,7 +205,7 @@ fileprivate class SetupVideoListening : VideoSetupVector {
         var autosizeWindow: DataProcessor.Setup = DataProcessorSetup.shared
         if let window = window { autosizeWindow = DisplaySetup.AutosizeWindow(root: root, window: window) }
         let webSocketHelm = VideoSetupCheckbox(
-            next: cast(video: WebSocketSlave.SetupHelm(root: root, target: .serializer)),
+            next: cast(video: WebSocketClient.Setup(helm: root, url: wsReceiverHelm, target: .serializer)),
             checkbox: views.setupSenderWebSocketButton)
         let webSocketACK = VideoSetupCheckbox(next: VideoSetupViewerACK(root: root),
                                               checkbox: views.setupSenderWebSocketACKButton)
@@ -339,7 +345,9 @@ fileprivate class SetupCapture : CaptureSetup.Vector {
     }
     
     override func create() -> [CaptureSetup.Proto] {
-        let websocket = WebSocketMaster.SetupData(root: self, target: .serializer)
+        guard let wsSenderData = URL.wsSenderData else { assert(false); return [] }
+
+        let websocket = WebSocketClient.Setup(data: self, url: wsSenderData, target: .serializer)
         let aggregator = SessionSetup.Aggregator()
         let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
 
@@ -382,9 +390,11 @@ fileprivate class SetupViewer : CaptureSetup.Vector {
     }
 
     override func create() -> [CaptureSetup.Proto] {
+        guard let wsReceiverData = URL.wsReceiverData else { assert(false); return [] }
+
         let aggregator = SessionSetup.Aggregator()
         let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
-        let websocket = WebSocketSlave.SetupData(root: self, target: .serializer)
+        let websocket = WebSocketClient.Setup(data: self, url: wsReceiverData, target: .serializer)
 
         videoRoot.register(cast(video: websocket))
         videoRoot.register(cast(video: aggregator))
@@ -420,9 +430,13 @@ fileprivate class SetupNetworkTest : CaptureSetup.Vector {
             let interval = TimeInterval(views.intervalTextField.stringValue)
         else { return [] }
 
+        guard
+            let wsSenderData = URL.wsSenderData
+        else { assert(false); return [] }
+
         let aggregator = SessionSetup.Aggregator()
         let aggregatorDispatch = SessionSetup.DispatchSync(next: aggregator, queue: Capture.shared.setupQueue)
-        let websocket = WebSocketMaster.SetupData(root: self, target: .capture)
+        let websocket = WebSocketClient.Setup(data: self, url: wsSenderData, target: .capture)
         let test = DataProcessor.Test.Setup(root: self, kbits: kbits, interval: interval)
 
         let byterateString = StringProcessor.TableView(tableView: views.capture.tableViewByterate)
