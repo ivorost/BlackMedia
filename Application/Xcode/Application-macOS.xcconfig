@@ -1,0 +1,3 @@
+
+#include "Main-macOS.xcconfig"
+#include "../../Xcode/Application-macOS.xcconfig"

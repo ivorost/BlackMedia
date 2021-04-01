@@ -1,0 +1,10 @@
+
+// Mac OS application specific configs
+
+IDRIVE_PLATFORM_NAME = macOS
+
+#include "Base.xcconfig"
+
+MACOSX_DEPLOYMENT_TARGET = 10.13
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(WORKSPACE_ROOT)/ThirdParty/Carthage/Build/Mac
+ENABLE_HARDENED_RUNTIME = YES

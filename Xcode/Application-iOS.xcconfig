@@ -1,0 +1,9 @@
+
+#include "../../ThirdParty/Carthage/Checkouts/xcconfigs/iOS/iOS-Application.xcconfig"
+#include "Base-iOS.xcconfig"
+#include "Application.xcconfig"
+
+PLATFORM_ROOT = $(SRCROOT)/../iOS
+INFOPLIST_FILE = $(PLATFORM_ROOT)/Xcode/Info.plist
+CODE_SIGN_ENTITLEMENTS = $(PLATFORM_ROOT)/Xcode/Application.entitlements
+

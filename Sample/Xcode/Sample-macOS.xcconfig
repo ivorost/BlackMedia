@@ -1,0 +1,4 @@
+
+#include "Sample.xcconfig"
+
+IDRIVE_APPLICATION_NAME = screentest.macos

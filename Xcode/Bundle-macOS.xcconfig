@@ -1,0 +1,4 @@
+
+#include "../../ThirdParty/Carthage/Checkouts/xcconfigs/macOS/macOS-Base.xcconfig"
+#include "Base-macOS.xcconfig"
+#include "Bundle.xcconfig"

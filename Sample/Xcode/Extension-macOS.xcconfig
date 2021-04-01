@@ -1,0 +1,3 @@
+
+#include "Sample-macOS.xcconfig"
+#include "../../Xcode/Extension-macOS.xcconfig"
