@@ -290,7 +290,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					82F572EC25DA893B0063E04E = {
 						CreatedOnToolsVersion = 12.0;
@@ -428,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82F5734825DAAA280063E04E /* Application-macOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vorost.capture;
@@ -438,6 +439,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82F5734825DAAA280063E04E /* Application-macOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 7Q5KZBFM79;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vorost.capture;

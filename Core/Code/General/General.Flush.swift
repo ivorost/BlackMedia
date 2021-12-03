@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol FlushableProtocol : class {
+public protocol FlushableProtocol : AnyObject {
     func flush()
 }
 

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol SessionSetupProtocol : class {
+public protocol SessionSetupProtocol : AnyObject {
     func session(_ session: Session.Proto, kind: Session.Kind)
     func complete() -> Session.Proto?
 }

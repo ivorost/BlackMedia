@@ -1,2 +1,3 @@
 github "daltoniam/Starscream" >= 4.0.0
 github "xcconfigs/xcconfigs"
+github "eugenebokhan/bonjour"

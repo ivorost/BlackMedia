@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol DataProcessorSetupProtocol : class {
+public protocol DataProcessorSetupProtocol : AnyObject {
     func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol
 }
 

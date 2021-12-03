@@ -23,7 +23,7 @@ public typealias FuncWithSession = (SessionProtocol) -> Void
 public typealias FuncReturningSessionThrowing = () throws -> SessionProtocol
 
 
-public protocol SessionProtocol : class {
+public protocol SessionProtocol : AnyObject {
     func start () throws
     func stop()
 }

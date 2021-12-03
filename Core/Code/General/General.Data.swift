@@ -22,7 +22,7 @@ public extension DataProcessor.Kind {
 }
 
 
-public protocol DataProcessorProtocol : class {
+public protocol DataProcessorProtocol : AnyObject {
     func process(data: Data)
 }
 
