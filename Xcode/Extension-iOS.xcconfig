@@ -1,4 +1,4 @@
 
-#include "../../ThirdParty/Carthage/Checkouts/xcconfigs/iOS/iOS-Extension.xcconfig"
+#include "../../ThirdParty/repository/xcconfigs/iOS/iOS-Extension.xcconfig"
 #include "Base-iOS.xcconfig"
 #include "Extension.xcconfig"

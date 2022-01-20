@@ -1,0 +1,5 @@
+
+
+#include "Target.xcconfig"
+
+IDRIVE_APPLICATION_NAME = screentest

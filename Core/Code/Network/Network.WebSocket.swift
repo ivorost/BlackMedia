@@ -48,7 +48,7 @@ public class WebSocketClient : SessionProtocol, DataProcessorProtocol, WebSocket
         socket?.write(data: data)
     }
 
-    public func didReceive(event: WebSocketEvent, client: WebSocket) {
+    public func didReceive(event: WebSocketEvent, client: Starscream.WebSocketClient) {
         switch event {
         case .binary(let data):
             next?.process(data: data)

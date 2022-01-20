@@ -1,5 +1,5 @@
 
-#include "../../ThirdParty/Carthage/Checkouts/xcconfigs/iOS/iOS-Framework.xcconfig"
+#include "../../ThirdParty/repository/xcconfigs/iOS/iOS-Framework.xcconfig"
 #include "Base-iOS.xcconfig"
 #include "Framework.xcconfig"
 

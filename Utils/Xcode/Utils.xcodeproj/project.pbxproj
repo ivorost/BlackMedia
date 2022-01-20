@@ -47,6 +47,10 @@
 		8253F7AA25F348DE003BC267 /* Metal.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7A825F348DE003BC267 /* Metal.Device.swift */; };
 		8253F7AF25F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */; };
 		8253F7B025F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */; };
+		82981685279EE4E3004B3EB1 /* UI.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981684279EE4E3004B3EB1 /* UI.Segue.swift */; };
+		82981686279EE4E3004B3EB1 /* UI.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981684279EE4E3004B3EB1 /* UI.Segue.swift */; };
+		82981688279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */; };
+		82981689279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */; };
 		82B3AC6925D5190E00DA6D29 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6825D5190E00DA6D29 /* Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3AC8325D5354700DA6D29 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6825D5190E00DA6D29 /* Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3AC8525D5354700DA6D29 /* Foundation.Thread.Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C800E25D12ABE004E77F9 /* Foundation.Thread.Wait.swift */; };
@@ -115,13 +119,15 @@
 		824B885C25F35FE800BD8D38 /* Metal.General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal.General.swift; sourceTree = "<group>"; };
 		8253F7A825F348DE003BC267 /* Metal.Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal.Device.swift; sourceTree = "<group>"; };
 		8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreVideo.PixelBuffer.swift; sourceTree = "<group>"; };
-		825A444525D1B0C900A2EA49 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
-		825A444625D1B0C900A2EA49 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		825A444525D1B0C900A2EA49 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
+		825A444625D1B0C900A2EA49 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		82981684279EE4E3004B3EB1 /* UI.Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.Segue.swift; sourceTree = "<group>"; };
+		82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Typedefs.swift; sourceTree = "<group>"; };
+		8298168F279EEC0E004B3EB1 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
+		82981690279EEC0E004B3EB1 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
 		82B3AC6825D5190E00DA6D29 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		82B3ACA725D5354700DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3ACAF25D535FC00DA6D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82B3ACC425D552B700DA6D29 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
-		82B3ACC525D552B700DA6D29 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,10 +169,10 @@
 		822C7FF325D12ABE004E77F9 /* Xcode */ = {
 			isa = PBXGroup;
 			children = (
-				82B3ACC425D552B700DA6D29 /* Framework-iOS.xcconfig */,
-				82B3ACC525D552B700DA6D29 /* Framework-macOS.xcconfig */,
 				825A444525D1B0C900A2EA49 /* Debug.xcconfig */,
 				825A444625D1B0C900A2EA49 /* Release.xcconfig */,
+				82981690279EEC0E004B3EB1 /* Framework-iOS.xcconfig */,
+				8298168F279EEC0E004B3EB1 /* Framework-macOS.xcconfig */,
 				82B3AC6825D5190E00DA6D29 /* Utils.h */,
 				82B3ACAF25D535FC00DA6D29 /* Info.plist */,
 			);
@@ -195,6 +201,7 @@
 		822C7FF725D12ABE004E77F9 /* AppKit */ = {
 			isa = PBXGroup;
 			children = (
+				82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */,
 				822C7FF825D12ABE004E77F9 /* AppKit.Alert.swift */,
 				822C7FF925D12ABE004E77F9 /* AppKit.Appearance.swift */,
 				822C7FFA25D12ABE004E77F9 /* AppKit.View.swift */,
@@ -280,6 +287,7 @@
 		822C801A25D12ABE004E77F9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				82981684279EE4E3004B3EB1 /* UI.Segue.swift */,
 				822C801B25D12ABE004E77F9 /* UI.Button.swift */,
 			);
 			path = UI;
@@ -428,11 +436,13 @@
 				8253F7A925F348DE003BC267 /* Metal.Device.swift in Sources */,
 				8202D37225DE28A900E211C0 /* AppKit.Window.swift in Sources */,
 				822C802525D12ABE004E77F9 /* CoreGraphics.Display.swift in Sources */,
+				82981685279EE4E3004B3EB1 /* UI.Segue.swift in Sources */,
 				822C802B25D12ABE004E77F9 /* Foundation.Dispatch.swift in Sources */,
 				822C802625D12ABE004E77F9 /* CoreGraphics.Event.swift in Sources */,
 				822C802C25D12ABE004E77F9 /* Foundation.Lock.swift in Sources */,
 				822C801F25D12ABE004E77F9 /* AppKit.Appearance.swift in Sources */,
 				8253F7AF25F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */,
+				82981688279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */,
 				8202D3E625DED59000E211C0 /* General.Settings.swift in Sources */,
 				822C803325D12ABE004E77F9 /* Metal.CVMetalTexture.swift in Sources */,
 				822C802825D12ABE004E77F9 /* CoreMedia.swift in Sources */,
@@ -469,11 +479,13 @@
 				8253F7AA25F348DE003BC267 /* Metal.Device.swift in Sources */,
 				82B3AC8F25D5354700DA6D29 /* Foundation.Dispatch.swift in Sources */,
 				82B3AC9025D5354700DA6D29 /* CoreGraphics.Event.swift in Sources */,
+				82981686279EE4E3004B3EB1 /* UI.Segue.swift in Sources */,
 				82B3AC9125D5354700DA6D29 /* Foundation.Lock.swift in Sources */,
 				82B3AC9225D5354700DA6D29 /* AppKit.Appearance.swift in Sources */,
 				82B3AC9325D5354700DA6D29 /* Metal.CVMetalTexture.swift in Sources */,
 				82B3AC9425D5354700DA6D29 /* CoreMedia.swift in Sources */,
 				8253F7B025F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */,
+				82981689279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */,
 				8202D3E725DED59000E211C0 /* General.Settings.swift in Sources */,
 				82B3AC9525D5354700DA6D29 /* Swift.Pointers.swift in Sources */,
 				82B3AC9625D5354700DA6D29 /* Foundation.Thread.Exec.swift in Sources */,
@@ -512,29 +524,33 @@
 		};
 		822C7FEF25D12A1B004E77F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82B3ACC525D552B700DA6D29 /* Framework-macOS.xcconfig */;
+			baseConfigurationReference = 8298168F279EEC0E004B3EB1 /* Framework-macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		822C7FF025D12A1B004E77F9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82B3ACC525D552B700DA6D29 /* Framework-macOS.xcconfig */;
+			baseConfigurationReference = 8298168F279EEC0E004B3EB1 /* Framework-macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
 		};
 		82B3ACA525D5354700DA6D29 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82B3ACC425D552B700DA6D29 /* Framework-iOS.xcconfig */;
+			baseConfigurationReference = 82981690279EEC0E004B3EB1 /* Framework-iOS.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
 		82B3ACA625D5354700DA6D29 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82B3ACC425D552B700DA6D29 /* Framework-iOS.xcconfig */;
+			baseConfigurationReference = 82981690279EEC0E004B3EB1 /* Framework-iOS.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
