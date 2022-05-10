@@ -8,17 +8,17 @@
 
 import AVFoundation
 
-public extension VideoProcessor {
+public extension Video.Processor {
     class LayerOrientation : Base {
         private let layer: SampleBufferDisplayLayer
         private var x = false
         
-        public init(next: VideoProcessor.Proto, layer: SampleBufferDisplayLayer) {
+        public init(next: Video.Processor.Proto, layer: SampleBufferDisplayLayer) {
             self.layer = layer
             super.init(next: next)
         }
         
-        public override func process(video: VideoBuffer) {
+        public override func process(video: Video.Buffer) {
             guard let orientation = video.orientation else {
                 super.process(video: video)
                 return
@@ -39,11 +39,11 @@ public extension VideoProcessor {
 }
 
 
-public extension VideoSetup {
-    class LayerOrientation : VideoSetupProcessor {
-        public init(layer: SampleBufferDisplayLayer, kind: VideoProcessor.Kind = .preview) {
+public extension Video.Setup {
+    class LayerOrientation : Video.Setup.Processor {
+        public init(layer: SampleBufferDisplayLayer, kind: Video.Processor.Kind = .preview) {
             super.init(kind: kind) {
-                VideoProcessor.LayerOrientation(next: $0, layer: layer)
+                Video.Processor.LayerOrientation(next: $0, layer: layer)
             }
         }
     }

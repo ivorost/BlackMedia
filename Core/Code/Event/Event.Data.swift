@@ -9,21 +9,21 @@
 import AppKit
 
 public extension EventProcessor {
-    class Serializer : PacketSerializer.Processor, Proto {
+    class Serializer : Network.PacketSerializer.Processor, Proto {
         public func process(event: NSEvent) {
-            let packet: PacketSerializer
+            let packet: Network.PacketSerializer
             
             if let cgEvent = event.cgEvent, let data = NSData(cgEvent: cgEvent) {
-                packet = PacketSerializer(.cgevent)
+                packet = Network.PacketSerializer(.cgevent)
                 packet.push(data: data)
             }
             else {
-                let encoder = NSKeyedArchiver()
+                let encoder = NSKeyedArchiver(requiringSecureCoding: false)
                 encoder.outputFormat = .xml
                 event.encode(with: encoder)
                 encoder.finishEncoding()
 
-                packet = PacketSerializer(.nsevent)
+                packet = Network.PacketSerializer(.nsevent)
                 packet.push(data: encoder.encodedData)
             }
 
@@ -39,7 +39,7 @@ public extension EventProcessorSetup {
             var result = event
             
             if kind == .capture {
-                let serializerData = root.data(DataProcessor(), kind: .serializer)
+                let serializerData = root.data(Data.Processor.shared, kind: .serializer)
                 let serializer = root.event(EventProcessor.Serializer(next: serializerData), kind: .serializer)
                 result = EventProcessor.Chain(prev: result, next: serializer)
             }
@@ -56,10 +56,10 @@ public extension EventProcessor.Serializer {
 
 
 public extension EventProcessor {
-    class Deserializer : PacketDeserializer.Processor {
+    class Deserializer : Network.PacketDeserializer.Processor {
         fileprivate let next: Proto
         
-        public init(type: PacketType, next: Proto) {
+        public init(type: Network.PacketType, next: Proto) {
             self.next = next
             super.init(type: type)
         }
@@ -71,7 +71,7 @@ public extension EventProcessor {
             super.init(type: .cgevent, next: next)
         }
         
-        override func process(packet: PacketDeserializer) {
+        override func process(packet: Network.PacketDeserializer) {
             var event: NSEvent?
             let eventData = packet.popData()
             
@@ -93,9 +93,9 @@ public extension EventProcessor {
             super.init(type: .nsevent, next: next)
         }
         
-        override func process(packet: PacketDeserializer) {
+        override func process(packet: Network.PacketDeserializer) {
             let eventData = packet.popData()
-            let decoder = NSKeyedUnarchiver(forReadingWith: eventData)
+            guard let decoder = try? NSKeyedUnarchiver(forReadingFrom: eventData) else { assert(false); return }
             let event = NSEvent(coder: decoder)
             
             assert(event != nil)
@@ -110,14 +110,14 @@ public extension EventProcessor {
 
 public extension EventProcessorSetup {
     class Deserializer : Slave {
-        private let target: DataProcessor.Kind
+        private let target: Data.Processor.Kind
         
-        public init(root: Proto, target: DataProcessor.Kind = .networkDataOutput) {
+        public init(root: Proto, target: Data.Processor.Kind = .networkDataOutput) {
             self.target = target
             super.init(root: root)
         }
         
-        public override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
             var result = data
             
             if kind == self.target {

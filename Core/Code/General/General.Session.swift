@@ -19,8 +19,8 @@ public extension Session.Kind {
 }
 
 
-public typealias FuncWithSession = (SessionProtocol) -> Void
-public typealias FuncReturningSessionThrowing = () throws -> SessionProtocol
+public typealias FuncWithSession = (Session.Proto) -> Void
+public typealias FuncReturningSessionThrowing = () throws -> Session.Proto
 
 
 public protocol SessionProtocol : AnyObject {
@@ -29,41 +29,49 @@ public protocol SessionProtocol : AnyObject {
 }
 
 
-public class Session : SessionProtocol {
-    public static let shared = Session()
-    
-    private let next: SessionProtocol?
-    private let startFunc: FuncThrows
-    private let stopFunc: Func
-    
-    public init() {
-        next = nil
-        startFunc = {}
-        stopFunc = {}
-    }
-    
-    public init(_ next: SessionProtocol?, start: @escaping FuncThrows = {}, stop: @escaping Func = {}) {
-        self.next = next
-        self.startFunc = start
-        self.stopFunc = stop
-    }
+extension Session {
+    public typealias Proto = SessionProtocol
+}
 
-    public func start() throws {
-        try startFunc()
-        try next?.start()
-    }
 
-    public func stop() {
-        stopFunc()
-        next?.stop()
+public final class Session {
+    public static let shared: Proto = Base()
+}
+
+
+extension Session {
+    public class Base : Proto {
+        
+        private let next: Proto?
+        private let startFunc: FuncThrows
+        private let stopFunc: Func
+        
+        public init() {
+            next = nil
+            startFunc = {}
+            stopFunc = {}
+        }
+        
+        public init(_ next: Proto?, start: @escaping FuncThrows = {}, stop: @escaping Func = {}) {
+            self.next = next
+            self.startFunc = start
+            self.stopFunc = stop
+        }
+        
+        public func start() throws {
+            try startFunc()
+            try next?.start()
+        }
+        
+        public func stop() {
+            stopFunc()
+            next?.stop()
+        }
     }
 }
 
 
 extension Session {
-    public typealias Proto = SessionProtocol
-    public typealias Setup = SessionSetupProtocol
-
     public struct Kind : Hashable, Equatable, RawRepresentable {
         public init(rawValue: String) { self.rawValue = rawValue }
         public let rawValue: String
@@ -72,11 +80,11 @@ extension Session {
 
 
 extension Session {
-    class Broadcast : SessionProtocol {
+    class Broadcast : Proto {
         
-        private var x: [SessionProtocol?]
+        private var x: [Proto?]
         
-        init(_ x: [SessionProtocol?]) {
+        init(_ x: [Proto?]) {
             self.x = x
         }
         
@@ -94,12 +102,12 @@ extension Session {
 
 
 public extension Session {
-    class DispatchSync : SessionProtocol {
+    class DispatchSync : Proto {
         
-        let session: SessionProtocol
+        let session: Proto
         let queue: DispatchQueue
         
-        public init(session: SessionProtocol, queue: DispatchQueue) {
+        public init(session: Proto, queue: DispatchQueue) {
             self.session = session
             self.queue = queue
         }
@@ -120,11 +128,11 @@ public extension Session {
 
 
 public extension Session {
-    class Background : SessionProtocol {
-        private let session: SessionProtocol
+    class Background : Proto {
+        private let session: Proto
         private let thread: BackgroundThread
         
-        public init(session: SessionProtocol, thread: BackgroundThread) {
+        public init(session: Proto, thread: BackgroundThread) {
             self.session = session
             self.thread = thread
         }
@@ -148,6 +156,6 @@ public extension Session {
 }
 
 
-public func broadcast(_ x: [SessionProtocol?]) -> SessionProtocol? {
+public func broadcast(_ x: [Session.Proto?]) -> Session.Proto? {
     broadcast(x, create: { Session.Broadcast($0) })
 }

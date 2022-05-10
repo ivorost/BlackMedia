@@ -29,15 +29,15 @@ public extension EventCapture {
 
 
 public extension EventCapture.Window {
-    class Setup : SessionSetup.Slave {
+    class Setup : Session.Setup.Slave {
         private let window: NSWindow
         
-        public init(root: SessionSetup.Proto, window: NSWindow) {
+        public init(root: Session.Setup.Proto, window: NSWindow) {
             self.window = window
             super.init(root: root)
         }
 
-        public override func session(_ session: SessionProtocol, kind: Session.Kind) {
+        public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {
                 let session = Session.DispatchSync(session: EventCapture.Window(window: window),
                                                    queue: DispatchQueue.main)

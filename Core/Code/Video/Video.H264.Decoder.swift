@@ -7,13 +7,13 @@ import VideoToolbox
 // VideoDecoderH264
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public extension VideoProcessor {
+public extension Video.Processor {
     class DecoderH264 : Proto, Session.Proto {
         
-        private let next: VideoOutputProtocol?
+        private let next: Video.Processor.Proto?
         private var session: VTDecompressionSession?
         
-        init(_ next: VideoOutputProtocol?) {
+        init(_ next: Video.Processor.Proto?) {
             self.next = next
         }
         
@@ -24,14 +24,14 @@ public extension VideoProcessor {
             
         }
         
-        public func process(video: VideoBuffer) {
+        public func process(video: Video.Buffer) {
             if session == nil {
                 do {
                     guard
                         let formatDescription = CMSampleBufferGetFormatDescription(video.sampleBuffer)
                         else { logError("CMSampleBufferGetFormatDescription"); return }
                     let destinationPixelBufferAttributes = NSMutableDictionary()
-                    destinationPixelBufferAttributes.setValue(NSNumber(value: Capture.shared.pixelFormat),
+                    destinationPixelBufferAttributes.setValue(NSNumber(value: Video.defaultPixelFormat),
                                                               forKey: kCVPixelBufferPixelFormatTypeKey as String)
 
                     let decoderSpecification = NSMutableDictionary()
@@ -86,7 +86,7 @@ public extension VideoProcessor {
                 try check(status: status, message: "VTDecompressionOutputCallbacks")
                 
                 let SELF: DecoderH264 = unsafeBitCast(decompressionOutputRefCon, to: DecoderH264.self)
-                let videoRef: StructContainer<VideoBuffer> = bridgeRetained(ptr: sourceFrameRefCon!)
+                let videoRef: StructContainer<Video.Buffer> = bridgeRetained(ptr: sourceFrameRefCon!)
                 var sampleBuffer: CMSampleBuffer?
                 
                 var sampleTiming = CMSampleTimingInfo(
@@ -115,8 +115,8 @@ public extension VideoProcessor {
                             sampleBufferOut: &sampleBuffer),
                           message: "CMSampleBufferCreateForImageBuffer")
                 
-                Capture.shared.outputQueue.async {
-                    SELF.next?.process(video: VideoBuffer(ID: videoRef.inner.ID, buffer: sampleBuffer!))
+                Video.decoderQueue.async {
+                    SELF.next?.process(video: Video.Buffer(ID: videoRef.inner.ID, buffer: sampleBuffer!))
                 }
             }
             catch {
@@ -127,23 +127,23 @@ public extension VideoProcessor {
 }
 
 
-public extension VideoProcessor.DecoderH264 {
-    class Setup : VideoSetupSlave {
-        private let target: VideoProcessor.Kind
+public extension Video.Processor.DecoderH264 {
+    class Setup : Video.Setup.Slave {
+        private let target: Video.Processor.Kind
         
-        public init(root: VideoSetupProtocol, target: VideoProcessor.Kind = .deserializer) {
+        public init(root: Video.Setup.Proto, target: Video.Processor.Kind = .deserializer) {
             self.target = target
             super.init(root: root)
         }
         
-        public override func video(_ video: VideoProcessor.Proto, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
+        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
             var result = video
             
             if kind == self.target {
-                let next = root.video(VideoProcessor.shared, kind: .decoder)
-                let decoder = VideoProcessor.DecoderH264(next)
+                let next = root.video(Video.Processor.shared, kind: .decoder)
+                let decoder = Video.Processor.DecoderH264(next)
                 
-                result = VideoProcessor(prev: result, next: decoder)
+                result = Video.Processor.Base(prev: result, next: decoder)
             }
             
             return super.video(result, kind: kind)

@@ -9,21 +9,25 @@
 import Foundation
 
 
-public class VideoSetupMultithreading : VideoSetupSlave {
-    private let queue: OperationQueue
-    
-    public init(root: VideoSetupProtocol, queue: OperationQueue) {
-        self.queue = queue
-        super.init(root: root)
-    }
-    
-    public override func video(_ video: VideoOutputProtocol, kind: VideoProcessor.Kind) -> VideoOutputProtocol {
-        var result = video
+public extension Video.Setup {
+    class Multithreading : Video.Setup.Slave {
+        private let queue: OperationQueue
+        private let kind: Video.Processor.Kind
         
-        if kind == .encoder {
-            result = VideoOutputDispatch(next: result, queue: queue)
+        public init(root: Video.Setup.Proto, kind: Video.Processor.Kind, queue: OperationQueue) {
+            self.queue = queue
+            self.kind = kind
+            super.init(root: root)
         }
         
-        return super.video(result, kind: kind)
+        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+            var result = video
+            
+            if kind == kind {
+                result = Video.Processor.Dispatch(next: result, queue: queue)
+            }
+            
+            return super.video(result, kind: kind)
+        }
     }
 }

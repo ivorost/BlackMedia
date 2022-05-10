@@ -9,13 +9,25 @@
 import Foundation
 
 
+public extension Session {
+    final class Setup {
+        public static let shared: Proto = Base()
+    }
+}
+
+
 public protocol SessionSetupProtocol : AnyObject {
     func session(_ session: Session.Proto, kind: Session.Kind)
     func complete() -> Session.Proto?
 }
 
 
-public extension SessionSetupProtocol {
+public extension Session.Setup {
+    typealias Proto = SessionSetupProtocol
+}
+
+
+public extension Session.Setup.Proto {
     func setup() -> Session.Proto? {
         session(Session.shared, kind: .initial)
         return complete()
@@ -23,24 +35,19 @@ public extension SessionSetupProtocol {
 }
 
 
-public class SessionSetupBase : SessionSetupProtocol {
-    public func session(_ session: Session.Proto, kind: Session.Kind) {
-    }
-    
-    public func complete() -> Session.Proto? {
-        return nil
+public extension Session.Setup {
+    class Base : Proto {
+        public func session(_ session: Session.Proto, kind: Session.Kind) {
+        }
+        
+        public func complete() -> Session.Proto? {
+            return nil
+        }
     }
 }
 
 
-public final class SessionSetup : SessionSetupBase {
-    public typealias Base = SessionSetupBase
-    public typealias Proto = SessionSetupProtocol
-    public static let shared = SessionSetup()
-}
-
-
-public extension SessionSetup {
+public extension Session.Setup {
     class Slave : Base {
         private(set) weak var _root: Proto?
         
@@ -49,30 +56,30 @@ public extension SessionSetup {
         }
         
         var root: Proto {
-            return _root ?? SessionSetup.shared
+            return _root ?? shared
         }
     }
 }
 
-public extension SessionSetup {
+public extension Session.Setup {
     class Aggregator : Proto {
-        private var sessions = [SessionProtocol]()
+        private var sessions = [Session.Proto]()
         
         public init() {}
         
-        public func session(_ session: SessionProtocol, kind: Session.Kind) {
+        public func session(_ session: Session.Proto, kind: Session.Kind) {
             assert(!sessions.contains {  $0 === session })
             sessions.append(session)
         }
         
-        public func complete() -> SessionProtocol? {
+        public func complete() -> Session.Proto? {
             return broadcast(sessions)
         }
     }
 }
 
 
-public extension SessionSetup {
+public extension Session.Setup {
     class Chain : Proto {
         private let _next: Proto
         
@@ -95,7 +102,7 @@ public extension SessionSetup {
 }
 
 
-public extension SessionSetup {
+public extension Session.Setup {
     class Static : Slave {
         private let session: Session.Proto
         
@@ -113,24 +120,24 @@ public extension SessionSetup {
 }
 
 
-extension SessionSetup {
+public extension Session.Setup {
     class Vector : ProcessorWithVector<Proto>, Proto {
-        func session(_ session: SessionProtocol, kind: Session.Kind) {
+        public func session(_ session: Session.Proto, kind: Session.Kind) {
             vector.forEach { $0.session(session, kind: kind) }
         }
 
-        func complete() -> SessionProtocol? {
+        public func complete() -> Session.Proto? {
             return broadcast(vector.map { $0.complete() })
         }
     }
 }
 
 
-public extension SessionSetup {
+public extension Session.Setup {
     class DispatchSync : Chain {
         private let queue: DispatchQueue
         
-        public init(next: SessionSetup.Proto, queue: DispatchQueue) {
+        public init(next: Session.Setup.Proto, queue: DispatchQueue) {
             self.queue = queue
             super.init(next: next)
         }
@@ -147,11 +154,11 @@ public extension SessionSetup {
 }
 
 
-public extension SessionSetup {
+public extension Session.Setup {
     class Background : Chain {
         private let thread: BackgroundThread
 
-        public init(next: SessionSetup.Proto, thread: BackgroundThread) {
+        public init(next: Session.Setup.Proto, thread: BackgroundThread) {
             self.thread = thread
             super.init(next: next)
         }

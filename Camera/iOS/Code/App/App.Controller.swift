@@ -13,9 +13,18 @@ import RxSwift
 
 class AppController: UIViewController {
     private(set) var peersDiscovery: Peer.Bonjour.Session?
-    let peersSubject = BehaviorSubject<[Peer.Proto]>(value: [])
+    let peersSubject: BehaviorSubject<[Peer.Proto]>
     let peersLog = Peer.Log.BehaviorSubject()
+    let peerSelector: Peer.Selector
+    let put: Peer.Put
     private let bag = DisposeBag()
+    
+    required init?(coder: NSCoder) {
+        peersSubject = BehaviorSubject<[Peer.Proto]>(value: [])
+        peerSelector = Peer.Selector(peers: peersSubject)
+        put = Peer.Put(peerSelector)
+        super.init(coder: coder)
+    }
 }
 
 

@@ -8,6 +8,7 @@
 
 import Foundation
 import Bonjour
+import UIKit
 
 
 typealias BonjourPeer = Bonjour.Peer
@@ -15,9 +16,39 @@ typealias BonjourPeer = Bonjour.Peer
 
 extension Peer {
     class Bonjour : Peer.Base {
-        init(_ peer: BonjourPeer) {
+        private let peer: BonjourPeer
+        private weak var session: BonjourSession?
+        
+        init(peer: BonjourPeer, session: BonjourSession?) {
+            self.peer = peer
+            self.session = session
+            
             super.init(id: peer.id)
             self.name = peer.name
+        }
+
+        override func put(_ data: Data) {
+            super.put(data)
+            session?.send(data, to: [peer])
+        }
+        
+        override func connect() {
+            super.connect()
+            
+            session?.invite(peer, with: UIDevice.current.ipAddress?.data(using: .utf8), timeout: 5) { result in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                    break
+                case .success(let result):
+                    assert(result.id == self.peer.id)
+                }
+            }
+        }
+        
+        override func disconnect() {
+            super.disconnect()
+            state = .disconnected // doesn't support disconnecting
         }
     }
 }

@@ -8,9 +8,9 @@
 
 import AVFoundation
 
-class AudioAssetOutput : AssetOutput, AudioOutputProtocol {
+class AudioAssetOutput : Capture.AssetOutput, AudioOutputProtocol {
     
-    init(asset: AVAssetWriter, assetSession: AssetWriterSession, settings: CaptureSettings) {
+    init(asset: AVAssetWriter, assetSession: Capture.AssetWriterSession, settings: CaptureSettings) {
         let input = AVAssetWriterInput(mediaType: .audio, outputSettings: settings.data)
         super.init(writer: asset, writerSession: assetSession, input: input)
     }

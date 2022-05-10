@@ -12,10 +12,10 @@ import ReplayKit
 #endif
 
 
-#if os(iOS)
-public extension VideoProcessor {
+public extension Video.Processor {
     class Orientation : Base {
-        public override func process(video: VideoBuffer) {
+        public override func process(video: Video.Buffer) {
+            #if os(iOS)
             let orientation = CMGetAttachment(video.sampleBuffer,
                                               key: RPVideoSampleOrientationKey as CFString,
                                               attachmentModeOut: nil)
@@ -24,23 +24,25 @@ public extension VideoProcessor {
                 super.process(video: video.copy(orientation: orientation.uint8Value))
             }
             else {
-                assert(false)
+                #if !targetEnvironment(macCatalyst)
+//                assert(false)
+                #endif
                 super.process(video: video)
             }
+            #else
+            super.process(video: video)
+            #endif
         }
     }
 }
-#endif
 
 
-#if os(iOS)
-public extension VideoSetup {
-    class Orientation : VideoSetupProcessor {
-        public init(kind: VideoProcessor.Kind = .capture) {
+public extension Video.Setup {
+    class Orientation : Video.Setup.Processor {
+        public init(kind: Video.Processor.Kind = .capture) {
             super.init(kind: kind) {
-                return VideoProcessor.Orientation(next: $0)
+                return Video.Processor.Orientation(next: $0)
             }
         }
     }
 }
-#endif

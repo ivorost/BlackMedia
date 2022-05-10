@@ -7,15 +7,24 @@
 //
 
 import Foundation
+#if os(OSX)
+import Cocoa
+#endif
 
 fileprivate extension TimeInterval {
     static let calcDuration: TimeInterval = 3 // in seconds
 }
 
+
 public class MeasureCPS : Flushable {
     private var data = [(count: Int, timestamp: Date)]()
     private var callback: FuncWithDouble?
     private let lock = NSLock()
+    private let next: String.Processor.Proto
+    
+    init(next: String.Processor.Proto = String.Processor.Print.shared) {
+        self.next = next
+    }
     
     func measure(count: Int) {
         lock.locked {
@@ -33,6 +42,7 @@ public class MeasureCPS : Flushable {
     }
     
     func process(cps: Double) {
+        next.process(string: "\(cps)")
     }
     
     private func flushData(_ date: Date) {
@@ -44,3 +54,31 @@ public class MeasureCPS : Flushable {
         return data.map{ Double($0.count) }.reduce(0, +) / max(1, date.timeIntervalSince(first.timestamp))
     }
 }
+
+
+public class MeasureFPS : MeasureCPS, MeasureProtocol {
+    public func begin() {
+    }
+    
+    public func end() {
+        measure(count: 1)
+    }
+}
+
+
+#if os(OSX)
+public class MeasureFPSLabel : MeasureFPS {
+    let label: NSTextField
+
+    public init(label: NSTextField) {
+        self.label = label
+    }
+    
+    override func process(cps: Double) {
+        dispatchMainAsync {
+            self.label.stringValue = "\(Int(cps))"
+        }
+        super.process(cps: cps)
+    }
+}
+#endif

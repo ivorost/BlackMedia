@@ -8,7 +8,7 @@
 
 import AVFoundation
 
-class AudioInput : NSObject, SessionProtocol, AVCaptureAudioDataOutputSampleBufferDelegate {
+class AudioInput : NSObject, Session.Proto, AVCaptureAudioDataOutputSampleBufferDelegate {
     
     private let session: AVCaptureSession
     private let device: AVCaptureDevice

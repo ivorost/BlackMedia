@@ -10,13 +10,13 @@ extension CMVideoDimensions : Equatable {
     public var size: CGSize {
         return CGSize(width: CGFloat(width), height: CGFloat(height))
     }
-    
+
+    public var bitrate: Int32 {
+        return width * height
+    }
+
     public func turn() -> CMVideoDimensions {
         return CMVideoDimensions(width: height, height: width)
-    }
-    
-    public func bitrate() -> Int32 {
-        return width * height
     }
 }
 

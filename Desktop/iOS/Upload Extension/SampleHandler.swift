@@ -7,78 +7,21 @@
 //
 
 import ReplayKit
-import Core
-
-fileprivate class SetupDisplayCapture : VideoSetupVector {
-    private let encoderConfig: VideoEncoderConfig
-    private(set) var capture: VideoSetup.External?
-    private let encoderOutputQueue = OperationQueue()
-
-    init(encoderConfig: VideoEncoderConfig) {
-        self.encoderConfig = encoderConfig
-        self.encoderOutputQueue.maxConcurrentOperationCount = 3
-        super.init()
-    }
-    
-    override func create() -> [VideoSetupProtocol] {
-        guard
-            let wsSenderData = URL.wsSenderData,
-            let wsSenderHelm = URL.wsSenderData
-        else { assert(false); return [] }
-
-        let root = self
-        let aggregator = SessionSetup.Aggregator()
-        let timebase = Timebase(); root.session(timebase, kind: .other)
-        let displayInfo = DisplaySetup.InfoCapture(root: root, settings: DisplayConfig(displayID: 0, fps: CMTime.zero)!)
-        let capture = VideoSetup.External(root: root)
-        let orientation = VideoSetup.Orientation()
-        let recolor = VideoSetup.Recolor()
-        let encoder = VideoSetupEncoder(root: root, settings: encoderConfig)
-        let serializer = VideoSetupDeserializerH264(root: root, kind: .serializer)
-        let multithreading = VideoSetupMultithreading(root: root, queue: encoderOutputQueue)
-        let websocket = WebSocketClient.Setup(data: self, url: wsSenderData, target: .serializer)
-        let webSocketHelm = cast(video: WebSocketClient.Setup(helm: root, url: wsSenderHelm, target: .none))
-        let webSocketACK = VideoSetupSenderACK(root: root, timebase: timebase, metric: StringProcessor.Print.shared)
-        
-        let byterateString = StringProcessor.shared//.Print.shared
-        let byterateMeasure = MeasureByterate(string: byterateString)
-        let byterate = VideoSetupDataProcessor(data: byterateMeasure, kind: .networkDataOutput)
-
-        let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ /*byterateMeasure*/ ]))
-        aggregator.session(Session.DispatchSync(session: flushPeriodically, queue: DispatchQueue.main), kind: .other)
-
-        self.capture = capture
-        
-        return [
-            cast(video: websocket),
-            cast(video: displayInfo),
-            cast(video: aggregator),
-            encoder,
-            serializer,
-            recolor,
-            multithreading,
-            webSocketHelm,
-            webSocketACK,
-            cast(video: capture),
-            orientation,
-            byterate ]
-    }
-}
 
 
 class SampleHandler: RPBroadcastSampleHandler {
 
     private var session: Session.Proto?
-    private var config: SetupDisplayCapture?
+    private var config: Video.Setup.ScreenCapture?
     private var videoID: UInt = 0
     
     override func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
         let dimensions = CMVideoDimensions(width: Int32(UIScreen.main.bounds.width * UIScreen.main.scale),
                                            height: Int32(UIScreen.main.bounds.height * UIScreen.main.scale))
-        let encoderConfig = VideoEncoderConfig(codec: .h264,
-                                               input: dimensions,
-                                               output: dimensions)
-        let config = SetupDisplayCapture(encoderConfig: encoderConfig)
+        let encoderConfig = Video.EncoderConfig(codec: .h264,
+                                                input: dimensions,
+                                                output: dimensions)
+        let config = Video.Setup.ScreenCapture(encoderConfig: encoderConfig)
 
         self.videoID = 0
         self.config = config
@@ -107,8 +50,8 @@ class SampleHandler: RPBroadcastSampleHandler {
             self.videoID += 1
             let videoID = self.videoID
                         
-            Capture.shared.captureQueue.async {
-                self.config?.capture?.video.process(video: VideoBuffer(ID: videoID, buffer: sampleBuffer))
+            Capture.queue.async {
+                self.config?.capture?.video.process(video: Video.Buffer(ID: videoID, buffer: sampleBuffer))
             }
             assert(config?.capture != nil)
             break

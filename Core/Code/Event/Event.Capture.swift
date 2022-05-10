@@ -9,6 +9,11 @@
 import AppKit
 
 
+public final class Event {
+    public final class Setup {}
+}
+
+
 public class EventCapture {
     
 }
@@ -134,7 +139,7 @@ fileprivate func eventCallback(proxy: CGEventTapProxy,
 
 public extension EventCapture {
     class Setup : EventProcessorSetup.Slave {
-        public override func session(_ session: SessionProtocol, kind: Session.Kind) {
+        public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {
                 let captureProcessor = root.event(EventProcessor.shared, kind: .capture)
                 let captureTap = Session.shared// EventCapture.Tap(next: captureProcessor)

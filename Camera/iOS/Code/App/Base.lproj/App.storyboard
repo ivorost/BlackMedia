@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vZC-2L-J1n">
-    <device id="retina4_0" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vZC-2L-J1n">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--App Controller-->
+        <!--Who will be here?-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="AppController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5TM-Du-XsB">
-                                <rect key="frame" x="10" y="54" width="300" height="504"/>
+                                <rect key="frame" x="10" y="138" width="394" height="724"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Who will be here?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elX-4V-f0m">
-                                        <rect key="frame" x="63" y="0.0" width="174.5" height="27.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                        <color key="textColor" systemColor="secondaryLabelColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-OU-8ZW">
-                                        <rect key="frame" x="50" y="64" width="200" height="140"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-OU-8ZW">
+                                        <rect key="frame" x="97" y="0.0" width="200" height="140"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="2Wk-og-9KP"/>
                                             <constraint firstAttribute="height" constant="140" id="tHq-qG-21F"/>
@@ -35,17 +29,17 @@
                                         <state key="normal" image="baby"/>
                                         <connections>
                                             <action selector="babyButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m5D-3r-QPk"/>
-                                            <segue destination="GPn-qo-tCt" kind="show" customClass="ListenSegue" customModule="CameraIOS" customModuleProvider="target" id="gzp-tT-Oxe"/>
+                                            <segue destination="GPn-qo-tCt" kind="show" customClass="CaptureSegue" customModule="CameraIOS" customModuleProvider="target" id="gzp-tT-Oxe"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- or -" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nfw-eV-0hf">
-                                        <rect key="frame" x="124.5" y="240" width="51" height="27.5"/>
+                                        <rect key="frame" x="171.5" y="318.5" width="51" height="27.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNd-JW-T4m">
-                                        <rect key="frame" x="50" y="304" width="200" height="200"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNd-JW-T4m">
+                                        <rect key="frame" x="97" y="524" width="200" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="KyU-nn-kPj"/>
                                             <constraint firstAttribute="width" constant="200" id="b5C-8h-47s"/>
@@ -53,6 +47,7 @@
                                         <state key="normal" image="parents"/>
                                         <connections>
                                             <action selector="parentsButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZOp-bu-PeL"/>
+                                            <segue destination="799-8J-dGE" kind="show" identifier="" customClass="ReceiverSegue" customModule="CameraIOS" customModuleProvider="target" id="j8o-yz-9dF"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -61,13 +56,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="5TM-Du-XsB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="7r2-nX-7L5"/>
+                            <constraint firstItem="5TM-Du-XsB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="7r2-nX-7L5"/>
                             <constraint firstItem="5TM-Du-XsB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="ALq-8j-5ej"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5TM-Du-XsB" secondAttribute="bottom" constant="10" id="nSA-a9-hFR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5TM-Du-XsB" secondAttribute="bottom" id="nSA-a9-hFR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5TM-Du-XsB" secondAttribute="trailing" constant="10" id="qkT-HZ-fHR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="dPD-ib-B0y">
+                    <navigationItem key="navigationItem" title="Who will be here?" id="dPD-ib-B0y">
                         <barButtonItem key="rightBarButtonItem" title="Trace" id="bIA-bc-zkY">
                             <connections>
                                 <segue destination="IvQ-C8-wpR" kind="show" customClass="PeerTraceShowSegue" customModule="CameraIOS" customModuleProvider="target" id="Cl6-Wz-9Us"/>
@@ -84,7 +79,7 @@
             <objects>
                 <navigationController id="vZC-2L-J1n" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="00w-SR-ahr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -95,16 +90,16 @@
             </objects>
             <point key="canvasLocation" x="-470" y="96"/>
         </scene>
-        <!--Listening-->
+        <!--Child-->
         <scene sceneID="kTp-gZ-1C5">
             <objects>
-                <viewController id="GPn-qo-tCt" customClass="ListenViewController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="GPn-qo-tCt" customClass="CaptureController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z0t-qi-cHy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUl-X7-ACF" customClass="SampleBufferDisplayView" customModule="CameraIOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUl-X7-ACF" customClass="SampleBufferDisplayView" customModule="Utils">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -117,7 +112,7 @@
                             <constraint firstItem="XoN-L3-LJY" firstAttribute="bottom" secondItem="rUl-X7-ACF" secondAttribute="bottom" id="OeC-ny-aSN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Listening" id="k0X-0f-sBU">
+                    <navigationItem key="navigationItem" title="Child" id="k0X-0f-sBU">
                         <barButtonItem key="backBarButtonItem" title="Done" id="l0c-D6-2xi"/>
                     </navigationItem>
                     <connections>
@@ -126,18 +121,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UpQ-p5-hjZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="1058"/>
+            <point key="canvasLocation" x="-10" y="1069"/>
         </scene>
         <!--Peer Trace Controller-->
         <scene sceneID="zYw-jO-xKL">
             <objects>
                 <viewController id="IvQ-C8-wpR" customClass="PeerTraceController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="23a-X0-ysx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TIr-tV-Fsc">
-                                <rect key="frame" x="20" y="121" width="280" height="190"/>
+                                <rect key="frame" x="20" y="165" width="374" height="190"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="190" id="FNy-i1-hNL"/>
                                 </constraints>
@@ -146,25 +141,25 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VEF-1g-6gW">
-                                <rect key="frame" x="20" y="391" width="280" height="177"/>
+                                <rect key="frame" x="20" y="435" width="374" height="427"/>
                                 <connections>
                                     <segue destination="kUo-hl-hvd" kind="embed" id="gB1-bD-9uV"/>
                                 </connections>
                             </containerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B8H-wl-PGI">
-                                <rect key="frame" x="28" y="92" width="44" height="21"/>
+                                <rect key="frame" x="28" y="136" width="44" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HlQ-h7-Tb6">
-                                <rect key="frame" x="28" y="362" width="29" height="21"/>
+                                <rect key="frame" x="28" y="406" width="29" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LbH-S1-cBh" userLabel="Line1">
-                                <rect key="frame" x="16" y="114" width="374" height="1"/>
+                                <rect key="frame" x="20" y="158" width="374" height="1"/>
                                 <color key="backgroundColor" systemColor="labelColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="ExD-wv-NSG"/>
@@ -172,7 +167,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8br-g7-Xvy" userLabel="Line2">
-                                <rect key="frame" x="16" y="384" width="374" height="1"/>
+                                <rect key="frame" x="20" y="428" width="374" height="1"/>
                                 <color key="backgroundColor" systemColor="labelColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="374" id="Pjs-Ye-RU0"/>
@@ -215,19 +210,19 @@
             <objects>
                 <tableViewController id="5VU-LN-a5w" customClass="PeerTableController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="z2v-Uj-zZu">
-                        <rect key="frame" x="0.0" y="0.0" width="280" height="190"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="190"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" id="qgy-wY-Ngl" customClass="PeerTableCell" customModule="CameraIOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.5" width="280" height="43.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="374" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qgy-wY-Ngl" id="YhR-Pb-dEF">
-                                    <rect key="frame" x="0.0" y="0.0" width="280" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEN-Wi-aCt">
-                                            <rect key="frame" x="16" y="11" width="42" height="21.5"/>
+                                            <rect key="frame" x="20" y="11" width="42" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -260,19 +255,19 @@
             <objects>
                 <tableViewController id="kUo-hl-hvd" customClass="PeerLogTableController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="d8u-lb-Cgf">
-                        <rect key="frame" x="0.0" y="0.0" width="280" height="177"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="427"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" id="Xmb-St-Bv4" customClass="PeerLogTableCell" customModule="CameraIOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.5" width="280" height="43"/>
+                                <rect key="frame" x="0.0" y="44.5" width="374" height="43"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Xmb-St-Bv4" id="b3w-19-j4m">
-                                    <rect key="frame" x="0.0" y="0.0" width="280" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCS-7A-yVh">
-                                            <rect key="frame" x="16" y="11" width="42" height="21"/>
+                                            <rect key="frame" x="20" y="11" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -300,6 +295,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YYR-6b-5ne" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2454" y="297"/>
+        </scene>
+        <!--Parents-->
+        <scene sceneID="HaG-Eb-LM7">
+            <objects>
+                <viewController id="799-8J-dGE" customClass="ReceiverController" customModule="CameraIOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sac-oo-AKO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-Fm-Q55" customClass="SampleBufferDisplayView" customModule="Utils">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iqe-06-vHP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iqe-06-vHP" firstAttribute="trailing" secondItem="wWl-Fm-Q55" secondAttribute="trailing" id="KwC-sm-go2"/>
+                            <constraint firstItem="wWl-Fm-Q55" firstAttribute="top" secondItem="iqe-06-vHP" secondAttribute="top" id="Y8p-9R-7Hj"/>
+                            <constraint firstItem="wWl-Fm-Q55" firstAttribute="leading" secondItem="iqe-06-vHP" secondAttribute="leading" id="t3V-oI-eex"/>
+                            <constraint firstItem="iqe-06-vHP" firstAttribute="bottom" secondItem="wWl-Fm-Q55" secondAttribute="bottom" id="tva-LL-HMs"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Parents" id="YZa-tN-5qn">
+                        <barButtonItem key="backBarButtonItem" title="Done" id="l6P-8H-Kgh"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sampleBufferView" destination="wWl-Fm-Q55" id="0Ud-Vs-o2v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zcf-ok-bIv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="870" y="1069"/>
         </scene>
     </scenes>
     <resources>

@@ -8,25 +8,29 @@
 
 import AVFoundation
 
-struct VideoTime {
-    let timestamp: CaptureTime
-    let duration: CaptureTime
-    
-    init() {
-        timestamp = CaptureTime()
-        duration = CaptureTime()
-    }
-    
-    init(timestamp: CaptureTime, duration: CaptureTime) {
-        self.timestamp = timestamp
-        self.duration = duration
+
+extension Video {
+    struct Time {
+        let timestamp: Capture.Time
+        let duration: Capture.Time
+        
+        init() {
+            timestamp = Capture.Time()
+            duration = Capture.Time()
+        }
+        
+        init(timestamp: Capture.Time, duration: Capture.Time) {
+            self.timestamp = timestamp
+            self.duration = duration
+        }
     }
 }
 
-extension VideoTime {
+
+extension Video.Time {
     
     init(_ x: CMSampleTimingInfo) {
-        self.init(timestamp: CaptureTime(x.presentationTimeStamp), duration: CaptureTime(x.duration))
+        self.init(timestamp: Capture.Time(x.presentationTimeStamp), duration: Capture.Time(x.duration))
     }
     
     var cmSampleTimingInfo: CMSampleTimingInfo {
@@ -35,11 +39,12 @@ extension VideoTime {
                                   decodeTimeStamp: timestamp.cmTime)
     }
     
-    func relative(to timebase: VideoTime) -> VideoTime {
-        return VideoTime(timestamp: timestamp.substract(timebase.timestamp), duration: duration)
+    func relative(to timebase: Video.Time) -> Video.Time {
+        return Video.Time(timestamp: timestamp.substract(timebase.timestamp), duration: duration)
         
     }
 }
 
-extension VideoTime : StructProtocol {
+
+extension Video.Time : StructProtocol {
 }

@@ -1,5 +1,5 @@
 
-#include "../../ThirdParty/repository/xcconfigs/macOS/macOS-Application.xcconfig"
+#include "../ThirdParty/repository/xcconfigs/macOS/macOS-Application.xcconfig"
 #include "Base-macOS.xcconfig"
 #include "Application.xcconfig"
 

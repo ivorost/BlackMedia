@@ -10,7 +10,7 @@ import AppKit
 
 
 class DisplayMirrorWindowController : NSWindowController, NSWindowDelegate {
-    var session: SessionProtocol?
+    var session: Session.Proto?
     
     var viewController: DisplayMirrorController? {
         return contentViewController as? DisplayMirrorController

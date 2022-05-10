@@ -22,7 +22,7 @@ public extension EventProcessor.Kind {
 }
 
 
-public protocol EventProcessorSetupProtocol : CaptureSetupProtocol {
+public protocol EventProcessorSetupProtocol : Capture.Setup.Proto {
     func event(_ event: EventProcessor.Proto, kind: EventProcessor.Kind) -> EventProcessor.Proto
 }
 
@@ -39,14 +39,14 @@ public class EventProcessorSetup : EventProcessor.Setup {
         return event
     }
     
-    public func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+    public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
         return data
     }
 
-    public func session(_ session: SessionProtocol, kind: Session.Kind) {
+    public func session(_ session: Session.Proto, kind: Session.Kind) {
     }
     
-    public func complete() -> SessionProtocol? {
+    public func complete() -> Session.Proto? {
         return nil
     }
 }
@@ -74,7 +74,7 @@ public extension EventProcessorSetup {
 
 
 extension EventProcessorSetup {
-    open class Vector : CaptureSetup.VectorBase<Proto>, Proto {
+    open class Vector : Capture.Setup.VectorBase<Proto>, Proto {
         public func event(_ event: EventProcessor.Proto, kind: EventProcessor.Kind) -> EventProcessor.Proto {
             return vector.reduce(event) { $1.event($0, kind: kind) }
         }
@@ -114,17 +114,17 @@ public extension EventProcessorSetup {
 
 extension EventProcessorSetup {
    fileprivate class SessionAdapter : Base {
-        private let session: Session.Setup
+        private let session: Session.Setup.Proto
         
-        init(session: Session.Setup) {
+        init(session: Session.Setup.Proto) {
             self.session = session
         }
 
-        override func session(_ session: SessionProtocol, kind: Session.Kind) {
+        override func session(_ session: Session.Proto, kind: Session.Kind) {
             self.session.session(session, kind: kind)
         }
         
-        override func complete() -> SessionProtocol? {
+        override func complete() -> Session.Proto? {
             return self.session.complete()
         }
     }
@@ -133,14 +133,14 @@ extension EventProcessorSetup {
 
 extension EventProcessorSetup {
     fileprivate class CaptureAdapter : SessionAdapter {
-        private let capture: CaptureSetup.Proto
+        private let capture: Capture.Setup.Proto
         
-        init(capture: CaptureSetup.Proto) {
+        init(capture: Capture.Setup.Proto) {
             self.capture = capture
             super.init(session: capture)
         }
         
-        override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+        override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
             return capture.data(data, kind: kind)
         }
     }
@@ -173,7 +173,7 @@ public extension EventProcessorSetup {
             return next.event(event, kind: kind)
         }
         
-        public func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
             return next.data(data, kind: kind)
         }
         
@@ -188,11 +188,11 @@ public extension EventProcessorSetup {
 }
 
 
-public func cast(event session: Session.Setup) -> EventProcessor.Setup {
+public func cast(event session: Session.Setup.Proto) -> EventProcessor.Setup {
     return EventProcessorSetup.SessionAdapter(session: session)
 }
 
 
-public func cast(event capture: Capture.Setup) -> EventProcessor.Setup {
+public func cast(event capture: Capture.Setup.Proto) -> EventProcessor.Setup {
     return EventProcessorSetup.CaptureAdapter(capture: capture)
 }

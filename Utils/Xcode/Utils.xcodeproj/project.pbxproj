@@ -47,6 +47,8 @@
 		8253F7AA25F348DE003BC267 /* Metal.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7A825F348DE003BC267 /* Metal.Device.swift */; };
 		8253F7AF25F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */; };
 		8253F7B025F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */; };
+		8267EF38281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */; };
+		8267EF39281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		82981685279EE4E3004B3EB1 /* UI.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981684279EE4E3004B3EB1 /* UI.Segue.swift */; };
 		82981686279EE4E3004B3EB1 /* UI.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981684279EE4E3004B3EB1 /* UI.Segue.swift */; };
 		82981688279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */; };
@@ -81,6 +83,8 @@
 		82B3AC9F25D5354700DA6D29 /* AVFoundation.SampleBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FFD25D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift */; };
 		82B3ACA025D5354700DA6D29 /* CoreGraphics.Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C800025D12ABE004E77F9 /* CoreGraphics.Array.swift */; };
 		82B3ACA125D5354700DA6D29 /* QuartzCore.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C801425D12ABE004E77F9 /* QuartzCore.Layer.swift */; };
+		82BC33C4281FC757007AFD89 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BC33C3281FC757007AFD89 /* AppKit.Device.swift */; };
+		82BC33C5281FC757007AFD89 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BC33C3281FC757007AFD89 /* AppKit.Device.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +125,7 @@
 		8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreVideo.PixelBuffer.swift; sourceTree = "<group>"; };
 		825A444525D1B0C900A2EA49 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
 		825A444625D1B0C900A2EA49 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.CaptureDevice.swift; sourceTree = "<group>"; };
 		82981684279EE4E3004B3EB1 /* UI.Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.Segue.swift; sourceTree = "<group>"; };
 		82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Typedefs.swift; sourceTree = "<group>"; };
 		8298168F279EEC0E004B3EB1 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +133,7 @@
 		82B3AC6825D5190E00DA6D29 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		82B3ACA725D5354700DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3ACAF25D535FC00DA6D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82BC33C3281FC757007AFD89 /* AppKit.Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Device.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +213,7 @@
 				822C7FFA25D12ABE004E77F9 /* AppKit.View.swift */,
 				822C7FFB25D12ABE004E77F9 /* AppKit.ViewController.swift */,
 				8202D37125DE28A900E211C0 /* AppKit.Window.swift */,
+				82BC33C3281FC757007AFD89 /* AppKit.Device.swift */,
 			);
 			path = AppKit;
 			sourceTree = "<group>";
@@ -214,8 +221,9 @@
 		822C7FFC25D12ABE004E77F9 /* AVFoundation */ = {
 			isa = PBXGroup;
 			children = (
-				822C7FFD25D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift */,
 				822C7FFE25D12ABE004E77F9 /* AVFoundation.swift */,
+				822C7FFD25D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift */,
+				8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */,
 			);
 			path = AVFoundation;
 			sourceTree = "<group>";
@@ -448,11 +456,13 @@
 				822C802825D12ABE004E77F9 /* CoreMedia.swift in Sources */,
 				822C803625D12ABE004E77F9 /* Swift.Pointers.swift in Sources */,
 				822C802F25D12ABE004E77F9 /* Foundation.Thread.Exec.swift in Sources */,
+				8267EF38281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */,
 				822C803225D12ABE004E77F9 /* Foundation.URL.swift in Sources */,
 				822C803525D12ABE004E77F9 /* Swift.Collection.swift in Sources */,
 				822C802025D12ABE004E77F9 /* AppKit.View.swift in Sources */,
 				822C802725D12ABE004E77F9 /* CoreGraphics.General.swift in Sources */,
 				822C803925D12ABE004E77F9 /* UI.Button.swift in Sources */,
+				82BC33C4281FC757007AFD89 /* AppKit.Device.swift in Sources */,
 				822C80E025D18917004E77F9 /* General.Status.swift in Sources */,
 				822C802D25D12ABE004E77F9 /* Foundation.System.swift in Sources */,
 				822C802925D12ABE004E77F9 /* General.Dispatch.swift in Sources */,
@@ -491,11 +501,13 @@
 				82B3AC9625D5354700DA6D29 /* Foundation.Thread.Exec.swift in Sources */,
 				82B3AC9725D5354700DA6D29 /* Foundation.URL.swift in Sources */,
 				8202D3E225DE425200E211C0 /* AppKit.ViewController.swift in Sources */,
+				8267EF39281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */,
 				82B3AC9825D5354700DA6D29 /* Swift.Collection.swift in Sources */,
 				82B3AC9925D5354700DA6D29 /* AppKit.View.swift in Sources */,
 				82B3AC9A25D5354700DA6D29 /* CoreGraphics.General.swift in Sources */,
 				82B3AC9B25D5354700DA6D29 /* UI.Button.swift in Sources */,
 				82B3AC9C25D5354700DA6D29 /* General.Status.swift in Sources */,
+				82BC33C5281FC757007AFD89 /* AppKit.Device.swift in Sources */,
 				82B3AC9D25D5354700DA6D29 /* Foundation.System.swift in Sources */,
 				8202D3DF25DE425000E211C0 /* AppKit.Window.swift in Sources */,
 				82B3AC9E25D5354700DA6D29 /* General.Dispatch.swift in Sources */,

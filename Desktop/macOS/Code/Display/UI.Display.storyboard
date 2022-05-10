@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XNb-RB-w34">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="XNb-RB-w34">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Display Capture Controller-->
         <scene sceneID="XeK-TB-t5T">
             <objects>
-                <viewController id="XNb-RB-w34" customClass="DisplayCaptureController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XNb-RB-w34" customClass="DisplayCaptureController" customModule="DesktopOSX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="p0u-dM-0Pc" userLabel="Video">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="785"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -299,7 +299,7 @@
                                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                 <prototypeCellViews>
                                                                                     <tableCellView id="S99-MB-h70">
-                                                                                        <rect key="frame" x="11" y="1" width="377" height="17"/>
+                                                                                        <rect key="frame" x="1" y="1" width="377" height="17"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <subviews>
                                                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="051-DI-WDo">
@@ -363,7 +363,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="i6p-k6-ICR">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="400" height="203"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="380" height="203"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -454,7 +454,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Z2C-QE-Gc2">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="400" height="193"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="380" height="193"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -543,7 +543,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="5VA-Qd-Pvv">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="400" height="193"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="380" height="193"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -808,7 +808,7 @@
                 </viewController>
                 <customObject id="ErS-9C-vgQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="Rv7-hZ-abH"/>
-                <customObject id="tUD-gx-7Er" customClass="DisplayCaptureViews" customModule="Sample" customModuleProvider="target">
+                <customObject id="tUD-gx-7Er" customClass="ScreenCaptureViews" customModule="Core">
                     <connections>
                         <outlet property="inputFPSLabel" destination="AuH-Fn-Wg7" id="Wlr-fX-1zt"/>
                         <outlet property="outputFPSLabel" destination="rBs-dU-hgD" id="B8y-ik-7hK"/>
@@ -829,7 +829,7 @@
                         <outlet property="tableViewTiming" destination="j2s-On-K8d" id="wQI-h5-8C3"/>
                     </connections>
                 </customObject>
-                <customObject id="llP-sz-iWh" customClass="SetupNetworkTestUI" customModule="Sample" customModuleProvider="target">
+                <customObject id="llP-sz-iWh" customClass="NetworkTestView" customModule="Core">
                     <connections>
                         <outlet property="capture" destination="tUD-gx-7Er" id="6Yh-Ac-6Op"/>
                         <outlet property="intervalTextField" destination="7oS-lL-bTR" id="PJ0-g5-xmA"/>
@@ -844,7 +844,7 @@
         <!--Window Controller-->
         <scene sceneID="pas-Sa-K1W">
             <objects>
-                <windowController id="TQ4-Av-mZf" customClass="DisplayMirrorWindowController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController id="TQ4-Av-mZf" customClass="DisplayMirrorWindowController" customModule="DesktopOSX" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="fol-Lp-3Yx">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -865,7 +865,7 @@
         <!--Display Mirror Controller-->
         <scene sceneID="EBn-9B-ah5">
             <objects>
-                <viewController id="AYf-Hr-W2i" customClass="DisplayMirrorController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="AYf-Hr-W2i" customClass="DisplayMirrorController" customModule="DesktopOSX" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Vbm-1T-MyN" customClass="SampleBufferDisplayView" customModule="Utils">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -881,7 +881,7 @@
         <!--Privacy View Controller-->
         <scene sceneID="Wzy-4Q-VRS">
             <objects>
-                <viewController id="dJN-Yw-FH4" customClass="PrivacyViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dJN-Yw-FH4" customClass="PrivacyViewController" customModule="DesktopOSX" customModuleProvider="target" sceneMemberID="viewController">
                     <customView key="view" id="hwW-qJ-JjV">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -929,7 +929,7 @@
                 </viewController>
                 <customObject id="pO3-XJ-LQc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="529" y="2031"/>
+            <point key="canvasLocation" x="529" y="2270"/>
         </scene>
     </scenes>
     <resources>

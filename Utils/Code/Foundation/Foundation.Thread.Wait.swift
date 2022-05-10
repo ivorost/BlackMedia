@@ -36,7 +36,7 @@ public func wait(interval: Double, timeout: Double? = nil, throwingAsyncBlock: (
     while true {
         #if DEBUG
         i += 1
-//        if i > 5000 { assert(false) }
+        if i > 50000 { assert(false) }
         #endif
         
         if done {

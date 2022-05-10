@@ -10,19 +10,20 @@ import Foundation
 import Bonjour
 import RxSwift
 import CoreMedia
+import Core
 
 
 final class Peer {}
 
 
-protocol PeerProtocol : AnyObject {
-    var id: String { get }
-    var name: String { get }
-    var state: Peer.State { get }
+protocol PeerProtocol : Network.Peer.Proto, AnyObject {
     var rx: Peer.Rx { get }
-    
-    func send(_ data: Data)
-    func receive(_ data: Data)
+}
+
+
+extension Peer {
+    typealias Proto = PeerProtocol
+    typealias State = Network.Peer.State
 }
 
 
@@ -37,46 +38,38 @@ extension Peer {
         
         private let rxName: PublishSubject<String>
         private let rxState: PublishSubject<State>
-        private let rxSend: PublishSubject<Data>
-        private let rxReceive: PublishSubject<Data>
+        private let rxPut: PublishSubject<Data>
+        private let rxGet: PublishSubject<Data>
         
         init(id: String) {
             let rxName = PublishSubject<String>()
             let rxState = PublishSubject<State>()
-            let rxSend = PublishSubject<Data>()
-            let rxReceive = PublishSubject<Data>()
+            let rxPut = PublishSubject<Data>()
+            let rxGet = PublishSubject<Data>()
 
             self.id = id
             self.rxName = rxName
             self.rxState = rxState
-            self.rxSend = rxSend
-            self.rxReceive = rxReceive
-            self.rx = Rx(name: rxName, state: rxState, send: rxSend, receive: rxReceive)
+            self.rxPut = rxPut
+            self.rxGet = rxGet
+            self.rx = Rx(name: rxName, state: rxState, put: rxPut, get: rxGet)
         }
         
-        func send(_ data: Data) {
-            rxSend.onNext(data)
+        func connect() {
+            state = .connecting
         }
         
-        func receive(_ data: Data) {
-            rxReceive.onNext(data)
+        func disconnect() {
+            state = .disconnecting
         }
-    }
-}
 
-
-extension Peer {
-    typealias Proto = PeerProtocol
-}
-
-
-extension Peer {
-    enum State {
-        case unavailable
-        case available
-        case disconnected
-        case connected
-        case connecting
+        func put(_ data: Data) {
+            rxPut.onNext(data)
+        }
+        
+        func get(_ data: Data) {
+            rxGet.onNext(data)
+        }
     }
 }
 
@@ -85,8 +78,8 @@ extension Peer {
     struct Rx {
         let name: Observable<String>
         let state: Observable<State>
-        let send: Observable<Data>
-        let receive: Observable<Data>
+        let put: Observable<Data>
+        let get: Observable<Data>
     }
 }
 

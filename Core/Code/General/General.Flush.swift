@@ -51,7 +51,7 @@ public extension Flushable {
 
 
 public extension Flushable {
-    class Periodically : Proto, SessionProtocol {
+    class Periodically : Proto, Session.Proto {
         private let next: Flushable.Proto
         private let interval: TimeInterval
         private var timer: Timer?
@@ -85,10 +85,10 @@ public extension Flushable {
 
 public extension Flushable {
     class OperationsNumber : Proto {
-        private let next: StringProcessor.Proto
+        private let next: String.Processor.Proto
         private let queue: OperationQueue
         
-        public init(queue: OperationQueue, next: StringProcessor.Proto) {
+        public init(queue: OperationQueue, next: String.Processor.Proto) {
             self.next = next
             self.queue = queue
         }

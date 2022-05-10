@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
          <BreakpointContent
             uuid = "DB12BF39-067A-4022-BAC5-3B9FA2A1FB1F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No">
             <Actions>
@@ -36,16 +36,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7979261C-6BCE-460E-8071-A32AE5CF2DE6"
+            uuid = "DB56DC2A-84A5-4B7A-BC77-6C7984CF20F5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Camera/iOS/Code/Bonjour/Bonjour.Session.swift"
+            filePath = "Core/Code/Capture/Capture.General.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "onPeerDisconnection(_:)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "start()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

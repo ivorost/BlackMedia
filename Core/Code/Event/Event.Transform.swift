@@ -10,10 +10,10 @@ import AppKit
 
 
 public extension EventProcessor {
-    class Transform : Base, DataProcessor.Proto {
+    class Transform : Base, Data.Processor.Proto {
         fileprivate var next: Proto?
         private let layer: CALayer
-        private let display = DisplayCapture.InfoViewer()
+        private let display = Data.Processor.ScreenConfigDeserializer()
         
         public init(layer: CALayer) {
             self.layer = layer
@@ -87,11 +87,11 @@ public extension EventProcessorSetup {
             return super.event(result, kind: kind)
         }
         
-        public override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
             var result = data
             
             if kind == .networkDataOutput {
-                result = DataProcessor(prev: result, next: processor)
+                result = Data.Processor.Base(prev: result, next: processor)
             }
             
             return super.data(result, kind: kind)

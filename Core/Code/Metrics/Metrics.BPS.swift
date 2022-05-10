@@ -9,10 +9,10 @@
 import AVFoundation
 
 
-public class MeasureByterate : MeasureCPS, DataProcessorProtocol {
-    private let string: StringProcessor.Proto
+public class MeasureByterate : MeasureCPS, Data.Processor.Proto {
+    private let string: String.Processor.Proto
     
-    public init(string: StringProcessor.Proto) {
+    public init(string: String.Processor.Proto) {
         self.string = string
         super.init()
     }

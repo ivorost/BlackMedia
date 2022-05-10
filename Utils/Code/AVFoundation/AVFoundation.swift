@@ -1,6 +1,17 @@
 
 import AVFoundation
 
+
+extension AVCaptureInput {
+    public typealias Factory = () throws -> AVCaptureInput
+}
+
+
+extension AVCaptureDeviceInput {
+    public typealias Factory = () throws -> AVCaptureDeviceInput
+}
+
+
 public extension AVCaptureDevice.Format {
     
     var dimensions: CMVideoDimensions {

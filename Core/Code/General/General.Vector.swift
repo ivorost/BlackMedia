@@ -8,13 +8,16 @@
 
 import Foundation
 
+
 public protocol ProcessorWithVectorProtocol {
     associatedtype T
     func create() -> [T]
-    func register(_ element: T)
+    func append(_ element: T)
+    func prepend(_ element: T)
 }
 
-class ProcessorWithVector<T> : ProcessorWithVectorProtocol {
+
+public class ProcessorWithVector<T> : ProcessorWithVectorProtocol {
     private(set) var vector: [T]
 
     init() {
@@ -26,11 +29,15 @@ class ProcessorWithVector<T> : ProcessorWithVectorProtocol {
         self.vector = vector
     }
     
-    func create() -> [T] {
+    public func create() -> [T] {
         return []
     }
 
-    func register(_ element: T) {
+    public func prepend(_ element: T) {
+        vector.insert(element, at: 0)
+    }
+    
+    public func append(_ element: T) {
         vector.append(element)
     }
 }

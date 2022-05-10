@@ -3,15 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		82108A58258BC5CD00B382A8 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82108A56258BC5CD00B382A8 /* Starscream.framework */; };
+		82108A58258BC5CD00B382A8 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82108A56258BC5CD00B382A8 /* Starscream.xcframework */; };
 		822A5DFF256C497F00AAF2C0 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 822A5DFE256C497F00AAF2C0 /* ApplicationServices.framework */; };
-		823D0F3A25513A7200F8C852 /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		826C808C280012DA00BAC05C /* Starscream.xcframework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		826D6829259063CF00FCA680 /* Listen.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D68112590629600FCA680 /* Listen.ViewController.swift */; };
 		826D682A259063CF00FCA680 /* Listen.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826D681F259062AE00FCA680 /* Listen.Segue.swift */; };
+		828A058B28001553000D19A6 /* Bonjour.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A058928001553000D19A6 /* Bonjour.xcframework */; };
+		828A058E280018F0000D19A6 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A058D280018F0000D19A6 /* Common.framework */; };
+		828A0590280018F0000D19A6 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A058F280018F0000D19A6 /* Core.framework */; };
+		828A0592280018F0000D19A6 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A0591280018F0000D19A6 /* Utils.framework */; };
+		828A059428001904000D19A6 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A059328001904000D19A6 /* Common.framework */; };
+		828A059628001904000D19A6 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A059528001904000D19A6 /* Core.framework */; };
+		828A059828001904000D19A6 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828A059728001904000D19A6 /* Utils.framework */; };
 		828A8D79255E7C75004853F4 /* Main.WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A8D78255E7C75004853F4 /* Main.WindowController.swift */; };
 		828CA216258B4D1F00247034 /* App.Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA215258B4D1F00247034 /* App.Delegate.swift */; };
 		828CA21A258B4D1F00247034 /* App.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828CA219258B4D1F00247034 /* App.Controller.swift */; };
@@ -25,8 +32,7 @@
 		828CA268258B5E1500247034 /* Upload Extension UI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 828CA25E258B5E1500247034 /* Upload Extension UI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		828CA26B258B5E1500247034 /* Upload Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 828CA253258B5E1400247034 /* Upload Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		828CA299258B7D1500247034 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 828CA298258B7D1500247034 /* Main.storyboard */; };
-		82A142162551244300FBABE9 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; };
-		82C727FE2759CEA600A03212 /* Bonjour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C727FD2759CEA600A03212 /* Bonjour.framework */; };
+		82A142162551244300FBABE9 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.xcframework */; };
 		82C94FEA2546F58D0025663F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FE92546F58D0025663F /* AppDelegate.swift */; };
 		82C94FEC2546F58D0025663F /* Main.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C94FEB2546F58D0025663F /* Main.ViewController.swift */; };
 		82C94FEE2546F5930025663F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82C94FED2546F5930025663F /* Assets.xcassets */; };
@@ -45,9 +51,9 @@
 		82CA0A9826143465001041C7 /* Core.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C925D6A38F0063E04E /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82CA0A9926143468001041C7 /* Common.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C725D6A3890063E04E /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82CA0A9A2614346C001041C7 /* Utils.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C525D6A3840063E04E /* Utils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		82E53D0E258C09F60071C58A /* Starscream.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82108A56258BC5CD00B382A8 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82E53D0E258C09F60071C58A /* Starscream.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82108A56258BC5CD00B382A8 /* Starscream.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82F0DC27255D2D4800727509 /* UI.Display.Mirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F0DC26255D2D4800727509 /* UI.Display.Mirror.swift */; };
-		82F0DC29255D58A300727509 /* Starscream.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82F0DC29255D58A300727509 /* Starscream.xcframework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 82A142152551244200FBABE9 /* Starscream.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82F572C625D6A3840063E04E /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F572C525D6A3840063E04E /* Utils.framework */; };
 		82F572C825D6A3890063E04E /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F572C725D6A3890063E04E /* Common.framework */; };
 		82F572CA25D6A38F0063E04E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F572C925D6A38F0063E04E /* Core.framework */; };
@@ -111,9 +117,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				826C808C280012DA00BAC05C /* Starscream.xcframework in Copy Frameworks */,
 				82F8743925D2756D008DF76E /* Core.framework in Copy Frameworks */,
 				82F8736D25D26BB7008DF76E /* Common.framework in Copy Frameworks */,
-				823D0F3A25513A7200F8C852 /* Starscream.framework in Copy Frameworks */,
 				82F8733025D1C746008DF76E /* Utils.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -137,7 +143,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				82E53D0E258C09F60071C58A /* Starscream.framework in CopyFiles */,
+				82E53D0E258C09F60071C58A /* Starscream.xcframework in CopyFiles */,
 				82CA0A9826143465001041C7 /* Core.framework in CopyFiles */,
 				82CA0A9926143468001041C7 /* Common.framework in CopyFiles */,
 				82CA0A9A2614346C001041C7 /* Utils.framework in CopyFiles */,
@@ -150,7 +156,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				82F0DC29255D58A300727509 /* Starscream.framework in Copy Frameworks */,
+				82F0DC29255D58A300727509 /* Starscream.xcframework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,10 +164,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		82108A56258BC5CD00B382A8 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
+		82108A56258BC5CD00B382A8 /* Starscream.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Starscream.xcframework; path = ../../ThirdParty/build/Fat/Starscream.xcframework; sourceTree = "<group>"; };
 		822A5DFE256C497F00AAF2C0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		826D68112590629600FCA680 /* Listen.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listen.ViewController.swift; sourceTree = "<group>"; };
 		826D681F259062AE00FCA680 /* Listen.Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listen.Segue.swift; sourceTree = "<group>"; };
+		828A058928001553000D19A6 /* Bonjour.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Bonjour.xcframework; path = ../../ThirdParty/build/Fat/Bonjour.xcframework; sourceTree = "<group>"; };
+		828A058D280018F0000D19A6 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		828A058F280018F0000D19A6 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		828A0591280018F0000D19A6 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		828A059328001904000D19A6 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		828A059528001904000D19A6 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		828A059728001904000D19A6 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		828A8D78255E7C75004853F4 /* Main.WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.WindowController.swift; sourceTree = "<group>"; };
 		828CA213258B4D1F00247034 /* SampleIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		828CA215258B4D1F00247034 /* App.Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.Delegate.swift; sourceTree = "<group>"; };
@@ -169,10 +182,10 @@
 		828CA21C258B4D1F00247034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		828CA21E258B4D2900247034 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		828CA221258B4D2900247034 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		828CA228258B4D2A00247034 /* SampleIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		828CA228258B4D2A00247034 /* DesktopIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesktopIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		828CA22C258B4D2A00247034 /* CaptureIOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureIOSTests.swift; sourceTree = "<group>"; };
 		828CA22E258B4D2A00247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		828CA233258B4D2B00247034 /* SampleIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		828CA233258B4D2B00247034 /* DesktopIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesktopIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		828CA237258B4D2B00247034 /* CaptureIOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureIOSUITests.swift; sourceTree = "<group>"; };
 		828CA239258B4D2B00247034 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828CA253258B5E1400247034 /* Upload Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Upload Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,17 +197,17 @@
 		828CA298258B7D1500247034 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		828CA2A1258BB01900247034 /* Application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Application.entitlements; sourceTree = "<group>"; };
 		828CA2A8258BB02600247034 /* Application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Application.entitlements; sourceTree = "<group>"; };
-		82A142152551244200FBABE9 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = ../../ThirdParty/Carthage/Build/Mac/Starscream.framework; sourceTree = "<group>"; };
+		82A142152551244200FBABE9 /* Starscream.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Starscream.xcframework; path = ../../ThirdParty/build/Fat/Starscream.xcframework; sourceTree = "<group>"; };
 		82C727FD2759CEA600A03212 /* Bonjour.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bonjour.framework; path = ../../ThirdParty/Carthage/Build/Mac/Bonjour.framework; sourceTree = "<group>"; };
-		82C94FE62546F58D0025663F /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		82C94FE62546F58D0025663F /* DesktopOSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesktopOSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C94FE92546F58D0025663F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82C94FEB2546F58D0025663F /* Main.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.ViewController.swift; sourceTree = "<group>"; };
 		82C94FED2546F5930025663F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82C94FF02546F5930025663F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		82C94FF82546F5940025663F /* SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82C94FF82546F5940025663F /* DesktopOSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesktopOSXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C94FFC2546F5940025663F /* CaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureTests.swift; sourceTree = "<group>"; };
 		82C94FFE2546F5940025663F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82C950032546F5940025663F /* SampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82C950032546F5940025663F /* DesktopOSXUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesktopOSXUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C950072546F5940025663F /* CaptureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureUITests.swift; sourceTree = "<group>"; };
 		82C950092546F5940025663F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82C950352546F7210025663F /* UI.Display.Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UI.Display.Preview.swift; sourceTree = "<group>"; };
@@ -211,8 +224,8 @@
 		82CEC96125D2F5B9000302A0 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		82CEC96625D2F5CD000302A0 /* Application.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Application.entitlements; sourceTree = "<group>"; };
 		82CEC96725D2F5CD000302A0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82CEC98625D2FB47000302A0 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
-		82CEC98725D2FB47000302A0 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/Carthage/Checkouts/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
+		82CEC98625D2FB47000302A0 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		82CEC98725D2FB47000302A0 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
 		82F0DC26255D2D4800727509 /* UI.Display.Mirror.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.Display.Mirror.swift; sourceTree = "<group>"; };
 		82F5728A25D598E40063E04E /* Extension-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Extension-macOS.xcconfig"; sourceTree = "<group>"; };
 		82F5728B25D598E50063E04E /* Extension-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Extension-iOS.xcconfig"; sourceTree = "<group>"; };
@@ -255,7 +268,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82108A58258BC5CD00B382A8 /* Starscream.framework in Frameworks */,
+				828A058E280018F0000D19A6 /* Common.framework in Frameworks */,
+				828A0590280018F0000D19A6 /* Core.framework in Frameworks */,
+				828A0592280018F0000D19A6 /* Utils.framework in Frameworks */,
+				82108A58258BC5CD00B382A8 /* Starscream.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +279,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				828A059428001904000D19A6 /* Common.framework in Frameworks */,
+				828A059628001904000D19A6 /* Core.framework in Frameworks */,
+				828A059828001904000D19A6 /* Utils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,12 +289,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82C727FE2759CEA600A03212 /* Bonjour.framework in Frameworks */,
 				82F8743825D27564008DF76E /* Core.framework in Frameworks */,
 				82F8736C25D26BAD008DF76E /* Common.framework in Frameworks */,
 				82F8732925D1BF2B008DF76E /* Utils.framework in Frameworks */,
 				822A5DFF256C497F00AAF2C0 /* ApplicationServices.framework in Frameworks */,
-				82A142162551244300FBABE9 /* Starscream.framework in Frameworks */,
+				82A142162551244300FBABE9 /* Starscream.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +301,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				828A058B28001553000D19A6 /* Bonjour.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +318,12 @@
 		822A5DFD256C497E00AAF2C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				828A059328001904000D19A6 /* Common.framework */,
+				828A059528001904000D19A6 /* Core.framework */,
+				828A059728001904000D19A6 /* Utils.framework */,
+				828A058D280018F0000D19A6 /* Common.framework */,
+				828A058F280018F0000D19A6 /* Core.framework */,
+				828A0591280018F0000D19A6 /* Utils.framework */,
 				82C727FD2759CEA600A03212 /* Bonjour.framework */,
 				82F572C925D6A38F0063E04E /* Core.framework */,
 				82F572C725D6A3890063E04E /* Common.framework */,
@@ -378,12 +403,12 @@
 		82C94FE72546F58D0025663F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				82C94FE62546F58D0025663F /* Sample.app */,
-				82C94FF82546F5940025663F /* SampleTests.xctest */,
-				82C950032546F5940025663F /* SampleUITests.xctest */,
+				82C94FE62546F58D0025663F /* DesktopOSX.app */,
+				82C94FF82546F5940025663F /* DesktopOSXTests.xctest */,
+				82C950032546F5940025663F /* DesktopOSXUITests.xctest */,
 				828CA213258B4D1F00247034 /* SampleIOS.app */,
-				828CA228258B4D2A00247034 /* SampleIOSTests.xctest */,
-				828CA233258B4D2B00247034 /* SampleIOSUITests.xctest */,
+				828CA228258B4D2A00247034 /* DesktopIOSTests.xctest */,
+				828CA233258B4D2B00247034 /* DesktopIOSUITests.xctest */,
 				828CA253258B5E1400247034 /* Upload Extension.appex */,
 				828CA25E258B5E1500247034 /* Upload Extension UI.appex */,
 			);
@@ -486,7 +511,7 @@
 		82CEC95925D2F422000302A0 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
-				82108A56258BC5CD00B382A8 /* Starscream.framework */,
+				82108A56258BC5CD00B382A8 /* Starscream.xcframework */,
 			);
 			name = ThirdParty;
 			sourceTree = "<group>";
@@ -494,7 +519,8 @@
 		82CEC95A25D2F46A000302A0 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
-				82A142152551244200FBABE9 /* Starscream.framework */,
+				828A058928001553000D19A6 /* Bonjour.xcframework */,
+				82A142152551244200FBABE9 /* Starscream.xcframework */,
 			);
 			name = ThirdParty;
 			sourceTree = "<group>";
@@ -525,9 +551,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		828CA212258B4D1F00247034 /* SampleIOS */ = {
+		828CA212258B4D1F00247034 /* DesktopIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 828CA23A258B4D2B00247034 /* Build configuration list for PBXNativeTarget "SampleIOS" */;
+			buildConfigurationList = 828CA23A258B4D2B00247034 /* Build configuration list for PBXNativeTarget "DesktopIOS" */;
 			buildPhases = (
 				828CA20F258B4D1F00247034 /* Sources */,
 				828CA210258B4D1F00247034 /* Frameworks */,
@@ -541,14 +567,14 @@
 				828CA267258B5E1500247034 /* PBXTargetDependency */,
 				828CA26A258B5E1500247034 /* PBXTargetDependency */,
 			);
-			name = SampleIOS;
+			name = DesktopIOS;
 			productName = CaptureIOS;
 			productReference = 828CA213258B4D1F00247034 /* SampleIOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		828CA227258B4D2A00247034 /* SampleIOSTests */ = {
+		828CA227258B4D2A00247034 /* DesktopIOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 828CA23D258B4D2B00247034 /* Build configuration list for PBXNativeTarget "SampleIOSTests" */;
+			buildConfigurationList = 828CA23D258B4D2B00247034 /* Build configuration list for PBXNativeTarget "DesktopIOSTests" */;
 			buildPhases = (
 				828CA224258B4D2A00247034 /* Sources */,
 				828CA225258B4D2A00247034 /* Frameworks */,
@@ -559,14 +585,14 @@
 			dependencies = (
 				828CA22A258B4D2A00247034 /* PBXTargetDependency */,
 			);
-			name = SampleIOSTests;
+			name = DesktopIOSTests;
 			productName = CaptureIOSTests;
-			productReference = 828CA228258B4D2A00247034 /* SampleIOSTests.xctest */;
+			productReference = 828CA228258B4D2A00247034 /* DesktopIOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		828CA232258B4D2B00247034 /* SampleIOSUITests */ = {
+		828CA232258B4D2B00247034 /* DesktopIOSUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 828CA240258B4D2B00247034 /* Build configuration list for PBXNativeTarget "SampleIOSUITests" */;
+			buildConfigurationList = 828CA240258B4D2B00247034 /* Build configuration list for PBXNativeTarget "DesktopIOSUITests" */;
 			buildPhases = (
 				828CA22F258B4D2B00247034 /* Sources */,
 				828CA230258B4D2B00247034 /* Frameworks */,
@@ -577,9 +603,9 @@
 			dependencies = (
 				828CA235258B4D2B00247034 /* PBXTargetDependency */,
 			);
-			name = SampleIOSUITests;
+			name = DesktopIOSUITests;
 			productName = CaptureIOSUITests;
-			productReference = 828CA233258B4D2B00247034 /* SampleIOSUITests.xctest */;
+			productReference = 828CA233258B4D2B00247034 /* DesktopIOSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		828CA252258B5E1400247034 /* Upload Extension */ = {
@@ -616,9 +642,9 @@
 			productReference = 828CA25E258B5E1500247034 /* Upload Extension UI.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		82C94FE52546F58D0025663F /* Sample */ = {
+		82C94FE52546F58D0025663F /* DesktopOSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82C9500C2546F5940025663F /* Build configuration list for PBXNativeTarget "Sample" */;
+			buildConfigurationList = 82C9500C2546F5940025663F /* Build configuration list for PBXNativeTarget "DesktopOSX" */;
 			buildPhases = (
 				82CECA2F25D3054A000302A0 /* ShellScript */,
 				82C94FE22546F58D0025663F /* Sources */,
@@ -630,14 +656,14 @@
 			);
 			dependencies = (
 			);
-			name = Sample;
+			name = DesktopOSX;
 			productName = Capture;
-			productReference = 82C94FE62546F58D0025663F /* Sample.app */;
+			productReference = 82C94FE62546F58D0025663F /* DesktopOSX.app */;
 			productType = "com.apple.product-type.application";
 		};
-		82C94FF72546F5940025663F /* SampleTests */ = {
+		82C94FF72546F5940025663F /* DesktopOSXTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82C9500F2546F5940025663F /* Build configuration list for PBXNativeTarget "SampleTests" */;
+			buildConfigurationList = 82C9500F2546F5940025663F /* Build configuration list for PBXNativeTarget "DesktopOSXTests" */;
 			buildPhases = (
 				82C94FF42546F5940025663F /* Sources */,
 				82C94FF52546F5940025663F /* Frameworks */,
@@ -649,14 +675,14 @@
 			dependencies = (
 				82C94FFA2546F5940025663F /* PBXTargetDependency */,
 			);
-			name = SampleTests;
+			name = DesktopOSXTests;
 			productName = CaptureTests;
-			productReference = 82C94FF82546F5940025663F /* SampleTests.xctest */;
+			productReference = 82C94FF82546F5940025663F /* DesktopOSXTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		82C950022546F5940025663F /* SampleUITests */ = {
+		82C950022546F5940025663F /* DesktopOSXUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82C950122546F5940025663F /* Build configuration list for PBXNativeTarget "SampleUITests" */;
+			buildConfigurationList = 82C950122546F5940025663F /* Build configuration list for PBXNativeTarget "DesktopOSXUITests" */;
 			buildPhases = (
 				82C94FFF2546F5940025663F /* Sources */,
 				82C950002546F5940025663F /* Frameworks */,
@@ -667,9 +693,9 @@
 			dependencies = (
 				82C950052546F5940025663F /* PBXTargetDependency */,
 			);
-			name = SampleUITests;
+			name = DesktopOSXUITests;
 			productName = CaptureUITests;
-			productReference = 82C950032546F5940025663F /* SampleUITests.xctest */;
+			productReference = 82C950032546F5940025663F /* DesktopOSXUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -726,14 +752,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				82C94FE52546F58D0025663F /* Sample */,
-				82C94FF72546F5940025663F /* SampleTests */,
-				82C950022546F5940025663F /* SampleUITests */,
-				828CA212258B4D1F00247034 /* SampleIOS */,
+				82C94FE52546F58D0025663F /* DesktopOSX */,
+				82C94FF72546F5940025663F /* DesktopOSXTests */,
+				82C950022546F5940025663F /* DesktopOSXUITests */,
+				828CA212258B4D1F00247034 /* DesktopIOS */,
 				828CA252258B5E1400247034 /* Upload Extension */,
 				828CA25D258B5E1500247034 /* Upload Extension UI */,
-				828CA227258B4D2A00247034 /* SampleIOSTests */,
-				828CA232258B4D2B00247034 /* SampleIOSUITests */,
+				828CA227258B4D2A00247034 /* DesktopIOSTests */,
+				828CA232258B4D2B00247034 /* DesktopIOSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -908,12 +934,12 @@
 /* Begin PBXTargetDependency section */
 		828CA22A258B4D2A00247034 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 828CA212258B4D1F00247034 /* SampleIOS */;
+			target = 828CA212258B4D1F00247034 /* DesktopIOS */;
 			targetProxy = 828CA229258B4D2A00247034 /* PBXContainerItemProxy */;
 		};
 		828CA235258B4D2B00247034 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 828CA212258B4D1F00247034 /* SampleIOS */;
+			target = 828CA212258B4D1F00247034 /* DesktopIOS */;
 			targetProxy = 828CA234258B4D2B00247034 /* PBXContainerItemProxy */;
 		};
 		828CA267258B5E1500247034 /* PBXTargetDependency */ = {
@@ -928,12 +954,12 @@
 		};
 		82C94FFA2546F5940025663F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 82C94FE52546F58D0025663F /* Sample */;
+			target = 82C94FE52546F58D0025663F /* DesktopOSX */;
 			targetProxy = 82C94FF92546F5940025663F /* PBXContainerItemProxy */;
 		};
 		82C950052546F5940025663F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 82C94FE52546F58D0025663F /* Sample */;
+			target = 82C94FE52546F58D0025663F /* DesktopOSX */;
 			targetProxy = 82C950042546F5940025663F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1135,8 +1161,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82F572B525D69EDA0063E04E /* Application-macOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				PRODUCT_NAME = Sample;
 			};
 			name = Debug;
 		};
@@ -1144,8 +1168,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82F572B525D69EDA0063E04E /* Application-macOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				PRODUCT_NAME = Sample;
 			};
 			name = Release;
 		};
@@ -1236,7 +1258,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		828CA23A258B4D2B00247034 /* Build configuration list for PBXNativeTarget "SampleIOS" */ = {
+		828CA23A258B4D2B00247034 /* Build configuration list for PBXNativeTarget "DesktopIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				828CA23B258B4D2B00247034 /* Debug */,
@@ -1245,7 +1267,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		828CA23D258B4D2B00247034 /* Build configuration list for PBXNativeTarget "SampleIOSTests" */ = {
+		828CA23D258B4D2B00247034 /* Build configuration list for PBXNativeTarget "DesktopIOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				828CA23E258B4D2B00247034 /* Debug */,
@@ -1254,7 +1276,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		828CA240258B4D2B00247034 /* Build configuration list for PBXNativeTarget "SampleIOSUITests" */ = {
+		828CA240258B4D2B00247034 /* Build configuration list for PBXNativeTarget "DesktopIOSUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				828CA241258B4D2B00247034 /* Debug */,
@@ -1290,7 +1312,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82C9500C2546F5940025663F /* Build configuration list for PBXNativeTarget "Sample" */ = {
+		82C9500C2546F5940025663F /* Build configuration list for PBXNativeTarget "DesktopOSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82C9500D2546F5940025663F /* Debug */,
@@ -1299,7 +1321,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82C9500F2546F5940025663F /* Build configuration list for PBXNativeTarget "SampleTests" */ = {
+		82C9500F2546F5940025663F /* Build configuration list for PBXNativeTarget "DesktopOSXTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82C950102546F5940025663F /* Debug */,
@@ -1308,7 +1330,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82C950122546F5940025663F /* Build configuration list for PBXNativeTarget "SampleUITests" */ = {
+		82C950122546F5940025663F /* Build configuration list for PBXNativeTarget "DesktopOSXUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82C950132546F5940025663F /* Debug */,

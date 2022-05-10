@@ -36,10 +36,10 @@ extension Peer.Bonjour {
 extension Peer.Bonjour {
     struct Rx {
         let peers: Observable<[Peer.Proto]>
-        fileprivate let peersSubject: PublishSubject<[Peer.Proto]>
+        fileprivate let peersSubject: BehaviorSubject<[Peer.Proto]>
         
         init() {
-            self.peersSubject = .init()
+            self.peersSubject = .init(value: [])
             self.peers = peersSubject.asObservable()
         }
     }
@@ -85,7 +85,18 @@ extension Peer.Bonjour.Session {
 
 fileprivate extension Peer.Bonjour.Session {
     private func invitationHandler(_ bonjourPeer: Bonjour.Peer, _ data: Data?, _ handler: @escaping (Bool) -> Void) {
-        log?.post(peer: peersHistory.firstOrGeneric(bonjourPeer), info: "accepted invitation")
+        let dataString: String
+        
+        if let data = data {
+            dataString = String(data: data, encoding: .utf8) ?? ""
+        }
+        else {
+            dataString = ""
+        }
+        
+        log?.post(peer: peersHistory.firstOrGeneric(bonjourPeer),
+                  info: "accepted invitation: \(dataString)")
+        
         handler(true)
     }
     
@@ -116,7 +127,7 @@ fileprivate extension Peer.Bonjour.Session {
                 rx.peersSubject.onNext(peers)
             }
             else {
-                peer = Peer.Bonjour(bonjourPeer)
+                peer = Peer.Bonjour(peer: bonjourPeer, session: bonjour)
                 peersInternal.append(peer)
                 peersHistory.append(peer)
                 rx.peersSubject.onNext(peers)
@@ -160,7 +171,7 @@ fileprivate extension Peer.Bonjour.Session {
         dispatchMainSync {
             guard let peer = peersHistory.first(bonjourPeer) else { assertionFailure(); return }
             
-            peer.receive(data)
+            peer.get(data)
             log?.post(peer: peer, info: "received \(data.count) bytes")
         }
     }

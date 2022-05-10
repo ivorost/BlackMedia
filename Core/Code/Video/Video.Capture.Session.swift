@@ -8,36 +8,36 @@
 
 import AVFoundation
 
-public class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, SessionProtocol {
-    
-    private let session: AVCaptureSession
-    private let queue: DispatchQueue
-    private let output: VideoOutputProtocol?
-    private let dataOutput = AVCaptureVideoDataOutput()
-    private var lastImageBuffer: CVImageBuffer?
-    private var ID: UInt = 0
 
-    public init(session: AVCaptureSession,
-         queue: DispatchQueue,
-         output: VideoOutputProtocol?) {
+public extension Video {
+    class CaptureSession : NSObject {
         
-        self.session = session
-        self.queue = queue
-        self.output = output
-        
-        super.init()
+        private let session: AVCaptureSession
+        private let queue: DispatchQueue
+        private let output: Video.Processor.Proto?
+        private let dataOutput = AVCaptureVideoDataOutput()
+        private var lastImageBuffer: CVImageBuffer?
+        private var ID: UInt = 0
+
+        public init(session: AVCaptureSession, queue: DispatchQueue, output: Video.Processor.Proto?) {
+            
+            self.session = session
+            self.queue = queue
+            self.output = output
+            
+            super.init()
+        }
     }
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // IOSessionProtocol
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
 
+
+extension Video.CaptureSession : Session.Proto {
     public func start() throws {
-//        assert(queue.isCurrent == true)
+        assert(queue.isCurrent == true)
         logAVPrior("video input start")
 
         dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global())
-        dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(Capture.shared.pixelFormat)]
+        dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(Video.defaultPixelFormat)]
         dataOutput.alwaysDiscardsLateVideoFrames = true
         
         if (session.canAddOutput(dataOutput) == true) {
@@ -55,13 +55,16 @@ public class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBuffe
     }
     
     public func stop() {
-//        assert(queue.isCurrent == true)
+        assert(queue.isCurrent == true)
     }
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // AVCaptureVideoDataOutputSampleBufferDelegate and failure notification
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+    private func failureNotification(notification: Notification) {
+        logAVError("failureNotification " + notification.description)
+    }
+}
+
+
+extension Video.CaptureSession : AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput,
                               didOutput sampleBuffer: CMSampleBuffer,
                               from connection: AVCaptureConnection) {
@@ -69,10 +72,6 @@ public class VideoCaptureSession : NSObject, AVCaptureVideoDataOutputSampleBuffe
         
         let ID = self.ID
         self.ID += 1
-        self.output?.process(video: VideoBuffer(ID: ID, buffer: sampleBuffer))
-    }
-    
-    func failureNotification(notification: Notification) {
-        logAVError("failureNotification " + notification.description)
+        self.output?.process(video: Video.Buffer(ID: ID, buffer: sampleBuffer))
     }
 }

@@ -20,7 +20,7 @@ class CaptureController : NSViewController {
     @IBOutlet private var stopButton: NSButton!
     @IBOutlet private var errorLabel: NSTextField!
     
-    private(set) var activeSession: SessionProtocol?
+    private(set) var activeSession: Session.Proto?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +53,11 @@ class CaptureController : NSViewController {
         assert(false)
     }
     
-    func createCaptureSession() throws -> SessionProtocol {
+    func createCaptureSession() throws -> Session.Proto {
         throw Error.unimplemented
     }
 
-    func createListenSession() throws -> SessionProtocol {
+    func createListenSession() throws -> Session.Proto {
         throw Error.unimplemented
     }
 
@@ -83,10 +83,10 @@ class CaptureController : NSViewController {
                     return
                 }
                 
-                var activeSession: SessionProtocol?
+                var activeSession: Session.Proto?
                 
                 try dispatch_sync_on_main {
-                    activeSession = Session(try createSession(), start: {}, stop: {
+                    activeSession = Session.Base(try createSession(), start: {}, stop: {
                         stop()
                     })
                     

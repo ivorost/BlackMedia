@@ -9,14 +9,14 @@ import Foundation
 import AVFoundation
 
 
-public extension VideoProcessor {
+public extension Video.Processor {
     class AssetReader : Session.Proto, Flushable.Proto {
         enum Error : Swift.Error {
             case missedVideoTrack
         }
         
         public private(set) var videoSize: CGSize?
-        private let next: VideoProcessor.Proto
+        private let next: Proto
         private let url: URL
         private var file: FileHandle?
         private var reader: AVAssetReader?
@@ -26,7 +26,7 @@ public extension VideoProcessor {
         private var startDate: Date?
         private var postponedSampleBuffer: CMSampleBuffer?
 
-        init(url: URL, next: VideoProcessor.Proto) {
+        init(url: URL, next: Proto) {
             self.url = url
             self.next = next
         }
@@ -121,28 +121,28 @@ public extension VideoProcessor {
                 CMSampleBufferSetDataBuffer(sampleBuffer, newValue: blockBuffer)
             }
                         
-            next.process(video: VideoBuffer(ID: ID, buffer: sampleBuffer))
+            next.process(video: Video.Buffer(ID: ID, buffer: sampleBuffer))
             ID += 1
         }
     }
 }
 
 
-public extension VideoSetup {
-    class AssetReader : VideoSetupSlave {
+public extension Video.Setup {
+    class AssetReader : Video.Setup.Slave {
         private let url: URL
-        public private(set) var processor: VideoProcessor.AssetReader?
+        public private(set) var processor: Video.Processor.AssetReader?
         public let flushable = Flushable.Proxy()
         
-        public init(url: URL, root: VideoSetupProtocol) {
+        public init(url: URL, root: Video.Setup.Proto) {
             self.url = url
             super.init(root: root)
         }
         
         public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {
-                let video = root.video(VideoProcessor(), kind: .capture)
-                let reader = VideoProcessor.AssetReader(url: url, next: video)
+                let video = root.video(Video.Processor.shared, kind: .capture)
+                let reader = Video.Processor.AssetReader(url: url, next: video)
                 
                 self.processor = reader
                 flushable.inner = reader

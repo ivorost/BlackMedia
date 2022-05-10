@@ -11,28 +11,34 @@ import Foundation
 import AppKit
 #endif
 
-public protocol StringProcessorProto {
+
+public protocol StringProcessorProtocol {
     func process(string: String)
 }
 
 
-public class StringProcessorBase : StringProcessorProto {
-    public func process(string: String) {}
+public extension String {
+    final class Processor {}
 }
 
 
-public class StringProcessor : StringProcessorBase {
-    public static let shared = StringProcessor()
+public extension String.Processor {
+    static let shared: String.Processor.Proto = Base()
+}
+
+public extension String.Processor {
+    typealias Proto = StringProcessorProtocol
 }
 
 
-public extension StringProcessor {
-    typealias Base = StringProcessorBase
-    typealias Proto = StringProcessorProto
+public extension String.Processor {
+    class Base : Proto {
+        public func process(string: String) {}
+    }
 }
 
 
-public extension StringProcessor {
+public extension String.Processor {
     class Chain : Proto {
         let next: Proto?
         
@@ -47,7 +53,7 @@ public extension StringProcessor {
 }
 
 
-public extension StringProcessor {
+public extension String.Processor {
     class ChainConstant : Chain {
         let prepend: String
         
@@ -63,11 +69,11 @@ public extension StringProcessor {
 }
 
 
-public extension StringProcessor {
+public extension String.Processor {
     class FlushLast : Chain, Flushable.Proto {
         private var string: String?
         
-        public init(_ next: StringProcessor.Proto?) {
+        public init(_ next: String.Processor.Proto?) {
             super.init(next: next)
         }
         
@@ -84,12 +90,12 @@ public extension StringProcessor {
 }
 
 
-public extension StringProcessor {
+public extension String.Processor {
     class FlushAll : Chain, Flushable.Proto {
         var strings = [String]()
         let lock = NSLock()
         
-        init(_ next: StringProcessor.Proto?) {
+        init(_ next: String.Processor.Proto?) {
             super.init(next: next)
         }
 
@@ -111,24 +117,24 @@ public extension StringProcessor {
 }
 
 
-public extension StringProcessor {
-    final class Print : Base {
+public extension String.Processor {
+    final class Print : Proto {
         public static let shared = Print()
         
-        public override func process(string: String) {
+        public func process(string: String) {
             print(string)
         }
     }
 }
 
 #if os(OSX)
-public extension StringProcessor {
+public extension String.Processor {
     class TableView : Chain {
         private let tableView: NSTableView
         private let arrayController = NSArrayController()
         private var lastScrollPosition: CGPoint?
         
-        public init(tableView: NSTableView, next: StringProcessor.Proto? = nil) {
+        public init(tableView: NSTableView, next: String.Processor.Proto? = nil) {
             self.tableView = tableView
             super.init(next: next)
             

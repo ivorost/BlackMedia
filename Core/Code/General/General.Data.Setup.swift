@@ -10,32 +10,34 @@ import Foundation
 
 
 public protocol DataProcessorSetupProtocol : AnyObject {
-    func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol
+    func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto
 }
 
 
-public class DataProcessorSetup : DataProcessorSetupProtocol {
-    public static let shared = DataProcessorSetup()
-    
-    public func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
-        return data
+public extension Data {
+    final class Setup {
+        public static let shared: Proto = Base()
     }
 }
 
 
-public extension DataProcessor {
-    typealias Setup = DataProcessorSetupProtocol
-}
-
-
-extension DataProcessorSetup {
+public extension Data.Setup {
     typealias Proto = DataProcessorSetupProtocol
-    typealias Processor = DataProcessorProtocol
+    typealias Processor = Data.Processor.Proto
 }
 
 
-public extension DataProcessorSetup {
-    class Slave : DataProcessorSetup {
+public extension Data.Setup {
+    class Base : Proto {
+        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+            return data
+        }
+    }
+}
+
+
+public extension Data.Setup {
+    class Slave : Base {
         private(set) weak var _root: Proto?
         
         init(root: Proto) {
@@ -43,30 +45,31 @@ public extension DataProcessorSetup {
         }
         
         var root: Proto {
-            return _root ?? DataProcessorSetup.shared
+            return _root ?? shared
         }
     }
 }
 
-extension DataProcessorSetup {
+
+public extension Data.Setup {
     class Vector : ProcessorWithVector<Proto>, Proto {
-        func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
             return vector.reduce(data) { $1.data($0, kind: kind) }
         }
     }
 }
 
 
-public extension DataProcessorSetup {
+public extension Data.Setup {
     class Default : Slave {
-        private let targetKind: DataProcessor.Kind
-        private let selfKind: DataProcessor.Kind
-        private let create: (DataProcessor.Proto) -> DataProcessor.Proto
+        private let targetKind: Data.Processor.Kind
+        private let selfKind: Data.Processor.Kind
+        private let create: (Data.Processor.Proto) -> Data.Processor.Proto
         
-        public init(root: DataProcessor.Setup,
-             targetKind: DataProcessor.Kind,
-             selfKind: DataProcessor.Kind,
-             create: @escaping (DataProcessor.Proto) -> DataProcessor.Proto) {
+        public init(root: Data.Setup.Proto,
+                    targetKind: Data.Processor.Kind,
+                    selfKind: Data.Processor.Kind,
+                    create: @escaping (Data.Processor.Proto) -> Data.Processor.Proto) {
             
             self.targetKind = targetKind
             self.selfKind = selfKind
@@ -74,15 +77,15 @@ public extension DataProcessorSetup {
             super.init(root: root)
         }
         
-        public init(prev: DataProcessor.Proto,
-             kind: DataProcessor.Kind) {
+        public init(prev: Data.Processor.Proto,
+                    kind: Data.Processor.Kind) {
             self.targetKind = kind
             self.selfKind = .other
-            self.create = { DataProcessor(prev: prev, next: $0) }
-            super.init(root: DataProcessorSetup.shared)
+            self.create = { Data.Processor.Base(prev: prev, next: $0) }
+            super.init(root: shared)
         }
         
-        public override func data(_ data: DataProcessorProtocol, kind: DataProcessor.Kind) -> DataProcessorProtocol {
+        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
             var result = data
             
             if kind == targetKind {
@@ -95,12 +98,12 @@ public extension DataProcessorSetup {
 }
 
 
-public extension DataProcessor.Test {
-    class Setup : CaptureSetup.Slave {
+public extension Data.Setup {
+    class Test : Capture.Setup.Slave {
         private let kbits: UInt
         private let interval: TimeInterval
         
-        public init(root: Capture.Setup, kbits: UInt, interval: TimeInterval) {
+        public init(root: Capture.Setup.Proto, kbits: UInt, interval: TimeInterval) {
             self.kbits = kbits
             self.interval = interval
             super.init(root: root)
@@ -108,8 +111,8 @@ public extension DataProcessor.Test {
         
         public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {
-                let next = root.data(DataProcessor.shared, kind: .capture)
-                let test = DataProcessor.Test(next: next, kbits: kbits)
+                let next = root.data(Data.Processor.shared, kind: .capture)
+                let test = Data.Processor.Test(next: next, kbits: kbits)
                 let flush = Session.DispatchSync(session: Flushable.Periodically(interval: interval, next: test),
                                                  queue: DispatchQueue.main)
                 
