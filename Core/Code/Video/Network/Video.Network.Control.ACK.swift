@@ -32,7 +32,7 @@ public extension Video.Processor {
         private var queue = [(ID: UInt, timestamp: Date)]()
         private var metric: String.Processor.Proto
         private let lock = NSRecursiveLock()
-        private var lastVideoBuffer: Video.Buffer?
+        private var lastVideoBuffer: Video.Sample?
         private var processTimeStamp: Date?
         private let timebase: Capture.Timebase
         
@@ -42,7 +42,7 @@ public extension Video.Processor {
             super.init(next: next)
         }
         
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             var process = false
             
             lock.locked {
@@ -104,7 +104,7 @@ public extension Video.Processor {
         }
         
         public func flush() {
-            var lastVideoBuffer: Video.Buffer?
+            var lastVideoBuffer: Video.Sample?
             
             lock.locked {
                 lastVideoBuffer = self.lastVideoBuffer

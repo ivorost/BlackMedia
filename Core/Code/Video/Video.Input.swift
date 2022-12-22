@@ -2,6 +2,7 @@
 import AVFoundation
 
 
+@available(iOSApplicationExtension, unavailable)
 extension Video.Setup {
     public class Input : Slave {
         let avCaptureSession: AVCaptureSession
@@ -16,9 +17,16 @@ extension Video.Setup {
         public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {
                 let video = root.video(Video.Processor.shared, kind: .capture)
+                let capture = capture(next: video)
+                #if os(iOS)
+                let captureOrientation = Video.CaptureOrientation(capture.dataOutput)
+                #endif
                 
                 root.session(inputSession(), kind: .input)
-                root.session(capture(next: video), kind: .capture)
+                #if os(iOS)
+                root.session(captureOrientation, kind: .other)
+                #endif
+                root.session(capture, kind: .capture)
                 root.session(avCaptureSession, kind: .avCapture)
                 root.session(inputConfiguration(), kind: .other)
             }
@@ -39,6 +47,7 @@ extension Video.Setup {
 }
 
 
+@available(iOSApplicationExtension, unavailable)
 extension Video.Setup {
     public class DeviceInput : Input {
         private var deviceInput: Capture.DeviceInput

@@ -1,6 +1,7 @@
 
 import AVFoundation
 import VideoToolbox
+import CoreVideo
 
 fileprivate extension CMTimeValue {
     static let frameRate: CMTimeValue = 6
@@ -19,6 +20,7 @@ public extension Video.Processor {
         private let inputDimension: CMVideoDimensions
         private var outputDimentions: CMVideoDimensions
         private let next: Video.Processor.Proto?
+        private var rotated = false
         
         init(inputDimension: CMVideoDimensions,
              outputDimentions: CMVideoDimensions,
@@ -28,7 +30,7 @@ public extension Video.Processor {
             self.next = next
         }
         
-        private func _process(video: Video.Buffer) {
+        private func _process(video: Video.Sample) {
             guard let session = self.session else { logError("VideoEncoderSessionH264 no session"); return }
             
             guard let imageBuffer:CVImageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer) else { return }
@@ -54,7 +56,7 @@ public extension Video.Processor {
         ) in
             
             let SELF: EncoderH264 = unsafeBitCast(outputCallbackRefCon, to: EncoderH264.self)
-            let videoRef: StructContainer<Video.Buffer> = bridgeRetained(ptr: sourceFrameRefCon!)
+            let videoRef: StructContainer<Video.Sample> = bridgeRetained(ptr: sourceFrameRefCon!)
             guard let sampleBuffer = sampleBuffer_ else { logError("VideoEncoderSessionH264 nil buffer"); return }
             
             if status != 0 {
@@ -62,7 +64,7 @@ public extension Video.Processor {
                 return
             }
             
-            SELF.next?.process(video: Video.Buffer(ID: videoRef.inner.ID,
+            SELF.next?.process(video: Video.Sample(ID: videoRef.inner.ID,
                                                    buffer: sampleBuffer,
                                                    orientation: videoRef.inner.orientation))
         } as VTCompressionOutputCallback
@@ -139,10 +141,16 @@ public extension Video.Processor {
 
 
 extension Video.Processor.EncoderH264 : Video.Processor.Proto {
-    public func process(video: Video.Buffer) {
+    public func process(video: Video.Sample) {
+        if let rotated = isRotated(relative: video.sampleBuffer), rotated != self.rotated {
+            self.rotated = rotated
+            try? restart()
+        }
+        
         _process(video: video)
     }
 }
+
 
 extension Video.Processor.EncoderH264 : Session.Proto {
     public func start() throws {
@@ -150,7 +158,12 @@ extension Video.Processor.EncoderH264 : Session.Proto {
             /*kVTCompressionPropertyKey_UsingHardwareAcceleratedVideoEncoder: kCFBooleanTrue,
              kVTVideoEncoderSpecification_EnableHardwareAcceleratedVideoEncoder: kCFBooleanTrue,
              kVTVideoEncoderSpecification_RequireHardwareAcceleratedVideoEncoder: kCFBooleanTrue*/ ]
-
+        var outputDimentions = self.outputDimentions
+        
+        if rotated {
+            outputDimentions = outputDimentions.turn()
+        }
+        
         VTCompressionSessionCreate(
             allocator: kCFAllocatorDefault,
             width: Int32(outputDimentions.width / 1),
@@ -179,12 +192,31 @@ extension Video.Processor.EncoderH264 : Session.Proto {
     }
 }
 
+// Utils
+extension Video.Processor.EncoderH264 {
+    private func isRotated(relative to: CMSampleBuffer) -> Bool? {
+        guard let videoDimensions = to.videoDimentions else { return nil }
+                
+        if CGFloat(videoDimensions.width) / CGFloat(videoDimensions.height) < 1 &&
+            CGFloat(outputDimentions.width) / CGFloat(outputDimentions.height) > 1 {
+            return true
+        }
+
+        if CGFloat(videoDimensions.width) / CGFloat(videoDimensions.height) > 1 &&
+            CGFloat(outputDimentions.width) / CGFloat(outputDimentions.height) < 1 {
+            return true
+        }
+
+        return false
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Setup
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public extension Video.Setup {
-    class Encoder : Video.Setup.Slave {
+    class EncoderH264 : Video.Setup.Slave {
         private let settings: Video.EncoderConfig
 
         public init(root: Video.Setup.Proto, settings: Video.EncoderConfig) {

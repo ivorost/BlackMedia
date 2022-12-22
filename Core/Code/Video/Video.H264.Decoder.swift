@@ -24,7 +24,7 @@ public extension Video.Processor {
             
         }
         
-        public func process(video: Video.Buffer) {
+        public func process(video: Video.Sample) {
             if session == nil {
                 do {
                     guard
@@ -86,7 +86,7 @@ public extension Video.Processor {
                 try check(status: status, message: "VTDecompressionOutputCallbacks")
                 
                 let SELF: DecoderH264 = unsafeBitCast(decompressionOutputRefCon, to: DecoderH264.self)
-                let videoRef: StructContainer<Video.Buffer> = bridgeRetained(ptr: sourceFrameRefCon!)
+                let videoRef: StructContainer<Video.Sample> = bridgeRetained(ptr: sourceFrameRefCon!)
                 var sampleBuffer: CMSampleBuffer?
                 
                 var sampleTiming = CMSampleTimingInfo(
@@ -116,7 +116,7 @@ public extension Video.Processor {
                           message: "CMSampleBufferCreateForImageBuffer")
                 
                 Video.decoderQueue.async {
-                    SELF.next?.process(video: Video.Buffer(ID: videoRef.inner.ID, buffer: sampleBuffer!))
+                    SELF.next?.process(video: Video.Sample(ID: videoRef.inner.ID, buffer: sampleBuffer!))
                 }
             }
             catch {
@@ -127,8 +127,8 @@ public extension Video.Processor {
 }
 
 
-public extension Video.Processor.DecoderH264 {
-    class Setup : Video.Setup.Slave {
+public extension Video.Setup {
+    class DecoderH264 : Video.Setup.Slave {
         private let target: Video.Processor.Kind
         
         public init(root: Video.Setup.Proto, target: Video.Processor.Kind = .deserializer) {

@@ -25,6 +25,24 @@ public extension CMSampleBuffer {
     var presentationSeconds: Double {
         return CMTimeGetSeconds(CMSampleBufferGetPresentationTimeStamp(self))
     }
+    
+    var videoDimentions: CMVideoDimensions? {
+        let imageBuffer = CMSampleBufferGetImageBuffer(self)
+
+        if let imageBuffer = imageBuffer, CFGetTypeID(imageBuffer) == CVPixelBufferGetTypeID() {
+            var result = CMVideoDimensions()
+            
+            CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
+            result.width = Int32(CVPixelBufferGetWidth(imageBuffer))
+            result.height = Int32(CVPixelBufferGetHeight(imageBuffer))
+            CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
+            
+            return result
+        }
+        else {
+            return nil
+        }
+    }
 }
 
 public func CMTimeSetSeconds(_ time: inout CMTime, _ seconds: Float64) {

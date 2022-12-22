@@ -47,12 +47,15 @@
 		8253F7AA25F348DE003BC267 /* Metal.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7A825F348DE003BC267 /* Metal.Device.swift */; };
 		8253F7AF25F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */; };
 		8253F7B025F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */; };
+		825C4F66294D033100079105 /* Swift.Concurrency.TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F65294D033100079105 /* Swift.Concurrency.TaskQueue.swift */; };
+		825C4F67294D033100079105 /* Swift.Concurrency.TaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F65294D033100079105 /* Swift.Concurrency.TaskQueue.swift */; };
 		8267EF38281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		8267EF39281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		82981685279EE4E3004B3EB1 /* UI.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981684279EE4E3004B3EB1 /* UI.Segue.swift */; };
 		82981686279EE4E3004B3EB1 /* UI.Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981684279EE4E3004B3EB1 /* UI.Segue.swift */; };
 		82981688279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */; };
 		82981689279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */; };
+		829BF86029155533002E389C /* SwiftUI.SampleBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829BF85E291553C2002E389C /* SwiftUI.SampleBuffer.swift */; };
 		82B3AC6925D5190E00DA6D29 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6825D5190E00DA6D29 /* Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3AC8325D5354700DA6D29 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B3AC6825D5190E00DA6D29 /* Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82B3AC8525D5354700DA6D29 /* Foundation.Thread.Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C800E25D12ABE004E77F9 /* Foundation.Thread.Wait.swift */; };
@@ -83,6 +86,10 @@
 		82B3AC9F25D5354700DA6D29 /* AVFoundation.SampleBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FFD25D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift */; };
 		82B3ACA025D5354700DA6D29 /* CoreGraphics.Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C800025D12ABE004E77F9 /* CoreGraphics.Array.swift */; };
 		82B3ACA125D5354700DA6D29 /* QuartzCore.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C801425D12ABE004E77F9 /* QuartzCore.Layer.swift */; };
+		82B8002029427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */; };
+		82B8002129427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */; };
+		82B8002329428A780099A6EF /* AppKit.Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8002229428A780099A6EF /* AppKit.Application.swift */; };
+		82B8002429428A780099A6EF /* AppKit.Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8002229428A780099A6EF /* AppKit.Application.swift */; };
 		82BC33C4281FC757007AFD89 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BC33C3281FC757007AFD89 /* AppKit.Device.swift */; };
 		82BC33C5281FC757007AFD89 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BC33C3281FC757007AFD89 /* AppKit.Device.swift */; };
 /* End PBXBuildFile section */
@@ -125,14 +132,18 @@
 		8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreVideo.PixelBuffer.swift; sourceTree = "<group>"; };
 		825A444525D1B0C900A2EA49 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
 		825A444625D1B0C900A2EA49 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		825C4F65294D033100079105 /* Swift.Concurrency.TaskQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Concurrency.TaskQueue.swift; sourceTree = "<group>"; };
 		8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.CaptureDevice.swift; sourceTree = "<group>"; };
 		82981684279EE4E3004B3EB1 /* UI.Segue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.Segue.swift; sourceTree = "<group>"; };
 		82981687279EE53C004B3EB1 /* AppKit.Typedefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Typedefs.swift; sourceTree = "<group>"; };
 		8298168F279EEC0E004B3EB1 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
 		82981690279EEC0E004B3EB1 /* Framework-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-iOS.xcconfig"; path = "../../Xcode/Framework-iOS.xcconfig"; sourceTree = "<group>"; };
+		829BF85E291553C2002E389C /* SwiftUI.SampleBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.SampleBuffer.swift; sourceTree = "<group>"; };
 		82B3AC6825D5190E00DA6D29 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		82B3ACA725D5354700DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3ACAF25D535FC00DA6D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.Capture.swift; sourceTree = "<group>"; };
+		82B8002229428A780099A6EF /* AppKit.Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Application.swift; sourceTree = "<group>"; };
 		82BC33C3281FC757007AFD89 /* AppKit.Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Device.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +209,7 @@
 				822C801125D12ABE004E77F9 /* Metal */,
 				822C801325D12ABE004E77F9 /* QuartzCore */,
 				822C801525D12ABE004E77F9 /* Swift */,
+				829BF85D2915536F002E389C /* SwiftUI */,
 				822C801A25D12ABE004E77F9 /* UI */,
 			);
 			name = Code;
@@ -214,6 +226,7 @@
 				822C7FFB25D12ABE004E77F9 /* AppKit.ViewController.swift */,
 				8202D37125DE28A900E211C0 /* AppKit.Window.swift */,
 				82BC33C3281FC757007AFD89 /* AppKit.Device.swift */,
+				82B8002229428A780099A6EF /* AppKit.Application.swift */,
 			);
 			path = AppKit;
 			sourceTree = "<group>";
@@ -223,6 +236,7 @@
 			children = (
 				822C7FFE25D12ABE004E77F9 /* AVFoundation.swift */,
 				822C7FFD25D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift */,
+				82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */,
 				8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */,
 			);
 			path = AVFoundation;
@@ -288,6 +302,7 @@
 				822C801725D12ABE004E77F9 /* Swift.Pointers.swift */,
 				822C801825D12ABE004E77F9 /* Swift.String.swift */,
 				822C801925D12ABE004E77F9 /* Swift.Struct.swift */,
+				825C4F65294D033100079105 /* Swift.Concurrency.TaskQueue.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -317,6 +332,14 @@
 				8253F7AE25F35934003BC267 /* CoreVideo.PixelBuffer.swift */,
 			);
 			path = CoreVideo;
+			sourceTree = "<group>";
+		};
+		829BF85D2915536F002E389C /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				829BF85E291553C2002E389C /* SwiftUI.SampleBuffer.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,6 +468,7 @@
 				8202D37225DE28A900E211C0 /* AppKit.Window.swift in Sources */,
 				822C802525D12ABE004E77F9 /* CoreGraphics.Display.swift in Sources */,
 				82981685279EE4E3004B3EB1 /* UI.Segue.swift in Sources */,
+				82B8002329428A780099A6EF /* AppKit.Application.swift in Sources */,
 				822C802B25D12ABE004E77F9 /* Foundation.Dispatch.swift in Sources */,
 				822C802625D12ABE004E77F9 /* CoreGraphics.Event.swift in Sources */,
 				822C802C25D12ABE004E77F9 /* Foundation.Lock.swift in Sources */,
@@ -452,6 +476,7 @@
 				8253F7AF25F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */,
 				82981688279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */,
 				8202D3E625DED59000E211C0 /* General.Settings.swift in Sources */,
+				82B8002029427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */,
 				822C803325D12ABE004E77F9 /* Metal.CVMetalTexture.swift in Sources */,
 				822C802825D12ABE004E77F9 /* CoreMedia.swift in Sources */,
 				822C803625D12ABE004E77F9 /* Swift.Pointers.swift in Sources */,
@@ -467,6 +492,7 @@
 				822C802D25D12ABE004E77F9 /* Foundation.System.swift in Sources */,
 				822C802925D12ABE004E77F9 /* General.Dispatch.swift in Sources */,
 				822C802225D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift in Sources */,
+				825C4F66294D033100079105 /* Swift.Concurrency.TaskQueue.swift in Sources */,
 				822C802425D12ABE004E77F9 /* CoreGraphics.Array.swift in Sources */,
 				822C803425D12ABE004E77F9 /* QuartzCore.Layer.swift in Sources */,
 			);
@@ -488,12 +514,15 @@
 				82B3AC8E25D5354700DA6D29 /* CoreGraphics.Display.swift in Sources */,
 				8253F7AA25F348DE003BC267 /* Metal.Device.swift in Sources */,
 				82B3AC8F25D5354700DA6D29 /* Foundation.Dispatch.swift in Sources */,
+				825C4F67294D033100079105 /* Swift.Concurrency.TaskQueue.swift in Sources */,
 				82B3AC9025D5354700DA6D29 /* CoreGraphics.Event.swift in Sources */,
 				82981686279EE4E3004B3EB1 /* UI.Segue.swift in Sources */,
 				82B3AC9125D5354700DA6D29 /* Foundation.Lock.swift in Sources */,
 				82B3AC9225D5354700DA6D29 /* AppKit.Appearance.swift in Sources */,
+				829BF86029155533002E389C /* SwiftUI.SampleBuffer.swift in Sources */,
 				82B3AC9325D5354700DA6D29 /* Metal.CVMetalTexture.swift in Sources */,
 				82B3AC9425D5354700DA6D29 /* CoreMedia.swift in Sources */,
+				82B8002429428A780099A6EF /* AppKit.Application.swift in Sources */,
 				8253F7B025F35934003BC267 /* CoreVideo.PixelBuffer.swift in Sources */,
 				82981689279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */,
 				8202D3E725DED59000E211C0 /* General.Settings.swift in Sources */,
@@ -512,6 +541,7 @@
 				8202D3DF25DE425000E211C0 /* AppKit.Window.swift in Sources */,
 				82B3AC9E25D5354700DA6D29 /* General.Dispatch.swift in Sources */,
 				82B3AC9F25D5354700DA6D29 /* AVFoundation.SampleBuffer.swift in Sources */,
+				82B8002129427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */,
 				82B3ACA025D5354700DA6D29 /* CoreGraphics.Array.swift in Sources */,
 				82B3ACA125D5354700DA6D29 /* QuartzCore.Layer.swift in Sources */,
 			);

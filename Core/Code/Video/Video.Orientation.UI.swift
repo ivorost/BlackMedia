@@ -18,7 +18,7 @@ public extension Video.Processor {
             super.init(next: next)
         }
         
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             guard let orientation = video.orientation else {
                 super.process(video: video)
                 return

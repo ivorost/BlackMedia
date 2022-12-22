@@ -35,21 +35,21 @@ public extension Session.Setup.Proto {
 }
 
 
-public extension Session.Setup {
-    class Base : Proto {
-        public func session(_ session: Session.Proto, kind: Session.Kind) {
+extension Session.Setup {
+    open class Base : Proto {
+        open func session(_ session: Session.Proto, kind: Session.Kind) {
         }
         
-        public func complete() -> Session.Proto? {
+        open func complete() -> Session.Proto? {
             return nil
         }
     }
 }
 
 
-public extension Session.Setup {
-    class Slave : Base {
-        private(set) weak var _root: Proto?
+extension Session.Setup {
+    open class Slave : Base {
+        public private(set) weak var _root: Proto?
         
         public init(root: Proto) {
             self._root = root
@@ -102,8 +102,8 @@ public extension Session.Setup {
 }
 
 
-public extension Session.Setup {
-    class Static : Slave {
+extension Session.Setup {
+    open class Static : Slave {
         private let session: Session.Proto
         
         public init(root: Proto, session: Session.Proto) {

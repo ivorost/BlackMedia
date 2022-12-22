@@ -21,7 +21,7 @@ extension Video {
             super.init(writer: asset, writerSession: assetSession, input: input)
         }
         
-        func process(video: Video.Buffer) {
+        func process(video: Video.Sample) {
             process(sampleBuffer: video.sampleBuffer)
         }
     }

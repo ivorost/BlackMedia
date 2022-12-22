@@ -120,9 +120,14 @@ public extension String.Processor {
 public extension String.Processor {
     final class Print : Proto {
         public static let shared = Print()
+        private let title: String
+        
+        init(_ title: String = "") {
+            self.title = title
+        }
         
         public func process(string: String) {
-            print(string)
+            print("\(title)\(string)")
         }
     }
 }

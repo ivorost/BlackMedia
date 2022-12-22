@@ -29,6 +29,13 @@ public protocol SessionProtocol : AnyObject {
 }
 
 
+extension SessionProtocol {
+    func restart() throws {
+        stop()
+        try start()
+    }
+}
+
 extension Session {
     public typealias Proto = SessionProtocol
 }

@@ -7,16 +7,21 @@
 //
 
 import Foundation
-import RxSwift
+import Combine
+
 
 extension Peer {
     class Put {
         private let selector: Selector
 
-        private var peer: Peer.Proto? {
+        private var peer: Network.Peer.Proto? {
             return selector.peer
         }
 
+        convenience init() {
+            self.init(.init())
+        }
+        
         init(_ selector: Selector) {
             self.selector = selector
         }
@@ -35,23 +40,21 @@ extension Peer {
     class Get {
         private let next: Data.Processor.Proto
         private let selector: Selector
-        private var peerDisposable: Disposable?
-        private var selectorDisposable: Disposable?
+        private var peerDisposable: AnyCancellable?
+        private var selectorDisposable: AnyCancellable?
 
         init(selector: Selector, next: Data.Processor.Proto) {
             self.selector = selector
             self.next = next
-            selectorDisposable = selector.rx.peer.subscribe(peer(changed:))
         }
         
-        private func peer(changed event: RxSwift.Event<Peer.Proto?>) {
-            peerDisposable?.dispose()
-            peerDisposable = event.element??.rx.get.subscribe(peer(get:))
+        private func peer(changed peer: Network.Peer.Proto?) {
+            peerDisposable?.cancel()
+            peerDisposable = peer?.get.sink(receiveValue: peer(get:))
         }
         
-        private func peer(get event: RxSwift.Event<Data>) {
-            guard let data = event.element else { assertionFailure(); return }
-            self.next.process(data: data)
+        private func peer(get data: Data) {
+            next.process(data: data)
         }
     }
 }
@@ -59,19 +62,23 @@ extension Peer {
 
 extension Peer.Get : Session.Proto {
     func start() throws {
-        
+        selectorDisposable = selector.$peer.sink(receiveValue: peer(changed:))
+        peer(changed: selector.peer)
     }
     
     func stop() {
-        peerDisposable?.dispose()
-        selectorDisposable?.dispose()
+        peerDisposable?.cancel()
+        selectorDisposable?.cancel()
+        
+        peerDisposable = nil
+        selectorDisposable = nil
     }
 }
 
 
 extension Peer.Get : Data.Processor.Proto {
     func process(data: Data) {
-        assertionFailure()
+        next.process(data: data)
     }
 }
 

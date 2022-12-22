@@ -121,7 +121,7 @@ public extension Video.Processor {
                 CMSampleBufferSetDataBuffer(sampleBuffer, newValue: blockBuffer)
             }
                         
-            next.process(video: Video.Buffer(ID: ID, buffer: sampleBuffer))
+            next.process(video: Video.Sample(ID: ID, buffer: sampleBuffer))
             ID += 1
         }
     }

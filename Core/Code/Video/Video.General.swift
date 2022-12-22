@@ -60,7 +60,7 @@ extension Video {
 
 
 extension Video {
-    public struct Buffer {
+    public struct Sample {
         struct Flags: OptionSet {
             let rawValue: Int
             static let duplicate = Flags(rawValue: 1 << 0)
@@ -68,25 +68,37 @@ extension Video {
         
         let ID: UInt
         let sampleBuffer: CMSampleBuffer
-        let orientation: UInt8? // CGImagePropertyOrientation.
+        let orientation: UInt8? // CGImagePropertyOrientation
         let flags: Flags
     }
 }
 
 
-public extension Video.Buffer {
+public extension Video.Sample {
     init(ID: UInt, buffer: CMSampleBuffer, orientation: UInt8? = nil) {
         self.init(ID: ID, sampleBuffer: buffer, orientation: orientation, flags: [])
+    }
+    
+    init(ID: UInt, buffer: CMSampleBuffer, orientation: AVCaptureVideoOrientation?) {
+        self.init(ID: ID,
+                  sampleBuffer: buffer,
+                  orientation: orientation != nil ? UInt8(orientation!.rawValue) : nil,
+                  flags: [])
+    }
+    
+    var videoOrientation: AVCaptureVideoOrientation? {
+        guard let orientation = orientation else { return nil }
+        return AVCaptureVideoOrientation(rawValue: Int(orientation))
     }
 }
 
 
-extension Video.Buffer {
-    func copy(flags: Flags) -> Video.Buffer {
-        return Video.Buffer(ID: ID, sampleBuffer: sampleBuffer, orientation: orientation, flags: flags)
+extension Video.Sample {
+    func copy(flags: Flags) -> Video.Sample {
+        return Video.Sample(ID: ID, sampleBuffer: sampleBuffer, orientation: orientation, flags: flags)
     }
 
-    func copy(orientation: UInt8) -> Video.Buffer {
-        return Video.Buffer(ID: ID, sampleBuffer: sampleBuffer, orientation: orientation, flags: flags)
+    func copy(orientation: UInt8) -> Video.Sample {
+        return Video.Sample(ID: ID, sampleBuffer: sampleBuffer, orientation: orientation, flags: flags)
     }
 }

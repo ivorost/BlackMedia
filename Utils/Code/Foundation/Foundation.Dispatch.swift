@@ -9,16 +9,16 @@
 import Foundation
 
 
-public func dispatchMainSync(_ f: Func) {
+public func dispatchMainSync<T>(_ f: () -> T) -> T {
     if Thread.isMainThread {
-        autoreleasepool {
-            f()
+        return autoreleasepool {
+            return f()
         }
     }
     else {
-        DispatchQueue.main.sync {
-            autoreleasepool {
-                f()
+        return DispatchQueue.main.sync {
+            return autoreleasepool {
+                return f()
             }
         }
     }

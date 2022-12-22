@@ -32,7 +32,7 @@ public extension Video.Processor {
             super.init(next: next)
         }
         
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             lock.locked {
                 if let imageBuffer = CMSampleBufferGetImageBuffer(video.sampleBuffer) {
                     process(pixelBuffer1: imageBuffer, pixelBuffer2: imageBuffer)

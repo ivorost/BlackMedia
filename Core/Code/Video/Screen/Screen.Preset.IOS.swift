@@ -39,7 +39,7 @@ public extension Video.Setup {
             let capture = External(root: root)
             let orientation = Orientation()
             let recolor = Recolor()
-            let encoder = Encoder(root: root, settings: encoderConfig)
+            let encoder = EncoderH264(root: root, settings: encoderConfig)
             let serializer = DeserializerH264(root: root, kind: .serializer)
             let multithreading = Multithreading(root: root, kind: .encoder, queue: encoderOutputQueue)
             let websocket = Network.Setup.WebSocket(data: self, url: wsSenderData, target: .serializer)

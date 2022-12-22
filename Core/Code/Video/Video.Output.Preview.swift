@@ -35,7 +35,7 @@ public extension Video.Processor {
 
 
 extension Video.Processor.Display : Video.Processor.Proto {
-    public func process(video: Video.Buffer) {
+    public func process(video: Video.Sample) {
         logAV("video output \(video.sampleBuffer.presentationSeconds)")
         
         let dataFormat = CMSampleBufferGetFormatDescription(video.sampleBuffer)

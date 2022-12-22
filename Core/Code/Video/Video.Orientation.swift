@@ -14,7 +14,7 @@ import ReplayKit
 
 public extension Video.Processor {
     class Orientation : Base {
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             #if os(iOS)
             let orientation = CMGetAttachment(video.sampleBuffer,
                                               key: RPVideoSampleOrientationKey as CFString,
@@ -25,7 +25,7 @@ public extension Video.Processor {
             }
             else {
                 #if !targetEnvironment(macCatalyst)
-//                assert(false)
+                assert(video.orientation != nil)
                 #endif
                 super.process(video: video)
             }

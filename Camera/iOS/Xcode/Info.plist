@@ -26,7 +26,7 @@
 	<true/>
 	<key>NSBonjourServices</key>
 	<array>
-		<string>_Bonjour._tcp</string>
+		<string>_videoNanny._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>allow to access camera</string>
@@ -40,8 +40,6 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>App</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

@@ -26,7 +26,7 @@ public extension Video {
             return nil
         }
         
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             var duplicate = false
             
             lock.locked {

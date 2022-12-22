@@ -13,20 +13,28 @@
 		8202D3D225DE3F4700E211C0 /* Foundation.Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3D025DE3F4700E211C0 /* Foundation.Bundle.swift */; };
 		8202D3D725DE400200E211C0 /* Video.Duplicates.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CB25D27413008DF76E /* Video.Duplicates.metal */; };
 		8202D3D825DE400200E211C0 /* Video.Recolor.metal in Sources */ = {isa = PBXBuildFile; fileRef = 82F873D925D27413008DF76E /* Video.Recolor.metal */; };
+		8205B89A28A6161F00F1744A /* Network.Peer.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205B89928A6161F00F1744A /* Network.Peer.Log.swift */; };
+		8205B89B28A6161F00F1744A /* Network.Peer.Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205B89928A6161F00F1744A /* Network.Peer.Log.swift */; };
 		820B77C727A2637600B326E4 /* Video.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B77C627A2637600B326E4 /* Video.Processor.swift */; };
 		820B77C827A2637600B326E4 /* Video.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B77C627A2637600B326E4 /* Video.Processor.swift */; };
+		821D56C72877E2B10070452E /* NW.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821D56C62877E2B10070452E /* NW.Session.swift */; };
+		821D56C82877E2B10070452E /* NW.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821D56C62877E2B10070452E /* NW.Session.swift */; };
 		824CB19E27F4C19E004ABBA1 /* Screen.Preset.OSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824CB19D27F4C19E004ABBA1 /* Screen.Preset.OSX.swift */; };
 		824CB19F27F4C19E004ABBA1 /* Screen.Preset.OSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824CB19D27F4C19E004ABBA1 /* Screen.Preset.OSX.swift */; };
 		8250BC6E2809748C0045AE4E /* Camera.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250BC6D2809748C0045AE4E /* Camera.Input.swift */; };
 		8250BC6F2809748C0045AE4E /* Camera.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8250BC6D2809748C0045AE4E /* Camera.Input.swift */; };
 		8253F7A025F3430A003BC267 /* Metal.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F79F25F3430A003BC267 /* Metal.Processor.swift */; };
 		8253F7A125F3430A003BC267 /* Metal.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253F79F25F3430A003BC267 /* Metal.Processor.swift */; };
+		825C4F6C2953247400079105 /* NW.Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F6B2953247400079105 /* NW.Protocol.swift */; };
+		825C4F6D2953247400079105 /* NW.Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F6B2953247400079105 /* NW.Protocol.swift */; };
 		8267EF3B281059A2008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF3A281059A2008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		8267EF3C281059A2008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF3A281059A2008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		8267EF3E28105EF5008858C1 /* Network.Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF3D28105EF5008858C1 /* Network.Peer.swift */; };
 		8267EF3F28105EF5008858C1 /* Network.Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF3D28105EF5008858C1 /* Network.Peer.swift */; };
 		826C808A2800059B00BAC05C /* Video.Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C80892800059B00BAC05C /* Video.Preset.swift */; };
 		826C808B2800059B00BAC05C /* Video.Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C80892800059B00BAC05C /* Video.Preset.swift */; };
+		8275288E2840FFB100A4595E /* NW.Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8275288D2840FFB100A4595E /* NW.Peer.swift */; };
+		8275288F2840FFB500A4595E /* NW.Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8275288D2840FFB100A4595E /* NW.Peer.swift */; };
 		828A059A280078D5000D19A6 /* Network.Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A0599280078D5000D19A6 /* Network.Preset.swift */; };
 		828A059B280078D5000D19A6 /* Network.Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A0599280078D5000D19A6 /* Network.Preset.swift */; };
 		828A059D28008885000D19A6 /* Event.Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828A059C28008885000D19A6 /* Event.Preset.swift */; };
@@ -85,10 +93,20 @@
 		82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C525D27413008DF76E /* Network.General.swift */; };
 		82B3AD5825D5706600DA6D29 /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5725D5706600DA6D29 /* Utils.framework */; };
 		82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5D25D5755500DA6D29 /* Common.framework */; };
+		82B8001D29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */; };
+		82B8001E29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */; };
 		82C5B8252768D25A00DFE5F5 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C5B8242768D25A00DFE5F5 /* Starscream.xcframework */; };
 		82C5B8262768D25E00DFE5F5 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C5B8242768D25A00DFE5F5 /* Starscream.xcframework */; };
 		82F5738625DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
 		82F5738725DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
+		82F5A8A3286DD88800761F82 /* NW.Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A2286DD88800761F82 /* NW.Browser.swift */; };
+		82F5A8A4286DD88800761F82 /* NW.Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A2286DD88800761F82 /* NW.Browser.swift */; };
+		82F5A8A8286EF1C800761F82 /* NW.Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A5286EF1C800761F82 /* NW.Connection.swift */; };
+		82F5A8A9286EF1C800761F82 /* NW.Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A5286EF1C800761F82 /* NW.Connection.swift */; };
+		82F5A8AA286EF1C800761F82 /* NW.Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A6286EF1C800761F82 /* NW.Listener.swift */; };
+		82F5A8AB286EF1C800761F82 /* NW.Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A6286EF1C800761F82 /* NW.Listener.swift */; };
+		82F5A8AC286EF1C800761F82 /* NW.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A7286EF1C800761F82 /* NW.Utilities.swift */; };
+		82F5A8AD286EF1C800761F82 /* NW.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A7286EF1C800761F82 /* NW.Utilities.swift */; };
 		82F873DF25D27413008DF76E /* Audio.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739825D27413008DF76E /* Audio.General.swift */; };
 		82F873E025D27413008DF76E /* Audio.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739925D27413008DF76E /* Audio.Input.swift */; };
 		82F873E125D27413008DF76E /* Audio.Output.Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */; };
@@ -149,13 +167,17 @@
 		8202D38625DE310E00E211C0 /* Bundle-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Bundle-iOS.xcconfig"; path = "../../Xcode/Bundle-iOS.xcconfig"; sourceTree = "<group>"; };
 		8202D38725DE310E00E211C0 /* Bundle-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Bundle-macOS.xcconfig"; path = "../../Xcode/Bundle-macOS.xcconfig"; sourceTree = "<group>"; };
 		8202D3D025DE3F4700E211C0 /* Foundation.Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.Bundle.swift; sourceTree = "<group>"; };
+		8205B89928A6161F00F1744A /* Network.Peer.Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.Peer.Log.swift; sourceTree = "<group>"; };
 		820B77C627A2637600B326E4 /* Video.Processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Processor.swift; sourceTree = "<group>"; };
+		821D56C62877E2B10070452E /* NW.Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NW.Session.swift; sourceTree = "<group>"; };
 		824CB19D27F4C19E004ABBA1 /* Screen.Preset.OSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.Preset.OSX.swift; sourceTree = "<group>"; };
 		8250BC6D2809748C0045AE4E /* Camera.Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.Input.swift; sourceTree = "<group>"; };
 		8253F79F25F3430A003BC267 /* Metal.Processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal.Processor.swift; sourceTree = "<group>"; };
+		825C4F6B2953247400079105 /* NW.Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NW.Protocol.swift; sourceTree = "<group>"; };
 		8267EF3A281059A2008858C1 /* AVFoundation.CaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.CaptureDevice.swift; sourceTree = "<group>"; };
 		8267EF3D28105EF5008858C1 /* Network.Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.Peer.swift; sourceTree = "<group>"; };
 		826C80892800059B00BAC05C /* Video.Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Preset.swift; sourceTree = "<group>"; };
+		8275288D2840FFB100A4595E /* NW.Peer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NW.Peer.swift; sourceTree = "<group>"; };
 		828A0599280078D5000D19A6 /* Network.Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.Preset.swift; sourceTree = "<group>"; };
 		828A059C28008885000D19A6 /* Event.Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.Preset.swift; sourceTree = "<group>"; };
 		828A05A0280089EE000D19A6 /* Global.RemoteDesktop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.RemoteDesktop.swift; sourceTree = "<group>"; };
@@ -167,8 +189,13 @@
 		82B3AD4D25D55E5300DA6D29 /* Framework-macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Framework-macOS.xcconfig"; path = "../../Xcode/Framework-macOS.xcconfig"; sourceTree = "<group>"; };
 		82B3AD5725D5706600DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3AD5D25D5755500DA6D29 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Capture.Orientation.swift; sourceTree = "<group>"; };
 		82C5B8242768D25A00DFE5F5 /* Starscream.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Starscream.xcframework; path = ../../ThirdParty/build/Fat/Starscream.xcframework; sourceTree = "<group>"; };
 		82F5738525DBD2790063E04E /* Video.Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Reader.swift; sourceTree = "<group>"; };
+		82F5A8A2286DD88800761F82 /* NW.Browser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NW.Browser.swift; sourceTree = "<group>"; };
+		82F5A8A5286EF1C800761F82 /* NW.Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NW.Connection.swift; sourceTree = "<group>"; };
+		82F5A8A6286EF1C800761F82 /* NW.Listener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NW.Listener.swift; sourceTree = "<group>"; };
+		82F5A8A7286EF1C800761F82 /* NW.Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NW.Utilities.swift; sourceTree = "<group>"; };
 		82F8738825D2738F008DF76E /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F8739525D27413008DF76E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82F8739825D27413008DF76E /* Audio.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.General.swift; sourceTree = "<group>"; };
@@ -271,6 +298,20 @@
 				82F873C325D27413008DF76E /* Video.Network.Control.ACK.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		8275288C2840FF9200A4595E /* NW */ = {
+			isa = PBXGroup;
+			children = (
+				8275288D2840FFB100A4595E /* NW.Peer.swift */,
+				82F5A8A2286DD88800761F82 /* NW.Browser.swift */,
+				82F5A8A5286EF1C800761F82 /* NW.Connection.swift */,
+				82F5A8A6286EF1C800761F82 /* NW.Listener.swift */,
+				82F5A8A7286EF1C800761F82 /* NW.Utilities.swift */,
+				821D56C62877E2B10070452E /* NW.Session.swift */,
+				825C4F6B2953247400079105 /* NW.Protocol.swift */,
+			);
+			path = NW;
 			sourceTree = "<group>";
 		};
 		828A059F280089CE000D19A6 /* Global */ = {
@@ -441,11 +482,13 @@
 		82F873C225D27413008DF76E /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				8275288C2840FF9200A4595E /* NW */,
 				82F873C525D27413008DF76E /* Network.General.swift */,
 				82F873C625D27413008DF76E /* Network.Packet.swift */,
 				82F873C725D27413008DF76E /* Network.WebSocket.swift */,
 				828A0599280078D5000D19A6 /* Network.Preset.swift */,
 				8267EF3D28105EF5008858C1 /* Network.Peer.swift */,
+				8205B89928A6161F00F1744A /* Network.Peer.Log.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -461,6 +504,7 @@
 				820B77C627A2637600B326E4 /* Video.Processor.swift */,
 				82F5738525DBD2790063E04E /* Video.Reader.swift */,
 				82F873C925D27413008DF76E /* Video.Capture.Session.swift */,
+				82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */,
 				82F873CB25D27413008DF76E /* Video.Duplicates.metal */,
 				82F873CC25D27413008DF76E /* Video.Duplicates.swift */,
 				82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */,
@@ -605,9 +649,12 @@
 				826C808B2800059B00BAC05C /* Video.Preset.swift in Sources */,
 				82B3AD0C25D55E3900DA6D29 /* Capture.General.swift in Sources */,
 				82B3AD0F25D55E3900DA6D29 /* Capture.Setup.swift in Sources */,
+				82B8001E29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */,
 				82B3AD1025D55E3900DA6D29 /* General.Session.Setup.swift in Sources */,
 				82AED23F280E9721003B8BF8 /* Video.Orientation.swift in Sources */,
+				821D56C82877E2B10070452E /* NW.Session.swift in Sources */,
 				82B3AD1125D55E3900DA6D29 /* General.String.swift in Sources */,
+				82F5A8AB286EF1C800761F82 /* NW.Listener.swift in Sources */,
 				82B3AD1225D55E3900DA6D29 /* Screen.Config.swift in Sources */,
 				82B3AD1425D55E3900DA6D29 /* Video.Capture.Session.swift in Sources */,
 				82B3AD1525D55E3900DA6D29 /* General.UI.swift in Sources */,
@@ -625,13 +672,17 @@
 				82B3AD2325D55E3900DA6D29 /* Video.H264.Decoder.swift in Sources */,
 				82B3AD2425D55E3900DA6D29 /* Capture.AVFoundation.swift in Sources */,
 				828A05A2280089EE000D19A6 /* Global.RemoteDesktop.swift in Sources */,
+				8275288F2840FFB500A4595E /* NW.Peer.swift in Sources */,
 				82B3AD2525D55E3900DA6D29 /* Video.Network.Control.ACK.swift in Sources */,
 				82B3AD2625D55E3900DA6D29 /* Video.General.swift in Sources */,
+				825C4F6D2953247400079105 /* NW.Protocol.swift in Sources */,
 				828A05A5280091A5000D19A6 /* Screen.Preset.IOS.swift in Sources */,
+				82F5A8AD286EF1C800761F82 /* NW.Utilities.swift in Sources */,
 				82AF8D8D27FF2ACF00FA37E3 /* Camera.Preset.swift in Sources */,
 				82B3AD2825D55E3900DA6D29 /* Video.Metrics.swift in Sources */,
 				82B3AD2925D55E3900DA6D29 /* Metrics.Duration.swift in Sources */,
 				824CB19F27F4C19E004ABBA1 /* Screen.Preset.OSX.swift in Sources */,
+				82F5A8A9286EF1C800761F82 /* NW.Connection.swift in Sources */,
 				82B3AD2A25D55E3900DA6D29 /* General.Vector.swift in Sources */,
 				82B3AD2E25D55E3900DA6D29 /* Video.Threading.swift in Sources */,
 				8253F7A125F3430A003BC267 /* Metal.Processor.swift in Sources */,
@@ -640,6 +691,7 @@
 				82B3AD3325D55E3900DA6D29 /* Video.Setup.swift in Sources */,
 				8267EF3F28105EF5008858C1 /* Network.Peer.swift in Sources */,
 				828A059B280078D5000D19A6 /* Network.Preset.swift in Sources */,
+				82F5A8A4286DD88800761F82 /* NW.Browser.swift in Sources */,
 				820B77C827A2637600B326E4 /* Video.Processor.swift in Sources */,
 				82B3AD3425D55E3900DA6D29 /* Metrics.CPS.swift in Sources */,
 				82B3AD3525D55E3900DA6D29 /* Capture.Time.swift in Sources */,
@@ -651,6 +703,7 @@
 				82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */,
 				8202D3D725DE400200E211C0 /* Video.Duplicates.metal in Sources */,
 				8202D3D825DE400200E211C0 /* Video.Recolor.metal in Sources */,
+				8205B89B28A6161F00F1744A /* Network.Peer.Log.swift in Sources */,
 				82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */,
 				82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */,
 			);
@@ -669,7 +722,9 @@
 				82F873E125D27413008DF76E /* Audio.Output.Asset.swift in Sources */,
 				82F873E625D27413008DF76E /* Capture.General.swift in Sources */,
 				82F873EF25D27413008DF76E /* Event.Filter.swift in Sources */,
+				821D56C72877E2B10070452E /* NW.Session.swift in Sources */,
 				82F873E525D27413008DF76E /* Capture.Setup.swift in Sources */,
+				82F5A8A3286DD88800761F82 /* NW.Browser.swift in Sources */,
 				82F873F925D27413008DF76E /* General.Session.Setup.swift in Sources */,
 				82F873FB25D27413008DF76E /* General.String.swift in Sources */,
 				8202D3D125DE3F4700E211C0 /* Foundation.Bundle.swift in Sources */,
@@ -688,15 +743,20 @@
 				82F873FF25D27414008DF76E /* Metrics.Base.swift in Sources */,
 				82F8740625D27414008DF76E /* Network.Packet.swift in Sources */,
 				82F873F125D27413008DF76E /* Event.Processor.swift in Sources */,
+				8275288E2840FFB100A4595E /* NW.Peer.swift in Sources */,
 				82F873E025D27413008DF76E /* Audio.Input.swift in Sources */,
 				82F873F725D27413008DF76E /* General.Data.swift in Sources */,
 				82F8740D25D27414008DF76E /* Video.H264.Decoder.swift in Sources */,
 				82F873E225D27413008DF76E /* Capture.AVFoundation.swift in Sources */,
+				82F5A8AC286EF1C800761F82 /* NW.Utilities.swift in Sources */,
 				82F8740325D27414008DF76E /* Video.Network.Control.ACK.swift in Sources */,
+				82F5A8A8286EF1C800761F82 /* NW.Connection.swift in Sources */,
 				828A05A4280091A5000D19A6 /* Screen.Preset.IOS.swift in Sources */,
 				82F8740C25D27414008DF76E /* Video.General.swift in Sources */,
 				8202D3BC25DE3E0A00E211C0 /* Video.Duplicates.metal in Sources */,
+				8205B89A28A6161F00F1744A /* Network.Peer.Log.swift in Sources */,
 				82F873EB25D27413008DF76E /* Event.Capture.swift in Sources */,
+				825C4F6C2953247400079105 /* NW.Protocol.swift in Sources */,
 				82F8741125D27414008DF76E /* Video.Metrics.swift in Sources */,
 				82F8740225D27414008DF76E /* Metrics.Duration.swift in Sources */,
 				82F873FD25D27414008DF76E /* General.Vector.swift in Sources */,
@@ -710,6 +770,7 @@
 				82F873F625D27413008DF76E /* General.Data.Setup.swift in Sources */,
 				8253F7A025F3430A003BC267 /* Metal.Processor.swift in Sources */,
 				82F873F225D27413008DF76E /* Event.Setup.swift in Sources */,
+				82B8001D29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */,
 				82F8741A25D27414008DF76E /* Video.Setup.swift in Sources */,
 				82F8740125D27414008DF76E /* Metrics.CPS.swift in Sources */,
 				82F873E725D27413008DF76E /* Capture.Time.swift in Sources */,
@@ -726,6 +787,7 @@
 				82F873F025D27413008DF76E /* Event.Post.swift in Sources */,
 				82F873DF25D27413008DF76E /* Audio.General.swift in Sources */,
 				82F8740525D27414008DF76E /* Network.General.swift in Sources */,
+				82F5A8AA286EF1C800761F82 /* NW.Listener.swift in Sources */,
 				820B77C727A2637600B326E4 /* Video.Processor.swift in Sources */,
 				828A059A280078D5000D19A6 /* Network.Preset.swift in Sources */,
 				82F873EE25D27413008DF76E /* Event.Data.swift in Sources */,

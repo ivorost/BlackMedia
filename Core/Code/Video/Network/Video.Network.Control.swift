@@ -26,7 +26,7 @@ extension Video.Processor {
             super.init(next: next)
         }
         
-        override func process(video: Video.Buffer) {
+        override func process(video: Video.Sample) {
             let sampleTime = video.sampleBuffer.presentationSeconds
             var gap = 0.0
             
@@ -67,7 +67,7 @@ public extension Video.Processor {
         private var slowing = false
         private var lastFrameSent: Date?
         
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             if slowing {
                 if let lastFrameSent = lastFrameSent, Date().timeIntervalSince(lastFrameSent) > 1.0 {
                     super.process(video: video)
@@ -108,7 +108,7 @@ public extension Video.Processor {
             super.init()
         }
         
-        public override func process(video: Video.Buffer) {
+        public override func process(video: Video.Sample) {
             var process = false
             
             lock.locked {

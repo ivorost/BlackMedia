@@ -7,40 +7,65 @@
 //
 
 import Foundation
-import RxSwift
+import Combine
+
+
+final class Peer {}
 
 
 extension Peer {
     class Selector {
-        private(set) var peer: Peer.Proto?
-        private var peers: [Peer.Proto] = []
-        private let bag = DisposeBag()
-        let rx: Rx
-        private let rxPeer: BehaviorSubject<Peer.Proto?>
+        @Published private(set) var peer: Network.Peer.Proto?
+        private var peers: [Network.Peer.Proto] = []
+        private var peersSubscription: AnyCancellable?
+        private let peersPublisher: AnyPublisher<[Network.Peer.Proto], Never>
+        private let queue = TaskQueue()
 
-        init(peers: BehaviorSubject<[Peer.Proto]>) {
-            rxPeer = BehaviorSubject<Peer.Proto?>(value: nil)
-            rx = Rx(peer: rxPeer)
-            peers.subscribe(peers(event:)).disposed(by: bag)
+        convenience init() {
+            self.init(peers: Empty(completeImmediately: false).eraseToAnyPublisher())
         }
         
-        private func peers(event: RxSwift.Event<[Peer.Proto]>) {
-            guard let newPeers = event.element else { return }
-            
-            self.peers = newPeers
-            
-            if let peer = newPeers.first, self.peer == nil {
-                self.peer = peer
-                peer.connect()
-                rxPeer.onNext(peer)
+        init(peers: AnyPublisher<[Network.Peer.Proto], Never>) {
+            peersPublisher = peers
+            peersSubscription = peers.sink(receiveValue: peers(value:))
+        }
+        
+        private func peers(value: [Network.Peer.Proto]) {
+            self.peers = value
+            select()
+        }
+        
+        private func select() {
+            queue.task {
+                let oldPeer = self.peer
+                guard self.peer?.state != .connected else { return }
+                guard let newPeer = self.peers.sortedByState().first else { return }
+
+                do {
+                    #if DEBUG
+                    print("Selector: selecting peer \(newPeer.debugIdentifier)")
+                    #endif
+                    
+                    if newPeer.state != .connected {
+                        _ = try await newPeer.connect()
+                    }
+                    
+                    if newPeer.state == .connected {
+                        self.peer = newPeer
+                        
+                        Task {
+                            await oldPeer?.disconnect()
+                        }
+
+                        #if DEBUG
+                        print("Selector: set peer \(newPeer.debugIdentifier)")
+                        #endif
+                    }
+                }
+                catch {
+                    print("Selector: connection error \(error)")
+                }
             }
         }
-    }
-}
-
-
-extension Peer.Selector {
-    struct Rx {
-        let peer: Observable<Peer.Proto?>
     }
 }

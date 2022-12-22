@@ -8,13 +8,14 @@
 import AVFoundation
 
 
+@available(iOSApplicationExtension, unavailable)
 public extension Video.Setup {
     class CameraCapture : Vector {
         private let encoderOutputQueue = OperationQueue()
-        private let layer: AVSampleBufferDisplayLayer
+        private let layer: SampleBufferDisplayLayer
         private let network: Data.Processor.Proto
         
-        public init(layer: AVSampleBufferDisplayLayer, network: Data.Processor.Proto) {
+        public init(layer: SampleBufferDisplayLayer, network: Data.Processor.Proto) {
             self.encoderOutputQueue.maxConcurrentOperationCount = 1
             self.layer = layer
             self.network = network
@@ -32,13 +33,12 @@ public extension Video.Setup {
             
             let aggregator = Session.Setup.Aggregator()
             let preview = Display(root: root, layer: layer, kind: .capture)
-            let orientation = Orientation()
-            let encoder = Encoder(root: root, settings: encoderConfig)
+            let encoder = EncoderH264(root: root, settings: encoderConfig)
             let serializer = SerializerH264(root: root, kind: .encoder)
             let network = Network.Setup.Put(root: root, data: self.network, target: .serializer)
 
             // Measure
-            let fps = MeasureFPS()
+            let fps = MeasureFPS(next: String.Processor.Print("fps: "))
             let fpsSetup = Measure(kind: .capture, measure: fps)
 
             // Flush periodically
@@ -53,7 +53,6 @@ public extension Video.Setup {
                 serializer,
                 preview,
                 input,
-                orientation,
                 fpsSetup,
                 cast(video: flushPeriodicallySetup) ]
         }

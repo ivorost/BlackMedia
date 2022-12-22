@@ -26,7 +26,7 @@ extension Video.Processor {
     class SerializerH264 : Network.PacketSerializer.Processor, Video.Processor.Proto {
         private var timebase: Video.Time?
         
-        func process(video: Video.Buffer) {
+        func process(video: Video.Sample) {
             let formatDescription: CMFormatDescription = CMSampleBufferGetFormatDescription(video.sampleBuffer)!
             
             if CMSampleBufferGetNumSamples(video.sampleBuffer) != 1 {
@@ -284,7 +284,7 @@ extension Data.Processor {
                 
                 // output
                 
-                next?.process(video: Video.Buffer(ID: h264.metadata.ID,
+                next?.process(video: Video.Sample(ID: h264.metadata.ID,
                                                   buffer: result!,
                                                   orientation: h264.metadata.orientation))
             }

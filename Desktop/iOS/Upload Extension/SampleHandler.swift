@@ -51,7 +51,7 @@ class SampleHandler: RPBroadcastSampleHandler {
             let videoID = self.videoID
                         
             Capture.queue.async {
-                self.config?.capture?.video.process(video: Video.Buffer(ID: videoID, buffer: sampleBuffer))
+                self.config?.capture?.video.process(video: Video.Sample(ID: videoID, buffer: sampleBuffer))
             }
             assert(config?.capture != nil)
             break

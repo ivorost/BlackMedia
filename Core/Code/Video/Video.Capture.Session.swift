@@ -7,15 +7,16 @@
 //
 
 import AVFoundation
+import UIKit
 
-
+@available(iOSApplicationExtension, unavailable)
 public extension Video {
     class CaptureSession : NSObject {
         
+        let dataOutput = AVCaptureVideoDataOutput()
         private let session: AVCaptureSession
         private let queue: DispatchQueue
         private let output: Video.Processor.Proto?
-        private let dataOutput = AVCaptureVideoDataOutput()
         private var lastImageBuffer: CVImageBuffer?
         private var ID: UInt = 0
 
@@ -31,6 +32,7 @@ public extension Video {
 }
 
 
+@available(iOSApplicationExtension, unavailable)
 extension Video.CaptureSession : Session.Proto {
     public func start() throws {
         assert(queue.isCurrent == true)
@@ -42,6 +44,7 @@ extension Video.CaptureSession : Session.Proto {
         
         if (session.canAddOutput(dataOutput) == true) {
             session.addOutput(dataOutput)
+            dataOutput.updateOrientationFromInterface()
         }
         else {
             assert(false)
@@ -64,6 +67,7 @@ extension Video.CaptureSession : Session.Proto {
 }
 
 
+@available(iOSApplicationExtension, unavailable)
 extension Video.CaptureSession : AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput,
                               didOutput sampleBuffer: CMSampleBuffer,
@@ -72,6 +76,7 @@ extension Video.CaptureSession : AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let ID = self.ID
         self.ID += 1
-        self.output?.process(video: Video.Buffer(ID: ID, buffer: sampleBuffer))
+
+        self.output?.process(video: Video.Sample(ID: ID, buffer: sampleBuffer))
     }
 }

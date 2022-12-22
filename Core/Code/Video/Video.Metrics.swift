@@ -19,7 +19,7 @@ extension Video {
             self.next = next
         }
         
-        func process(video: Buffer) {
+        func process(video: Sample) {
             measure.begin()
             next.process(video: video)
             measure.end()
@@ -40,7 +40,7 @@ public extension Video.Processor {
             self.timebase = timebase
         }
         
-        public func process(video: Video.Buffer) {
+        public func process(video: Video.Sample) {
             lock.locked {
                 if startTime == nil {
                     startTime = video.sampleBuffer.presentationSeconds
@@ -96,7 +96,7 @@ public extension Video.Processor {
             output[metadata.time.timestamp.timeStamp] = metadata.originalTime
         }
         
-        public func process(video: Video.Buffer) {
+        public func process(video: Video.Sample) {
             let key = CMSampleBufferGetPresentationTimeStamp(video.sampleBuffer).value
             guard let originalTimeSeconds = output[key]?.timestamp.seconds
             else { assert(false); return }

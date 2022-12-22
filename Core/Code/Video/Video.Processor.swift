@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol VideoProcessorProtocol {
-    func process(video: Video.Buffer)
+    func process(video: Video.Sample)
 }
 
 
@@ -49,7 +49,7 @@ public extension Video.Processor {
             self.measure = nil
         }
         
-        public func process(video: Video.Buffer) {
+        public func process(video: Video.Sample) {
             prev?.process(video: video)
             measure?.begin()
             let processNext = processSelf(video: video)
@@ -57,7 +57,7 @@ public extension Video.Processor {
             if processNext { next?.process(video: video) }
         }
         
-        func processSelf(video: Video.Buffer) -> Bool {
+        func processSelf(video: Video.Sample) -> Bool {
             // to override
             return true
         }
@@ -84,7 +84,7 @@ public extension Video.Processor {
             self.queue = queue
         }
         
-        public func process(video: Video.Buffer) {
+        public func process(video: Video.Sample) {
             if let next = next {
                 queue.addOperation {
                     next.process(video: video)
@@ -103,7 +103,7 @@ public extension Video.Processor {
             self.array = array
         }
         
-        public func process(video: Video.Buffer) {
+        public func process(video: Video.Sample) {
             for i in array { i?.process(video: video) }
         }
     }
