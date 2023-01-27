@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Core
 
 struct Trace {}
 
@@ -20,7 +21,7 @@ extension Trace {
                 List {
                     Section(header: Text("Peers")) {
                         ForEach(vm.peers, id: \.id) { peer in
-                            Text(peer.name)
+                            Peer(peer: .init(peer))
                         }
                     }
 
@@ -35,6 +36,46 @@ extension Trace {
     }
 }
 
+extension Trace.View {
+    struct Peer : SwiftUI.View {
+        @StateObject var peer: Network.Peer.StateObservable
+
+        var body: some SwiftUI.View {
+            VStack(alignment: .leading, spacing: 3) {
+                HStack {
+                    Circle()
+                        .frame(width: 8, height: 8)
+                        .foregroundColor(Color(peer.state.value.color))
+
+                    Text(peer.name)
+                }
+
+                Divider()
+                    .opacity(0.5)
+
+                HStack {
+                    Circle()
+                        .frame(width: 8, height: 8)
+                        .foregroundColor(.clear)
+
+                    #if DEBUG
+                    Text(peer.debugDescription.value)
+                    #endif
+                }
+            }
+        }
+    }
+}
+
+extension Network.Peer.State {
+    var color: UIColor {
+        switch self {
+        case .connected: return .green
+        case .available, .connecting: return .yellow
+        case .disconnected, .disconnecting, .unavailable: return .red
+        }
+    }
+}
 
 struct TracePreview: PreviewProvider {
     static var previews: some View {

@@ -16,13 +16,13 @@ extension Main {
         @ObservedObject var vm = ViewModel()
 
         init() {
-            try! vm.start()
+            let vm = vm
+
+            Task {
+                try! await vm.start()
+            }
         }
-        
-        func sleep() {
-            Thread.sleep(forTimeInterval: 1)
-        }
-        
+
         var body: some SwiftUI.Scene {
             WindowGroup {
                 Select.View(vm: vm.select)

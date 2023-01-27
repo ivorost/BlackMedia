@@ -18,13 +18,13 @@ extension Main {
         private(set) var select = Select.ViewModel()
 
         init() {
-            peerSelector = Peer.Selector(peers: nwSession.peers.$peers.receive(on: RunLoop.main).eraseToAnyPublisher())
+            peerSelector = Peer.Selector(peers: nwSession.peers.peers.receive(on: RunLoop.main).eraseToAnyPublisher())
             put = Peer.Put(peerSelector)
-            select = Select.ViewModel(peers: nwSession.peers.$peers, selector: peerSelector, logs: peersLog.$items)
+            select = Select.ViewModel(peers: nwSession.peers.peers, selector: peerSelector, logs: peersLog.$items)
         }
         
-        func start() throws {
-            try nwSession.start()
+        func start() async throws {
+            try await nwSession.start()
         }
     }
 }

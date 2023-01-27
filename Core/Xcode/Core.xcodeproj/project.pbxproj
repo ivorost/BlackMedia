@@ -305,8 +305,8 @@
 			children = (
 				8275288D2840FFB100A4595E /* NW.Peer.swift */,
 				82F5A8A2286DD88800761F82 /* NW.Browser.swift */,
-				82F5A8A5286EF1C800761F82 /* NW.Connection.swift */,
 				82F5A8A6286EF1C800761F82 /* NW.Listener.swift */,
+				82F5A8A5286EF1C800761F82 /* NW.Connection.swift */,
 				82F5A8A7286EF1C800761F82 /* NW.Utilities.swift */,
 				821D56C62877E2B10070452E /* NW.Session.swift */,
 				825C4F6B2953247400079105 /* NW.Protocol.swift */,

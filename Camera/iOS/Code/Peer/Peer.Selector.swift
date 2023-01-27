@@ -38,7 +38,7 @@ extension Peer {
         private func select() {
             queue.task {
                 let oldPeer = self.peer
-                guard self.peer?.state != .connected else { return }
+                guard self.peer?.state.value != .connected else { return }
                 guard let newPeer = self.peers.sortedByState().first else { return }
 
                 do {
@@ -46,15 +46,19 @@ extension Peer {
                     print("Selector: selecting peer \(newPeer.debugIdentifier)")
                     #endif
                     
-                    if newPeer.state != .connected {
+                    if newPeer.state.value != .connected {
                         _ = try await newPeer.connect()
                     }
-                    
-                    if newPeer.state == .connected {
+
+                    print("STATE in SELECTOR \(newPeer.state.value)")
+
+                    if newPeer.state.value == .connected {
                         self.peer = newPeer
-                        
-                        Task {
-                            await oldPeer?.disconnect()
+
+                        if newPeer !== oldPeer {
+                            Task {
+                                await oldPeer?.disconnect()
+                            }
                         }
 
                         #if DEBUG

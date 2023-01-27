@@ -21,15 +21,13 @@ public extension Network.NW {
         }
 
         private let peers: PeerStore
-        private var listener: NWListener?
+        private var inner: Black.Network.Listener?
         private var endpointName: EndpointName
         private let passcode: String
         private let serviceName: String
         private var connections = [Connection]()
-        @Published private var state: NWListener.State?
+        private var cancellables = [AnyCancellable]()
 
-        // Create a listener with a name to advertise, a passcode for authentication,
-        // and a delegate to handle inbound connections.
         init(peers: PeerStore,
              endpoint endpointName: EndpointName,
              service serviceName: String,
@@ -40,71 +38,38 @@ public extension Network.NW {
             self.serviceName = serviceName
         }
 
-        // Start listening and advertising.
-        public func start() throws {
+        public func start(on queue: DispatchQueue = .global()) async throws {
             do {
-                // Create the listener object.
                 let listener = try NWListener(using: NWParameters(passcode: passcode))
-                self.listener = listener
-
                 listener.service = NWListener.Service(name: self.endpointName.encoded, type: serviceName)
-                listener.stateUpdateHandler = state(changed:)
-                listener.newConnectionHandler = inbound(connection:)
-                listener.start(queue: .main)
+
+                self.inner = Black.Network.Listener(listener)
+                inner?.state.sink(receiveValue: state(changed:)).store(in: &cancellables)
+                inner?.connection.sink(receiveValue: inbound(connection:)).store(in: &cancellables)
+                try await self.inner?.start(on: queue)
             }
             catch {
-                print("Listener: error \(error)")
+                debugLog("failed to start \(error)")
                 throw error
             }
         }
         
-        public func start() async throws {
-            var disposable: AnyCancellable?
-
-            try await withCheckedThrowingContinuation { continuation in
-                do {
-                    disposable = $state.sink { newValue in
-                        switch newValue {
-                        case .ready:
-                            disposable?.cancel()
-                            continuation.resume()
-                        case .cancelled:
-                            disposable?.cancel()
-                            continuation.resume(throwing: ListenerError.cancelled)
-                        case .failed(let error):
-                            disposable?.cancel()
-                            continuation.resume(throwing: error)
-                        default:
-                            break
-                        }
-                    }
-
-                    try start()
-                }
-                catch {
-                    continuation.resume(throwing: error)
-                }
-            } as Void
-        }
-        
         func stop() async {
-            
+            await inner?.stop()
         }
         
         private func state(changed to: NWListener.State) {
-            self.state = to
-            
             switch to {
             case .ready:
-                debugLog("ready on \(String(describing: listener?.port ?? 0))")
+                debugLog("ready on \(String(describing: inner?.inner.port ?? 0))")
             case .failed(let error):
-                // If the listener fails, re-start.
                 if error == NWError.dns(DNSServiceErrorType(kDNSServiceErr_DefunctConnection)) {
                     debugLog("failed with \(error), restarting")
-                    listener?.cancel()
-                } else {
+                    inner?.restart()
+                }
+                else {
                     debugLog("failed with \(error), stopping")
-                    listener?.cancel()
+                    inner?.stop()
                 }
             case .cancelled:
                 debugLog("cancelled")
@@ -120,15 +85,25 @@ public extension Network.NW {
                 let connection = InboundConnection(connection: connection)
 
                 do {
+                    #if DEBUG
                     self?.debugLog("Inbound connection \(connection.debugIdentifier) AAAA")
+                    #endif
+
                     let endpointName: EndpointName
                     let endpointNameData = try await connection.start()
                     guard let endpointNameString = String(data: endpointNameData, encoding: .utf8) else { return }
 
                     endpointName = .decode(endpointNameString)
+
+                    #if DEBUG
                     self?.debugLog("received connection \(connection.debugIdentifier) for \(endpointName.pin) \(endpointName.name)")
+                    #endif
+
                     await self?.peers.received(connection: connection, for: endpointName)
+
+                    #if DEBUG
                     self?.debugLog("Inbound connection \(connection.debugIdentifier) ZZZZ")
+                    #endif
                 }
                 catch {
                     #if DEBUG

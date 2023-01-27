@@ -50,7 +50,7 @@ extension Peer {
         
         private func peer(changed peer: Network.Peer.Proto?) {
             peerDisposable?.cancel()
-            peerDisposable = peer?.get.sink(receiveValue: peer(get:))
+            peerDisposable = peer?.get.sink(receiveCompletion: {_ in }, receiveValue: peer(get:))
         }
         
         private func peer(get data: Data) {

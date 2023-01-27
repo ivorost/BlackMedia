@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import Combine
+import Core
+
 
 extension Trace {
     class ViewModel : ObservableObject {
@@ -21,5 +22,7 @@ extension Trace {
             peers.assign(to: &self.$peers)
             logs.assign(to: &self.$logs)
         }
+
+
     }
 }

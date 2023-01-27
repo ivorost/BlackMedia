@@ -67,15 +67,18 @@ public extension Network.NW {
         var encoded: String {
             return "\(pin)\(name)"
         }
-        
+
+        static var generateID: String {
+            "\(Int.random(in: 1000 ..< 10000))"
+        }
+
         static func encode(_ name: String) -> EndpointName {
-            let pin = "\(Int.random(in: 1000 ..< 10000))"
-            return EndpointName(pin: pin, name: name)
+            return EndpointName(pin: generateID, name: name)
         }
         
-        static func decode(_ name: String) -> EndpointName {
-            let pin = String(name.prefix(4))
-            let decodedName = String(name.suffix(from: name.index(name.startIndex, offsetBy: 4)))
+        static func decode(_ value: String) -> EndpointName {
+            let pin = String(value.prefix(4))
+            let decodedName = String(value.suffix(from: value.index(value.startIndex, offsetBy: 4)))
             
             return EndpointName(pin: pin, name: decodedName)
         }

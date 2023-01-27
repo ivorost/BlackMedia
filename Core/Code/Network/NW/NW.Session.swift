@@ -11,12 +11,27 @@ import UIKit
 
 fileprivate extension String {
     static let bonjourServiceName = "_videoNanny._tcp"
-    static let deviceID = UIDevice.current.name
+    static let deviceName = UIDevice.current.name
+}
+
+
+extension UserDefaults {
+    var endpointID: String {
+        if let result = string(forKey: "endpointID") {
+            return result
+        }
+        else {
+            let result = Network.NW.EndpointName.generateID
+            setValue(result, forKey: "endpointID")
+            synchronize()
+            return result
+        }
+    }
 }
 
 
 extension Network.NW.EndpointName {
-    static let current = Network.NW.EndpointName.encode(.deviceID)
+    static let current = Network.NW.EndpointName(pin: UserDefaults.standard.endpointID, name: .deviceName)
     static let currentData = current.encoded.data(using: .utf8)
 }
 
@@ -42,11 +57,9 @@ public extension Network.NW {
             self.listener = listener
         }
         
-        public func start() throws {
-            Task {
-                try await listener.start()
-                browser.start()
-            }
+        public func start() async throws {
+            try await listener.start()
+            try await browser.start()
         }
     }
 }

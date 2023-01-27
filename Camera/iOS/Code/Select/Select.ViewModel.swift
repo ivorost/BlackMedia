@@ -18,7 +18,7 @@ extension Select {
 
         init() {
             self.selector = Peer.Selector()
-            self.trace = Trace.ViewModel(peers: $peers, logs: $logs)
+            self.trace = Trace.ViewModel(peers: $peers.eraseToAnyPublisher(), logs: $logs)
         }
         
         init(peers: Network.Peer.PeersPublisher,
@@ -27,7 +27,7 @@ extension Select {
             self.selector = selector
             peers.receive(on: RunLoop.main).assign(to: &self.$peers)
             logs.assign(to: &self.$logs)
-            self.trace = Trace.ViewModel(peers: self.$peers, logs: logs)
+            self.trace = Trace.ViewModel(peers: self.$peers.eraseToAnyPublisher(), logs: logs)
         }
     }
 }
