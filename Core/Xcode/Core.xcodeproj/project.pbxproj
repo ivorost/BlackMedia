@@ -59,7 +59,7 @@
 		82B3AD1025D55E3900DA6D29 /* General.Session.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B625D27413008DF76E /* General.Session.Setup.swift */; };
 		82B3AD1125D55E3900DA6D29 /* General.String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B825D27413008DF76E /* General.String.swift */; };
 		82B3AD1225D55E3900DA6D29 /* Screen.Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873A425D27413008DF76E /* Screen.Config.swift */; };
-		82B3AD1425D55E3900DA6D29 /* Video.Capture.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Capture.Session.swift */; };
+		82B3AD1425D55E3900DA6D29 /* Video.Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Output.swift */; };
 		82B3AD1525D55E3900DA6D29 /* General.UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873B925D27413008DF76E /* General.UI.swift */; };
 		82B3AD1625D55E3900DA6D29 /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CC25D27413008DF76E /* Video.Duplicates.swift */; };
 		82B3AD1725D55E3900DA6D29 /* Capture.Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F8739D25D27413008DF76E /* Capture.Input.swift */; };
@@ -95,8 +95,24 @@
 		82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B3AD5D25D5755500DA6D29 /* Common.framework */; };
 		82B8001D29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */; };
 		82B8001E29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */; };
+		82C371AB29D6F04A00E60821 /* Camera.QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C371AA29D6F04A00E60821 /* Camera.QR.swift */; };
+		82C371AC29D6F04A00E60821 /* Camera.QR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C371AA29D6F04A00E60821 /* Camera.QR.swift */; };
 		82C5B8252768D25A00DFE5F5 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C5B8242768D25A00DFE5F5 /* Starscream.xcframework */; };
 		82C5B8262768D25E00DFE5F5 /* Starscream.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C5B8242768D25A00DFE5F5 /* Starscream.xcframework */; };
+		82D9AB4029D745B900B9C925 /* Video.Output.Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB3F29D745B900B9C925 /* Video.Output.Metadata.swift */; };
+		82D9AB4129D745B900B9C925 /* Video.Output.Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB3F29D745B900B9C925 /* Video.Output.Metadata.swift */; };
+		82D9AB4429D762F900B9C925 /* General.Producer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB4329D762F900B9C925 /* General.Producer.swift */; };
+		82D9AB4529D762F900B9C925 /* General.Producer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB4329D762F900B9C925 /* General.Producer.swift */; };
+		82D9AB4D29DB6B3200B9C925 /* General.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB4C29DB6B3200B9C925 /* General.Processor.swift */; };
+		82D9AB4E29DB6B3200B9C925 /* General.Processor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB4C29DB6B3200B9C925 /* General.Processor.swift */; };
+		82D9AB5029DB6D3C00B9C925 /* Audio.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB4F29DB6D3C00B9C925 /* Audio.Utilities.swift */; };
+		82D9AB5129DB6D3C00B9C925 /* Audio.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB4F29DB6D3C00B9C925 /* Audio.Utilities.swift */; };
+		82D9AB5629DDDAAC00B9C925 /* Network.Peer.Pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5529DDDAAB00B9C925 /* Network.Peer.Pair.swift */; };
+		82D9AB5729DDDAAC00B9C925 /* Network.Peer.Pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5529DDDAAB00B9C925 /* Network.Peer.Pair.swift */; };
+		82D9AB5929DDE62500B9C925 /* Network.Peer.Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5829DDE62500B9C925 /* Network.Peer.Identity.swift */; };
+		82D9AB5A29DDE62500B9C925 /* Network.Peer.Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5829DDE62500B9C925 /* Network.Peer.Identity.swift */; };
+		82DD761F2996A54000D5BA8D /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD761E2996A54000D5BA8D /* CoreTests.swift */; };
+		82DD76202996A54000D5BA8D /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F8738825D2738F008DF76E /* Core.framework */; };
 		82F5738625DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
 		82F5738725DBD2790063E04E /* Video.Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5738525DBD2790063E04E /* Video.Reader.swift */; };
 		82F5A8A3286DD88800761F82 /* NW.Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F5A8A2286DD88800761F82 /* NW.Browser.swift */; };
@@ -145,7 +161,7 @@
 		82F8740525D27414008DF76E /* Network.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C525D27413008DF76E /* Network.General.swift */; };
 		82F8740625D27414008DF76E /* Network.Packet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C625D27413008DF76E /* Network.Packet.swift */; };
 		82F8740725D27414008DF76E /* Network.WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C725D27413008DF76E /* Network.WebSocket.swift */; };
-		82F8740825D27414008DF76E /* Video.Capture.Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Capture.Session.swift */; };
+		82F8740825D27414008DF76E /* Video.Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873C925D27413008DF76E /* Video.Output.swift */; };
 		82F8740B25D27414008DF76E /* Video.Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CC25D27413008DF76E /* Video.Duplicates.swift */; };
 		82F8740C25D27414008DF76E /* Video.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CD25D27413008DF76E /* Video.General.swift */; };
 		82F8740D25D27414008DF76E /* Video.H264.Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873CE25D27413008DF76E /* Video.H264.Decoder.swift */; };
@@ -162,6 +178,16 @@
 		82F8741B25D27414008DF76E /* Video.Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DC25D27413008DF76E /* Video.Threading.swift */; };
 		82F8741C25D27414008DF76E /* Video.Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F873DD25D27413008DF76E /* Video.Time.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		82DD76212996A54000D5BA8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82F8737F25D2738F008DF76E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82F8738725D2738F008DF76E;
+			remoteInfo = "Core-macOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8202D38625DE310E00E211C0 /* Bundle-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Bundle-iOS.xcconfig"; path = "../../Xcode/Bundle-iOS.xcconfig"; sourceTree = "<group>"; };
@@ -190,7 +216,16 @@
 		82B3AD5725D5706600DA6D29 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B3AD5D25D5755500DA6D29 /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Capture.Orientation.swift; sourceTree = "<group>"; };
+		82C371AA29D6F04A00E60821 /* Camera.QR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.QR.swift; sourceTree = "<group>"; };
 		82C5B8242768D25A00DFE5F5 /* Starscream.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Starscream.xcframework; path = ../../ThirdParty/build/Fat/Starscream.xcframework; sourceTree = "<group>"; };
+		82D9AB3F29D745B900B9C925 /* Video.Output.Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Output.Metadata.swift; sourceTree = "<group>"; };
+		82D9AB4329D762F900B9C925 /* General.Producer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Producer.swift; sourceTree = "<group>"; };
+		82D9AB4C29DB6B3200B9C925 /* General.Processor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Processor.swift; sourceTree = "<group>"; };
+		82D9AB4F29DB6D3C00B9C925 /* Audio.Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.Utilities.swift; sourceTree = "<group>"; };
+		82D9AB5529DDDAAB00B9C925 /* Network.Peer.Pair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.Peer.Pair.swift; sourceTree = "<group>"; };
+		82D9AB5829DDE62500B9C925 /* Network.Peer.Identity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.Peer.Identity.swift; sourceTree = "<group>"; };
+		82DD761C2996A54000D5BA8D /* CoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82DD761E2996A54000D5BA8D /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		82F5738525DBD2790063E04E /* Video.Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.Reader.swift; sourceTree = "<group>"; };
 		82F5A8A2286DD88800761F82 /* NW.Browser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NW.Browser.swift; sourceTree = "<group>"; };
 		82F5A8A5286EF1C800761F82 /* NW.Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NW.Connection.swift; sourceTree = "<group>"; };
@@ -237,7 +272,7 @@
 		82F873C525D27413008DF76E /* Network.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.General.swift; sourceTree = "<group>"; };
 		82F873C625D27413008DF76E /* Network.Packet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.Packet.swift; sourceTree = "<group>"; };
 		82F873C725D27413008DF76E /* Network.WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.WebSocket.swift; sourceTree = "<group>"; };
-		82F873C925D27413008DF76E /* Video.Capture.Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Capture.Session.swift; sourceTree = "<group>"; };
+		82F873C925D27413008DF76E /* Video.Output.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Output.swift; sourceTree = "<group>"; };
 		82F873CB25D27413008DF76E /* Video.Duplicates.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Video.Duplicates.metal; sourceTree = "<group>"; };
 		82F873CC25D27413008DF76E /* Video.Duplicates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.Duplicates.swift; sourceTree = "<group>"; };
 		82F873CD25D27413008DF76E /* Video.General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.General.swift; sourceTree = "<group>"; };
@@ -267,6 +302,14 @@
 				82B3AD5E25D5755500DA6D29 /* Common.framework in Frameworks */,
 				82C5B8262768D25E00DFE5F5 /* Starscream.xcframework in Frameworks */,
 				82B3AD5825D5706600DA6D29 /* Utils.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82DD76192996A54000D5BA8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82DD76202996A54000D5BA8D /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +370,7 @@
 			children = (
 				8250BC6D2809748C0045AE4E /* Camera.Input.swift */,
 				82AF8D8B27FF2ACF00FA37E3 /* Camera.Preset.swift */,
+				82C371AA29D6F04A00E60821 /* Camera.QR.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -348,12 +392,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		82DD761D2996A54000D5BA8D /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				82DD761E2996A54000D5BA8D /* CoreTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		82F8737E25D2738F008DF76E = {
 			isa = PBXGroup;
 			children = (
 				82F8739625D27413008DF76E /* Code */,
 				82F8739425D27413008DF76E /* Xcode */,
 				82CEC89825D27EB4000302A0 /* ThirdParty */,
+				82DD761D2996A54000D5BA8D /* Tests */,
 				82F8738925D2738F008DF76E /* Products */,
 				82CEC89F25D27F02000302A0 /* Frameworks */,
 			);
@@ -364,6 +417,7 @@
 			children = (
 				82F8738825D2738F008DF76E /* Core.framework */,
 				82B3AD4925D55E3900DA6D29 /* Core.framework */,
+				82DD761C2996A54000D5BA8D /* CoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -406,6 +460,7 @@
 				82F8739825D27413008DF76E /* Audio.General.swift */,
 				82F8739925D27413008DF76E /* Audio.Input.swift */,
 				82F8739A25D27413008DF76E /* Audio.Output.Asset.swift */,
+				82D9AB4F29DB6D3C00B9C925 /* Audio.Utilities.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -456,6 +511,8 @@
 		82F873B225D27413008DF76E /* General */ = {
 			isa = PBXGroup;
 			children = (
+				82D9AB4C29DB6B3200B9C925 /* General.Processor.swift */,
+				82D9AB4329D762F900B9C925 /* General.Producer.swift */,
 				82F873B425D27413008DF76E /* General.Data.swift */,
 				82F873B325D27413008DF76E /* General.Data.Setup.swift */,
 				82F873B525D27413008DF76E /* General.Flush.swift */,
@@ -488,6 +545,8 @@
 				82F873C725D27413008DF76E /* Network.WebSocket.swift */,
 				828A0599280078D5000D19A6 /* Network.Preset.swift */,
 				8267EF3D28105EF5008858C1 /* Network.Peer.swift */,
+				82D9AB5529DDDAAB00B9C925 /* Network.Peer.Pair.swift */,
+				82D9AB5829DDE62500B9C925 /* Network.Peer.Identity.swift */,
 				8205B89928A6161F00F1744A /* Network.Peer.Log.swift */,
 			);
 			path = Network;
@@ -503,7 +562,6 @@
 				82F873DB25D27413008DF76E /* Video.Setup.swift */,
 				820B77C627A2637600B326E4 /* Video.Processor.swift */,
 				82F5738525DBD2790063E04E /* Video.Reader.swift */,
-				82F873C925D27413008DF76E /* Video.Capture.Session.swift */,
 				82B8001C29426CD00099A6EF /* Video.Capture.Orientation.swift */,
 				82F873CB25D27413008DF76E /* Video.Duplicates.metal */,
 				82F873CC25D27413008DF76E /* Video.Duplicates.swift */,
@@ -511,11 +569,13 @@
 				82F873CF25D27413008DF76E /* Video.H264.Encoder.swift */,
 				82F873D025D27413008DF76E /* Video.H264.Packet.swift */,
 				82F873D125D27413008DF76E /* Video.Input.swift */,
+				82F873C925D27413008DF76E /* Video.Output.swift */,
+				82F873D525D27413008DF76E /* Video.Output.Asset.swift */,
+				82F873D625D27413008DF76E /* Video.Output.Preview.swift */,
+				82D9AB3F29D745B900B9C925 /* Video.Output.Metadata.swift */,
 				82F873D225D27413008DF76E /* Video.Metrics.swift */,
 				82F873D325D27413008DF76E /* Video.Orientation.swift */,
 				82F873D425D27413008DF76E /* Video.Orientation.UI.swift */,
-				82F873D525D27413008DF76E /* Video.Output.Asset.swift */,
-				82F873D625D27413008DF76E /* Video.Output.Preview.swift */,
 				82F873D925D27413008DF76E /* Video.Recolor.metal */,
 				82F873DA25D27413008DF76E /* Video.Recolor.swift */,
 				82F873DC25D27413008DF76E /* Video.Threading.swift */,
@@ -566,6 +626,24 @@
 			productReference = 82B3AD4925D55E3900DA6D29 /* Core.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		82DD761B2996A54000D5BA8D /* CoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82DD76252996A54000D5BA8D /* Build configuration list for PBXNativeTarget "CoreTests" */;
+			buildPhases = (
+				82DD76182996A54000D5BA8D /* Sources */,
+				82DD76192996A54000D5BA8D /* Frameworks */,
+				82DD761A2996A54000D5BA8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82DD76222996A54000D5BA8D /* PBXTargetDependency */,
+			);
+			name = CoreTests;
+			productName = CoreTests;
+			productReference = 82DD761C2996A54000D5BA8D /* CoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		82F8738725D2738F008DF76E /* Core-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82F8739025D2738F008DF76E /* Build configuration list for PBXNativeTarget "Core-macOS" */;
@@ -590,8 +668,12 @@
 		82F8737F25D2738F008DF76E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					82DD761B2996A54000D5BA8D = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					82F8738725D2738F008DF76E = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -612,12 +694,20 @@
 			targets = (
 				82F8738725D2738F008DF76E /* Core-macOS */,
 				82B3AD0025D55E3900DA6D29 /* Core-iOS */,
+				82DD761B2996A54000D5BA8D /* CoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		82B3AD4425D55E3900DA6D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82DD761A2996A54000D5BA8D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -640,6 +730,7 @@
 			files = (
 				82B3AD0525D55E3900DA6D29 /* Video.Input.swift in Sources */,
 				82B3AD0625D55E3900DA6D29 /* Capture.Output.swift in Sources */,
+				82D9AB4129D745B900B9C925 /* Video.Output.Metadata.swift in Sources */,
 				8267EF3C281059A2008858C1 /* AVFoundation.CaptureDevice.swift in Sources */,
 				82B3AD0725D55E3900DA6D29 /* Video.H264.Packet.swift in Sources */,
 				82B3AD0925D55E3900DA6D29 /* Video.Recolor.swift in Sources */,
@@ -648,6 +739,7 @@
 				82B3AD0B25D55E3900DA6D29 /* Audio.Output.Asset.swift in Sources */,
 				826C808B2800059B00BAC05C /* Video.Preset.swift in Sources */,
 				82B3AD0C25D55E3900DA6D29 /* Capture.General.swift in Sources */,
+				82C371AC29D6F04A00E60821 /* Camera.QR.swift in Sources */,
 				82B3AD0F25D55E3900DA6D29 /* Capture.Setup.swift in Sources */,
 				82B8001E29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */,
 				82B3AD1025D55E3900DA6D29 /* General.Session.Setup.swift in Sources */,
@@ -656,16 +748,18 @@
 				82B3AD1125D55E3900DA6D29 /* General.String.swift in Sources */,
 				82F5A8AB286EF1C800761F82 /* NW.Listener.swift in Sources */,
 				82B3AD1225D55E3900DA6D29 /* Screen.Config.swift in Sources */,
-				82B3AD1425D55E3900DA6D29 /* Video.Capture.Session.swift in Sources */,
+				82B3AD1425D55E3900DA6D29 /* Video.Output.swift in Sources */,
 				82B3AD1525D55E3900DA6D29 /* General.UI.swift in Sources */,
 				8250BC6F2809748C0045AE4E /* Camera.Input.swift in Sources */,
 				82B3AD1625D55E3900DA6D29 /* Video.Duplicates.swift in Sources */,
 				82B3AD1725D55E3900DA6D29 /* Capture.Input.swift in Sources */,
 				82B3AD1825D55E3900DA6D29 /* Video.Time.swift in Sources */,
 				82B3AD1925D55E3900DA6D29 /* Video.H264.Encoder.swift in Sources */,
+				82D9AB5129DB6D3C00B9C925 /* Audio.Utilities.swift in Sources */,
 				82B3AD1A25D55E3900DA6D29 /* General.Flush.swift in Sources */,
 				82B3AD1B25D55E3900DA6D29 /* Video.Network.Control.swift in Sources */,
 				82B3AD1D25D55E3900DA6D29 /* Metrics.Base.swift in Sources */,
+				82D9AB5A29DDE62500B9C925 /* Network.Peer.Identity.swift in Sources */,
 				82B3AD1F25D55E3900DA6D29 /* Network.Packet.swift in Sources */,
 				82B3AD2125D55E3900DA6D29 /* Audio.Input.swift in Sources */,
 				82B3AD2225D55E3900DA6D29 /* General.Data.swift in Sources */,
@@ -683,6 +777,7 @@
 				82B3AD2925D55E3900DA6D29 /* Metrics.Duration.swift in Sources */,
 				824CB19F27F4C19E004ABBA1 /* Screen.Preset.OSX.swift in Sources */,
 				82F5A8A9286EF1C800761F82 /* NW.Connection.swift in Sources */,
+				82D9AB5729DDDAAC00B9C925 /* Network.Peer.Pair.swift in Sources */,
 				82B3AD2A25D55E3900DA6D29 /* General.Vector.swift in Sources */,
 				82B3AD2E25D55E3900DA6D29 /* Video.Threading.swift in Sources */,
 				8253F7A125F3430A003BC267 /* Metal.Processor.swift in Sources */,
@@ -692,6 +787,7 @@
 				8267EF3F28105EF5008858C1 /* Network.Peer.swift in Sources */,
 				828A059B280078D5000D19A6 /* Network.Preset.swift in Sources */,
 				82F5A8A4286DD88800761F82 /* NW.Browser.swift in Sources */,
+				82D9AB4E29DB6B3200B9C925 /* General.Processor.swift in Sources */,
 				820B77C827A2637600B326E4 /* Video.Processor.swift in Sources */,
 				82B3AD3425D55E3900DA6D29 /* Metrics.CPS.swift in Sources */,
 				82B3AD3525D55E3900DA6D29 /* Capture.Time.swift in Sources */,
@@ -700,12 +796,21 @@
 				82B3AD3725D55E3900DA6D29 /* Screen.Input.swift in Sources */,
 				82B3AD3825D55E3900DA6D29 /* General.Session.swift in Sources */,
 				82B3AD3925D55E3900DA6D29 /* Video.Output.Preview.swift in Sources */,
+				82D9AB4529D762F900B9C925 /* General.Producer.swift in Sources */,
 				82B3AD3A25D55E3900DA6D29 /* Metrics.BPS.swift in Sources */,
 				8202D3D725DE400200E211C0 /* Video.Duplicates.metal in Sources */,
 				8202D3D825DE400200E211C0 /* Video.Recolor.metal in Sources */,
 				8205B89B28A6161F00F1744A /* Network.Peer.Log.swift in Sources */,
 				82B3AD3E25D55E3900DA6D29 /* Audio.General.swift in Sources */,
 				82B3AD4025D55E3900DA6D29 /* Network.General.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82DD76182996A54000D5BA8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82DD761F2996A54000D5BA8D /* CoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,7 +836,7 @@
 				82F873E925D27413008DF76E /* Screen.Config.swift in Sources */,
 				8202D3C025DE3E0D00E211C0 /* Video.Recolor.metal in Sources */,
 				8250BC6E2809748C0045AE4E /* Camera.Input.swift in Sources */,
-				82F8740825D27414008DF76E /* Video.Capture.Session.swift in Sources */,
+				82F8740825D27414008DF76E /* Video.Output.swift in Sources */,
 				82F873FC25D27413008DF76E /* General.UI.swift in Sources */,
 				82F8740B25D27414008DF76E /* Video.Duplicates.swift in Sources */,
 				82F873E325D27413008DF76E /* Capture.Input.swift in Sources */,
@@ -741,8 +846,11 @@
 				82F8740425D27414008DF76E /* Video.Network.Control.swift in Sources */,
 				82F873F425D27413008DF76E /* Event.Transform.swift in Sources */,
 				82F873FF25D27414008DF76E /* Metrics.Base.swift in Sources */,
+				82D9AB5029DB6D3C00B9C925 /* Audio.Utilities.swift in Sources */,
 				82F8740625D27414008DF76E /* Network.Packet.swift in Sources */,
+				82C371AB29D6F04A00E60821 /* Camera.QR.swift in Sources */,
 				82F873F125D27413008DF76E /* Event.Processor.swift in Sources */,
+				82D9AB4029D745B900B9C925 /* Video.Output.Metadata.swift in Sources */,
 				8275288E2840FFB100A4595E /* NW.Peer.swift in Sources */,
 				82F873E025D27413008DF76E /* Audio.Input.swift in Sources */,
 				82F873F725D27413008DF76E /* General.Data.swift in Sources */,
@@ -755,6 +863,7 @@
 				82F8740C25D27414008DF76E /* Video.General.swift in Sources */,
 				8202D3BC25DE3E0A00E211C0 /* Video.Duplicates.metal in Sources */,
 				8205B89A28A6161F00F1744A /* Network.Peer.Log.swift in Sources */,
+				82D9AB4D29DB6B3200B9C925 /* General.Processor.swift in Sources */,
 				82F873EB25D27413008DF76E /* Event.Capture.swift in Sources */,
 				825C4F6C2953247400079105 /* NW.Protocol.swift in Sources */,
 				82F8741125D27414008DF76E /* Video.Metrics.swift in Sources */,
@@ -771,6 +880,8 @@
 				8253F7A025F3430A003BC267 /* Metal.Processor.swift in Sources */,
 				82F873F225D27413008DF76E /* Event.Setup.swift in Sources */,
 				82B8001D29426CD00099A6EF /* Video.Capture.Orientation.swift in Sources */,
+				82D9AB4429D762F900B9C925 /* General.Producer.swift in Sources */,
+				82D9AB5629DDDAAC00B9C925 /* Network.Peer.Pair.swift in Sources */,
 				82F8741A25D27414008DF76E /* Video.Setup.swift in Sources */,
 				82F8740125D27414008DF76E /* Metrics.CPS.swift in Sources */,
 				82F873E725D27413008DF76E /* Capture.Time.swift in Sources */,
@@ -789,6 +900,7 @@
 				82F8740525D27414008DF76E /* Network.General.swift in Sources */,
 				82F5A8AA286EF1C800761F82 /* NW.Listener.swift in Sources */,
 				820B77C727A2637600B326E4 /* Video.Processor.swift in Sources */,
+				82D9AB5929DDE62500B9C925 /* Network.Peer.Identity.swift in Sources */,
 				828A059A280078D5000D19A6 /* Network.Preset.swift in Sources */,
 				82F873EE25D27413008DF76E /* Event.Data.swift in Sources */,
 				8267EF3B281059A2008858C1 /* AVFoundation.CaptureDevice.swift in Sources */,
@@ -797,11 +909,20 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		82DD76222996A54000D5BA8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82F8738725D2738F008DF76E /* Core-macOS */;
+			targetProxy = 82DD76212996A54000D5BA8D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		82B3AD4725D55E3900DA6D29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */;
 			buildSettings = {
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
@@ -810,7 +931,139 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82B3AD4C25D55E5300DA6D29 /* Framework-iOS.xcconfig */;
 			buildSettings = {
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Release;
+		};
+		82DD76232996A54000D5BA8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = BLY6A8TNQK;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ihvorostinin.Core.CoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		82DD76242996A54000D5BA8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = BLY6A8TNQK;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ihvorostinin.Core.CoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -850,6 +1103,15 @@
 			buildConfigurations = (
 				82B3AD4725D55E3900DA6D29 /* Debug */,
 				82B3AD4825D55E3900DA6D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82DD76252996A54000D5BA8D /* Build configuration list for PBXNativeTarget "CoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82DD76232996A54000D5BA8D /* Debug */,
+				82DD76242996A54000D5BA8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

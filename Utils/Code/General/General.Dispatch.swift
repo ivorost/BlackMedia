@@ -26,7 +26,7 @@ public extension DispatchQueue {
     }
     
     func asyncAfter0_5(_ block: @escaping Func) {
-        asyncAfter(deadline: .now() + 5) {
+        asyncAfter(deadline: .now() + 0.5) {
             block()
         }
     }

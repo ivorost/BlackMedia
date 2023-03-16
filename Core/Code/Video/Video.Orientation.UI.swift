@@ -13,18 +13,18 @@ public extension Video.Processor {
         private let layer: SampleBufferDisplayLayer
         private var x = false
         
-        public init(next: Video.Processor.Proto, layer: SampleBufferDisplayLayer) {
+        public init(next: Video.Processor.AnyProto, layer: SampleBufferDisplayLayer) {
             self.layer = layer
             super.init(next: next)
         }
         
-        public override func process(video: Video.Sample) {
+        public override func process(_ video: Video.Sample) {
             guard let orientation = video.orientation else {
-                super.process(video: video)
+                super.process(video)
                 return
             }
             guard let rotation = SampleBufferDisplayLayer.Rotation(rawValue: orientation) else {
-                super.process(video: video)
+                super.process(video)
                 return
             }
             
@@ -33,7 +33,7 @@ public extension Video.Processor {
             }
             
             layer.setVideo(rotation: rotation, dimensions:CMVideoFormatDescriptionGetDimensions(formatDescription))
-            super.process(video: video)
+            super.process(video)
         }
     }
 }

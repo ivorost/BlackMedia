@@ -97,8 +97,25 @@ extension Network.NW.BlackProtocol {
     enum MessageType: UInt8 {
         case identity = 0
         case data = 1
+        case pair = 2
+        case skip = 3
     }
 }
+
+
+extension Network.Peer.Data {
+    init?(type: Network.NW.BlackProtocol.MessageType?, data: Data) {
+        guard let type else { return nil }
+
+        switch type {
+        case .data: self = .data(data)
+        case .pair: self = .pair
+        case .skip: self = .skip
+        case .identity: return nil
+        }
+    }
+}
+
 
 // Extend framer messages to handle storing your command types in the message metadata.
 extension NWProtocolFramer.Message {
@@ -110,7 +127,8 @@ extension NWProtocolFramer.Message {
 
 
 extension Network.NW.BlackProtocol.MessageType {
-    init?(_ message: NWProtocolFramer.Message) {
+    init?(_ message: NWProtocolFramer.Message?) {
+        guard let message else { return nil }
         guard let type = message["Black"] as? Network.NW.BlackProtocol.MessageType else { return nil }
         self = type
     }

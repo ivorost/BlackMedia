@@ -85,16 +85,16 @@ public extension Flushable {
 
 public extension Flushable {
     class OperationsNumber : Proto {
-        private let next: String.Processor.Proto
+        private let next: String.Processor.AnyProto
         private let queue: OperationQueue
         
-        public init(queue: OperationQueue, next: String.Processor.Proto) {
+        public init(queue: OperationQueue, next: String.Processor.AnyProto) {
             self.next = next
             self.queue = queue
         }
         
         public func flush() {
-            next.process(string: "\(queue.operations.count)")
+            next.process("\(queue.operations.count)")
         }
     }
 }

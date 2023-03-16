@@ -15,7 +15,7 @@ public extension Video.Processor {
         let layer: AVSampleBufferDisplayLayer
         var format: CMFormatDescription?
         
-        init(_ layer: AVSampleBufferDisplayLayer) {
+        public init(_ layer: AVSampleBufferDisplayLayer) {
             self.layer = layer
         }
         
@@ -34,8 +34,8 @@ public extension Video.Processor {
 }
 
 
-extension Video.Processor.Display : Video.Processor.Proto {
-    public func process(video: Video.Sample) {
+extension Video.Processor.Display : ProcessorProtocol {
+    public func process(_ video: Video.Sample) {
         logAV("video output \(video.sampleBuffer.presentationSeconds)")
         
         let dataFormat = CMSampleBufferGetFormatDescription(video.sampleBuffer)
@@ -117,7 +117,7 @@ public extension Video.Setup {
             super.init(root: root)
         }
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == self.kind {

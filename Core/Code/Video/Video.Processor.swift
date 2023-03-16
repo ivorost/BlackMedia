@@ -13,48 +13,48 @@ public protocol VideoProcessorProtocol {
 
 
 public extension Video {
-    final class Processor {
-        static let shared: Proto = Base()
+    final class Processor: ProcessorToolbox<Video.Sample> {
+        public static let shared: AnyProto = Base()
     }
 }
 
 
-public extension Video.Processor {
-    typealias Proto = VideoProcessorProtocol
+public extension Video {
+    final class Producer: ProducerToolbox<Video.Sample> {}
 }
 
 
 public extension Video.Processor {
     class Base : Proto {
         
-        private let next: Proto?
-        private let prev: Proto?
+        private let next: AnyProto?
+        private let prev: AnyProto?
         private let measure: MeasureProtocol?
         
-        init(next: Proto? = nil, measure: MeasureProtocol? = nil) {
+        init(next: AnyProto? = nil, measure: MeasureProtocol? = nil) {
             self.prev = nil
             self.next = next
             self.measure = measure
         }
         
-        init(prev: Proto, measure: MeasureProtocol? = nil) {
+        init(prev: AnyProto, measure: MeasureProtocol? = nil) {
             self.prev = prev
             self.next = nil
             self.measure = measure
         }
         
-        init(prev: Proto, next: Proto? = nil) {
+        init(prev: AnyProto, next: AnyProto? = nil) {
             self.prev = prev
             self.next = next
             self.measure = nil
         }
         
-        public func process(video: Video.Sample) {
-            prev?.process(video: video)
+        public func process(_ video: Video.Sample) {
+            prev?.process(video)
             measure?.begin()
             let processNext = processSelf(video: video)
             measure?.end()
-            if processNext { next?.process(video: video) }
+            if processNext { next?.process(video) }
         }
         
         func processSelf(video: Video.Sample) -> Bool {
@@ -75,42 +75,21 @@ public extension Video.Processor {
 
 
 public extension Video.Processor {
-    class Dispatch : Proto {
-        let next: Proto?
+    class Dispatch : ProcessorProtocol {
+        let next: AnyProto?
         let queue: OperationQueue
         
-        init(next: Proto?, queue: OperationQueue) {
+        init(next: AnyProto?, queue: OperationQueue) {
             self.next = next
             self.queue = queue
         }
         
-        public func process(video: Video.Sample) {
+        public func process(_ video: Video.Sample) {
             if let next = next {
                 queue.addOperation {
-                    next.process(video: video)
+                    next.process(video)
                 }
             }
         }
     }
 }
-
-
-public extension Video.Processor {
-    class Broadcast : Proto {
-        private let array: [Proto?]
-        
-        init(_ array: [Proto?]) {
-            self.array = array
-        }
-        
-        public func process(video: Video.Sample) {
-            for i in array { i?.process(video: video) }
-        }
-    }
-}
-
-
-public func broadcast(_ x: [Video.Processor.Proto]) -> Video.Processor.Proto? {
-    return broadcast(x, create: { Video.Processor.Broadcast($0) })
-}
-

@@ -8,12 +8,12 @@ import VideoToolbox
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public extension Video.Processor {
-    class DecoderH264 : Proto, Session.Proto {
+    class DecoderH264 : ProcessorProtocol, Session.Proto {
         
-        private let next: Video.Processor.Proto?
+        private let next: Video.Processor.AnyProto?
         private var session: VTDecompressionSession?
         
-        init(_ next: Video.Processor.Proto?) {
+        init(_ next: Video.Processor.AnyProto?) {
             self.next = next
         }
         
@@ -24,12 +24,13 @@ public extension Video.Processor {
             
         }
         
-        public func process(video: Video.Sample) {
+        public func process(_ video: Video.Sample) {
             if session == nil {
                 do {
                     guard
                         let formatDescription = CMSampleBufferGetFormatDescription(video.sampleBuffer)
                         else { logError("CMSampleBufferGetFormatDescription"); return }
+
                     let destinationPixelBufferAttributes = NSMutableDictionary()
                     destinationPixelBufferAttributes.setValue(NSNumber(value: Video.defaultPixelFormat),
                                                               forKey: kCVPixelBufferPixelFormatTypeKey as String)
@@ -116,7 +117,7 @@ public extension Video.Processor {
                           message: "CMSampleBufferCreateForImageBuffer")
                 
                 Video.decoderQueue.async {
-                    SELF.next?.process(video: Video.Sample(ID: videoRef.inner.ID, buffer: sampleBuffer!))
+                    SELF.next?.process(Video.Sample(ID: videoRef.inner.ID, buffer: sampleBuffer!))
                 }
             }
             catch {
@@ -136,7 +137,7 @@ public extension Video.Setup {
             super.init(root: root)
         }
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == self.target {

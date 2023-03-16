@@ -5,7 +5,6 @@
 //  Created by Ivan Kh on 27.05.2022.
 //
 
-import UIKit
 import Network
 import Combine
 
@@ -49,10 +48,14 @@ public extension Network.NW {
         public var name: String {
             return endpointName.name
         }
-        
-        public var get: AnyPublisher<Data, Error> { dataSubject.eraseToAnyPublisher() }
+
+        public var kind: Network.Peer.Kind {
+            return endpointName.kind
+        }
+
+        public var get: AnyPublisher<Network.Peer.Data, Error> { dataSubject.eraseToAnyPublisher() }
         public var state: AnyValuePublisher<Network.Peer.State, Never> { stateSubject.eraseToAnyValuePublisher() }
-        fileprivate let dataSubject = PassthroughSubject<Data, Error>()
+        fileprivate let dataSubject = PassthroughSubject<Network.Peer.Data, Error>()
         fileprivate let stateSubject = CurrentValueSubject<Network.Peer.State, Never>(.unavailable)
         fileprivate var inbound = ConnectionInfo() {
             didSet {
@@ -234,7 +237,7 @@ public extension Network.NW {
             await disconnect(&outbound)
         }
         
-        public func put(_ data: Data) {
+        public func put(_ data: Network.Peer.Data) {
             readyConnection?.send(data)
         }
 
@@ -273,7 +276,7 @@ public extension Network.NW {
             return false
         }
         
-        public func put(_ data: Data) {
+        public func put(_ data: Network.Peer.Data) {
             inbound.connection?.send(data)
         }
     }

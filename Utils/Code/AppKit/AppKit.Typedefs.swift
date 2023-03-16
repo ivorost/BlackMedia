@@ -5,8 +5,9 @@
 //  Created by Ivan Kh on 24.01.2022.
 //
 
-#if os(OSX)
+#if canImport(AppKit)
 import AppKit
 
+public typealias UIView = NSView
 public typealias UIStoryboardSegue = NSStoryboardSegue
 #endif

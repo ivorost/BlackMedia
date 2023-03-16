@@ -9,6 +9,7 @@
 #if os(iOS)
 import SwiftUI
 import UIKit
+import AVFoundation
 
 
 public struct SampleBufferDisplaySwiftUI: UIViewRepresentable {
@@ -23,9 +24,14 @@ public struct SampleBufferDisplaySwiftUI: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> UIView {
-        view
+        return view
     }
 
     public func updateUIView(_ uiView: UIView, context: Context) { }
+
+    public func videoGravity(_ videoGravity: AVLayerVideoGravity) -> SampleBufferDisplaySwiftUI {
+        view.sampleLayer.videoGravity = videoGravity
+        return self
+    }
 }
 #endif

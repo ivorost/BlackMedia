@@ -22,8 +22,8 @@ public extension Network.NW {
         public var state: AnyNewValuePublisher<NWConnection.State, Never> { stateSubject.eraseToAnyNewValuePublisher() }
         fileprivate let stateSubject = NewValueSubject<NWConnection.State, Never>(.setup)
 
-        public var data: AnyPublisher<Data, Error> { dataSubject.eraseToAnyPublisher() }
-        private let dataSubject = PassthroughSubject<Data, Error>()
+        public var data: AnyPublisher<Network.Peer.Data, Error> { dataSubject.eraseToAnyPublisher() }
+        private let dataSubject = PassthroughSubject<Network.Peer.Data, Error>()
 
         let inner: Black.Network.Connection
         var isFinished: Bool { inner.isFinished }
@@ -40,7 +40,7 @@ public extension Network.NW {
             inner.state
                 .sink(receiveValue: { [weak self] state in self?.state(changed: state) })
                 .store(in: &cancellables)
-            inner.data.map { $0.data }
+            inner.data.compactMap { .init(type: BlackProtocol.MessageType($0.context.blackMessage), data: $0.data) }
                 .subscribe(dataSubject)
                 .store(in: &cancellables)
 
@@ -129,6 +129,19 @@ public extension Network.NW {
             #endif
 
             stateSubject.send(to)
+        }
+    }
+}
+
+public extension Network.NW.Connection {
+    func send(_ data: Network.Peer.Data) {
+        switch data {
+        case .data(let data):
+            send(data, of: .data)
+        case .pair:
+            send(Data(), of: .pair)
+        case .skip:
+            send(Data(), of: .skip)
         }
     }
 }

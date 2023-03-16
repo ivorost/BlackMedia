@@ -25,7 +25,7 @@ public extension Video.Processor.Kind {
 
 
 public protocol VideoSetupProtocol : Capture.Setup.Proto {
-    func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto
+    func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto
 }
 
 
@@ -50,11 +50,11 @@ public extension Video.Setup {
             return nil
         }
         
-        public func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             return video
         }
 
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return data
         }
 
@@ -91,11 +91,11 @@ public extension Video.Setup {
             return _next
         }
         
-        public func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             return self.next().video(video, kind: kind)
         }
         
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return self.next().data(data, kind: kind)
         }
         
@@ -112,8 +112,14 @@ public extension Video.Setup {
 
 extension Video.Setup {
     open class Vector : Core.Capture.Setup.VectorBase<Proto>, Proto {
-        public func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
-            return vector.reduce(video) { $1.video($0, kind: kind) }
+        public func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
+            var result: Video.Processor.AnyProto = Video.Processor.shared
+
+            for i in vector {
+                result = i.video(result, kind: kind)
+            }
+
+            return result
         }
     }
 }
@@ -122,19 +128,19 @@ extension Video.Setup {
 public extension Video.Setup {
     class Processor : Base {
         
-        private let create: (Video.Processor.Proto) -> Video.Processor.Proto
+        private let create: (Video.Processor.AnyProto) -> Video.Processor.AnyProto
         private let kind: Video.Processor.Kind
         
-        public convenience init(kind: Video.Processor.Kind, video: Video.Processor.Proto) {
+        public convenience init(kind: Video.Processor.Kind, video: Video.Processor.AnyProto) {
             self.init(kind: kind) { Video.Processor.Base(prev: video, next: $0) }
         }
         
-        public init(kind: Video.Processor.Kind, create: @escaping (Video.Processor.Proto) -> Video.Processor.Proto) {
+        public init(kind: Video.Processor.Kind, create: @escaping (Video.Processor.AnyProto) -> Video.Processor.AnyProto) {
             self.create = create
             self.kind = kind
         }
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == self.kind {
@@ -149,15 +155,15 @@ public extension Video.Setup {
 public extension Video.Setup {
     class DataProcessor : Base {
         
-        private let data: Data.Processor.Proto
+        private let data: Data.Processor.AnyProto
         private let kind: Data.Processor.Kind
         
-        public init(data: Data.Processor.Proto, kind: Data.Processor.Kind) {
+        public init(data: Data.Processor.AnyProto, kind: Data.Processor.Kind) {
             self.data = data
             self.kind = kind
         }
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             var result = data
             
             if kind == self.kind {
@@ -218,7 +224,7 @@ fileprivate extension Video.Setup {
             super.init(capture)
         }
         
-        override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return capture.data(data, kind: kind)
         }
     }
@@ -227,7 +233,7 @@ fileprivate extension Video.Setup {
 
 public extension Video.Setup {
     class External: Slave {
-        public private(set) var video: Video.Processor.Proto = Video.Processor.shared
+        public private(set) var video: Video.Processor.AnyProto = Video.Processor.shared
         
         public override func session(_ session: Session.Proto, kind: Session.Kind) {
             if kind == .initial {

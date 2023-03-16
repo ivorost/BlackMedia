@@ -117,7 +117,7 @@ public extension EventProcessorSetup {
             super.init(root: root)
         }
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             var result = data
             
             if kind == self.target {

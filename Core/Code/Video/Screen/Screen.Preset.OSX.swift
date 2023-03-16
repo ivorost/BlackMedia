@@ -45,14 +45,14 @@ public extension Video.Setup {
             let displayInfo = Core.Capture.Setup.ScreenConfigSerializer(root: root, settings: displayConfig)
             let preview = Checkbox(next: Display(root: root, layer: layer, kind: .deserializer),
                                    checkbox: view.setupPreviewButton)
-            let encoder = Encoder(root: root, settings: encoderConfig)
+            let encoder = EncoderH264(root: root, settings: encoderConfig)
             let serializer = SerializerH264(root: root, kind: .encoder)
             let deserializer = DeserializerH264(root: root, kind: .serializer)
             let multithreading = Checkbox(next: Multithreading(root: root, kind: .encoder, queue: encoderOutputQueue),
                                           checkbox: view.setupMultithreadingButton)
-            let duplicatesMetal = Checkbox(next: DuplicatesMetal(root: root),
+            let duplicatesMetal = Checkbox(next: DuplicatesApproxMetal(root: root),
                                            checkbox: view.setupSenderDuplicatesMetalButton)
-            let duplicatesMemcmp = Checkbox(next: DuplicatesMemcmp(root: root),
+            let duplicatesMemcmp = Checkbox(next: DuplicatesStrictMemcmp(root: root),
                                             checkbox: view.setupSenderDuplicatesMemcmpButton)
             let duplicates = Checkbox(next: broadcast([duplicatesMetal, duplicatesMemcmp]) ?? Video.Setup.shared,
                                       checkbox: view.setupSenderDuplicatesButton)

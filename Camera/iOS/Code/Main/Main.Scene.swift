@@ -14,6 +14,7 @@ extension Main {
     @main
     struct Scene: App {
         @ObservedObject var vm = ViewModel()
+        @ObservedObject var router = Router.General()
 
         init() {
             let vm = vm
@@ -25,7 +26,15 @@ extension Main {
 
         var body: some SwiftUI.Scene {
             WindowGroup {
-                Select.View(vm: vm.select)
+                ZStack {
+                    Color.applicationBackground
+
+                    router
+                        .view
+                        .zIndex(1)
+                }
+                .ignoresSafeArea()
+                .environmentObject(router)
             }
         }
     }

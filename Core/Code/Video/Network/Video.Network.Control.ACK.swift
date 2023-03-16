@@ -12,37 +12,40 @@ import AVFoundation
 
 public extension Data.Processor {
     class VideoViewerACK : DeserializerH264Base {
-        fileprivate var server: Data.Processor.Proto?
+        fileprivate var server: Data.Processor.AnyProto?
         
-        init(server: Data.Processor.Proto?) {
+        init(server: Data.Processor.AnyProto?) {
             self.server = server
             super.init(metadataOnly: true)
         }
         
         public override func process(metadata: Video.Processor.Packet) {
-            server?.process(data: "ack \(metadata.ID)".data(using: .utf8)!)
+            server?.process("ack \(metadata.ID)".data(using: .utf8)!)
         }
     }
 }
 
 
 public extension Video.Processor {
-    class SenderACKCapture : Base, Data.Processor.Proto, Flushable.Proto {
-        
+    class SenderACKCapture : Base, Flushable.Proto {
+        private(set) var data: Data.Processor.AnyProto = Data.Processor.shared
         private var queue = [(ID: UInt, timestamp: Date)]()
-        private var metric: String.Processor.Proto
+        private var metric: String.Processor.AnyProto
         private let lock = NSRecursiveLock()
         private var lastVideoBuffer: Video.Sample?
         private var processTimeStamp: Date?
         private let timebase: Capture.Timebase
-        
-        init(next: Video.Processor.Proto, timebase: Capture.Timebase, metric: String.Processor.Proto) {
+
+        init(next: Video.Processor.AnyProto, timebase: Capture.Timebase, metric: String.Processor.AnyProto) {
             self.timebase = timebase
             self.metric = metric
             super.init(next: next)
+            self.data = Data.Processor.Callback { [weak self] data in
+                self?.process(data)
+            }
         }
         
-        public override func process(video: Video.Sample) {
+        public override func process(_ video: Video.Sample) {
             var process = false
             
             lock.locked {
@@ -62,11 +65,11 @@ public extension Video.Processor {
             }
             
             if process {
-                super.process(video: video)
+                super.process(video)
             }
         }
         
-        public func process(data: Data) {
+        public func process(_ data: Data) {
             guard let string = String(data: data, encoding: .utf8), string.hasPrefix("ack ") else { return }
             let idString = string.suffix(from: string.index(string.startIndex, offsetBy: 4))
             
@@ -112,7 +115,7 @@ public extension Video.Processor {
             }
             
             if let lastVideoBuffer = lastVideoBuffer {
-                process(video: lastVideoBuffer)
+                process(lastVideoBuffer)
                 
             }
         }
@@ -127,7 +130,7 @@ public extension Video.Processor {
             let time = String(format: "[%.2f]", Date().timeIntervalSince(timebase.date))
                 .padding(toLength: 9, withPad: " ", startingAt: 0)
             
-            metric.process(string: "\(time) \(string)")
+            metric.process("\(time) \(string)")
         }
     }
 }
@@ -135,10 +138,10 @@ public extension Video.Processor {
 
 public extension Video.Setup {
     class ViewerACK : Slave {
-        private var server: Data.Processor.Proto?
+        private var server: Data.Processor.AnyProto?
         private var ack: Data.Processor.VideoViewerACK?
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             var result = data
             
             if kind == .networkHelm {
@@ -161,18 +164,21 @@ public extension Video.Setup {
 public extension Video.Setup {
     class SenderACK : Video.Setup.SenderQuality {
         private let timebase: Core.Capture.Timebase
-        private let metric: String.Processor.Proto
+        private let metric: String.Processor.AnyProto
         
         public init(root: Video.Setup.Proto,
                     timebase: Core.Capture.Timebase,
-                    metric: String.Processor.Proto = String.Processor.shared) {
+                    metric: String.Processor.AnyProto = String.Processor.shared) {
             self.timebase = timebase
             self.metric = metric
             super.init(root: root)
         }
-        
-        override func create(next: Video.Processor.Proto) -> Video.Processor.Proto & Data.Processor.Proto {
-            return Video.Processor.SenderACKCapture(next: next, timebase: timebase, metric: metric)
+
+        override func create(next: any ProcessorProtocol<Video.Sample>,
+                             data: inout Data.Processor.AnyProto) -> any ProcessorProtocol<Video.Sample> {
+            let result = Video.Processor.SenderACKCapture(next: next, timebase: timebase, metric: metric)
+            data = result.data
+            return result
         }
     }
 }

@@ -12,42 +12,38 @@ import AppKit
 #endif
 
 
-public protocol StringProcessorProtocol {
-    func process(string: String)
+public extension String {
+    final class Processor: ProcessorToolbox<String> {}
 }
 
 
 public extension String {
-    final class Processor {}
+    final class Producer: ProducerToolbox<String> {}
 }
 
 
 public extension String.Processor {
-    static let shared: String.Processor.Proto = Base()
-}
-
-public extension String.Processor {
-    typealias Proto = StringProcessorProtocol
+    static let shared: AnyProto = Base()
 }
 
 
 public extension String.Processor {
-    class Base : Proto {
-        public func process(string: String) {}
+    class Base : ProcessorProtocol {
+        public func process(_ string: String) {}
     }
 }
 
 
 public extension String.Processor {
     class Chain : Proto {
-        let next: Proto?
+        let next: AnyProto?
         
-        init(next: Proto?) {
+        init(next: AnyProto?) {
             self.next = next
         }
         
-        public func process(string: String) {
-            next?.process(string: string)
+        public func process(_ string: String) {
+            next?.process(string)
         }
     }
 }
@@ -57,13 +53,13 @@ public extension String.Processor {
     class ChainConstant : Chain {
         let prepend: String
         
-        public init(prepend: String, next: Proto?) {
+        public init(prepend: String, next: AnyProto?) {
             self.prepend = prepend
             super.init(next: next)
         }
         
-        public override func process(string: String) {
-            super.process(string: prepend + string)
+        public override func process(_ string: String) {
+            super.process(prepend + string)
         }
     }
 }
@@ -73,17 +69,17 @@ public extension String.Processor {
     class FlushLast : Chain, Flushable.Proto {
         private var string: String?
         
-        public init(_ next: String.Processor.Proto?) {
+        public init(_ next: AnyProto?) {
             super.init(next: next)
         }
         
-        public override func process(string: String) {
+        public override func process(_ string: String) {
             self.string = string
         }
         
         public func flush() {
             if let string = string {
-                super.process(string: string)
+                super.process(string)
             }
         }
     }
@@ -95,11 +91,11 @@ public extension String.Processor {
         var strings = [String]()
         let lock = NSLock()
         
-        init(_ next: String.Processor.Proto?) {
+        init(_ next: AnyProto?) {
             super.init(next: next)
         }
 
-        public override func process(string: String) {
+        public override func process(_ string: String) {
             lock.locked { strings.append(string) }
         }
         
@@ -111,22 +107,23 @@ public extension String.Processor {
                 strings.removeAll()
             }
             
-            super.process(string: joined)
+            super.process(joined)
         }
     }
 }
 
 
 public extension String.Processor {
-    final class Print : Proto {
+    final class Print : ProcessorProtocol {
+        public typealias Value = String
         public static let shared = Print()
         private let title: String
         
-        init(_ title: String = "") {
+        public init(_ title: String = "") {
             self.title = title
         }
         
-        public func process(string: String) {
+        public func process(_ string: String) {
             print("\(title)\(string)")
         }
     }

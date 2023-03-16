@@ -9,6 +9,37 @@
 import AVFoundation
 
 public extension Capture {
+    class Output<TCaptureOutput>: Session.Proto where TCaptureOutput: AVCaptureOutput {
+        let output: TCaptureOutput
+        let session: AVCaptureSession
+
+        init(output: TCaptureOutput, session: AVCaptureSession) {
+            self.output = output
+            self.session = session
+        }
+
+        public func start() throws {
+            if session.canAddOutput(output) {
+                session.addOutput(output)
+            }
+            else {
+                logError(Error.unableToAddOutput(output))
+            }
+        }
+        
+        public func stop() {
+            session.removeOutput(output)
+        }
+    }
+}
+
+public extension Capture.Output {
+    enum Error: Swift.Error {
+        case unableToAddOutput(AVCaptureOutput)
+    }
+}
+
+public extension Capture {
     class AssetOutput : Session.Proto {
         
         private var stopped = false

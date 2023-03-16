@@ -12,6 +12,8 @@
 		8202D3E225DE425200E211C0 /* AppKit.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FFB25D12ABE004E77F9 /* AppKit.ViewController.swift */; };
 		8202D3E625DED59000E211C0 /* General.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3E525DED59000E211C0 /* General.Settings.swift */; };
 		8202D3E725DED59000E211C0 /* General.Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8202D3E525DED59000E211C0 /* General.Settings.swift */; };
+		8225BFBB29BBB696001B6905 /* SwiftUI.View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8225BFBA29BBB696001B6905 /* SwiftUI.View.swift */; };
+		8225BFBC29BBB696001B6905 /* SwiftUI.View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8225BFBA29BBB696001B6905 /* SwiftUI.View.swift */; };
 		822C801E25D12ABE004E77F9 /* AppKit.Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FF825D12ABE004E77F9 /* AppKit.Alert.swift */; };
 		822C801F25D12ABE004E77F9 /* AppKit.Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FF925D12ABE004E77F9 /* AppKit.Appearance.swift */; };
 		822C802025D12ABE004E77F9 /* AppKit.View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FFA25D12ABE004E77F9 /* AppKit.View.swift */; };
@@ -63,6 +65,8 @@
 		825C4F7C2955BAD300079105 /* Network.Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F7A2955BAC600079105 /* Network.Utils.swift */; };
 		825C4F7E2956131800079105 /* Network.Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F7D2956131800079105 /* Network.Listener.swift */; };
 		825C4F7F295614F000079105 /* Network.Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C4F7D2956131800079105 /* Network.Listener.swift */; };
+		825DBB0A29E46D88009F1B9C /* CoreGraphics.Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825DBB0929E46D88009F1B9C /* CoreGraphics.Context.swift */; };
+		825DBB0B29E46D88009F1B9C /* CoreGraphics.Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825DBB0929E46D88009F1B9C /* CoreGraphics.Context.swift */; };
 		8267EF38281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		8267EF39281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */; };
 		8292AD582971D04700FC0D19 /* Combine.General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8292AD572971D04700FC0D19 /* Combine.General.swift */; };
@@ -106,17 +110,27 @@
 		82B3AC9F25D5354700DA6D29 /* AVFoundation.SampleBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C7FFD25D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift */; };
 		82B3ACA025D5354700DA6D29 /* CoreGraphics.Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C800025D12ABE004E77F9 /* CoreGraphics.Array.swift */; };
 		82B3ACA125D5354700DA6D29 /* QuartzCore.Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822C801425D12ABE004E77F9 /* QuartzCore.Layer.swift */; };
-		82B8002029427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */; };
 		82B8002129427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */; };
 		82B8002329428A780099A6EF /* AppKit.Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8002229428A780099A6EF /* AppKit.Application.swift */; };
 		82B8002429428A780099A6EF /* AppKit.Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B8002229428A780099A6EF /* AppKit.Application.swift */; };
-		82BC33C4281FC757007AFD89 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BC33C3281FC757007AFD89 /* AppKit.Device.swift */; };
-		82BC33C5281FC757007AFD89 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BC33C3281FC757007AFD89 /* AppKit.Device.swift */; };
+		82CD942029E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD941F29E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift */; };
+		82CD942129E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD941F29E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift */; };
+		82CD942329E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD942229E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift */; };
+		82CD942429E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD942229E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift */; };
+		82D454D4298DB703005F0467 /* Foundation.Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D454D3298DB703005F0467 /* Foundation.Pointers.swift */; };
+		82D454D5298DB703005F0467 /* Foundation.Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D454D3298DB703005F0467 /* Foundation.Pointers.swift */; };
+		82D9AB5C29DE143E00B9C925 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5B29DE143E00B9C925 /* AppKit.Device.swift */; };
+		82D9AB5D29DE143E00B9C925 /* AppKit.Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5B29DE143E00B9C925 /* AppKit.Device.swift */; };
+		82D9AB6129E0229E00B9C925 /* SwiftUI.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB6029E0229E00B9C925 /* SwiftUI.Router.swift */; };
+		82D9AB6229E0229E00B9C925 /* SwiftUI.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB6029E0229E00B9C925 /* SwiftUI.Router.swift */; };
+		82D9AB6929E0D40300B9C925 /* Swift.Clamping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB6829E0D40300B9C925 /* Swift.Clamping.swift */; };
+		82D9AB6A29E0D40300B9C925 /* Swift.Clamping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB6829E0D40300B9C925 /* Swift.Clamping.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8202D37125DE28A900E211C0 /* AppKit.Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Window.swift; sourceTree = "<group>"; };
 		8202D3E525DED59000E211C0 /* General.Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.Settings.swift; sourceTree = "<group>"; };
+		8225BFBA29BBB696001B6905 /* SwiftUI.View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.View.swift; sourceTree = "<group>"; };
 		822C7FE625D12A1B004E77F9 /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		822C7FF825D12ABE004E77F9 /* AppKit.Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppKit.Alert.swift; sourceTree = "<group>"; };
 		822C7FF925D12ABE004E77F9 /* AppKit.Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppKit.Appearance.swift; sourceTree = "<group>"; };
@@ -160,6 +174,7 @@
 		825C4F752955B53000079105 /* Network.General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.General.swift; sourceTree = "<group>"; };
 		825C4F7A2955BAC600079105 /* Network.Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.Utils.swift; sourceTree = "<group>"; };
 		825C4F7D2956131800079105 /* Network.Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.Listener.swift; sourceTree = "<group>"; };
+		825DBB0929E46D88009F1B9C /* CoreGraphics.Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreGraphics.Context.swift; sourceTree = "<group>"; };
 		8267EF37281056F1008858C1 /* AVFoundation.CaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.CaptureDevice.swift; sourceTree = "<group>"; };
 		8292AD572971D04700FC0D19 /* Combine.General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combine.General.swift; sourceTree = "<group>"; };
 		8292AD68297B064800FC0D19 /* Combine.Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combine.Publisher.swift; sourceTree = "<group>"; };
@@ -174,7 +189,12 @@
 		82B3ACAF25D535FC00DA6D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82B8001F29427E3F0099A6EF /* AVFoundation.Capture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundation.Capture.swift; sourceTree = "<group>"; };
 		82B8002229428A780099A6EF /* AppKit.Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Application.swift; sourceTree = "<group>"; };
-		82BC33C3281FC757007AFD89 /* AppKit.Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Device.swift; sourceTree = "<group>"; };
+		82CD941F29E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.Transition.Dummy.swift; sourceTree = "<group>"; };
+		82CD942229E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.Transition.Curtains.swift; sourceTree = "<group>"; };
+		82D454D3298DB703005F0467 /* Foundation.Pointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.Pointers.swift; sourceTree = "<group>"; };
+		82D9AB5B29DE143E00B9C925 /* AppKit.Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Device.swift; sourceTree = "<group>"; };
+		82D9AB6029E0229E00B9C925 /* SwiftUI.Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.Router.swift; sourceTree = "<group>"; };
+		82D9AB6829E0D40300B9C925 /* Swift.Clamping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.Clamping.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,8 +278,8 @@
 				822C7FFA25D12ABE004E77F9 /* AppKit.View.swift */,
 				822C7FFB25D12ABE004E77F9 /* AppKit.ViewController.swift */,
 				8202D37125DE28A900E211C0 /* AppKit.Window.swift */,
-				82BC33C3281FC757007AFD89 /* AppKit.Device.swift */,
 				82B8002229428A780099A6EF /* AppKit.Application.swift */,
+				82D9AB5B29DE143E00B9C925 /* AppKit.Device.swift */,
 			);
 			path = AppKit;
 			sourceTree = "<group>";
@@ -282,6 +302,7 @@
 				822C800125D12ABE004E77F9 /* CoreGraphics.Display.swift */,
 				822C800225D12ABE004E77F9 /* CoreGraphics.Event.swift */,
 				822C800325D12ABE004E77F9 /* CoreGraphics.General.swift */,
+				825DBB0929E46D88009F1B9C /* CoreGraphics.Context.swift */,
 			);
 			path = CoreGraphics;
 			sourceTree = "<group>";
@@ -306,6 +327,7 @@
 				822C800E25D12ABE004E77F9 /* Foundation.Thread.Wait.swift */,
 				822C800F25D12ABE004E77F9 /* Foundation.Typedefs.swift */,
 				822C801025D12ABE004E77F9 /* Foundation.URL.swift */,
+				82D454D3298DB703005F0467 /* Foundation.Pointers.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -336,6 +358,7 @@
 				822C801825D12ABE004E77F9 /* Swift.String.swift */,
 				822C801925D12ABE004E77F9 /* Swift.Struct.swift */,
 				825C4F65294D033100079105 /* Swift.Concurrency.TaskQueue.swift */,
+				82D9AB6829E0D40300B9C925 /* Swift.Clamping.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -394,6 +417,10 @@
 			isa = PBXGroup;
 			children = (
 				829BF85E291553C2002E389C /* SwiftUI.SampleBuffer.swift */,
+				8225BFBA29BBB696001B6905 /* SwiftUI.View.swift */,
+				82D9AB6029E0229E00B9C925 /* SwiftUI.Router.swift */,
+				82CD941F29E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift */,
+				82CD942229E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -511,13 +538,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				822C803025D12ABE004E77F9 /* Foundation.Thread.Wait.swift in Sources */,
+				82D454D4298DB703005F0467 /* Foundation.Pointers.swift in Sources */,
 				825C4F7E2956131800079105 /* Network.Listener.swift in Sources */,
 				82327ADC2966CAC70042D37D /* Combine.AnyValue.swift in Sources */,
 				8292AD6C297B464A00FC0D19 /* Combine.NewValue.swift in Sources */,
 				822C803725D12ABE004E77F9 /* Swift.String.swift in Sources */,
 				822C803125D12ABE004E77F9 /* Foundation.Typedefs.swift in Sources */,
 				822C802125D12ABE004E77F9 /* AppKit.ViewController.swift in Sources */,
+				825DBB0A29E46D88009F1B9C /* CoreGraphics.Context.swift in Sources */,
 				822C802325D12ABE004E77F9 /* AVFoundation.swift in Sources */,
+				82D9AB6929E0D40300B9C925 /* Swift.Clamping.swift in Sources */,
 				822C803825D12ABE004E77F9 /* Swift.Struct.swift in Sources */,
 				825C4F762955B53000079105 /* Network.General.swift in Sources */,
 				822C802E25D12ABE004E77F9 /* Foundation.Thread.Background.swift in Sources */,
@@ -530,6 +560,8 @@
 				8237AA0A2982C03400C518D3 /* Network.Connection.swift in Sources */,
 				822C802525D12ABE004E77F9 /* CoreGraphics.Display.swift in Sources */,
 				825C4F7B2955BAC600079105 /* Network.Utils.swift in Sources */,
+				82CD942029E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift in Sources */,
+				82D9AB5C29DE143E00B9C925 /* AppKit.Device.swift in Sources */,
 				82981685279EE4E3004B3EB1 /* UI.Segue.swift in Sources */,
 				82B8002329428A780099A6EF /* AppKit.Application.swift in Sources */,
 				822C802B25D12ABE004E77F9 /* Foundation.Dispatch.swift in Sources */,
@@ -540,22 +572,23 @@
 				825C4F702955B49000079105 /* Network.Browser.swift in Sources */,
 				82981688279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */,
 				8202D3E625DED59000E211C0 /* General.Settings.swift in Sources */,
-				82B8002029427E3F0099A6EF /* AVFoundation.Capture.swift in Sources */,
 				822C803325D12ABE004E77F9 /* Metal.CVMetalTexture.swift in Sources */,
 				822C802825D12ABE004E77F9 /* CoreMedia.swift in Sources */,
 				822C803625D12ABE004E77F9 /* Swift.Pointers.swift in Sources */,
 				822C802F25D12ABE004E77F9 /* Foundation.Thread.Exec.swift in Sources */,
+				82CD942329E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift in Sources */,
 				8267EF38281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */,
 				8292AD69297B064800FC0D19 /* Combine.Publisher.swift in Sources */,
 				822C803225D12ABE004E77F9 /* Foundation.URL.swift in Sources */,
 				822C803525D12ABE004E77F9 /* Swift.Collection.swift in Sources */,
 				822C802025D12ABE004E77F9 /* AppKit.View.swift in Sources */,
 				822C802725D12ABE004E77F9 /* CoreGraphics.General.swift in Sources */,
+				8225BFBB29BBB696001B6905 /* SwiftUI.View.swift in Sources */,
 				822C803925D12ABE004E77F9 /* UI.Button.swift in Sources */,
-				82BC33C4281FC757007AFD89 /* AppKit.Device.swift in Sources */,
 				822C80E025D18917004E77F9 /* General.Status.swift in Sources */,
 				8292AD582971D04700FC0D19 /* Combine.General.swift in Sources */,
 				822C802D25D12ABE004E77F9 /* Foundation.System.swift in Sources */,
+				82D9AB6129E0229E00B9C925 /* SwiftUI.Router.swift in Sources */,
 				822C802925D12ABE004E77F9 /* General.Dispatch.swift in Sources */,
 				822C802225D12ABE004E77F9 /* AVFoundation.SampleBuffer.swift in Sources */,
 				825C4F66294D033100079105 /* Swift.Concurrency.TaskQueue.swift in Sources */,
@@ -569,10 +602,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				82B3AC8525D5354700DA6D29 /* Foundation.Thread.Wait.swift in Sources */,
+				82D9AB5D29DE143E00B9C925 /* AppKit.Device.swift in Sources */,
 				82327ADD2966CBAC0042D37D /* Combine.AnyValue.swift in Sources */,
 				82B3AC8625D5354700DA6D29 /* Swift.String.swift in Sources */,
 				82B3AC8725D5354700DA6D29 /* Foundation.Typedefs.swift in Sources */,
 				82B3AC8925D5354700DA6D29 /* AVFoundation.swift in Sources */,
+				8225BFBC29BBB696001B6905 /* SwiftUI.View.swift in Sources */,
+				82D9AB6229E0229E00B9C925 /* SwiftUI.Router.swift in Sources */,
 				82B3AC8A25D5354700DA6D29 /* Swift.Struct.swift in Sources */,
 				82B3AC8B25D5354700DA6D29 /* Foundation.Thread.Background.swift in Sources */,
 				82B3AC8C25D5354700DA6D29 /* AppKit.Alert.swift in Sources */,
@@ -598,19 +634,23 @@
 				825C4F7F295614F000079105 /* Network.Listener.swift in Sources */,
 				82981689279EE53C004B3EB1 /* AppKit.Typedefs.swift in Sources */,
 				8202D3E725DED59000E211C0 /* General.Settings.swift in Sources */,
+				82CD942129E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift in Sources */,
 				82B3AC9525D5354700DA6D29 /* Swift.Pointers.swift in Sources */,
 				82B3AC9625D5354700DA6D29 /* Foundation.Thread.Exec.swift in Sources */,
 				82B3AC9725D5354700DA6D29 /* Foundation.URL.swift in Sources */,
 				8202D3E225DE425200E211C0 /* AppKit.ViewController.swift in Sources */,
+				82D9AB6A29E0D40300B9C925 /* Swift.Clamping.swift in Sources */,
 				8267EF39281056F1008858C1 /* AVFoundation.CaptureDevice.swift in Sources */,
 				82B3AC9825D5354700DA6D29 /* Swift.Collection.swift in Sources */,
 				82B3AC9925D5354700DA6D29 /* AppKit.View.swift in Sources */,
+				82CD942429E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift in Sources */,
+				825DBB0B29E46D88009F1B9C /* CoreGraphics.Context.swift in Sources */,
 				82B3AC9A25D5354700DA6D29 /* CoreGraphics.General.swift in Sources */,
 				82B3AC9B25D5354700DA6D29 /* UI.Button.swift in Sources */,
 				82B3AC9C25D5354700DA6D29 /* General.Status.swift in Sources */,
 				825C4F782955B53600079105 /* General.swift in Sources */,
-				82BC33C5281FC757007AFD89 /* AppKit.Device.swift in Sources */,
 				82B3AC9D25D5354700DA6D29 /* Foundation.System.swift in Sources */,
+				82D454D5298DB703005F0467 /* Foundation.Pointers.swift in Sources */,
 				8202D3DF25DE425000E211C0 /* AppKit.Window.swift in Sources */,
 				82B3AC9E25D5354700DA6D29 /* General.Dispatch.swift in Sources */,
 				8292AD592971D04700FC0D19 /* Combine.General.swift in Sources */,

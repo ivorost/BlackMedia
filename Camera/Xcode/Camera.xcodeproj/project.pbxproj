@@ -11,9 +11,12 @@
 		8205B88E28A4B4B200F1744A /* Trace.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205B88D28A4B4B200F1744A /* Trace.ViewModel.swift */; };
 		8205B89228A52A5B00F1744A /* Select.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205B89128A52A5B00F1744A /* Select.ViewModel.swift */; };
 		8205B89528A52F4100F1744A /* Main.ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205B89428A52F4100F1744A /* Main.ViewModel.swift */; };
+		8214C08229D4C27600CCD986 /* Peer.View.Scan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8214C08129D4C27600CCD986 /* Peer.View.Scan.swift */; };
 		8256C58E289D3D6000A527A6 /* Main.Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8256C58D289D3D6000A527A6 /* Main.Scene.swift */; };
 		8256C595289D475B00A527A6 /* Select.View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8256C594289D475B00A527A6 /* Select.View.swift */; };
 		8256C598289D4CD900A527A6 /* Trace.View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8256C597289D4CD900A527A6 /* Trace.View.swift */; };
+		825A9C0A29D462270063AA95 /* Peer.View.Pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825A9C0929D462270063AA95 /* Peer.View.Pair.swift */; };
+		825A9C0D29D4B7150063AA95 /* QRCode in Frameworks */ = {isa = PBXBuildFile; productRef = 825A9C0C29D4B7150063AA95 /* QRCode */; };
 		8267EF432812B1DD008858C1 /* Peer.Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267EF422812B1DD008858C1 /* Peer.Selector.swift */; };
 		82764AE527996A3C00892C8A /* RxCocoa.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82764AE427996A3C00892C8A /* RxCocoa.xcframework */; };
 		82764AEE2799AC4600892C8A /* RxCocoa.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82764AE427996A3C00892C8A /* RxCocoa.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -35,6 +38,10 @@
 		82CA0A9826143465001041C7 /* Core.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C925D6A38F0063E04E /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82CA0A9926143468001041C7 /* Common.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C725D6A3890063E04E /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82CA0A9A2614346C001041C7 /* Utils.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82F572C525D6A3840063E04E /* Utils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82CD942929E5C27300D67C3F /* Utility.Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CD942829E5C27300D67C3F /* Utility.Environment.swift */; };
+		82D9AB5F29E020FC00B9C925 /* Main.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB5E29E020FC00B9C925 /* Main.Router.swift */; };
+		82D9AB6529E0A97800B9C925 /* Utility.Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB6429E0A97800B9C925 /* Utility.Color.swift */; };
+		82D9AB6729E0B8BB00B9C925 /* Peer.View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9AB6629E0B8BB00B9C925 /* Peer.View.swift */; };
 		82F572C625D6A3840063E04E /* Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F572C525D6A3840063E04E /* Utils.framework */; };
 		82F572C825D6A3890063E04E /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F572C725D6A3890063E04E /* Common.framework */; };
 		82F572CA25D6A38F0063E04E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F572C925D6A38F0063E04E /* Core.framework */; };
@@ -85,10 +92,12 @@
 		8205B88D28A4B4B200F1744A /* Trace.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trace.ViewModel.swift; sourceTree = "<group>"; };
 		8205B89128A52A5B00F1744A /* Select.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Select.ViewModel.swift; sourceTree = "<group>"; };
 		8205B89428A52F4100F1744A /* Main.ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.ViewModel.swift; sourceTree = "<group>"; };
+		8214C08129D4C27600CCD986 /* Peer.View.Scan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.View.Scan.swift; sourceTree = "<group>"; };
 		822A5DFE256C497F00AAF2C0 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		8256C58D289D3D6000A527A6 /* Main.Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.Scene.swift; sourceTree = "<group>"; };
 		8256C594289D475B00A527A6 /* Select.View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Select.View.swift; sourceTree = "<group>"; };
 		8256C597289D4CD900A527A6 /* Trace.View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trace.View.swift; sourceTree = "<group>"; };
+		825A9C0929D462270063AA95 /* Peer.View.Pair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.View.Pair.swift; sourceTree = "<group>"; };
 		8267EF422812B1DD008858C1 /* Peer.Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.Selector.swift; sourceTree = "<group>"; };
 		82764AE427996A3C00892C8A /* RxCocoa.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RxCocoa.xcframework; path = ../../ThirdParty/build/Fat/RxCocoa.xcframework; sourceTree = "<group>"; };
 		82764AEF2799AE0300892C8A /* RxRelay.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RxRelay.xcframework; path = ../../ThirdParty/build/Fat/RxRelay.xcframework; sourceTree = "<group>"; };
@@ -105,11 +114,15 @@
 		82BE5D7A276B5C9600646A8E /* RxSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RxSwift.xcframework; path = ../../ThirdParty/build/Fat/RxSwift.xcframework; sourceTree = "<group>"; };
 		82C5B8202768D23100DFE5F5 /* Starscream.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Starscream.xcframework; path = ../../ThirdParty/build/Fat/Starscream.xcframework; sourceTree = "<group>"; };
 		82C5B8212768D23100DFE5F5 /* Bonjour.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Bonjour.xcframework; path = ../../ThirdParty/build/Fat/Bonjour.xcframework; sourceTree = "<group>"; };
+		82CD942829E5C27300D67C3F /* Utility.Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.Environment.swift; sourceTree = "<group>"; };
 		82CEC96125D2F5B9000302A0 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		82CEC96625D2F5CD000302A0 /* Application.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Application.entitlements; sourceTree = "<group>"; };
 		82CEC96725D2F5CD000302A0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82CEC98625D2FB47000302A0 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Release.xcconfig; sourceTree = "<group>"; };
 		82CEC98725D2FB47000302A0 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../ThirdParty/repository/xcconfigs/Base/Configurations/Debug.xcconfig; sourceTree = "<group>"; };
+		82D9AB5E29E020FC00B9C925 /* Main.Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.Router.swift; sourceTree = "<group>"; };
+		82D9AB6429E0A97800B9C925 /* Utility.Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.Color.swift; sourceTree = "<group>"; };
+		82D9AB6629E0B8BB00B9C925 /* Peer.View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer.View.swift; sourceTree = "<group>"; };
 		82F572B425D69EDA0063E04E /* Application-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Application-iOS.xcconfig"; sourceTree = "<group>"; };
 		82F572C525D6A3840063E04E /* Utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F572C725D6A3890063E04E /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +139,7 @@
 			files = (
 				82764AE527996A3C00892C8A /* RxCocoa.xcframework in Frameworks */,
 				82764AF02799AE0300892C8A /* RxRelay.xcframework in Frameworks */,
+				825A9C0D29D4B7150063AA95 /* QRCode in Frameworks */,
 				82F572CA25D6A38F0063E04E /* Core.framework in Frameworks */,
 				82F572C825D6A3890063E04E /* Common.framework in Frameworks */,
 				82C5B8232768D23100DFE5F5 /* Bonjour.xcframework in Frameworks */,
@@ -150,6 +164,7 @@
 			children = (
 				8256C58D289D3D6000A527A6 /* Main.Scene.swift */,
 				8205B89428A52F4100F1744A /* Main.ViewModel.swift */,
+				82D9AB5E29E020FC00B9C925 /* Main.Router.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -200,13 +215,12 @@
 		828CA214258B4D1F00247034 /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				82D9AB6329E0A95F00B9C925 /* Utility */,
 				8205B89328A52E5000F1744A /* Main */,
 				8256C593289D472200A527A6 /* Select */,
 				8256C596289D4C7400A527A6 /* Trace */,
 				82D0C3FD2760EA9E0001FECB /* Peer */,
 				8250BC6A28095B370045AE4E /* Media */,
-				828CA21E258B4D2900247034 /* Assets.xcassets */,
-				828CA220258B4D2900247034 /* LaunchScreen.storyboard */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -277,7 +291,9 @@
 		82CEC96525D2F5CD000302A0 /* Xcode */ = {
 			isa = PBXGroup;
 			children = (
+				828CA21E258B4D2900247034 /* Assets.xcassets */,
 				82CEC96625D2F5CD000302A0 /* Application.entitlements */,
+				828CA220258B4D2900247034 /* LaunchScreen.storyboard */,
 				82CEC96725D2F5CD000302A0 /* Info.plist */,
 			);
 			path = Xcode;
@@ -286,10 +302,22 @@
 		82D0C3FD2760EA9E0001FECB /* Peer */ = {
 			isa = PBXGroup;
 			children = (
+				82D9AB6629E0B8BB00B9C925 /* Peer.View.swift */,
+				825A9C0929D462270063AA95 /* Peer.View.Pair.swift */,
+				8214C08129D4C27600CCD986 /* Peer.View.Scan.swift */,
 				82BC33BE281C1A67007AFD89 /* Peer.IO.swift */,
 				8267EF422812B1DD008858C1 /* Peer.Selector.swift */,
 			);
 			path = Peer;
+			sourceTree = "<group>";
+		};
+		82D9AB6329E0A95F00B9C925 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				82D9AB6429E0A97800B9C925 /* Utility.Color.swift */,
+				82CD942829E5C27300D67C3F /* Utility.Environment.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +338,9 @@
 			dependencies = (
 			);
 			name = Camera;
+			packageProductDependencies = (
+				825A9C0C29D4B7150063AA95 /* QRCode */,
+			);
 			productName = CaptureIOS;
 			productReference = 828CA213258B4D1F00247034 /* CameraIOS.app */;
 			productType = "com.apple.product-type.application";
@@ -360,6 +391,9 @@
 				Base,
 			);
 			mainGroup = 82C94FDD2546F58D0025663F;
+			packageReferences = (
+				825A9C0B29D4B7150063AA95 /* XCRemoteSwiftPackageReference "QRCode" */,
+			);
 			productRefGroup = 82C94FE72546F58D0025663F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -398,14 +432,20 @@
 				8201F9A12945DE390059B5DB /* Media.Get.ViewModel.swift in Sources */,
 				8205B89528A52F4100F1744A /* Main.ViewModel.swift in Sources */,
 				82BC33BF281C1A67007AFD89 /* Peer.IO.swift in Sources */,
+				825A9C0A29D462270063AA95 /* Peer.View.Pair.swift in Sources */,
 				8256C595289D475B00A527A6 /* Select.View.swift in Sources */,
 				829BF85A291548B5002E389C /* Media.View.swift in Sources */,
+				8214C08229D4C27600CCD986 /* Peer.View.Scan.swift in Sources */,
 				8256C58E289D3D6000A527A6 /* Main.Scene.swift in Sources */,
 				829BF85C291548FB002E389C /* Media.ViewModel.swift in Sources */,
 				829BF8582915489B002E389C /* Media.Put.ViewModel.swift in Sources */,
+				82CD942929E5C27300D67C3F /* Utility.Environment.swift in Sources */,
 				8205B89228A52A5B00F1744A /* Select.ViewModel.swift in Sources */,
 				8205B88E28A4B4B200F1744A /* Trace.ViewModel.swift in Sources */,
 				8256C598289D4CD900A527A6 /* Trace.View.swift in Sources */,
+				82D9AB6729E0B8BB00B9C925 /* Peer.View.swift in Sources */,
+				82D9AB5F29E020FC00B9C925 /* Main.Router.swift in Sources */,
+				82D9AB6529E0A97800B9C925 /* Utility.Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +487,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				DEVELOPMENT_TEAM = BLY6A8TNQK;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ihvorostinin.nanny;
 				PRODUCT_NAME = CameraIOS;
 				SUPPORTS_MACCATALYST = YES;
@@ -463,6 +504,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				DEVELOPMENT_TEAM = BLY6A8TNQK;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ihvorostinin.nanny;
 				PRODUCT_NAME = CameraIOS;
 				SUPPORTS_MACCATALYST = YES;
@@ -565,6 +607,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		825A9C0B29D4B7150063AA95 /* XCRemoteSwiftPackageReference "QRCode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dagronf/QRCode";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		825A9C0C29D4B7150063AA95 /* QRCode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 825A9C0B29D4B7150063AA95 /* XCRemoteSwiftPackageReference "QRCode" */;
+			productName = QRCode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 82C94FDE2546F58D0025663F /* Project object */;
 }

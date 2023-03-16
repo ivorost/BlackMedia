@@ -56,7 +56,7 @@ public extension Data.Processor {
     class ScreenConfigSerializer : Network.PacketSerializer.Processor, Session.Proto {
         private let settings: Video.ScreenConfig
 
-        init(next: Data.Processor.Proto, settings: Video.ScreenConfig) {
+        init(next: Data.Processor.AnyProto, settings: Video.ScreenConfig) {
             self.settings = settings
             super.init(next: next)
         }
@@ -133,7 +133,7 @@ public extension Capture.Setup {
             super.init(root: root)
         }
 
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             if kind == .networkData {
                 let session = Data.Processor.ScreenConfigSerializer(next: data, settings: settings)
                 root.session(session, kind: .other)

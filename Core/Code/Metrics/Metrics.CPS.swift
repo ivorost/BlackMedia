@@ -20,9 +20,9 @@ public class MeasureCPS : Flushable {
     private var data = [(count: Int, timestamp: Date)]()
     private var callback: FuncWithDouble?
     private let lock = NSLock()
-    private let next: String.Processor.Proto
+    private let next: String.Processor.AnyProto
     
-    init(next: String.Processor.Proto = String.Processor.Print.shared) {
+    init(next: String.Processor.AnyProto = String.Processor.Print.shared) {
         self.next = next
     }
     
@@ -42,7 +42,7 @@ public class MeasureCPS : Flushable {
     }
     
     func process(cps: Double) {
-        next.process(string: "\(cps)")
+        next.process("\(cps)")
     }
     
     private func flushData(_ date: Date) {

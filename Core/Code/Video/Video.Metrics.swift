@@ -10,18 +10,18 @@ import AVFoundation
 
 
 extension Video {
-    class Measure : Processor.Proto {
+    class Measure : ProcessorProtocol {
         private let measure: MeasureProtocol
-        private let next: Processor.Proto
+        private let next: Processor.AnyProto
         
-        init(measure: MeasureProtocol, next: Processor.Proto) {
+        init(measure: MeasureProtocol, next: Processor.AnyProto) {
             self.measure = measure
             self.next = next
         }
         
-        func process(video: Sample) {
+        func process(_ video: Sample) {
             measure.begin()
-            next.process(video: video)
+            next.process(video)
             measure.end()
         }
     }
@@ -29,18 +29,18 @@ extension Video {
 
 
 public extension Video.Processor {
-    class OutputPresentationTime : Proto {
-        private let string: String.Processor.Proto
+    class OutputPresentationTime : ProcessorProtocol {
+        private let string: String.Processor.AnyProto
         private let timebase: Capture.Timebase
         private var startTime: Double?
         private let lock = NSLock()
         
-        public init(string: String.Processor.Proto, timebase: Capture.Timebase) {
+        public init(string: String.Processor.AnyProto, timebase: Capture.Timebase) {
             self.string = string
             self.timebase = timebase
         }
         
-        public func process(video: Video.Sample) {
+        public func process(_ video: Video.Sample) {
             lock.locked {
                 if startTime == nil {
                     startTime = video.sampleBuffer.presentationSeconds
@@ -51,7 +51,7 @@ public extension Video.Processor {
                         .padding(toLength: 10, withPad: " ", startingAt: 0)
                     let presentation = "\(video.sampleBuffer.presentationSeconds - startTime)"
                     
-                    string.process(string: "\(clock) : \(presentation)")
+                    string.process("\(clock) : \(presentation)")
                 }
             }
         }
@@ -69,7 +69,7 @@ public extension Video.Setup {
             self.measure = measure
         }
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == self.kind {
@@ -83,20 +83,24 @@ public extension Video.Setup {
 
 
 public extension Video.Processor {
-    class PresentationDelay : Data.Processor.DeserializerH264Base, Proto {
-        private let next: String.Processor.Proto
+    class PresentationDelay : Data.Processor.DeserializerH264Base {
+        private(set) var video: AnyProto = Video.Processor.shared
+        private let next: String.Processor.AnyProto
         private var output = [Int64 : Video.Time]()
-        
-        public init(next: String.Processor.Proto) {
+
+        public init(next: String.Processor.AnyProto) {
             self.next = next
             super.init(metadataOnly: true)
+            video = Callback { [weak self] video in
+                self?.process(video)
+            }
         }
         
         public override func process(metadata: Video.Processor.Packet) {
             output[metadata.time.timestamp.timeStamp] = metadata.originalTime
         }
         
-        public func process(video: Video.Sample) {
+        public func process(_ video: Video.Sample) {
             let key = CMSampleBufferGetPresentationTimeStamp(video.sampleBuffer).value
             guard let originalTimeSeconds = output[key]?.timestamp.seconds
             else { assert(false); return }
@@ -104,7 +108,7 @@ public extension Video.Processor {
             let delta = currentTimeSeconds - originalTimeSeconds
             
             output.removeValue(forKey: key)
-            next.process(string: "\(delta)")
+            next.process("\(delta)")
         }
     }
 }

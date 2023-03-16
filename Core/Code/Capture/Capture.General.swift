@@ -11,7 +11,7 @@ import AVFoundation
 public final class Capture {}
 
 
-public protocol CaptureProtocol : Session.Proto & Data.Processor.Proto {
+public protocol CaptureProtocol : ProcessorProtocol<Data> & Session.Proto {
 }
 
 
@@ -30,7 +30,7 @@ public extension Capture {
 
 public extension Capture {
     static let queue = DispatchQueue.CreateCheckable("capture_queue")
-    static let shared: Proto = Base()
+    static let shared: some Proto = Base()
 }
 
 
@@ -38,7 +38,7 @@ public extension Capture {
     class Base : Capture.Proto {
         public func start() throws {}
         public func stop() {}
-        public func process(data: Data) {}
+        public func process(_ data: Data) {}
     }
 }
 

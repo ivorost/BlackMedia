@@ -6,12 +6,13 @@
 //
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 
 fileprivate extension String {
     static let bonjourServiceName = "_videoNanny._tcp"
-    static let deviceName = UIDevice.current.name
 }
 
 
@@ -31,7 +32,9 @@ extension UserDefaults {
 
 
 extension Network.NW.EndpointName {
-    static let current = Network.NW.EndpointName(pin: UserDefaults.standard.endpointID, name: .deviceName)
+    static let current = Network.NW.EndpointName(pin: UserDefaults.standard.endpointID,
+                                                 name: Device.name,
+                                                 kind: .current)
     static let currentData = current.encoded.data(using: .utf8)
 }
 

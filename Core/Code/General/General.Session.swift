@@ -163,6 +163,6 @@ public extension Session {
 }
 
 
-public func broadcast(_ x: [Session.Proto?]) -> Session.Proto? {
-    broadcast(x, create: { Session.Broadcast($0) })
+public func broadcast(_ x: [Session.Proto?]) -> Session.Proto {
+    Session.Broadcast(x.compactMap { $0 })
 }

@@ -11,13 +11,13 @@ import Starscream
 
 
 public extension Network {
-    class WebSocketClient : Session.Proto, Data.Processor.Proto, WebSocketDelegate {
-        private let next: Data.Processor.Proto?
+    class WebSocketClient : Session.Proto, Data.Processor.Proto, CaptureProtocol, WebSocketDelegate {
+        private let next: Data.Processor.AnyProto?
         private let url: URL
         private(set) var socket: WebSocket?
         private var connected: Func?
         
-        init(url: URL, next: Data.Processor.Proto?) {
+        init(url: URL, next: Data.Processor.AnyProto?) {
             self.url = url
             self.next = next
         }
@@ -45,14 +45,14 @@ public extension Network {
             socket?.disconnect()
         }
         
-        public func process(data: Data) {
+        public func process(_ data: Data) {
             socket?.write(data: data)
         }
         
         public func didReceive(event: WebSocketEvent, client: Starscream.WebSocketClient) {
             switch event {
             case .binary(let data):
-                next?.process(data: data)
+                next?.process(data)
             case .connected(_):
                 print("connected1 \(name)")
                 connected?()
@@ -99,8 +99,10 @@ public extension Network.Setup {
             super.init(root: root, session: session, target: target, network: network, output: output)
         }
 
-        public override func network(for next: Data.Processor.Proto) -> Data.Processor.Proto & Session.Proto {
-            return Network.WebSocketClient(url: url, next: next)
+        public override func network(for next: Data.Processor.AnyProto, session: inout Session.Proto) -> Data.Processor.AnyProto {
+            let result = Network.WebSocketClient(url: url, next: next)
+            session = result
+            return result
         }
     }
 }

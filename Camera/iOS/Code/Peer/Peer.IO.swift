@@ -12,17 +12,17 @@ import Combine
 
 extension Peer {
     class Put {
-        private let selector: Selector
+        private let selector: any Selector.Proto
 
         private var peer: Network.Peer.Proto? {
-            return selector.peer
+            return selector.peer?.remote
         }
 
         convenience init() {
-            self.init(.init())
+            self.init(Selector.General())
         }
         
-        init(_ selector: Selector) {
+        init(_ selector: any Selector.Proto) {
             self.selector = selector
         }
     }
@@ -30,31 +30,33 @@ extension Peer {
 
 
 extension Peer.Put : Data.Processor.Proto {
-    func process(data: Data) {
-        peer?.put(data)
+    func process(_ data: Data) {
+        peer?.put(.data(data))
     }
 }
 
 
 extension Peer {
     class Get {
-        private let next: Data.Processor.Proto
-        private let selector: Selector
+        private let next: Data.Processor.AnyProto
+        private let selector: any Selector.Proto
         private var peerDisposable: AnyCancellable?
         private var selectorDisposable: AnyCancellable?
 
-        init(selector: Selector, next: Data.Processor.Proto) {
+        init(selector: any Selector.Proto, next: Data.Processor.AnyProto) {
             self.selector = selector
             self.next = next
         }
         
-        private func peer(changed peer: Network.Peer.Proto?) {
+        private func peer(changed peer: Network.Peer.Pair.Proto?) {
             peerDisposable?.cancel()
-            peerDisposable = peer?.get.sink(receiveCompletion: {_ in }, receiveValue: peer(get:))
+            peerDisposable = peer?.remote.get.sink(receiveCompletion: {_ in }, receiveValue: peer(get:))
         }
         
-        private func peer(get data: Data) {
-            next.process(data: data)
+        private func peer(get data: Network.Peer.Data) {
+            if case let .data(data) = data {
+                next.process(data)
+            }
         }
     }
 }
@@ -62,7 +64,7 @@ extension Peer {
 
 extension Peer.Get : Session.Proto {
     func start() throws {
-        selectorDisposable = selector.$peer.sink(receiveValue: peer(changed:))
+        selectorDisposable = selector.peerPublisher.sink(receiveValue: peer(changed:))
         peer(changed: selector.peer)
     }
     
@@ -77,17 +79,18 @@ extension Peer.Get : Session.Proto {
 
 
 extension Peer.Get : Data.Processor.Proto {
-    func process(data: Data) {
-        next.process(data: data)
+    func process(_ value: Data) {
+        next.process(value)
     }
 }
 
+extension Peer.Get: CaptureProtocol {}
 
 extension Peer.Get {
     class Setup : Network.Setup.Get {
-        private let selector: Peer.Selector
+        private let selector: any Peer.Selector.Proto
         
-        public init(selector: Peer.Selector,
+        public init(selector: any Peer.Selector.Proto,
                     root: Capture.Setup.Proto,
                     session: Session.Kind,
                     target: Data.Processor.Kind,
@@ -97,8 +100,10 @@ extension Peer.Get {
             super.init(root: root, session: session, target: target, network: network, output: output)
         }
 
-        public override func network(for next: Data.Processor.Proto) -> Data.Processor.Proto & Session.Proto {
-            return Peer.Get(selector: selector, next: next)
+        public override func network(for next: Data.Processor.AnyProto, session: inout Session.Proto) -> Data.Processor.AnyProto {
+            let result = Peer.Get(selector: selector, next: next)
+            session = result
+            return result
         }
     }
 }

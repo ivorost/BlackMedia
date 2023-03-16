@@ -24,27 +24,47 @@ extension MTLComputeCommandEncoder {
     }
 }
 
- 
-extension MetalProcessor {
-    class PixelBuffer {
-        let textureCache: CVMetalTextureCache
-        let commandQueue: MTLCommandQueue
-        let computePipelineState: MTLComputePipelineState
-        let metalDevice: MTLDevice
-        let customScope: MTLCaptureScope
 
-        init?(library url: URL, function name: String) throws {
+extension MetalProcessor {
+    class TwoBitmaps {
+        enum BufferWidth {
+            case none
+            case constant(value: Int)
+            case threadExecutionWidth
+        }
+
+        private let textureCache: CVMetalTextureCache
+        private let commandQueue: MTLCommandQueue
+        private let computePipelineState: MTLComputePipelineState
+        private let metalDevice: MTLDevice
+        private let customScope: MTLCaptureScope
+        private let bufferWidth: BufferWidth
+
+        private lazy var dataBuffer: MTLBuffer? = {
+            switch bufferWidth {
+            case .none: return metalDevice.makeBuffer(length: 1)
+            case .constant(let value): return metalDevice.makeBuffer(
+                length: value * MemoryLayout<Int32>.size,
+                options: .storageModeShared)
+            case .threadExecutionWidth: return metalDevice.makeBuffer(
+                length: computePipelineState.threadExecutionWidth * MemoryLayout<Int32>.size,
+                options: .storageModeShared)
+            }
+        }()
+
+        init?(library url: URL, function name: String, buffer width: BufferWidth = .none) throws {
             guard let metalDevice = MTLCreateSystemDefaultDevice() else { return nil }
             guard let commandQueue = metalDevice.makeCommandQueue() else { return nil }
             let library = try metalDevice.makeLibrary(URL: url)
             guard let function = library.makeFunction(name: name) else { return nil }
             let computePipelineState = try metalDevice.makeComputePipelineState(function: function)
             guard let textureCache = metalDevice.makeTextureCache() else { return nil }
-            
+
             self.metalDevice  = metalDevice
             self.commandQueue = commandQueue
             self.textureCache = textureCache
             self.computePipelineState = computePipelineState
+            self.bufferWidth = width
             
             let sharedCapturer = MTLCaptureManager.shared()
             customScope = sharedCapturer.makeCaptureScope(device: metalDevice)
@@ -53,11 +73,16 @@ extension MetalProcessor {
             // If you want to set this scope as the default debug scope, assign it to MTLCaptureManager's defaultCaptureScope
             sharedCapturer.defaultCaptureScope = customScope
         }
-        
-        func processAndWait(pixelBuffer1: CVPixelBuffer,
-                            pixelBuffer2: CVPixelBuffer,
-                            initialize: MTLComputeCommandEncoder.Func = { _ in },
-                            complete: MTLComputeCommandEncoder.Func = { _ in }) throws {
+
+        var buffer: UnsafeMutableBufferFloatPointer {
+            guard let dataBuffer else { return UnsafeMutableBufferFloatPointer(start: nil, count: 0) }
+
+            return UnsafeMutableBufferFloatPointer(
+                start: dataBuffer.contents().bindMemory(to: Int32.self, capacity: dataBuffer.length),
+                count: dataBuffer.length / MemoryLayout<Int32>.size)
+        }
+
+        func processAndWait(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) throws {
             // Converts the pixel buffer in a Metal texture.
             let inputTextures1 = try pixelBuffer1.cvMTLTexture(textureCache: textureCache)
             let inputTextures2 = try pixelBuffer2.cvMTLTexture(textureCache: textureCache)
@@ -76,23 +101,19 @@ extension MetalProcessor {
                     computeCommandEncoder.setTexture(inputTexture, index: textureIndex)
                     textureIndex += 1
                 }
-                
-                initialize(computeCommandEncoder)
             }
             
-            process(size: pixelBuffer1.size, initialize : initializeInternal, complete: complete)
+            process(size: pixelBuffer1.size, initialize : initializeInternal)
         }
         
-        private func process(size: CGSize,
-                             initialize: MTLComputeCommandEncoder.Func,
-                             complete: MTLComputeCommandEncoder.Func) {
+        private func process(size: CGSize, initialize: (MTLComputeCommandEncoder) -> Void) {
 
 //            customScope.begin()
 //            MTLCaptureManager.shared().startCapture(commandQueue: commandQueue)
 
             // Create a command buffer
             let commandBuffer = commandQueue.makeCommandBuffer()!
-            
+
             // Create a compute command encoder.
             let computeCommandEncoder = commandBuffer.makeComputeCommandEncoder()!
             
@@ -102,10 +123,20 @@ extension MetalProcessor {
             // execute
             initialize(computeCommandEncoder)
 
+            if let dataBuffer {
+                computeCommandEncoder.setBuffer(dataBuffer, offset: 0, index: 0)
+            }
+
+            let threadGroupCount = MTLSizeMake(dataBuffer!.length / MemoryLayout<Int32>.size, 1, 1)
+            let threadGroups = MTLSizeMake(Int(size.width) / threadGroupCount.width,
+                                               Int(size.height) / threadGroupCount.height,
+                                               1)
+
+//            let threadGroups = computeCommandEncoder.threadGroups(size: size)
+//            let threadGroupCount = computeCommandEncoder.threadGroupCount()
+
             // Encode a threadgroup's execution of a compute function
-            computeCommandEncoder.dispatchThreadgroups(
-                computeCommandEncoder.threadGroups(size: size),
-                threadsPerThreadgroup: computeCommandEncoder.threadGroupCount())
+            computeCommandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
             
             // End the encoding of the command.
             computeCommandEncoder.endEncoding()
@@ -113,7 +144,6 @@ extension MetalProcessor {
             // Commit the command buffer for execution.
             commandBuffer.commit()
             commandBuffer.waitUntilCompleted()
-            complete(computeCommandEncoder)
         }
     }
 }

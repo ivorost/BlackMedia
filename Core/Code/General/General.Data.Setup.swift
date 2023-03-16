@@ -10,7 +10,7 @@ import Foundation
 
 
 public protocol DataProcessorSetupProtocol : AnyObject {
-    func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto
+    func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto
 }
 
 
@@ -23,13 +23,13 @@ public extension Data {
 
 public extension Data.Setup {
     typealias Proto = DataProcessorSetupProtocol
-    typealias Processor = Data.Processor.Proto
+    typealias Processor = Data.Processor.AnyProto
 }
 
 
 public extension Data.Setup {
     class Base : Proto {
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return data
         }
     }
@@ -53,8 +53,14 @@ public extension Data.Setup {
 
 public extension Data.Setup {
     class Vector : ProcessorWithVector<Proto>, Proto {
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
-            return vector.reduce(data) { $1.data($0, kind: kind) }
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
+            var result = data
+
+            for i in vector {
+                result = i.data(result, kind: kind)
+            }
+
+            return result
         }
     }
 }
@@ -64,12 +70,12 @@ public extension Data.Setup {
     class Default : Slave {
         private let targetKind: Data.Processor.Kind
         private let selfKind: Data.Processor.Kind
-        private let create: (Data.Processor.Proto) -> Data.Processor.Proto
+        private let create: (Data.Processor.AnyProto) -> Data.Processor.AnyProto
         
         public init(root: Data.Setup.Proto,
                     targetKind: Data.Processor.Kind,
                     selfKind: Data.Processor.Kind,
-                    create: @escaping (Data.Processor.Proto) -> Data.Processor.Proto) {
+                    create: @escaping (Data.Processor.AnyProto) -> Data.Processor.AnyProto) {
             
             self.targetKind = targetKind
             self.selfKind = selfKind
@@ -77,7 +83,7 @@ public extension Data.Setup {
             super.init(root: root)
         }
         
-        public init(prev: Data.Processor.Proto,
+        public init(prev: Data.Processor.AnyProto,
                     kind: Data.Processor.Kind) {
             self.targetKind = kind
             self.selfKind = .other
@@ -85,7 +91,7 @@ public extension Data.Setup {
             super.init(root: shared)
         }
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             var result = data
             
             if kind == targetKind {

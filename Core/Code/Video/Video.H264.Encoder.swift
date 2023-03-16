@@ -12,19 +12,19 @@ fileprivate extension CMTimeValue {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public extension Video.Processor {
-    class EncoderH264 {
+    class EncoderH264: Video.Producer.Proto {
         
         public typealias Callback = (EncoderH264) -> Void
         
+        public var next: Video.Processor.AnyProto?
         private var session: VTCompressionSession?
         private let inputDimension: CMVideoDimensions
         private var outputDimentions: CMVideoDimensions
-        private let next: Video.Processor.Proto?
         private var rotated = false
         
         init(inputDimension: CMVideoDimensions,
              outputDimentions: CMVideoDimensions,
-             next: Video.Processor.Proto?) {
+             next: Video.Processor.AnyProto? = Video.Processor.shared) {
             self.inputDimension = inputDimension
             self.outputDimentions = outputDimentions
             self.next = next
@@ -64,9 +64,9 @@ public extension Video.Processor {
                 return
             }
             
-            SELF.next?.process(video: Video.Sample(ID: videoRef.inner.ID,
-                                                   buffer: sampleBuffer,
-                                                   orientation: videoRef.inner.orientation))
+            SELF.next?.process(Video.Sample(ID: videoRef.inner.ID,
+                                            buffer: sampleBuffer,
+                                            orientation: videoRef.inner.orientation))
         } as VTCompressionOutputCallback
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,8 +140,8 @@ public extension Video.Processor {
 }
 
 
-extension Video.Processor.EncoderH264 : Video.Processor.Proto {
-    public func process(video: Video.Sample) {
+extension Video.Processor.EncoderH264 : ProcessorProtocol {
+    public func process(_ video: Video.Sample) {
         if let rotated = isRotated(relative: video.sampleBuffer), rotated != self.rotated {
             self.rotated = rotated
             try? restart()
@@ -223,8 +223,8 @@ public extension Video.Setup {
             self.settings = settings
             super.init(root: root)
         }
-        
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == .capture {

@@ -30,12 +30,35 @@ extension AVCaptureDevice {
 
 public extension AVCaptureDeviceInput {
     enum Error : Swift.Error {
-        case camera_required
+        case cameraRequired
     }
-    
-    static func nannyCamera() throws -> AVCaptureDeviceInput {
-        guard let device = AVCaptureDevice.nannyCamera else { throw Error.camera_required }
-        return try AVCaptureDeviceInput(device: device)
+
+    private static func input(_ device: AVCaptureDevice?) -> AVCaptureDeviceInput? {
+        guard let device else {
+            logError(Error.cameraRequired)
+            return nil
+        }
+
+        do {
+            return try AVCaptureDeviceInput(device: device)
+        }
+        catch {
+            logError(error)
+        }
+
+        return nil
+    }
+
+    static var frontCamera: AVCaptureDeviceInput? {
+        input(AVCaptureDevice.frontCamera)
+    }
+
+    static var rearCamera: AVCaptureDeviceInput? {
+        input(AVCaptureDevice.rearCamera)
+    }
+
+    static var nannyCamera: AVCaptureDeviceInput? {
+        input(AVCaptureDevice.nannyCamera)
     }
 }
 

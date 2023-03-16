@@ -22,45 +22,40 @@ public extension Data.Processor.Kind {
 }
 
 
-public protocol DataProcessorProtocol : AnyObject {
-    func process(data: Data)
-}
-
-
 public extension Data {
-    final class Processor {
-        static var shared: Proto = Base()
+    final class Processor: ProcessorToolbox<Data> {
+        static var shared: AnyProto = Base()
     }
 }
 
 
-public extension Data.Processor {
-    typealias Proto = DataProcessorProtocol
+public extension Data {
+    final class Producer: ProducerToolbox<Data> {}
 }
 
 
 public extension Data.Processor {
     class Base : Proto {
         
-        private let prev: Proto?
-        private let next: Proto?
-        weak var nextWeak: Proto? = nil
+        private let prev: AnyProto?
+        private let next: AnyProto?
+        weak var nextWeak: AnyProto? = nil
         
-        init(next: Proto? = nil) {
+        init(next: AnyProto? = nil) {
             self.prev = nil
             self.next = next
             self.nextWeak = next
         }
         
-        init(prev: Proto, next: Proto? = nil) {
+        init(prev: AnyProto, next: AnyProto? = nil) {
             self.prev = prev
             self.next = next
             self.nextWeak = next
         }
         
-        public func process(data: Data) {
-            prev?.process(data: data)
-            nextWeak?.process(data: data)
+        public func process(_ data: Data) {
+            prev?.process(data)
+            nextWeak?.process(data)
         }
     }
 }
@@ -74,32 +69,12 @@ extension Data.Processor {
 }
 
 
-fileprivate extension Data.Processor {
-    class Broadcast : Proto {
-        private var array: [Proto?]
-        
-        init(_ array: [Proto?]) {
-            self.array = array
-        }
-        
-        func process(data: Data) {
-            for i in array { i?.process(data: data) }
-        }
-    }
-}
-
-
-public func broadcast(_ x: [Data.Processor.Proto?]) -> Data.Processor.Proto? {
-    broadcast(x, create: { Data.Processor.Broadcast($0) })
-}
-
-
 public extension Data.Processor {
     class Test : Session.Proto & Flushable.Proto {
         private let data: Data
-        private let next: Proto
+        private let next: AnyProto
         
-        public init(next: Proto, kbits: UInt) {
+        public init(next: AnyProto, kbits: UInt) {
             let count = Int(kbits * 1024 / 8)
             var bytes = [UInt8](repeating: 0, count: count)
             
@@ -115,7 +90,7 @@ public extension Data.Processor {
         public func stop() {}
         
         public func flush() {
-            next.process(data: data)
+            next.process(data)
         }
     }
 }

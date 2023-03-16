@@ -156,15 +156,15 @@ public extension Network {
 
 
 public extension Network.PacketSerializer {
-    class Processor {
-        private let next: Data.Processor.Proto
+    class Processor: Data.Producer.Proto {
+        public var next: Data.Processor.AnyProto?
         
-        init(next: Data.Processor.Proto) {
+        init(next: Data.Processor.AnyProto = Data.Processor.shared) {
             self.next = next
         }
         
         func process(packet: Network.PacketSerializer) {
-            next.process(data: packet.data)
+            next?.process(packet.data)
         }
     }
 }
@@ -178,7 +178,7 @@ public extension Network.PacketDeserializer {
             self.type = type
         }
         
-        public func process(data: Data) {
+        public func process(_ data: Data) {
             let packet = Network.PacketDeserializer(data)
             guard packet.type == type else { return }
             process(packet: packet)

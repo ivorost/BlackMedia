@@ -19,7 +19,7 @@ extension Video.Setup {
                 let video = root.video(Video.Processor.shared, kind: .capture)
                 let capture = capture(next: video)
                 #if os(iOS)
-                let captureOrientation = Video.CaptureOrientation(capture.dataOutput)
+                let captureOrientation = Video.CaptureOrientation(capture.inner.output)
                 #endif
                 
                 root.session(inputSession(), kind: .input)
@@ -40,8 +40,10 @@ extension Video.Setup {
             return Session.shared
         }
         
-        private func capture(next: Video.Processor.Proto) -> Video.CaptureSession {
-            return Video.CaptureSession(session: avCaptureSession, queue: Core.Capture.queue, output: next)
+        private func capture(next: Video.Processor.AnyProto) -> Video.Output {
+            return Video.Output(inner: .video32BGRA(avCaptureSession),
+                                queue: Core.Capture.queue,
+                                next: next)
         }
     }
 }

@@ -31,7 +31,7 @@ extension Capture.Setup {
     open class Base : Proto {
         static let shared = Base()
         
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return data
         }
         
@@ -95,7 +95,7 @@ extension Capture.Setup {
             session.prepend(element as! Proto)
         }
 
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return self.data.data(data, kind: kind)
         }
         
@@ -121,7 +121,7 @@ extension Capture.Setup {
             self.inner = data
         }
 
-        override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             inner.data(data, kind: kind)
         }
     }

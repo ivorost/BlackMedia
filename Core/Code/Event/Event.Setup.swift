@@ -39,7 +39,7 @@ public class EventProcessorSetup : EventProcessor.Setup {
         return event
     }
     
-    public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+    public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
         return data
     }
 
@@ -140,7 +140,7 @@ extension EventProcessorSetup {
             super.init(session: capture)
         }
         
-        override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return capture.data(data, kind: kind)
         }
     }
@@ -173,7 +173,7 @@ public extension EventProcessorSetup {
             return next.event(event, kind: kind)
         }
         
-        public func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             return next.data(data, kind: kind)
         }
         

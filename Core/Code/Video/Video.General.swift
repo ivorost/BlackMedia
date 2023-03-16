@@ -4,9 +4,8 @@ import AVFoundation
 
 public final class Video {}
 
-
 extension Video {
-    public static let defaultPixelFormat = kCVPixelFormatType_32BGRA
+    public static let defaultPixelFormat = kCVPixelFormatType_32BGRA // kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange
     public static let decoderQueue = DispatchQueue.CreateCheckable("decoder_queue")
 }
 

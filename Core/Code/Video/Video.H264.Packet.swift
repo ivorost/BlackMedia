@@ -26,7 +26,7 @@ extension Video.Processor {
     class SerializerH264 : Network.PacketSerializer.Processor, Video.Processor.Proto {
         private var timebase: Video.Time?
         
-        func process(video: Video.Sample) {
+        func process(_ video: Video.Sample) {
             let formatDescription: CMFormatDescription = CMSampleBufferGetFormatDescription(video.sampleBuffer)!
             
             if CMSampleBufferGetNumSamples(video.sampleBuffer) != 1 {
@@ -152,7 +152,7 @@ extension Video.Setup {
             super.init(root: root)
         }
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == self.kind {
@@ -213,9 +213,9 @@ extension Data.Processor {
 
 extension Data.Processor {
     class DeserializerH264 : DeserializerH264Base {
-        private let next: Video.Processor.Proto?
+        private let next: Video.Processor.AnyProto?
         
-        init(next: Video.Processor.Proto?) {
+        init(next: Video.Processor.AnyProto?) {
             self.next = next
             super.init()
         }
@@ -284,9 +284,9 @@ extension Data.Processor {
                 
                 // output
                 
-                next?.process(video: Video.Sample(ID: h264.metadata.ID,
-                                                  buffer: result!,
-                                                  orientation: h264.metadata.orientation))
+                next?.process(Video.Sample(ID: h264.metadata.ID,
+                                           buffer: result!,
+                                           orientation: h264.metadata.orientation))
             }
             catch {
                 logAVError(error)
@@ -308,7 +308,7 @@ public extension Video.Setup {
             super.init(root: root)
         }
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             var result = data
             
             if kind == self.kind {

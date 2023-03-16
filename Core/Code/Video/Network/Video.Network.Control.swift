@@ -19,18 +19,18 @@ extension Video.Processor {
         var bestSample: Double?
         var localTime: Date?
         var slowing = false
-        let server: Data.Processor.Proto
+        let server: Data.Processor.AnyProto
         
-        init(server: Data.Processor.Proto, next: Video.Processor.Proto? = nil) {
+        init(server: Data.Processor.AnyProto, next: Video.Processor.AnyProto? = nil) {
             self.server = server
             super.init(next: next)
         }
         
-        override func process(video: Video.Sample) {
+        override func process(_ video: Video.Sample) {
             let sampleTime = video.sampleBuffer.presentationSeconds
             var gap = 0.0
             
-            super.process(video: video)
+            super.process(video)
 
             if let bestSample = bestSample, let localTime = localTime {
                 let sampleDiff = sampleTime - bestSample
@@ -47,30 +47,44 @@ extension Video.Processor {
 
             if gap > .maxGap && slowing == false {
                 slowing = true
-                server.process(data: "easy".data(using: .utf8)!)
+                server.process("easy".data(using: .utf8)!)
             }
             
             if gap < .maxGap && slowing == true {
                 slowing = false
-                server.process(data: "hard".data(using: .utf8)!)
+                server.process("hard".data(using: .utf8)!)
             }
 
-            super.process(video: video)
+            super.process(video)
         }
     }
 }
 
 
 public extension Video.Processor {
-    class SenderQuality : Base, Data.Processor.Proto {
-        
-        private var slowing = false
+    class SenderQuality : Base {
+        class DataProcessor: Data.Processor.Proto {
+            private(set) var slowing = false
+
+            public func process(_ data: Data) {
+                let message = String(data: data, encoding: .utf8)
+
+                if message == "easy" {
+                    slowing = true
+                }
+                else if message == "hard" {
+                    slowing = false
+                }
+            }
+        }
+
+        let data = DataProcessor()
         private var lastFrameSent: Date?
         
-        public override func process(video: Video.Sample) {
-            if slowing {
+        public override func process(_ video: Video.Sample) {
+            if data.slowing {
                 if let lastFrameSent = lastFrameSent, Date().timeIntervalSince(lastFrameSent) > 1.0 {
-                    super.process(video: video)
+                    super.process(video)
                     self.lastFrameSent = Date()
                 }
                 
@@ -79,36 +93,26 @@ public extension Video.Processor {
                 }
             }
             else {
-                super.process(video: video)
+                super.process(video)
             }
         }
         
-        public func process(data: Data) {
-            let message = String(data: data, encoding: .utf8)
-            
-            if message == "easy" {
-                slowing = true
-            }
-            else if message == "hard" {
-                slowing = false
-            }
-        }
     }
 }
 
 
 public extension Video.Processor {
     class SenderQualityDuplicates : Base {
-        private let next: Video.Processor.Proto
+        private let next: Video.Processor.AnyProto
         private var sequenceCount = 0
         private let lock = NSLock()
         
-        init(next: Video.Processor.Proto) {
+        init(next: Video.Processor.AnyProto) {
             self.next = next
             super.init()
         }
         
-        public override func process(video: Video.Sample) {
+        public override func process(_ video: Video.Sample) {
             var process = false
             
             lock.locked {
@@ -124,7 +128,7 @@ public extension Video.Processor {
             }
             
             if process {
-                next.process(video: video)
+                next.process(video)
             }
         }
     }
@@ -134,17 +138,18 @@ public extension Video.Processor {
 extension Video.Setup {
     public class SenderQuality : Slave {
         private var networkSenderListener: Data.Processor.Base?
-        private var control: Video.Processor.Proto?
+        private var control: Video.Processor.AnyProto?
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == .capture {
                 assert(networkSenderListener != nil)
-                
-                let control = create(next: result)
+
+                var controlData: Data.Processor.AnyProto = Data.Processor.shared
+                let control = create(next: result, data: &controlData)
                 self.control = control
-                networkSenderListener?.nextWeak = control
+                networkSenderListener?.nextWeak = controlData
                 result = control
             }
             
@@ -161,7 +166,7 @@ extension Video.Setup {
             return super.video(result, kind: kind)
         }
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             var result = data
             
             if kind == .networkHelmOutput {
@@ -174,8 +179,11 @@ extension Video.Setup {
             return super.data(result, kind: kind)
         }
         
-        func create(next: Video.Processor.Proto) -> Video.Processor.Proto & Data.Processor.Proto {
-            return Video.Processor.SenderQuality(next: next)
+        func create(next: any ProcessorProtocol<Video.Sample>,
+                    data: inout Data.Processor.AnyProto) -> any ProcessorProtocol<Video.Sample> {
+            let result = Video.Processor.SenderQuality(next: next)
+            data = result.data
+            return result
         }
     }
 }
@@ -185,7 +193,7 @@ extension Video.Setup {
     public class ViewerQuality : Slave {
         private let server = Data.Processor.Base()
         
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == .deserializer {
@@ -195,7 +203,7 @@ extension Video.Setup {
             return super.video(result, kind: kind)
         }
         
-        public override func data(_ data: Data.Processor.Proto, kind: Data.Processor.Kind) -> Data.Processor.Proto {
+        public override func data(_ data: Data.Processor.AnyProto, kind: Data.Processor.Kind) -> Data.Processor.AnyProto {
             if kind == .networkData {
                 server.nextWeak = data
             }

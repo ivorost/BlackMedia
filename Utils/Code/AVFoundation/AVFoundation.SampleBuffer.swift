@@ -24,7 +24,13 @@ public class SampleBufferDisplayLayer : AVSampleBufferDisplayLayer {
     private var originalAffineTransform = CGAffineTransform()
     private var videoRotation: Rotation?
     private var videoDimensions: CMVideoDimensions?
-    
+    private var sampleBuffer: CMSampleBuffer?
+
+    public override func enqueue(_ sampleBuffer: CMSampleBuffer) {
+        super.enqueue(sampleBuffer)
+        self.sampleBuffer = sampleBuffer
+    }
+
     public override var anchorPoint: CGPoint {
         get {
             return CGPoint(x: 0.5, y: 0.5)
@@ -116,6 +122,14 @@ public class SampleBufferDisplayLayer : AVSampleBufferDisplayLayer {
 //        }
         
         super.setAffineTransform(transform)
+    }
+
+    public override func render(in ctx: CGContext) {
+        super.render(in: ctx)
+
+        if let image = sampleBuffer?.cgImage {
+            ctx.drawAspectFill(image: image)
+        }
     }
 }
 

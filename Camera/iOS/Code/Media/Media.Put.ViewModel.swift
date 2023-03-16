@@ -16,9 +16,9 @@ extension Media {
 
 extension Media.Put {
     class ViewModel : Media.ViewModel {
-        var selector: Peer.Selector
+        var selector: any Peer.Selector.Proto
 
-        init(_ selector: Peer.Selector) {
+        init(_ selector: any Peer.Selector.Proto) {
             self.selector = selector
         }
         

@@ -12,21 +12,20 @@ import CoreImage
 
 
 public extension Video {
-    class RemoveDuplicateFramesBase : Video.Processor.Base {
+    class RemoveDuplicateFramesBase : Video.Processor.Proto, Producer.Proto {
+
+        public var next: Processor.AnyProto?
         private var lastImageBuffer: CVImageBuffer?
         private let lock = NSLock()
-        fileprivate let duplicatesFree: Video.Processor.Proto
 
-        required init(next: Video.Processor.Proto, duplicatesFree: Video.Processor.Proto) {
-            self.duplicatesFree = duplicatesFree
-            super.init(next: next)
+        required init() {
         }
 
         fileprivate func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
             return nil
         }
         
-        public override func process(video: Video.Sample) {
+        public func process(_ video: Video.Sample) {
             var duplicate = false
             
             lock.locked {
@@ -42,65 +41,48 @@ public extension Video {
             }
 
             if !duplicate {
-                duplicatesFree.process(video: video)
+                next?.process(video)
             }
-
-            super.process(video: duplicate ? video.copy(flags: [.duplicate]) : video)
         }
     }
 }
 
 
 public extension Video {
-    class RemoveDuplicateFramesUsingMetal : Video.RemoveDuplicateFramesBase {
-        private let metalProcessor: MetalProcessor.PixelBuffer?
+    class RemoveDuplicatesStrictUsingMetal : Video.RemoveDuplicateFramesBase {
+        private let metalProcessor: MetalProcessor.TwoBitmaps?
         
-        required init(next: Video.Processor.Proto, duplicatesFree: Video.Processor.Proto) {
+        required override init() {
             do {
                 let url = Bundle.this.url(forResource: "default", withExtension: "metallib")!
-                metalProcessor = try MetalProcessor.PixelBuffer(library: url, function: "compareRGBA")
+                metalProcessor = try MetalProcessor.TwoBitmaps(library: url,
+                                                               function: "compareRGBAStrict",
+                                                               buffer: .constant(value: 1))
             }
             catch {
                 metalProcessor = nil
                 logAVError(error)
             }
             
-            super.init(next: next, duplicatesFree: duplicatesFree)
+            super.init()
         }
         
-        override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+        public override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+            guard let metalProcessor else { return nil }
+
             do {
-                var outBufferValue = Int(0)
-                var outBuffer: MTLBuffer?
-                var result: Bool?
-                
-                let initialize = { (computeCommandEncoder: MTLComputeCommandEncoder) -> Void in
-                    outBuffer = self.metalProcessor?.metalDevice.makeBuffer(bytes: &outBufferValue,
-                                                                            length: MemoryLayout<Int>.size,
-                                                                            options: [])!
-                    computeCommandEncoder.setBuffer(outBuffer, offset: 0, index: 0)
+                metalProcessor.buffer.fill(with: 0)
+                try metalProcessor.processAndWait(pixelBuffer1: pixelBuffer1, pixelBuffer2: pixelBuffer2)
+
+                if metalProcessor.buffer[0] == 3 {
+                    return true
                 }
-                
-                let complete = { (computeCommandEncoder: MTLComputeCommandEncoder) -> Void in
-                    guard let outBuffer = outBuffer else { assert(false); return }
-                    let resultPointer = outBuffer.contents().bindMemory(to: Int.self, capacity: 1)
-                    let data = resultPointer[0]
-                    
-                    if data == 5 {
-                        result = false
-                    }
-                    
-                    if data == 3 {
-                        result = true
-                    }
+
+                if metalProcessor.buffer[0] == 5 {
+                    return false
                 }
-                
-                try metalProcessor?.processAndWait(pixelBuffer1: pixelBuffer1,
-                                                   pixelBuffer2: pixelBuffer2,
-                                                   initialize: initialize,
-                                                   complete: complete)
-                
-                return result
+
+                return nil
             }
             catch {
                 logAVError(error)
@@ -113,9 +95,100 @@ public extension Video {
 
 
 public extension Video {
-    class RemoveDuplicateFramesUsingMemcmp : Video.RemoveDuplicateFramesBase {
+    class RemoveDuplicatesApproxUsingMetal : Video.RemoveDuplicateFramesBase {
+        private let metalProcessor: MetalProcessor.TwoBitmaps?
+
+        public required init() {
+            do {
+                let url = Bundle.this.url(forResource: "default", withExtension: "metallib")!
+                metalProcessor = try MetalProcessor.TwoBitmaps(library: url,
+                                                               function: "compareRGBAApprox",
+                                                               buffer: .threadExecutionWidth)
+            }
+            catch {
+                metalProcessor = nil
+                logAVError(error)
+            }
+
+            super.init()
+        }
+
+        public override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+            guard let metalProcessor else { return nil }
+
+            do {
+                metalProcessor.buffer.fill(with: 0)
+                try metalProcessor.processAndWait(pixelBuffer1: pixelBuffer1, pixelBuffer2: pixelBuffer2)
+
+                if metalProcessor.buffer[1] == 0 {
+                    return false
+                }
+
+                if metalProcessor.buffer[2] / metalProcessor.buffer[1] > 8 {
+                    return false
+                }
+
+                if metalProcessor.buffer[3] > 8 {
+                    return false
+                }
+
+                return true
+            }
+            catch {
+                logAVError(error)
+            }
+
+            return nil
+        }
+
+        public func diffMetal(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Int? {
+            guard let metalProcessor else { return nil }
+
+            do {
+                metalProcessor.buffer.fill(with: 0)
+                try metalProcessor.processAndWait(pixelBuffer1: pixelBuffer1, pixelBuffer2: pixelBuffer2)
+
+                return Int(metalProcessor.buffer[0])
+            }
+            catch {
+                logAVError(error)
+            }
+
+            return nil
+        }
+
+        public func diffData(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Int {
+            guard let data1 = pixelBuffer1.rawData() else { return 0 }
+            guard let data2 = pixelBuffer2.rawData() else { return 0 }
+            var result = 0
+            var index = 0
+
+            let x1 = data1.prefix(20)
+            let x2 = data2.prefix(20)
+
+            print("\(x1) \(x2)")
+            repeat {
+                if data1[index] != data2[index] ||
+                    data1[index+1] != data2[index+1] ||
+                    data1[index+2] != data2[index+2] ||
+                    data1[index+3] != data2[index+3] {
+                    result += 1
+                }
+
+                index += 4
+            }
+            while index < data1.count
+
+            return result
+        }
+    }
+}
+
+
+public extension Video {
+    class RemoveDuplicatesStrictUsingMemcmp : Video.RemoveDuplicateFramesBase {
         
-        override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
+        public override func isEqual(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Bool? {
             guard
                 let surface1 = CVPixelBufferGetIOSurface(pixelBuffer1)?.takeUnretainedValue(),
                 let surface2 = CVPixelBufferGetIOSurface(pixelBuffer2)?.takeUnretainedValue()
@@ -147,14 +220,16 @@ public extension Video {
 
 public extension Video.Setup {
     class DuplicatesTemplate<T> : Slave where T : Video.RemoveDuplicateFramesBase {
-        public override func video(_ video: Video.Processor.Proto, kind: Video.Processor.Kind) -> Video.Processor.Proto {
+        public override func video(_ video: Video.Processor.AnyProto, kind: Video.Processor.Kind) -> Video.Processor.AnyProto {
             var result = video
             
             if kind == .capture {
                 let duplicatesFree = root.video(Video.Processor.Base(next: result), kind: .duplicatesFree)
                 let duplicatesNext = root.video(Video.Processor.shared, kind: .duplicatesNext)
-                
-                result = T(next: duplicatesNext, duplicatesFree: duplicatesFree)
+
+                let concreteResult = T()
+                concreteResult.next = duplicatesFree
+                result = concreteResult
             }
             
             return result
@@ -164,6 +239,7 @@ public extension Video.Setup {
 
 
 public extension Video.Setup {
-    typealias DuplicatesMetal = DuplicatesTemplate <Video.RemoveDuplicateFramesUsingMetal>
-    typealias DuplicatesMemcmp = DuplicatesTemplate <Video.RemoveDuplicateFramesUsingMemcmp>
+    typealias DuplicatesStrictMetal = DuplicatesTemplate <Video.RemoveDuplicatesStrictUsingMetal>
+    typealias DuplicatesApproxMetal = DuplicatesTemplate <Video.RemoveDuplicatesApproxUsingMetal>
+    typealias DuplicatesStrictMemcmp = DuplicatesTemplate <Video.RemoveDuplicatesStrictUsingMemcmp>
 }

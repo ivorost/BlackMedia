@@ -33,7 +33,8 @@ extension NWParameters {
 		let tlsOptions = NWProtocolTLS.Options()
 
 		let authenticationKey = SymmetricKey(data: passcode.data(using: .utf8)!)
-		var authenticationCode = HMAC<SHA256>.authenticationCode(for: "TicTacToe".data(using: .utf8)!, using: authenticationKey)
+		var authenticationCode = HMAC<SHA256>.authenticationCode(for: "VideoNanny".data(using: .utf8)!,
+                                                                 using: authenticationKey)
 
 		let authenticationDispatchData = withUnsafeBytes(of: &authenticationCode) { (ptr: UnsafeRawBufferPointer) in
 			DispatchData(bytes: ptr)
@@ -41,7 +42,7 @@ extension NWParameters {
 
 		sec_protocol_options_add_pre_shared_key(tlsOptions.securityProtocolOptions,
 												authenticationDispatchData as __DispatchData,
-												stringToDispatchData("TicTacToe")! as __DispatchData)
+												stringToDispatchData("VideoNanny")! as __DispatchData)
 		sec_protocol_options_append_tls_ciphersuite(tlsOptions.securityProtocolOptions,
                                                     tls_ciphersuite_t(rawValue: UInt16(TLS_PSK_WITH_AES_128_GCM_SHA256))!)
 		return tlsOptions
@@ -63,28 +64,29 @@ public extension Network.NW {
     struct EndpointName : Equatable {
         let pin: String
         let name: String
+        let kind: Network.Peer.Kind
         
         var encoded: String {
-            return "\(pin)\(name)"
+            return "\(pin)\(kind.rawValue)\(name)"
         }
 
         static var generateID: String {
             "\(Int.random(in: 1000 ..< 10000))"
         }
 
-        static func encode(_ name: String) -> EndpointName {
-            return EndpointName(pin: generateID, name: name)
+        static func encode(name: String, kind: Network.Peer.Kind) -> EndpointName {
+            return EndpointName(pin: generateID, name: name, kind: kind)
         }
         
         static func decode(_ value: String) -> EndpointName {
             let pin = String(value.prefix(4))
-            let decodedName = String(value.suffix(from: value.index(value.startIndex, offsetBy: 4)))
+            let kind = UInt64(value[value.index(value.startIndex, offsetBy: 4)].wholeNumberValue ?? 0)
+            let decodedName = String(value.suffix(from: value.index(value.startIndex, offsetBy: 5)))
             
-            return EndpointName(pin: pin, name: decodedName)
+            return EndpointName(pin: pin, name: decodedName, kind: .init(rawValue: kind) ?? .unknown)
         }
     }
 }
-
 
 extension Network.Peer.State {
     init(_ state: NWConnection.State) {

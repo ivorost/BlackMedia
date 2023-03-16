@@ -8,7 +8,9 @@
 import Foundation
 import Combine
 import Utils
-
+#if canImport(UIKit)
+import UIKit
+#endif
 
 public extension Network {
     final class Peer {}
@@ -23,12 +25,13 @@ public protocol PeerProtocol : AnyObject, CustomStringConvertible {
 
     var id: String { get }
     var name: String { get }
+    var kind: Network.Peer.Kind { get }
     var state: AnyValuePublisher<Network.Peer.State, Never> { get }
-    var get: AnyPublisher<Data, Error> { get }
+    var get: AnyPublisher<Network.Peer.Data, Error> { get }
     
     func connect() async throws -> Bool
     func disconnect() async
-    func put(_ data: Data)
+    func put(_ data: Network.Peer.Data)
 }
 
 
@@ -47,6 +50,35 @@ public extension Network.Peer {
         case disconnecting
         case connecting
         case connected
+    }
+}
+
+
+public extension Network.Peer {
+    enum Kind : UInt64, Codable {
+        case unknown = 0
+        case iPhone
+        case iPad
+        case Mac
+    }
+}
+
+extension Network.Peer.Kind {
+#if canImport(UIKit)
+    static let current: Network.Peer.Kind = UIDevice.current.userInterfaceIdiom == .pad
+    ? .iPad
+    : UIDevice.current.userInterfaceIdiom == .mac ? .Mac
+    : .iPhone
+#else
+    static let current: Network.Peer.Kind = .Mac
+#endif
+}
+
+public extension Network.Peer {
+    enum Data {
+        case data(Foundation.Data)
+        case pair
+        case skip
     }
 }
 
@@ -83,7 +115,7 @@ extension Network.Peer {
         private let debugDescriptionSubject = CurrentValueSubject<String, Never>("")
         #endif
         
-        private let getSubject = PassthroughSubject<Data, Error>()
+        private let getSubject = PassthroughSubject<Network.Peer.Data, Error>()
         private let stateSubject = CurrentValueSubject<State, Never>(.unavailable)
         private var cancellables = [AnyCancellable]()
 
@@ -136,17 +168,54 @@ public extension Network.Peer {
 extension Network.Peer.Proxy : Network.Peer.Proto {
     public var id: String { return inner.id }
     public var name: String { return inner.name }
+    public var kind: Network.Peer.Kind { return inner.kind }
     public var state: AnyValuePublisher<Network.Peer.State, Never> { return stateSubject.eraseToAnyValuePublisher() }
-    public var get: AnyPublisher<Data, Error> { return getSubject.eraseToAnyPublisher() }
+    public var get: AnyPublisher<Network.Peer.Data, Error> { return getSubject.eraseToAnyPublisher() }
     
     public func connect() async throws -> Bool { return try await inner.connect() }
     public func disconnect() async { await inner.disconnect() }
-    public func put(_ data: Data) { inner.put(data) }
+    public func put(_ data: Network.Peer.Data) { inner.put(data) }
 }
 
 
 extension Network.Peer.Proxy : CustomStringConvertible {
     public var description: String {
         return name
+    }
+}
+
+
+extension Network.Peer {
+    open class Generic : Proto {
+        #if DEBUG
+        public var debugIdentifier: Int = 0
+        public var debugDescription: AnyValuePublisher<String, Never> { debugDescriptionSubject.eraseToAnyValuePublisher() }
+        public var debugDescriptionSubject = CurrentValueSubject<String, Never>("")
+        #endif
+
+        public let getSubject = PassthroughSubject<Data, Error>()
+        public let stateSubject = CurrentValueSubject<State, Never>(.unavailable)
+
+        public var id: String = ""
+        public var name: String = ""
+        public var kind: Network.Peer.Kind = .unknown
+        public var state: AnyValuePublisher<Network.Peer.State, Never> { stateSubject.eraseToAnyValuePublisher() }
+        public var get: AnyPublisher<Data, Error> { getSubject.eraseToAnyPublisher() }
+
+        public func connect() async throws -> Bool { return false }
+        public func disconnect() async {}
+        public func put(_ data: Data) {}
+
+        public init() {}
+        public init(id: String, name: String, kind: Kind, state: State) {
+            self.id = id
+            self.name = name
+            self.kind = kind
+            self.stateSubject.send(state)
+        }
+
+        public var description: String {
+            return name
+        }
     }
 }

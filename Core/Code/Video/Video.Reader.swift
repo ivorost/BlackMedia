@@ -16,7 +16,7 @@ public extension Video.Processor {
         }
         
         public private(set) var videoSize: CGSize?
-        private let next: Proto
+        private let next: AnyProto
         private let url: URL
         private var file: FileHandle?
         private var reader: AVAssetReader?
@@ -26,7 +26,7 @@ public extension Video.Processor {
         private var startDate: Date?
         private var postponedSampleBuffer: CMSampleBuffer?
 
-        init(url: URL, next: Proto) {
+        init(url: URL, next: AnyProto) {
             self.url = url
             self.next = next
         }
@@ -121,7 +121,7 @@ public extension Video.Processor {
                 CMSampleBufferSetDataBuffer(sampleBuffer, newValue: blockBuffer)
             }
                         
-            next.process(video: Video.Sample(ID: ID, buffer: sampleBuffer))
+            next.process(Video.Sample(ID: ID, buffer: sampleBuffer))
             ID += 1
         }
     }

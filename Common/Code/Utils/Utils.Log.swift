@@ -12,7 +12,7 @@ fileprivate extension OutputStream {
     static func CreateLog() -> OutputStream? {
         let url = URL
             .appLogs
-            .appendingPathComponent("\(Date().description) - \(deviceModel()).txt")
+            .appendingPathComponent("\(Date().description) - \(Device.model).txt")
         
         if FileManager.default.fileExists(atPath: URL.appLogs.path) == false {
             try! FileManager.default.createDirectory(at: URL.appLogs,
@@ -89,4 +89,15 @@ public func checkError(_ status: OSStatus) -> Bool {
         return true
     }
     return false
+}
+
+public func tryLog<T>(_ block: () throws -> T) -> T? {
+    do {
+        return try block()
+    }
+    catch {
+        logError(error)
+    }
+
+    return nil
 }

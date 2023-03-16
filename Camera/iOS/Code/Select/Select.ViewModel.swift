@@ -14,15 +14,15 @@ extension Select {
         @MainActor @Published var peers = [Network.Peer.Proto]()
         @MainActor @Published var logs = [Network.Peer.Log.Item]()
         private(set) var trace = Trace.ViewModel()
-        let selector: Peer.Selector
+        let selector: any Peer.Selector.Proto
 
         init() {
-            self.selector = Peer.Selector()
+            self.selector = Peer.Selector.General()
             self.trace = Trace.ViewModel(peers: $peers.eraseToAnyPublisher(), logs: $logs)
         }
         
         init(peers: Network.Peer.PeersPublisher,
-             selector: Peer.Selector,
+             selector: any Peer.Selector.Proto,
              logs: Network.Peer.Log.ItemsPublisher) {
             self.selector = selector
             peers.receive(on: RunLoop.main).assign(to: &self.$peers)

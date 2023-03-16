@@ -11,7 +11,7 @@ import CoreImage
 
 
 extension Video {
-    class AssetOutput : Capture.AssetOutput, Video.Processor.Proto {
+    class AssetOutput : Capture.AssetOutput, ProcessorProtocol {
         init(asset: AVAssetWriter, assetSession: Capture.AssetWriterSession, settings: CaptureSettings) {
             let input = AVAssetWriterInput(mediaType: .video, outputSettings: settings.data)
             super.init(writer: asset, writerSession: assetSession, input: input)
@@ -21,7 +21,7 @@ extension Video {
             super.init(writer: asset, writerSession: assetSession, input: input)
         }
         
-        func process(video: Video.Sample) {
+        func process(_ video: Video.Sample) {
             process(sampleBuffer: video.sampleBuffer)
         }
     }

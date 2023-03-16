@@ -1,6 +1,10 @@
 
 import CoreMedia
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 extension CMVideoDimensions : Equatable {
     
     public static func ==(lhs: CMVideoDimensions, rhs: CMVideoDimensions) -> Bool {
@@ -43,6 +47,32 @@ public extension CMSampleBuffer {
             return nil
         }
     }
+
+    var videoSize: CGSize? {
+        guard let dimentions = videoDimentions else { return nil }
+        return CGSize(width: CGFloat(dimentions.width), height: CGFloat(dimentions.height))
+    }
+
+    #if canImport(UIKit)
+    var image: UIImage? {
+        guard let buffer = CMSampleBufferGetImageBuffer(self) else { return nil }
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+
+        return UIImage(ciImage: ciImage)
+    }
+
+    var cgImage: CGImage? {
+        guard
+            let buffer = CMSampleBufferGetImageBuffer(self),
+            let size = videoSize
+        else { return nil }
+
+        let ciImage = CIImage(cvPixelBuffer: buffer)
+        let ciContext = CIContext()
+
+        return ciContext.createCGImage(ciImage, from: CGRect(origin: .zero, size: size))
+    }
+    #endif
 }
 
 public func CMTimeSetSeconds(_ time: inout CMTime, _ seconds: Float64) {
