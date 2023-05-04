@@ -100,7 +100,7 @@ public extension Video {
 
         public required init() {
             do {
-                let url = Bundle.this.url(forResource: "default", withExtension: "metallib")!
+                let url = Bundle.module.url(forResource: "default", withExtension: "metallib")!
                 metalProcessor = try MetalProcessor.TwoBitmaps(library: url,
                                                                function: "compareRGBAApprox",
                                                                buffer: .threadExecutionWidth)
@@ -155,31 +155,6 @@ public extension Video {
             }
 
             return nil
-        }
-
-        public func diffData(pixelBuffer1: CVPixelBuffer, pixelBuffer2: CVPixelBuffer) -> Int {
-            guard let data1 = pixelBuffer1.rawData() else { return 0 }
-            guard let data2 = pixelBuffer2.rawData() else { return 0 }
-            var result = 0
-            var index = 0
-
-            let x1 = data1.prefix(20)
-            let x2 = data2.prefix(20)
-
-            print("\(x1) \(x2)")
-            repeat {
-                if data1[index] != data2[index] ||
-                    data1[index+1] != data2[index+1] ||
-                    data1[index+2] != data2[index+2] ||
-                    data1[index+3] != data2[index+3] {
-                    result += 1
-                }
-
-                index += 4
-            }
-            while index < data1.count
-
-            return result
         }
     }
 }

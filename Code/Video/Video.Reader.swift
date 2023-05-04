@@ -102,7 +102,7 @@ public extension Video.Processor {
             let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: data.count)
             
             data.bytes {
-                blockBufferData.assign(from: $0.assumingMemoryBound(to: Int8.self), count: data.count)
+                blockBufferData.update(from: $0.assumingMemoryBound(to: Int8.self), count: data.count)
             }
             
             try check(status: CMBlockBufferCreateWithMemoryBlock(

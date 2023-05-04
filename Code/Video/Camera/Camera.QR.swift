@@ -12,10 +12,10 @@ import AVFoundation
 public extension Video {
     static func scanQR(video: Video.Processor.AnyProto, string: String.Processor.AnyProto) -> Session.Proto {
         guard let avInput = AVCaptureDeviceInput.rearCamera else { return Session.shared }
-        let avCaptureSession = AVCaptureSession()
-        let input = Capture.Input(session: avCaptureSession, input: avInput)
-        let videoOutput = Output(inner: .video32BGRA(avCaptureSession))
-        let metadataOutput = StringMetadataOutput.qr(avCaptureSession)
+        let session = Capture.Session()
+        let input = Capture.Input(session: session.inner, input: avInput)
+        let videoOutput = Output(inner: .video32BGRA(session.inner))
+        let metadataOutput = StringMetadataOutput.qr(session.inner)
 
         videoOutput
             .next(video)
@@ -23,6 +23,6 @@ public extension Video {
         metadataOutput
             .next(string)
 
-        return broadcast([ input, metadataOutput, videoOutput, avCaptureSession ])
+        return broadcast([ input, metadataOutput, videoOutput, session ])
     }
 }

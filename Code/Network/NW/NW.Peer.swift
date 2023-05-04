@@ -5,6 +5,7 @@
 //  Created by Ivan Kh on 27.05.2022.
 //
 
+import Foundation
 import Network
 import Combine
 import BlackUtils
@@ -14,146 +15,104 @@ public extension Network {
     final class NW {}
 }
 
+private extension Network.NW.PeerBase {
+    enum Error: Swift.Error {
+        case missedService(NWBrowser.Result)
+        case missedMetadata(NWBrowser.Result)
+    }
+}
 
 public extension Network.NW {
     class PeerBase {
-        fileprivate struct ConnectionInfo {
-            var connection: Connection?
-            var dataDisposable: AnyCancellable?
-            var stateDisposable: AnyCancellable?
-        }
-        
         #if DEBUG
         static var debugIdentifier = 0
         public let debugIdentifier: Int
-        public var debugDescription: AnyValuePublisher<String, Never> { debugDescriptionSubject.eraseToAnyValuePublisher() }
-        fileprivate let debugDescriptionSubject = CurrentValueSubject<String, Never>("")
+        public var debugDescription: AnyValuePublisher<String, Never> { debug.description }
+        private let debug: Debug
         var debugKind: String { "temporary" }
-        func debugLog(_ string: String) { print("Peer \(debugIdentifier) to \(endpointName.name) (\(debugKind)): \(string)") }
-        fileprivate func updateDebugDescription() {
-            let inboundDescription = Connection.debugDescription(inbound.connection, kind: "inbound")
-            debugDescriptionSubject.send("Peer \(debugIdentifier)\n\(inboundDescription)")
-        }
+        func debugLog(_ string: String) { print("Peer \(debugIdentifier) to \(info.id.name) (\(debugKind)): \(string)") }
+        #else
+        @inlinable func debugLog(_ string: String) { }
         #endif
-        
-        let endpointName: EndpointName
-        
-        public var id: String {
-            return endpointName.encoded
+
+        public var info: Network.Peer.Information.AnyProto
+
+        public var available: AnyNewValuePublisher<Bool, Never> {
+            subject.available.eraseToAnyNewValuePublisher()
         }
-        
-        public var pin: String {
-            return endpointName.pin
+        public var state: AnyNewValuePublisher<Network.Peer.State, Never> {
+            subject.state.eraseToAnyNewValuePublisher()
         }
-        
-        public var name: String {
-            return endpointName.name
+        public var outboundState: AnyNewValuePublisher<Network.Peer.State, Never> {
+            subject.outboundState.eraseToAnyNewValuePublisher()
+        }
+        public var get: AnyPublisher<Network.Peer.Data, Swift.Error> {
+            subject.data.eraseToAnyPublisher()
         }
 
-        public var kind: Network.Peer.Kind {
-            return endpointName.kind
-        }
+        fileprivate let subject: Network.NW.Peer.Subject
+        fileprivate let localInfo: Network.Peer.Information.AnyProto
+        fileprivate let storage = Network.NW.Peer.Storage()
 
-        public var get: AnyPublisher<Network.Peer.Data, Error> { dataSubject.eraseToAnyPublisher() }
-        public var state: AnyValuePublisher<Network.Peer.State, Never> { stateSubject.eraseToAnyValuePublisher() }
-        fileprivate let dataSubject = PassthroughSubject<Network.Peer.Data, Error>()
-        fileprivate let stateSubject = CurrentValueSubject<Network.Peer.State, Never>(.unavailable)
-        fileprivate var inbound = ConnectionInfo() {
-            didSet {
-                #if DEBUG
-                updateDebugDescription()
-                #endif
-            }
-        }
+        fileprivate let subscriber: Network.NW.Peer.Subscriber
+        private var inboundAutoClean: Connection.AutoClean
+        fileprivate var outboundAutoClean: Connection.AutoClean
 
-        fileprivate init(_ endpointName: EndpointName) {
-            self.endpointName = endpointName
-            
+        init(local: Network.Peer.Information.AnyProto, remote: Network.Peer.Information.AnyProto) {
+            self.localInfo = local
+            self.info = remote
+
+            let subject = Network.NW.Peer.Subject(storage: storage)
+            var subscriber = Network.NW.Peer.Subscriber(subject: subject, storage: storage)
+
+            self.subject = subject
+            self.inboundAutoClean = Connection.AutoClean(storage: storage.inbound)
+            self.outboundAutoClean = Connection.AutoClean(storage: storage.outbound)
+
             #if DEBUG
             PeerBase.debugIdentifier += 1
             debugIdentifier = PeerBase.debugIdentifier
-            if endpointName != EndpointName.current { debugLog("init") }
-            debugDescriptionSubject.send("Peer \(debugIdentifier)")
+            debug = Debug(storage: storage, debugIdentifier: debugIdentifier)
+            subscriber.debug = debug
+            #endif
+
+            self.subscriber = subscriber
+
+            #if DEBUG
+            if remote.id.unique != local.id.unique { debugLog("init") }
             #endif
         }
 
-        @discardableResult public func set(inbound connection: Connection) async -> Bool {
-            inbound = await setup(connection: connection, to: inbound)
-
-            #if DEBUG
+        public func add(inbound connection: Connection) {
             debugLog("set inbound (\(connection.debugIdentifier) \(connection.state.value.string)")
-            #endif
-            
-            return true
-        }
-        
-        fileprivate func setup(connection: Connection?, to dst: ConnectionInfo) async -> ConnectionInfo {
-            if dst.connection?.state.value == .ready || dst.connection?.reconnecting == true {
-                return dst
-            }
-
-            dst.stateDisposable?.cancel()
-            dst.dataDisposable?.cancel()
-            await dst.connection?.stop()
-
-            if let connection {
-                #if DEBUG
-                debugLog("setup connection (\(connection.debugIdentifier) \(connection.state.value.string))")
-                #endif
-
-                var result = ConnectionInfo()
-                result.connection = connection
-                result.dataDisposable = connection.data.subscribe(dataSubject)
-                result.stateDisposable = connection.state.sink(receiveValue: state(changed:))
-                return result
-            }
-            else {
-                return ConnectionInfo()
-            }
-        }
-        
-        final fileprivate func state(changed to: NWConnection.State) {
-            Task { await updateConnection() }
-            updateState()
+            storage.inbound(connection: connection)
+            subscriber.inbound(connection)
+            inboundAutoClean.connection(connection)
         }
 
-        fileprivate func updateConnection() async {
-            if inbound.connection?.isFinished == true {
-                inbound = await setup(connection: nil, to: inbound)
+        public func set(available: Bool) {
+            subject.available.send(available)
+        }
+
+        public func setInbound(from peer: PeerBase) {
+            for connection in peer.storage.inbound.connections {
+                add(inbound: connection)
             }
         }
 
-        fileprivate func updateState() {
-            #if DEBUG
-            updateDebugDescription()
-            #endif
-
-            let newState = Network.Peer.State(inbound.connection)
-            guard state.value != newState else { return }
-
-            #if DEBUG
-            debugLog("state: \(newState)")
-            #endif
-            stateSubject.send(newState)
+        public func put(_ data: Network.Peer.Data) {
+            storage.connections.best?.send(data)
         }
 
-        fileprivate func disconnect(_ info: inout ConnectionInfo) async {
-            info.dataDisposable?.cancel()
-            info.dataDisposable = nil
-            await info.connection?.stop()
-            info.stateDisposable?.cancel()
-            info.stateDisposable = nil
-        }
-        
         public func disconnect() async {
-            await disconnect(&inbound)
+            await storage.disconnect()
         }
     }
 }
 
 extension Network.NW.PeerBase : CustomStringConvertible {
     public var description: String {
-        return name
+        return info.id.name
     }
 }
 
@@ -161,206 +120,101 @@ public extension Network.NW {
     class Peer : PeerBase, Network.Peer.Proto {
         #if DEBUG
         override var debugKind: String { "discovered" }
-        override func updateDebugDescription() {
-            let inboundDescription = Connection.debugDescription(inbound.connection, kind: "inbound")
-            let outboundDescription = Connection.debugDescription(outbound.connection, kind: "outbound")
-            debugDescriptionSubject.send("Peer \(debugIdentifier)\n\(inboundDescription)\n\(outboundDescription)")
-        }
         #endif
 
-        fileprivate let nwEndpoint: NWEndpoint
-        private var outbound = ConnectionInfo() {
-            didSet {
-                #if DEBUG
-                updateDebugDescription()
-                #endif
-            }
+        fileprivate let entry: NWBrowser.Result
+
+        init?(local info: Network.Peer.Information.AnyProto, entry: NWBrowser.Result) throws {
+            guard case let .service(name, _, _, _) = entry.endpoint
+            else { throw Error.missedService(entry) }
+
+            guard case let .bonjour(txtRecord) = entry.metadata
+            else { throw Error.missedMetadata(entry) }
+
+            let identity = try Network.Peer.Identity(unique: name, dictionary: txtRecord.dictionary)
+
+            self.entry = entry
+
+            super.init(local: info,
+                       remote: Network.Peer.Information.Basic(identity, dictionary: txtRecord.dictionary))
         }
 
-        private var readyConnection: Connection? {
-            if outbound.connection?.state.value == .ready {
-                return outbound.connection
-            }
-            
-            if inbound.connection?.state.value == .ready {
-                return inbound.connection
-            }
-            
-            return nil
-        }
-        
-        init?(_ nw: NWEndpoint) {
-            if case let .hostPort(host, port) = nw {
-                print("hostport: \(host) \(port)")
-                return nil
-            }
-
-            guard case let .service(name, _, _, _) = nw
-            else {
-                assertionFailure()
-                return nil
-            }
-            
-            self.nwEndpoint = nw
-            super.init(EndpointName.decode(name))
-        }
-        
         public func connect() async throws -> Bool {
-            guard let endpointNameData = EndpointName.currentData else { return false }
-            guard outbound.connection?.state.value != .ready else { return false }
+            let bestState = storage.outbound.connections.best?.state.value
+            guard bestState != .ready && bestState != .preparing else { return false }
+            let connection = OutboundConnection(endpoint: entry.endpoint, information: localInfo, passcode: "")
 
-            #if DEBUG
-            debugLog("connecting")
-            #endif
-            
-            let connection = OutboundConnection(endpoint: nwEndpoint,
-                                                identifier: endpointNameData,
-                                                passcode: "")
-            
-            outbound = await setup(connection: connection, to: outbound)
-            try await connection.start()
-            
-            #if DEBUG
-            debugLog("send id \(EndpointName.current.pin) \(EndpointName.current.name)")
-            #endif
-            
-            try await connection.sendAsync(endpointNameData)
-
-            #if DEBUG
-            debugLog("connected (\(connection.debugIdentifier) \(connection.state.value.string))")
-            #endif
+            debugLog("connect.prepare to \(id.name)")
+            storage.outbound(connection: connection)
+            subscriber.outbound(connection)
+            outboundAutoClean.connection(connection)
+            try await connect(to: connection)
+            debugLog("connect.done (\(connection.state.value.string))")
 
             return true
         }
-        
-        public override func disconnect() async {
-            await super.disconnect()
-            await disconnect(&outbound)
-        }
-        
-        public func put(_ data: Network.Peer.Data) {
-            readyConnection?.send(data)
-        }
 
-        override func updateState() {
-            #if DEBUG
-            updateDebugDescription()
-            #endif
 
-            let inboundState = Network.Peer.State(inbound.connection)
-            let outboundState = Network.Peer.State(outbound.connection)
-            let newState = Network.Peer.State.better(inboundState, outboundState)
-            guard state.value != newState else { return }
+        private func connect(to connection: OutboundConnection) async throws {
+            let state = state
 
-            #if DEBUG
-            debugLog("state: \(newState)")
-            #endif
+            // here we wait for first connection established
+            try await withCheckedThrowingContinuation { continuation in
+                Task {
+                    do {
+                        try await withThrowingTaskGroup(of: Void.self) { group in
+                            group.addTask {
+                                var stateCancellable: AnyCancellable?
 
-            stateSubject.send(newState)
-        }
 
-        override func updateConnection() async {
-            await super.updateConnection()
+                                await withCheckedContinuation { continuation in
+                                    let cancel = {
+                                        stateCancellable?.cancel()
+                                        stateCancellable = nil
+                                        continuation.resume()
+                                    }
 
-            if outbound.connection?.isFinished == true {
-                outbound = await setup(connection: nil, to: outbound)
+                                    stateCancellable = state.sink { state in
+                                        if state == .connected, stateCancellable != nil {
+                                            cancel()
+                                        }
+                                    }
+
+                                    if state.value == .connected, stateCancellable != nil {
+                                        cancel()
+                                    }
+                                }
+                            }
+
+                            group.addTask {
+                                try await connection.start()
+                            }
+
+                            debugLog("connect.start")
+                            try await group.next()
+                            debugLog("connect.first finished")
+                            continuation.resume()
+                            debugLog("connect.resume")
+                            try? await group.reduce(()) { _, _ in () }
+                            debugLog("connect.all tasks finished")
+                        }
+                    }
+                    catch {
+                        debugLog("connect.error \(error)")
+                        continuation.resume(throwing: error)
+                    }
+                }
             }
         }
     }
 }
 
 
-public extension Network.NW {
+extension Network.NW {
     class InboundPeer : PeerBase, Network.Peer.Proto {
-
         public func connect() async throws -> Bool {
             return false
         }
-        
-        public func put(_ data: Network.Peer.Data) {
-            inbound.connection?.send(data)
-        }
     }
 }
 
-
-extension Array where Element == Network.NW.Peer {
-    init<S: Sequence>(_ nw: S) where S.Element == NWBrowser.Result {
-        self.init(nw.compactMap { Network.NW.Peer($0.endpoint) })
-    }
-}
-
-
-fileprivate extension Array where Element : Network.Peer.Proxy {
-    func first(_ endpointName: Network.NW.EndpointName) -> Element? {
-        return first { ($0.inner as? Network.NW.PeerBase)?.endpointName == endpointName }
-    }
-}
-
-
-extension Array where Element : Network.NW.PeerBase {
-    func removing(enpoint endpointName: Network.NW.EndpointName) -> Array<Element> {
-        return filter { $0.endpointName != endpointName }
-    }
-}
-
-
-public extension Network.NW {
-    class PeerStore : ObservableObject {
-        public  var peers: AnyPublisher<[Network.Peer.Proto], Never> { peersSubject.eraseToAnyPublisher() }
-        private let peersSubject = PassthroughSubject<[Network.Peer.Proto], Never>()
-        private var allPeers = [Network.Peer.Proxy]()
-
-        func received(connection: Connection, for endpointName: EndpointName) async {
-            await peer(endpointName) { peer in
-                if await peer.set(inbound: connection) != true {
-                    await connection.stop()
-                }
-            }
-        }
-        
-        func received(peers: [Peer]) async {
-            var allPeers = allPeers
-            
-            for peer in peers {
-                guard let existingPeer = allPeers.first(peer.endpointName) else {
-                    allPeers.append(.init(peer))
-                    continue
-                }
-                
-                if let inboundPeer = existingPeer.inner as? InboundPeer {
-                    if let inboundConnection = inboundPeer.inbound.connection {
-                        await peer.set(inbound: inboundConnection)
-                    }
-                    
-                    existingPeer.inner = peer
-                }
-            }
-            
-            set(peers: allPeers)
-            print("PeerStore: received \(allPeers)")
-        }
-
-        private func peer(_ endpointName: EndpointName, action: (PeerBase) async -> Void) async {
-            if let peer = allPeers.first(endpointName)?.inner as? PeerBase {
-                await action(peer)
-                return
-            }
-            
-            // add inbound peer if can't find existing
-            
-            let peer = InboundPeer(endpointName)
-            var allPeers = allPeers
-
-            await action(peer)
-            allPeers.append(.init(peer))
-            set(peers: allPeers)
-            print("PeerStore: added temporary \(peers)")
-        }
-        
-        private func set(peers: [Network.Peer.Proxy]) {
-            allPeers = peers
-            peersSubject.send(peers)
-        }
-    }
-}

@@ -7,6 +7,7 @@
 //
 
 import AVFoundation
+import BlackUtils
 #if os(OSX)
 import AppKit
 #else
@@ -15,7 +16,7 @@ import UIKit
 
 
 public extension Video {
-    struct ScreenConfig : Equatable {
+    struct ScreenConfig: Equatable {
         public static let zero = ScreenConfig(displayID: 0, rect: CGRect.zero, scale: 0, fps: CMTime.zero)
         
         public let displayID: UInt32 // CGDirectDisplayID
@@ -52,6 +53,22 @@ public extension Video.ScreenConfig {
     }
 }
 
+extension Video.ScreenConfig: BinaryCodable {
+    public init(from data: inout Data) throws {
+        self.init(displayID: try data.pop(UInt32.self),
+                  rect: try .init(from: &data),
+                  scale: try data.pop(CGFloat.self),
+                  fps: try .init(from: &data))
+    }
+
+    public func encode(to data: inout Data) -> Int {
+        data.encode(displayID)
+        + rect.encode(to: &data)
+        + data.encode(scale)
+        + fps.encode(to: &data)
+    }
+}
+
 public extension Data.Processor {
     class ScreenConfigSerializer : Network.PacketSerializer.Processor, Session.Proto {
         private let settings: Video.ScreenConfig
@@ -62,10 +79,8 @@ public extension Data.Processor {
         }
         
         public func start() throws {
-            let packet = Network.PacketSerializer(.display)
-            packet.push(value: settings)
-            
-            print("display info")
+            var packet = Network.PacketSerializer(type: .screen, id: 0)
+            packet.push(raw: settings)
             process(packet: packet)
         }
         
@@ -80,15 +95,12 @@ public extension Data.Processor {
         private(set) var settings: Video.ScreenConfig?
         
         init() {
-            super.init(type: .display)
+            super.init(type: .screen)
         }
 
-        override func process(packet: Network.PacketDeserializer) {
+        override func process(packet: inout Network.PacketDeserializer) {
             guard settings == nil else { return }
-            var settings = Video.ScreenConfig.zero
-            
-            packet.pop(&settings)
-            self.settings = settings
+            self.settings = tryLog { try packet.raw(Video.ScreenConfig.self) }
         }
     }
 }

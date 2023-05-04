@@ -15,12 +15,25 @@ public final class Network {
 
 
 public extension Network {
-    enum PacketType : UInt32 {
+    enum PacketType : UInt8 {
+        // utilities
+        // 0 ... 63
         case undefined = 0
-        case video
-        case nsevent
-        case cgevent
-        case display
+        case ack       = 1
+        case screen    = 2
+
+        // video
+        // 64 ... 127
+        case videoH264 = 64
+
+        // audio
+        // 128 ... 192
+        case audioAAC  = 128
+
+        // events
+        // 192 ... 255
+        case nsevent   = 192
+        case cgevent   = 193
     }
 }
 

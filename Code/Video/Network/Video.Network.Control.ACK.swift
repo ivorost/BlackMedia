@@ -9,6 +9,21 @@
 
 import AVFoundation
 
+public extension Video {
+    struct Acknowledge {}
+}
+
+public extension Video.Acknowledge {
+    class StageHot: Network.Acknowledge.StageHot<Video.Sample> {
+        override func id(for value: Video.Sample) -> UInt64? {
+            UInt64(value.ID)
+        }
+    }
+}
+
+public extension Video.Acknowledge {
+    typealias StageCold = Network.Acknowledge.StageCold<Video.Sample>
+}
 
 public extension Data.Processor {
     class VideoViewerACK : DeserializerH264Base {

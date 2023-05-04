@@ -19,6 +19,7 @@ public struct ProducerChain<TNext, TFirst> {
 
 public class ProducerToolbox<TValue> {
     public typealias Proto = ProducerProtocol
+    public typealias TheProto = ProducerProtocol<TValue>
     public typealias AnyProto = any ProducerProtocol<TValue>
 }
 
@@ -33,7 +34,6 @@ public extension ProducerChain {
 
     @discardableResult func next<T>(_ next: T) -> ProducerChain<T.ProducerValue, TFirst>
     where T: ProducerProtocol & ProcessorProtocol<TNext> {
-
         self.producer.next = next
         return ProducerChain<T.ProducerValue, TFirst>(producer: next, first: first)
     }
@@ -42,8 +42,15 @@ public extension ProducerChain {
 public extension ProducerProtocol {
     @discardableResult func next<T>(_ next: T) -> ProducerChain<ProducerValue, ProducerValue>
     where T: ProcessorProtocol<ProducerValue> {
+        let producer = ForwardProducer(inner: next)
+        self.next = producer
+        return ProducerChain(producer: producer, first: next)
+    }
+
+    @discardableResult func next<T>(_ next: T) -> ProducerChain<T.ProducerValue, ProducerValue>
+    where T: ProducerProtocol & ProcessorProtocol<ProducerValue> {
         self.next = next
-        return ProducerChain(producer: self, first: next)
+        return ProducerChain(producer: next, first: next)
     }
 }
 
@@ -58,11 +65,12 @@ public class ForwardProducer<TValue>: ProducerProtocol, ProcessorProtocol {
     public typealias Next = any ProcessorProtocol<TValue>
     public typealias Value = TValue
 
-    public var next: (Next)?
+    public var next: Next?
     let inner: Next
 
-    init(inner: Next) {
+    init(inner: Next, next: Next? = nil) {
         self.inner = inner
+        self.next = next
     }
 
     public func process(_ value: TValue) {

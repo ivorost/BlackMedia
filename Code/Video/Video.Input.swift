@@ -1,16 +1,14 @@
-
 import AVFoundation
-
 
 @available(iOSApplicationExtension, unavailable)
 extension Video.Setup {
     public class Input : Slave {
-        let avCaptureSession: AVCaptureSession
+        let session: Capture.Session
         private let input: AVCaptureInput
 
-        public init(root: Video.Setup.Proto, session: AVCaptureSession, input: AVCaptureInput) {
+        public init(root: Video.Setup.Proto, session: Capture.Session, input: AVCaptureInput) {
             self.input = input
-            self.avCaptureSession = session
+            self.session = session
             super.init(root: root)
         }
 
@@ -27,13 +25,13 @@ extension Video.Setup {
                 root.session(captureOrientation, kind: .other)
                 #endif
                 root.session(capture, kind: .capture)
-                root.session(avCaptureSession, kind: .avCapture)
+                root.session(session, kind: .avCapture)
                 root.session(inputConfiguration(), kind: .other)
             }
         }
         
         fileprivate func inputSession() -> Session.Proto {
-            return Capture.Input(session: avCaptureSession, input: input)
+            return Capture.Input(session: session.inner, input: input)
         }
         
         fileprivate func inputConfiguration() -> Session.Proto {
@@ -41,44 +39,12 @@ extension Video.Setup {
         }
         
         private func capture(next: Video.Processor.AnyProto) -> Video.Output {
-            return Video.Output(inner: .video32BGRA(avCaptureSession),
+            return Video.Output(inner: .video32BGRA(session.inner),
                                 queue: BlackMedia.Capture.queue,
                                 next: next)
         }
     }
 }
-
-
-@available(iOSApplicationExtension, unavailable)
-extension Video.Setup {
-    public class DeviceInput : Input {
-        private var deviceInput: Capture.DeviceInput
-        private let configure: Capture.DeviceInputConfiguration.Func?
-
-        public init(root: Video.Setup.Proto,
-                    session: AVCaptureSession,
-                    input: AVCaptureDeviceInput,
-                    format: AVCaptureDevice.Format,
-                    configure: Capture.DeviceInputConfiguration.Func? = nil) {
-
-            self.configure = configure
-            self.deviceInput = Capture.DeviceInput(session: session,
-                                                   input: input,
-                                                   format: format)
-
-            super.init(root: root, session: session, input: input)
-        }
-        
-        override func inputSession() -> Session.Proto {
-            return deviceInput
-        }
-        
-        override func inputConfiguration() -> Session.Proto {
-            return Capture.DeviceInputConfiguration(input: deviceInput, configure: configure)
-        }
-    }
-}
-
 
 public extension Video.EncoderConfig {
     init(codec: AVVideoCodecType, format: AVCaptureDevice.Format) {

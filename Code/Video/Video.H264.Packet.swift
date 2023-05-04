@@ -125,15 +125,14 @@ extension Video.Processor {
             
             // build data
             
-            let serializer = Network.PacketSerializer(.video)
+            var serializer = Network.PacketSerializer(type: .videoH264, id: UInt64(video.ID))
             
-            serializer.push(value: UInt64(video.ID))
-            serializer.push(data: videoTime.data)
-            serializer.push(data: systemTime.data)
-            serializer.push(value: UInt8(video.orientation ?? 0))
-            serializer.push(data: Data(bytes: sps!, count: spsLength))
-            serializer.push(data: Data(bytes: pps!, count: ppsLength))
-            serializer.push(data: Data(bytes: dataPointer!, count: Int(totalLength)))
+            serializer.push(raw: videoTime.data)
+            serializer.push(raw: systemTime.data)
+            serializer.push(raw: UInt8(video.orientation ?? 0))
+            serializer.push(block: Data(bytes: sps!, count: spsLength))
+            serializer.push(block: Data(bytes: pps!, count: ppsLength))
+            serializer.push(block: Data(bytes: dataPointer!, count: Int(totalLength)))
             
             process(packet: serializer)
         }
@@ -178,24 +177,24 @@ extension Data.Processor {
         
         public init(metadataOnly: Bool = false) {
             self.metadataOnly = metadataOnly
-            super.init(type: .video)
+            super.init(type: .videoH264)
         }
         
-        public override func process(packet: Network.PacketDeserializer) {
-            var ID64: UInt64 = 0; packet.pop(&ID64)
-            let ID = UInt(ID64)
-            let time = Video.Time(deserialize: packet.popData()) // zero based timestamp
-            let timeOriginal = Video.Time(deserialize: packet.popData()) // system clock based timestamp
-            var orientation: UInt8 = 0; packet.pop(&orientation)
-            let metadata = Video.Processor.Packet(ID: ID, time: time, originalTime: timeOriginal, orientation: orientation)
-            
+        public override func process(packet: inout Network.PacketDeserializer) throws {
+            let time = try packet.raw(Video.Time.self) // zero based timestamp
+            let timeOriginal = try packet.raw(Video.Time.self) // system clock based timestamp
+            let orientation = try packet.raw(UInt8.self)
+            let metadata = Video.Processor.Packet(ID: UInt(packet.id),
+                                                  time: time,
+                                                  originalTime: timeOriginal,
+                                                  orientation: orientation)
             
             process(metadata: metadata)
             
             if !metadataOnly {
-                let sps  = packet.popData()
-                let pps  = packet.popData()
-                let data = packet.popData()
+                let sps  = try packet.blockData()
+                let pps  = try packet.blockData()
+                let data = try packet.blockData()
                 
                 process(h264: Video.Processor.PacketH264(metadata: metadata, sps: sps, pps: pps, data: data))
             }
@@ -213,10 +212,10 @@ extension Data.Processor {
 
 
 extension Data.Processor {
-    class DeserializerH264 : DeserializerH264Base {
-        private let next: Video.Processor.AnyProto?
+    class DeserializerH264 : DeserializerH264Base, ProducerProtocol {
+        var next: Video.Processor.AnyProto?
         
-        init(next: Video.Processor.AnyProto?) {
+        init(next: Video.Processor.AnyProto? = nil) {
             self.next = next
             super.init()
         }
@@ -253,7 +252,7 @@ extension Data.Processor {
                 let blockBufferData = UnsafeMutablePointer<Int8>.allocate(capacity: h264.data.count)
                 
                 h264.data.bytes {
-                    blockBufferData.assign(from: $0.assumingMemoryBound(to: Int8.self), count: h264.data.count)
+                    blockBufferData.update(from: $0.assumingMemoryBound(to: Int8.self), count: h264.data.count)
                 }
                 
                 try check(status: CMBlockBufferCreateWithMemoryBlock(

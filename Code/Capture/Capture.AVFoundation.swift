@@ -2,17 +2,6 @@
 import AVFoundation
 import BlackUtils
 
-extension AVCaptureSession : Session.Proto {
-    public func start() throws {
-        startRunning()
-    }
-    
-    public func stop() {
-        print("STOP CAPTURE")
-        stopRunning()
-    }
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Settings

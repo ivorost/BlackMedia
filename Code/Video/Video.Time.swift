@@ -26,6 +26,17 @@ extension Video {
     }
 }
 
+extension Video.Time: BinaryCodable {
+    init(from data: inout Data) throws {
+        self.init(timestamp: try .init(from: &data),
+                  duration: try .init(from: &data))
+    }
+
+    func encode(to data: inout Data) -> Int {
+        timestamp.encode(to: &data)
+        + duration.encode(to: &data)
+    }
+}
 
 extension Video.Time {
     
@@ -43,8 +54,4 @@ extension Video.Time {
         return Video.Time(timestamp: timestamp.substract(timebase.timestamp), duration: duration)
         
     }
-}
-
-
-extension Video.Time : StructProtocol {
 }

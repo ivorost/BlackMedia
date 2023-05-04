@@ -151,13 +151,15 @@ extension Network.NW.BlackProtocol {
             var tempLength: UInt32 = 0
             
             withUnsafeMutableBytes(of: &tempType) { typePtr in
-                typePtr.copyMemory(from: UnsafeRawBufferPointer(start: buffer.baseAddress!.advanced(by: 0),
-                                                                count: MemoryLayout<UInt8>.size))
+                typePtr.copyMemory(
+                    from: UnsafeRawBufferPointer(start: buffer.baseAddress!.advanced(by: 0),
+                                                 count: MemoryLayout<UInt8>.size))
             }
             
             withUnsafeMutableBytes(of: &tempLength) { lengthPtr in
-                lengthPtr.copyMemory(from: UnsafeRawBufferPointer(start: buffer.baseAddress!.advanced(by: MemoryLayout<UInt32>.size),
-                                                                  count: MemoryLayout<UInt32>.size))
+                lengthPtr.copyMemory(
+                    from: UnsafeRawBufferPointer(start: buffer.baseAddress!.advanced(by: MemoryLayout<UInt8>.size),
+                                                 count: MemoryLayout<UInt32>.size))
             }
             
             type = tempType
@@ -167,13 +169,13 @@ extension Network.NW.BlackProtocol {
         var encodedData: Data {
             var tempType = type
             var tempLength = length
-            var data = Data(bytes: &tempType, count: MemoryLayout<UInt32>.size)
+            var data = Data(bytes: &tempType, count: MemoryLayout<UInt8>.size)
             data.append(Data(bytes: &tempLength, count: MemoryLayout<UInt32>.size))
             return data
         }
         
         static var encodedSize: Int {
-            return MemoryLayout<UInt32>.size * 2
+            return MemoryLayout<UInt8>.size + MemoryLayout<UInt32>.size
         }
     }
 }

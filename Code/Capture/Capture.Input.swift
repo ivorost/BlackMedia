@@ -10,7 +10,7 @@ import AVFoundation
 
 
 public extension Capture {
-    class Input : NSObject, Session.Proto {
+    class Input : NSObject, BlackMedia.Session.Proto {
         
         enum Error : Swift.Error {
             case unimplemented
@@ -71,7 +71,7 @@ public extension Capture {
 
 
 public extension Capture {
-    class DeviceInputConfiguration : Session.Proto {
+    class DeviceInputConfiguration : BlackMedia.Session.Proto {
         public typealias Func = (DeviceInput) -> Void
         private let input: DeviceInput
         private let configure: Func?

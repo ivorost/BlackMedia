@@ -13,8 +13,9 @@ import BlackUtils
 public extension Video.Processor {
     class Display {
 
-        let layer: AVSampleBufferDisplayLayer
-        var format: CMFormatDescription?
+        private let layer: AVSampleBufferDisplayLayer
+        private var format: CMFormatDescription?
+        private var previousTimestamp: CMTime?
         
         public init(_ layer: AVSampleBufferDisplayLayer) {
             self.layer = layer
@@ -37,22 +38,28 @@ public extension Video.Processor {
 
 extension Video.Processor.Display : ProcessorProtocol {
     public func process(_ video: Video.Sample) {
-        logAV("video output \(video.sampleBuffer.presentationSeconds)")
+//        logAV("video output \(video.sampleBuffer.presentationSeconds)")
         
         let dataFormat = CMSampleBufferGetFormatDescription(video.sampleBuffer)
-        
+
         if CMFormatDescriptionEqual(format, otherFormatDescription: dataFormat) == false {
             layer.flush()
         }
-        
+
+        if let previousTimestamp, previousTimestamp > video.sampleBuffer.presentationTimeStamp {
+            layer.flushAndRemoveImage()
+        }
+
         format = dataFormat
         
+        if self.layer.status == .failed {
+            self.printStatus()
+            self.layer.flushAndRemoveImage()
+        }
+
         if self.layer.status != .failed {
             self.layer.enqueue(video.sampleBuffer)
-        }
-        else {
-            self.printStatus()
-            self.layer.flush()
+            self.previousTimestamp = video.sampleBuffer.presentationTimeStamp
         }
     }
 }
@@ -62,11 +69,21 @@ extension Video.Processor.Display : Session.Proto {
     public func start() throws {
         logAVPrior("video output start")
         layer.flushAndRemoveImage()
+
+        NotificationCenter.default.addObserver(
+            forName: .AVSampleBufferDisplayLayerFailedToDecode,
+            object: nil,
+            queue: nil,
+            using: failureNotification)
     }
     
     public func stop() {
         logAVPrior("video output stop")
         layer.flushAndRemoveImage()
+    }
+
+    private func failureNotification(notification: Notification) {
+        logAVError("AVSampleBufferDisplayLayerFailedToDecode " + notification.description)
     }
 }
 

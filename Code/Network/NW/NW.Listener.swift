@@ -5,12 +5,13 @@ Abstract:
 Implement a TLS listener that advertises your game's Bonjour service.
 */
 
+import Foundation
 import Network
 import Combine
 import BlackUtils
 
 public extension Network.NW {
-    class Listener {
+    class Listener<TInformation: PeerInformation> {
         func debugLog(_ string: String) {
             #if DEBUG
             print("Listener: \(string)")
@@ -21,20 +22,20 @@ public extension Network.NW {
             case cancelled
         }
 
-        private let peers: PeerStore
+        private let peers: PeerStore<TInformation>
         private var inner: Black.Network.Listener?
-        private var endpointName: EndpointName
+        private var identity: Network.Peer.Identity
         private let passcode: String
         private let serviceName: String
         private var connections = [Connection]()
         private var cancellables = [AnyCancellable]()
 
-        init(peers: PeerStore,
-             endpoint endpointName: EndpointName,
+        init(peers: PeerStore<TInformation>,
+             identity: Network.Peer.Identity,
              service serviceName: String,
              passcode: String) {
             self.peers = peers
-            self.endpointName = endpointName
+            self.identity = identity
             self.passcode = passcode
             self.serviceName = serviceName
         }
@@ -42,7 +43,9 @@ public extension Network.NW {
         public func start(on queue: DispatchQueue = .global()) async throws {
             do {
                 let listener = try NWListener(using: NWParameters(passcode: passcode))
-                listener.service = NWListener.Service(name: self.endpointName.encoded, type: serviceName)
+                listener.service = NWListener.Service(name: identity.unique.uuidString,
+                                                      type: serviceName,
+                                                      txtRecord: NWTXTRecord(identity.dictionary))
 
                 self.inner = Black.Network.Listener(listener)
                 inner?.state.sink(receiveValue: state(changed:)).store(in: &cancellables)
@@ -90,17 +93,15 @@ public extension Network.NW {
                     self?.debugLog("Inbound connection \(connection.debugIdentifier) AAAA")
                     #endif
 
-                    let endpointName: EndpointName
-                    let endpointNameData = try await connection.start()
-                    guard let endpointNameString = String(data: endpointNameData, encoding: .utf8) else { return }
-
-                    endpointName = .decode(endpointNameString)
+                    let informationData = try await connection.start()
+                    let informationDictionary = try JSONDecoder().decode([String: String].self, from: informationData)
+                    let information = try TInformation(informationDictionary)
 
                     #if DEBUG
-                    self?.debugLog("received connection \(connection.debugIdentifier) for \(endpointName.pin) \(endpointName.name)")
+                    self?.debugLog("received connection \(connection.debugIdentifier) for \(information.id.name)")
                     #endif
 
-                    await self?.peers.received(connection: connection, for: endpointName)
+                    await self?.peers.received(connection: connection, for: information)
 
                     #if DEBUG
                     self?.debugLog("Inbound connection \(connection.debugIdentifier) ZZZZ")

@@ -10,6 +10,17 @@ import Network
 import Combine
 import BlackUtils
 
+// en0 and en1 are your hardware interfaces (usually Ethernet and WiFi)
+// en2, en3, en4 wired
+// pdp_ip0, pdp_ip1 ... cellular
+// awdl0 is Apple Wireless Direct Link (Bluetooth)
+// lo is the loopback interface
+// p2p0 is a point to point link (usually VPN)
+// stf0 is a "six to four" interface (IPv6 to IPv4)
+// gif01 is a software interface
+// bridge0 is a software bridge between other interfaces
+// utun0 is used for "Back to My Mac"
+// XHC20 is a USB network interface
 
 public extension Network.NW {
     class Connection {
@@ -17,11 +28,13 @@ public extension Network.NW {
         static var debugIdentifier = 0
         let debugIdentifier: Int
         var debugKind: String { return "unknown" }
-        func debugLog(_ string: String) { print("Connection \(debugIdentifier): \(string)") }
+        func debugLog(_ string: String) { print("Connection \(debugKind) \(debugIdentifier): \(string)") }
+        #else
+        @inlinable func debugLog(_ string: String) { }
         #endif
         
         public var state: AnyNewValuePublisher<NWConnection.State, Never> { stateSubject.eraseToAnyNewValuePublisher() }
-        fileprivate let stateSubject = NewValueSubject<NWConnection.State, Never>(.setup)
+        fileprivate let stateSubject = KeepValueSubject<NWConnection.State, Never>(.setup)
 
         public var data: AnyPublisher<Network.Peer.Data, Error> { dataSubject.eraseToAnyPublisher() }
         private let dataSubject = PassthroughSubject<Network.Peer.Data, Error>()
@@ -45,17 +58,9 @@ public extension Network.NW {
                 .subscribe(dataSubject)
                 .store(in: &cancellables)
 
-            #if DEBUG
             debugLog("init \(debugKind)")
-            #endif
         }
 
-        deinit {
-            #if DEBUG
-            debugLog("deinit")
-            #endif
-        }
-        
         var reconnecting: Bool {
             if case .waiting(_) = state.value {
                 return state.newValue == .ready
@@ -66,44 +71,30 @@ public extension Network.NW {
         }
         
         fileprivate func start() async throws {
-            #if DEBUG
             debugLog("starting")
-            #endif
-
             try await inner.start()
-
-            #if DEBUG
             debugLog("started")
-            #endif
         }
 
         func stop() async {
-            #if DEBUG
             debugLog("stopping")
-            #endif
-
             await inner.stop()
-
-            #if DEBUG
             debugLog("stoped")
-            #endif
         }
 
         func sendAsync(_ data: Data, of type: BlackProtocol.MessageType = .data) async throws {
             let message = NWProtocolFramer.Message(type)
             let context = NWConnection.ContentContext(identifier: "black", metadata: [message])
 
+//            debugLog("send async data of size \(data.count) (\(String(describing: state.value)))")
             try await inner.sendAsync(data, in: context)
-
-            #if DEBUG
-//            debugLog("send data of size \(data.count) (\(String(describing: state)))")
-            #endif
         }
         
         func send(_ data: Data, of type: BlackProtocol.MessageType = .data) {
             let message = NWProtocolFramer.Message(type)
             let context = NWConnection.ContentContext(identifier: "black", metadata: [message])
 
+//            debugLog("send data of size \(data.count) (\(String(describing: state.value)))")
             inner.send(data, in: context)
         }
         
@@ -115,20 +106,14 @@ public extension Network.NW {
                    let resultType = BlackProtocol.MessageType(message),
                    resultType == type {
 
-                    #if DEBUG
                     debugLog("read data of size \(result.data.count)")
-                    #endif
-
                     return result.data
                 }
             } while true
         }
 
         private func state(changed to: NWConnection.State) {
-            #if DEBUG
             self.debugLog("status \(to)")
-            #endif
-
             stateSubject.send(to)
         }
     }
@@ -146,7 +131,6 @@ public extension Network.NW.Connection {
         }
     }
 }
-
 
 extension Network.NW {
     class InboundConnection : Connection {
@@ -174,35 +158,39 @@ extension Network.NW {
         override var debugKind: String { return "outbound" }
         #endif
         
-        private let identifier: Data
+        private let information: Network.Peer.Information.AnyProto
 
-        init(endpoint: NWEndpoint, identifier: Data, passcode: String) {
+        init(endpoint: NWEndpoint, information: Network.Peer.Information.AnyProto, passcode: String) {
             let parameters = NWParameters(passcode: passcode)
             
-            self.identifier = identifier
+            self.information = information
             super.init(connection: NWConnection(to: endpoint, using: parameters))
         }
         
         override func start() async throws {
+            let informationData = try JSONEncoder().encode(information.dictionary)
             try await super.start()
-            try await sendAsync(identifier, of: .identity)
+            try await sendAsync(informationData, of: .identity)
         }
     }
 }
 
 
-extension Network.Peer.State {
-    init(_ connection: Network.NW.Connection?) {
-        guard connection != nil else { self = .unavailable; return }
-        guard let state = connection?.state.newValue else { self = .available; return }
-        self = .init(state)
-    }
-}
-
 #if DEBUG
 extension Network.NW.Connection : CustomDebugStringConvertible {
     public var debugDescription: String {
-        return "\(debugKind) \(debugIdentifier) \(state.value.string)"
+        let interfaceDescription: String
+
+        if let availableInterfaces = inner.path.newValue?.availableInterfaces {
+            interfaceDescription = availableInterfaces
+                .map { "\($0.type).\($0.name)" }
+                .joined(separator: ", ")
+        }
+        else {
+            interfaceDescription = ""
+        }
+
+        return "\(debugKind) \(debugIdentifier) \(state.newValue.string) [\(interfaceDescription)]"
     }
 
     public static func debugDescription(_ connection: Network.NW.Connection?, kind: String) -> String {

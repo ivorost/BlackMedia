@@ -44,7 +44,7 @@ public extension Capture {
 
 
 public extension Capture {
-    class Timebase : Session.Base {
+    class Timebase : BlackMedia.Session.Base {
         private(set) var date: Date = Date()
         
         public override func start() throws {

@@ -17,7 +17,7 @@ let package = Package(
         )
     ],
     dependencies: [
-            .package(url: "https://github.com/ivorost/BlackUtils.git", from: "1.0.0"),
+            .package(url: "https://github.com/ivorost/BlackUtils.git", .branch("main")),
             .package(url: "https://github.com/ivorost/Starscream.git", from: "4.0.0")
     ],
     targets: [

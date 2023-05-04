@@ -14,6 +14,7 @@ public protocol ProcessorProtocol<ProcessorValue>: AnyObject {
 
 public class ProcessorToolbox<TValue> {
     public typealias Proto = ProcessorProtocol
+    public typealias TheProto = ProcessorProtocol<TValue>
     public typealias AnyProto = any ProcessorProtocol<TValue>
 }
 

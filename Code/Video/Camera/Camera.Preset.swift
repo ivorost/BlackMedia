@@ -10,13 +10,14 @@ import BlackUtils
 
 @available(iOSApplicationExtension, unavailable)
 public extension Video {
-    static func streamCamera(input avInput: AVCaptureDeviceInput,
-                             format: AVCaptureDevice.Format,
-                             layer: AVSampleBufferDisplayLayer,
-                             network: Data.Processor.AnyProto) -> Session.Proto {
-        let avCaptureSession = AVCaptureSession()
-        let input = Capture.Input(session: avCaptureSession, input: avInput)
-        let videoOutput = Output(inner: .video32BGRA(avCaptureSession))
+    static func streamCamera<TNetwork>(input avInput: AVCaptureDeviceInput,
+                                       format: AVCaptureDevice.Format,
+                                       to network: TNetwork,
+                                       preview layer: AVSampleBufferDisplayLayer) -> Session.Proto
+    where TNetwork: Data.Producer.TheProto & Data.Processor.TheProto {
+        let session = Capture.Session()
+        let input = Capture.Input(session: session.inner, input: avInput)
+        let videoOutput = Output(inner: .video32BGRA(session.inner))
         let encoderConfig = Video.EncoderConfig(codec: .h264, format: format)
         let preview = Video.Processor.Display(layer)
         let duplicates = Video.RemoveDuplicatesApproxUsingMetal()
@@ -24,66 +25,48 @@ public extension Video {
                                                   outputDimentions: encoderConfig.output)
         let serializer = Processor.SerializerH264()
 
+//        let ackHot = Video.Acknowledge.StageHot()
+//        let ackCold = Video.Acknowledge.StageCold(ackHot)
+//        let ackHandler = Network.Acknowledge.Handler(hot: ackHot, cold: ackCold)
+
         videoOutput
             .next(preview)
+//            .next(ackCold)
             .next(duplicates)
             .next(encoder)
+//            .next(ackHot)
             .next(serializer)
             .next(network)
+
+//        network
+//            .next(ackHandler)
         
-        return broadcast([ encoder, input, videoOutput, avCaptureSession ])
+        return broadcast([ encoder, input, videoOutput, session ])
+    }
+
+    static func streamCamera<TNetwork>(to network: TNetwork,
+                                       preview layer: AVSampleBufferDisplayLayer) -> Session.Proto
+    where TNetwork: Data.Producer.TheProto & Data.Processor.TheProto {
+        guard let avInput = AVCaptureDeviceInput.rearCamera else { return Session.shared }
+
+        return streamCamera(input: avInput,
+                            format: avInput.device.activeFormat,
+                            to: network,
+                            preview: layer)
+    }
+
+    static func display<TNetwork>(from network: TNetwork, to layer: AVSampleBufferDisplayLayer) -> Session.Proto
+    where TNetwork: Data.Producer.TheProto & Data.Processor.TheProto {
+        let deserializer = Data.Processor.DeserializerH264()
+        let preview = Video.Processor.Display(layer)
+//        let acknowledge = Network.Acknowledge.Answer(network: network)
+
+        network
+//            .next(acknowledge)
+            .next(deserializer)
+            .next(preview)
+
+        return Session.shared
     }
 }
 
-@available(iOSApplicationExtension, unavailable)
-public extension Video.Setup {
-    class CameraCapture : Vector {
-        private let encoderOutputQueue = OperationQueue()
-        private let layer: SampleBufferDisplayLayer
-        private let network: Data.Processor.AnyProto
-        
-        public init(layer: SampleBufferDisplayLayer, network: Data.Processor.AnyProto) {
-            self.encoderOutputQueue.maxConcurrentOperationCount = 1
-            self.layer = layer
-            self.network = network
-            
-            super.init()
-        }
-        
-        public override func create() -> [Proto] {
-            let root = self
-
-            guard let avInput = AVCaptureDeviceInput.nannyCamera else { return [] }
-            let format = avInput.device.nannyFormat
-            let input = DeviceInput.rearCamera(root: root, input: avInput, format: format)
-            let encoderConfig = Video.EncoderConfig(codec: .h264, format: format)
-            
-            let aggregator = Session.Setup.Aggregator()
-            let preview = Display(root: root, layer: layer, kind: .duplicatesFree)
-            let duplicates = DuplicatesApproxMetal(root: root)
-            let encoder = EncoderH264(root: root, settings: encoderConfig)
-            let serializer = SerializerH264(root: root, kind: .encoder)
-            let network = Network.Setup.Put(root: root, data: self.network, target: .serializer)
-
-            // Measure
-            let fps = MeasureFPS(next: String.Processor.Print("fps: "))
-            let fpsSetup = Measure(kind: .duplicatesFree, measure: fps)
-
-            // Flush periodically
-            let flushPeriodically = Flushable.Periodically(next: Flushable.Vector([ fps ]))
-            let flushPeriodicallyDispatch = Session.DispatchSync(session: flushPeriodically, queue: DispatchQueue.main)
-            let flushPeriodicallySetup = Session.Setup.Static(root: root, session: flushPeriodicallyDispatch)
-
-            return [
-                cast(video: network),
-                cast(video: aggregator),
-                encoder,
-                duplicates,
-                serializer,
-                preview,
-                input,
-                fpsSetup,
-                cast(video: flushPeriodicallySetup) ]
-        }
-    }
-}

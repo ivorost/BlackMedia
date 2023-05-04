@@ -7,7 +7,7 @@
 //
 
 import AVFoundation
-
+import BlackUtils
 
 public extension Capture {
     struct Time {
@@ -16,6 +16,17 @@ public extension Capture {
     }
 }
 
+extension Capture.Time: BinaryCodable {
+    public init(from data: inout Data) throws {
+        self.init(timeStamp: try data.pop(Int64.self),
+                  timeScale: try data.pop(Int32.self))
+    }
+
+    public func encode(to data: inout Data) -> Int {
+        data.encode(timeStamp)
+        + data.encode(timeScale)
+    }
+}
 
 extension Capture.Time {
     init() {
@@ -26,7 +37,7 @@ extension Capture.Time {
         timeStamp = time.value
         timeScale = time.timescale
     }
-    
+
     var cmTime: CMTime {
         return CMTime(value: timeStamp, timescale: timeScale, flags: [.valid, .hasBeenRounded], epoch: 0)
     }

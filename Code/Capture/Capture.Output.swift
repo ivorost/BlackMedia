@@ -10,7 +10,7 @@ import AVFoundation
 import BlackUtils
 
 public extension Capture {
-    class Output<TCaptureOutput>: Session.Proto where TCaptureOutput: AVCaptureOutput {
+    class Output<TCaptureOutput>: BlackMedia.Session.Proto where TCaptureOutput: AVCaptureOutput {
         let output: TCaptureOutput
         let session: AVCaptureSession
 
@@ -41,7 +41,7 @@ public extension Capture.Output {
 }
 
 public extension Capture {
-    class AssetOutput : Session.Proto {
+    class AssetOutput : BlackMedia.Session.Proto {
         
         private var stopped = false
         private let writer: AVAssetWriter
@@ -81,7 +81,7 @@ public extension Capture {
 
 
 public extension Capture {
-    class AssetWriterSession : Session.Proto {
+    class AssetWriterSession : BlackMedia.Session.Proto {
         
         private let assetWriter: AVAssetWriter
         private var sessionStarted = false

@@ -4,6 +4,10 @@ import VideoToolbox
 import CoreVideo
 import BlackUtils
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 fileprivate extension CMTimeValue {
     static let frameRate: CMTimeValue = 6
 }
@@ -155,6 +159,20 @@ extension Video.Processor.EncoderH264 : ProcessorProtocol {
 
 extension Video.Processor.EncoderH264 : Session.Proto {
     public func start() throws {
+        try startInt()
+
+        #if canImport(UIKit)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground),
+                                               name: UIApplication.didEnterBackgroundNotification,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil)
+        #endif
+    }
+
+    private func startInt() throws {
         let encoderSpecification: [NSString: AnyObject] = [:
             /*kVTCompressionPropertyKey_UsingHardwareAcceleratedVideoEncoder: kCFBooleanTrue,
              kVTVideoEncoderSpecification_EnableHardwareAcceleratedVideoEncoder: kCFBooleanTrue,
@@ -182,14 +200,27 @@ extension Video.Processor.EncoderH264 : Session.Proto {
         VTSessionSetProperties(session!, propertyDictionary: properties as CFDictionary)
         VTCompressionSessionPrepareToEncodeFrames(session!)
     }
-    
+
     public func stop() {
+        stopInt()
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    public func stopInt() {
         guard let session = self.session else { return }
         
         VTCompressionSessionCompleteFrames(session, untilPresentationTimeStamp: CMTime.invalid)
         VTCompressionSessionInvalidate(session)
         
         self.session = nil
+    }
+
+    @objc private func appDidEnterBackground() {
+        stopInt()
+    }
+
+    @objc private func appWillEnterForeground() {
+        tryLog { try startInt() }
     }
 }
 
