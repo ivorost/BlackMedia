@@ -8,7 +8,9 @@
 
 
 
+#if canImport(AppKit)
 import AppKit
+#endif
 
 
 public extension EventProcessor {

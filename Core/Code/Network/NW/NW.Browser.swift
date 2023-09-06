@@ -6,8 +6,8 @@ Create a class to browse for game peers using Bonjour.
 */
 
 import Network
-import Utils
 import Combine
+import BlackUtils
 
 public extension Network.NW {
     class Browser {

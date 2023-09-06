@@ -5,8 +5,9 @@
 //  Created by Ivan Kh on 08.04.2022.
 //
 
+#if canImport(Cocoa)
 import Cocoa
-
+#endif
 
 public extension Event.Setup {
     class Sender : EventProcessorSetup.Vector {

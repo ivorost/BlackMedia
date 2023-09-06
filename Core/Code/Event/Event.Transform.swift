@@ -6,8 +6,9 @@
 //  Copyright © 2020 Ivan Kh. All rights reserved.
 //
 
+#if canImport(AppKit)
 import AppKit
-
+#endif
 
 public extension EventProcessor {
     class Transform : Base, Data.Processor.AnyProto {

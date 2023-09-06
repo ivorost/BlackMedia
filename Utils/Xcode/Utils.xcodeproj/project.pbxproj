@@ -191,6 +191,8 @@
 		82B8002229428A780099A6EF /* AppKit.Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Application.swift; sourceTree = "<group>"; };
 		82CD941F29E5AE7D00D67C3F /* SwiftUI.Transition.Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.Transition.Dummy.swift; sourceTree = "<group>"; };
 		82CD942229E5B00300D67C3F /* SwiftUI.Transition.Curtains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.Transition.Curtains.swift; sourceTree = "<group>"; };
+		82CD942D29E817BB00D67C3F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		82CD946A29E81F6800D67C3F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
 		82D454D3298DB703005F0467 /* Foundation.Pointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.Pointers.swift; sourceTree = "<group>"; };
 		82D9AB5B29DE143E00B9C925 /* AppKit.Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKit.Device.swift; sourceTree = "<group>"; };
 		82D9AB6029E0229E00B9C925 /* SwiftUI.Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI.Router.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 		822C7FDC25D12A1A004E77F9 = {
 			isa = PBXGroup;
 			children = (
+				82CD946A29E81F6800D67C3F /* Package.swift */,
 				822C7FF625D12ABE004E77F9 /* Code */,
 				822C7FF325D12ABE004E77F9 /* Xcode */,
 				822C7FE725D12A1B004E77F9 /* Products */,
@@ -236,6 +239,7 @@
 		822C7FF325D12ABE004E77F9 /* Xcode */ = {
 			isa = PBXGroup;
 			children = (
+				82CD942D29E817BB00D67C3F /* Package.swift */,
 				825A444525D1B0C900A2EA49 /* Debug.xcconfig */,
 				825A444625D1B0C900A2EA49 /* Release.xcconfig */,
 				82981690279EEC0E004B3EB1 /* Framework-iOS.xcconfig */,

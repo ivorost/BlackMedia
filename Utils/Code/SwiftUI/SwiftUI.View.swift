@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-class BuilderView<TContent: View>: UIView {
-    private var hostingView: UIView?
-    private var hostingController: UIViewController?
+class BuilderView<TContent: View>: AppleView {
+    private var hostingView: AppleView?
+    private var hostingController: AppleViewController?
 
     convenience init(content: @escaping () -> TContent) {
         self.init()
@@ -23,9 +23,9 @@ class BuilderView<TContent: View>: UIView {
         hostingView = nil
         hostingController = nil
 
-        let hostingController = UIHostingController(rootView: content)
-        guard let hostingView = hostingController.view
-        else { return }
+        let hostingController = AppleHostingController(rootView: content)
+        let hostingView: AppleView? = hostingController.view
+        guard let hostingView else { return }
 
         addSubview(filling: hostingView)
         self.hostingView = hostingView

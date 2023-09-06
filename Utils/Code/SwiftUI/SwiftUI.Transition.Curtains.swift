@@ -22,18 +22,13 @@ private struct CurtainsModifier: ViewModifier {
     let duration: CFTimeInterval
 
     func body(content: Content) -> some View {
-//        if removal {
         Curtains(duration: duration, animate: removal) {
-                content
-            }
-//        }
-//        else {
-//            content
-//        }
+            content
+        }
     }
 }
 
-public struct Curtains<TContent: View>: UIViewRepresentable {
+public struct Curtains<TContent: View>: AppleViewRepresentable {
     let duration: CFTimeInterval
     let animate: Bool
     let content: () -> TContent
@@ -44,21 +39,22 @@ public struct Curtains<TContent: View>: UIViewRepresentable {
         self.content = content
     }
 
-    public func makeUIView(context: Context) -> UIView {
-        let result = CurtainsView(content: content)
-
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//            result.animate(duration: duration)
-//        }
-//
-
-        return result
+    public func makeUIView(context: Context) -> AppleView {
+        return CurtainsView(content: content)
     }
 
-    public func updateUIView(_ uiView: UIView, context: Context) {
+    public func makeNSView(context: Context) -> AppleView {
+        return makeUIView(context: context)
+    }
+
+    public func updateUIView(_ uiView: AppleView, context: Context) {
         if animate {
             (uiView as? CurtainsViewProtocol)?.animateAsync(duration: duration)
         }
+    }
+
+    public func updateNSView(_ uiView: AppleView, context: Context) {
+        updateUIView(uiView, context: context)
     }
 }
 
@@ -74,9 +70,12 @@ private class CurtainsView<TContent: View>: BuilderView<TContent>, CurtainsViewP
 
     func animate(duration: CFTimeInterval) {
         guard animating else { return }
+        #if canImport(AppKit)
+        guard let layer else { return }
+        #endif
         guard let snapshot = asImage() else { return }
-        let leftLayer = layer(snapshot: snapshot.left, gravity: .left)
-        let rightLayer = layer(snapshot: snapshot.right, gravity: .right)
+        let leftLayer = self.layer(snapshot: snapshot.left, gravity: .left)
+        let rightLayer = self.layer(snapshot: snapshot.right, gravity: .right)
 
         print("animate")
         layer.sublayers?.forEach { $0.isHidden = true }
@@ -90,8 +89,14 @@ private class CurtainsView<TContent: View>: BuilderView<TContent>, CurtainsViewP
 
     private func layer(snapshot: CGImage, gravity: CALayerContentsGravity) -> CALayer {
         let layer = CALayer()
-        layer.contentsScale = UIScreen.main.scale
+        #if canImport(UIKit)
+        layer.contentsScale = AppleScreen.main.scale
         layer.bounds = self.layer.bounds
+        #endif
+        #if canImport(AppKit)
+        layer.contentsScale = AppleScreen.main?.backingScaleFactor ?? 1
+        layer.bounds = self.layer?.bounds ?? .zero
+        #endif
         layer.anchorPoint = .init(x: 0, y: 0)
         layer.contentsGravity = gravity
         layer.contents = snapshot
@@ -118,6 +123,7 @@ private class CurtainsView<TContent: View>: BuilderView<TContent>, CurtainsViewP
     }
 
     private func asImage() -> (left: CGImage, right: CGImage)? {
+        #if canImport(UIKit)
         let bounds = self.bounds
         let renderer = UIGraphicsImageRenderer(bounds: bounds)
         let image = renderer.image { rendererContext in
@@ -135,6 +141,12 @@ private class CurtainsView<TContent: View>: BuilderView<TContent>, CurtainsViewP
         else { return nil }
 
         return (left: leftImage, right: rightImage)
+        #endif
+
+        #if canImport(AppKit)
+        assertionFailure()
+        return nil
+        #endif
     }
 }
 

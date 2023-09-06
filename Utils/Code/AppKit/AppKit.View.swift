@@ -14,12 +14,22 @@ import AppKit
 import UIKit
 #endif
 
-public extension UIView {
-    func addSubview(filling subview: UIView) {
+public extension AppleView {
+    func addSubview(filling subview: AppleView) {
+        #if canImport(UIKit)
         insetsLayoutMarginsFromSafeArea = false
         subview.insetsLayoutMarginsFromSafeArea = false
+        #endif
+
         subview.translatesAutoresizingMaskIntoConstraints = true
+
+        #if canImport(UIKit)
         subview.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        #endif
+
+        #if canImport(AppKit)
+        subview.autoresizingMask = [.width, .height]
+        #endif
 
         addSubview(subview)
     }
@@ -50,7 +60,7 @@ public extension UIView {
         return result
     }
 
-    func descendants<T>(of view: UIView, withClass: T.Type, result: inout [T]) {
+    func descendants<T>(of view: AppleView, withClass: T.Type, result: inout [T]) {
         for view in view.subviews {
             if let typedView = view as? T {
                 result.append(typedView)

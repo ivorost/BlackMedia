@@ -1,8 +1,13 @@
 
 import CoreMedia
+import CoreImage
 
 #if canImport(UIKit)
 import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
 #endif
 
 extension CMVideoDimensions : Equatable {
@@ -53,12 +58,11 @@ public extension CMSampleBuffer {
         return CGSize(width: CGFloat(dimentions.width), height: CGFloat(dimentions.height))
     }
 
-    #if canImport(UIKit)
-    var image: UIImage? {
+    var image: AppleImage? {
         guard let buffer = CMSampleBufferGetImageBuffer(self) else { return nil }
         let ciImage = CIImage(cvPixelBuffer: buffer)
-
-        return UIImage(ciImage: ciImage)
+        
+        return AppleImage(ciImage: ciImage)
     }
 
     var cgImage: CGImage? {
@@ -72,7 +76,6 @@ public extension CMSampleBuffer {
 
         return ciContext.createCGImage(ciImage, from: CGRect(origin: .zero, size: size))
     }
-    #endif
 }
 
 public func CMTimeSetSeconds(_ time: inout CMTime, _ seconds: Float64) {
@@ -99,3 +102,13 @@ public extension CMTime {
         return CMTime(value: .prefferedVideoTimescale / fps, timescale: .prefferedVideoTimescale)
     }
 }
+
+#if canImport(AppKit)
+private extension NSImage {
+    convenience init(ciImage: CIImage) {
+        let rep: NSCIImageRep = NSCIImageRep(ciImage: ciImage)
+        self.init(size: rep.size)
+        addRepresentation(rep)
+    }
+}
+#endif

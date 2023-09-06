@@ -6,8 +6,11 @@
 //
 
 import AVFoundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
+#if canImport(UIKit)
 @available(iOSApplicationExtension, unavailable)
 public extension AVCaptureVideoOrientation {
     init?(_ src: UIInterfaceOrientation) {
@@ -25,7 +28,9 @@ public extension AVCaptureVideoOrientation {
         return AVCaptureVideoOrientation(src)
     }
 }
+#endif
 
+#if canImport(UIKit)
 @available(iOSApplicationExtension, unavailable)
 public extension AVCaptureConnection {
     func updateOrientationFromInterface() {
@@ -33,10 +38,13 @@ public extension AVCaptureConnection {
         videoOrientation = orientation
     }
 }
+#endif
 
+#if canImport(UIKit)
 @available(iOSApplicationExtension, unavailable)
 public extension AVCaptureVideoDataOutput {
     func updateOrientationFromInterface() {
         connection(with: .video)?.updateOrientationFromInterface()
     }
 }
+#endif

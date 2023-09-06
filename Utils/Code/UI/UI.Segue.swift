@@ -6,15 +6,17 @@
 //
 
 
-#if os(iOS)
+#if canImport(UIKit)
 import UIKit
-#else
+#endif
+
+#if canImport(AppKit)
 import AppKit
 #endif
 
 
+#if canImport(UIKit)
 public extension UIStoryboardSegue {
-#if os(iOS)
     var sourceViewController: UIViewController? {
         return source
     }
@@ -22,7 +24,11 @@ public extension UIStoryboardSegue {
     var destinationViewController: UIViewController? {
         return destination
     }
-#else
+}
+#endif
+
+#if canImport(AppKit)
+public extension NSStoryboardSegue {
     var sourceViewController: NSViewController? {
         return sourceController as? NSViewController
     }
@@ -30,11 +36,11 @@ public extension UIStoryboardSegue {
     var destinationViewController: NSViewController? {
         return destinationController as? NSViewController
     }
-#endif
 }
+#endif
 
 
-open class BaseSegue : UIStoryboardSegue {
+open class BaseSegue : AppleStoryboardSegue {
     open var preloadView = true
     
     
